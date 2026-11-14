@@ -569,6 +569,10 @@
         "resource": {
           "type": "text",
           "label": "Resource Name"
+        },
+        "recovery_by_level": {
+          "type": "text",
+          "label": "Recovery By Level"
         }
       }
     },
