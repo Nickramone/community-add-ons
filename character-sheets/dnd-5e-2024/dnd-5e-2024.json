@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -135,6 +135,18 @@
         "feature_names": {
           "type": "text",
           "label": "Level 1 Features"
+        },
+        "weapon_proficiencies": {
+          "type": "text",
+          "label": "Weapon Proficiencies"
+        },
+        "armor_proficiencies": {
+          "type": "text",
+          "label": "Armor Training"
+        },
+        "tool_proficiencies": {
+          "type": "text",
+          "label": "Tool Proficiencies"
         }
       }
     },
@@ -283,6 +295,14 @@
         "feat_id": {
           "type": "text",
           "label": "Origin Feat Id"
+        },
+        "ability_bonus": {
+          "type": "text",
+          "label": "Ability Score Increase"
+        },
+        "tool_proficiencies": {
+          "type": "text",
+          "label": "Tool Proficiencies"
         }
       }
     },
@@ -318,6 +338,18 @@
         "description": {
           "type": "textarea",
           "label": "Description"
+        },
+        "weapon_proficiencies": {
+          "type": "text",
+          "label": "Weapon Proficiencies"
+        },
+        "armor_proficiencies": {
+          "type": "text",
+          "label": "Armor Training"
+        },
+        "tool_proficiencies": {
+          "type": "text",
+          "label": "Tool Proficiencies"
         }
       }
     },
@@ -464,6 +496,75 @@
         "description": {
           "type": "textarea",
           "label": "Description"
+        },
+        "uses": {
+          "type": "number",
+          "label": "Uses",
+          "min": 0
+        },
+        "uses_by_level": {
+          "type": "text",
+          "label": "Uses By Level"
+        },
+        "uses_ability": {
+          "type": "select",
+          "label": "Uses = Ability Modifier",
+          "options": [
+            {
+              "value": "",
+              "label": "None"
+            },
+            {
+              "value": "strength",
+              "label": "Strength"
+            },
+            {
+              "value": "dexterity",
+              "label": "Dexterity"
+            },
+            {
+              "value": "constitution",
+              "label": "Constitution"
+            },
+            {
+              "value": "intelligence",
+              "label": "Intelligence"
+            },
+            {
+              "value": "wisdom",
+              "label": "Wisdom"
+            },
+            {
+              "value": "charisma",
+              "label": "Charisma"
+            }
+          ]
+        },
+        "recovery": {
+          "type": "select",
+          "label": "Recovery",
+          "options": [
+            {
+              "value": "",
+              "label": "None"
+            },
+            {
+              "value": "short",
+              "label": "Short rest"
+            },
+            {
+              "value": "long",
+              "label": "Long rest"
+            },
+            {
+              "value": "dawn",
+              "label": "Dawn"
+            },
+            {
+              "value": "other",
+              "label": "Other"
+            }
+          ]
         }
       }
     },
@@ -537,6 +638,71 @@
         "description": {
           "type": "textarea",
           "label": "Description"
+        },
+        "ac_base": {
+          "type": "number",
+          "label": "Base AC",
+          "min": 0
+        },
+        "dex_cap": {
+          "type": "number",
+          "label": "Dex Modifier Cap",
+          "min": 0
+        },
+        "ac_bonus": {
+          "type": "number",
+          "label": "AC Bonus"
+        },
+        "attack_bonus": {
+          "type": "number",
+          "label": "Attack Bonus"
+        },
+        "damage_bonus": {
+          "type": "number",
+          "label": "Damage Bonus"
+        },
+        "save_bonus": {
+          "type": "number",
+          "label": "Saving Throw Bonus"
+        },
+        "spell_attack_bonus": {
+          "type": "number",
+          "label": "Spell Attack Bonus"
+        },
+        "spell_dc_bonus": {
+          "type": "number",
+          "label": "Spell Save DC Bonus"
+        },
+        "charges": {
+          "type": "number",
+          "label": "Charges",
+          "min": 0
+        },
+        "recharge": {
+          "type": "select",
+          "label": "Recharge",
+          "options": [
+            {
+              "value": "",
+              "label": "None"
+            },
+            {
+              "value": "short",
+              "label": "Short rest"
+            },
+            {
+              "value": "long",
+              "label": "Long rest"
+            },
+            {
+              "value": "dawn",
+              "label": "Dawn"
+            },
+            {
+              "value": "other",
+              "label": "Other"
+            }
+          ]
         }
       }
     },
@@ -578,6 +744,61 @@
         "description": {
           "type": "textarea",
           "label": "Description"
+        },
+        "ac_bonus": {
+          "type": "number",
+          "label": "AC Bonus"
+        },
+        "attack_bonus": {
+          "type": "number",
+          "label": "Attack Bonus"
+        },
+        "damage_bonus": {
+          "type": "number",
+          "label": "Damage Bonus"
+        },
+        "save_bonus": {
+          "type": "number",
+          "label": "Saving Throw Bonus"
+        },
+        "spell_attack_bonus": {
+          "type": "number",
+          "label": "Spell Attack Bonus"
+        },
+        "spell_dc_bonus": {
+          "type": "number",
+          "label": "Spell Save DC Bonus"
+        },
+        "charges": {
+          "type": "number",
+          "label": "Charges",
+          "min": 0
+        },
+        "recharge": {
+          "type": "select",
+          "label": "Recharge",
+          "options": [
+            {
+              "value": "",
+              "label": "None"
+            },
+            {
+              "value": "short",
+              "label": "Short rest"
+            },
+            {
+              "value": "long",
+              "label": "Long rest"
+            },
+            {
+              "value": "dawn",
+              "label": "Dawn"
+            },
+            {
+              "value": "other",
+              "label": "Other"
+            }
+          ]
         }
       }
     }
