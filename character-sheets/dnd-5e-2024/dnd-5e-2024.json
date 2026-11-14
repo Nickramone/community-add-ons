@@ -2,10 +2,10 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
-  "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items.",
+  "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
   "author": "hunter-read",
   "homepage": "https://www.dndbeyond.com/srd",
   "license": "CC-BY-4.0",
@@ -835,6 +835,66 @@
       "label": "Hit Dice Spent",
       "placeholder": "e.g. 1d10 + 1d6"
     },
+    "resources": {
+      "type": "list",
+      "label": "Resources",
+      "add_label": "Add resource",
+      "empty_text": "Rage, Channel Divinity, Second Wind, a wand's charges.",
+      "columns": [
+        {
+          "key": "resource",
+          "label": "Resource",
+          "type": "text",
+          "flex": 3
+        },
+        {
+          "key": "used",
+          "label": "Used",
+          "type": "number",
+          "min": 0,
+          "default": 0,
+          "flex": 1
+        },
+        {
+          "key": "max",
+          "label": "Max",
+          "type": "number",
+          "min": 0,
+          "flex": 1
+        },
+        {
+          "key": "recovery",
+          "label": "Recovery",
+          "type": "select",
+          "flex": 2,
+          "default": "long",
+          "options": [
+            {
+              "value": "short",
+              "label": "Short rest"
+            },
+            {
+              "value": "long",
+              "label": "Long rest"
+            },
+            {
+              "value": "dawn",
+              "label": "Dawn"
+            },
+            {
+              "value": "other",
+              "label": "Other"
+            }
+          ]
+        },
+        {
+          "key": "source",
+          "label": "From",
+          "type": "text",
+          "flex": 2
+        }
+      ]
+    },
     "death_success_1": {
       "type": "checkbox",
       "label": "Death save success 1"
@@ -858,6 +918,69 @@
     "death_failure_3": {
       "type": "checkbox",
       "label": "Death save failure 3"
+    },
+    "campaign_rules": {
+      "type": "checkbox",
+      "label": "Campaign House Rules",
+      "default": true
+    },
+    "exhaustion": {
+      "type": "number",
+      "label": "Exhaustion",
+      "min": 0,
+      "max": 6,
+      "default": 0
+    },
+    "conditions": {
+      "type": "multiselect",
+      "label": "Conditions",
+      "options": [
+        "Blinded",
+        "Charmed",
+        "Deafened",
+        "Frightened",
+        "Grappled",
+        "Incapacitated",
+        "Invisible",
+        "Paralyzed",
+        "Petrified",
+        "Poisoned",
+        "Prone",
+        "Restrained",
+        "Stunned",
+        "Unconscious"
+      ]
+    },
+    "concentration": {
+      "type": "text",
+      "label": "Concentrating On",
+      "placeholder": "Spell or effect"
+    },
+    "effects": {
+      "type": "list",
+      "label": "Other Effects",
+      "add_label": "Add effect",
+      "empty_text": "Spells, potions and features acting on you - Bless, Haste, a curse.",
+      "columns": [
+        {
+          "key": "effect",
+          "label": "Effect",
+          "type": "text",
+          "flex": 3
+        },
+        {
+          "key": "duration",
+          "label": "Duration",
+          "type": "text",
+          "flex": 1
+        },
+        {
+          "key": "details",
+          "label": "Notes",
+          "type": "text",
+          "flex": 3
+        }
+      ]
     },
     "armor_bonus": {
       "type": "number",
@@ -1222,6 +1345,10 @@
       "content_type": "magic_item",
       "allow_freeform": true,
       "per_entry_fields": {
+        "equipped": {
+          "type": "checkbox",
+          "label": "Eq."
+        },
         "attuned": {
           "type": "checkbox",
           "label": "Attuned"
@@ -1369,7 +1496,7 @@
       "label": "STR Modifier"
     },
     "strength_save": {
-      "formula": "signed(strength_mod + (strength_save_prof ? proficiency : 0))",
+      "formula": "signed(strength_mod - exhaustion_d20 + (strength_save_prof ? proficiency : 0))",
       "label": "STR Save"
     },
     "dexterity_score": {
@@ -1381,7 +1508,7 @@
       "label": "DEX Modifier"
     },
     "dexterity_save": {
-      "formula": "signed(dexterity_mod + (dexterity_save_prof ? proficiency : 0))",
+      "formula": "signed(dexterity_mod - exhaustion_d20 + (dexterity_save_prof ? proficiency : 0))",
       "label": "DEX Save"
     },
     "constitution_score": {
@@ -1393,7 +1520,7 @@
       "label": "CON Modifier"
     },
     "constitution_save": {
-      "formula": "signed(constitution_mod + (constitution_save_prof ? proficiency : 0))",
+      "formula": "signed(constitution_mod - exhaustion_d20 + (constitution_save_prof ? proficiency : 0))",
       "label": "CON Save"
     },
     "intelligence_score": {
@@ -1405,7 +1532,7 @@
       "label": "INT Modifier"
     },
     "intelligence_save": {
-      "formula": "signed(intelligence_mod + (intelligence_save_prof ? proficiency : 0))",
+      "formula": "signed(intelligence_mod - exhaustion_d20 + (intelligence_save_prof ? proficiency : 0))",
       "label": "INT Save"
     },
     "wisdom_score": {
@@ -1417,7 +1544,7 @@
       "label": "WIS Modifier"
     },
     "wisdom_save": {
-      "formula": "signed(wisdom_mod + (wisdom_save_prof ? proficiency : 0))",
+      "formula": "signed(wisdom_mod - exhaustion_d20 + (wisdom_save_prof ? proficiency : 0))",
       "label": "WIS Save"
     },
     "charisma_score": {
@@ -1429,91 +1556,91 @@
       "label": "CHA Modifier"
     },
     "charisma_save": {
-      "formula": "signed(charisma_mod + (charisma_save_prof ? proficiency : 0))",
+      "formula": "signed(charisma_mod - exhaustion_d20 + (charisma_save_prof ? proficiency : 0))",
       "label": "CHA Save"
     },
     "skill_acrobatics": {
-      "formula": "signed(dexterity_mod + (contains(skill_expertise, 'Acrobatics') ? 2 * proficiency : (contains(skill_profs, 'Acrobatics') ? proficiency : (contains(skill_half_profs, 'Acrobatics') ? floor(proficiency / 2) : 0))))",
+      "formula": "signed(dexterity_mod - exhaustion_d20 + (contains(skill_expertise, 'Acrobatics') ? 2 * proficiency : (contains(skill_profs, 'Acrobatics') ? proficiency : (contains(skill_half_profs, 'Acrobatics') ? floor(proficiency / 2) : 0))))",
       "label": "Acrobatics"
     },
     "skill_animal_handling": {
-      "formula": "signed(wisdom_mod + (contains(skill_expertise, 'Animal Handling') ? 2 * proficiency : (contains(skill_profs, 'Animal Handling') ? proficiency : (contains(skill_half_profs, 'Animal Handling') ? floor(proficiency / 2) : 0))))",
+      "formula": "signed(wisdom_mod - exhaustion_d20 + (contains(skill_expertise, 'Animal Handling') ? 2 * proficiency : (contains(skill_profs, 'Animal Handling') ? proficiency : (contains(skill_half_profs, 'Animal Handling') ? floor(proficiency / 2) : 0))))",
       "label": "Animal Handling"
     },
     "skill_arcana": {
-      "formula": "signed(intelligence_mod + (contains(skill_expertise, 'Arcana') ? 2 * proficiency : (contains(skill_profs, 'Arcana') ? proficiency : (contains(skill_half_profs, 'Arcana') ? floor(proficiency / 2) : 0))))",
+      "formula": "signed(intelligence_mod - exhaustion_d20 + (contains(skill_expertise, 'Arcana') ? 2 * proficiency : (contains(skill_profs, 'Arcana') ? proficiency : (contains(skill_half_profs, 'Arcana') ? floor(proficiency / 2) : 0))))",
       "label": "Arcana"
     },
     "skill_athletics": {
-      "formula": "signed(strength_mod + (contains(skill_expertise, 'Athletics') ? 2 * proficiency : (contains(skill_profs, 'Athletics') ? proficiency : (contains(skill_half_profs, 'Athletics') ? floor(proficiency / 2) : 0))))",
+      "formula": "signed(strength_mod - exhaustion_d20 + (contains(skill_expertise, 'Athletics') ? 2 * proficiency : (contains(skill_profs, 'Athletics') ? proficiency : (contains(skill_half_profs, 'Athletics') ? floor(proficiency / 2) : 0))))",
       "label": "Athletics"
     },
     "skill_deception": {
-      "formula": "signed(charisma_mod + (contains(skill_expertise, 'Deception') ? 2 * proficiency : (contains(skill_profs, 'Deception') ? proficiency : (contains(skill_half_profs, 'Deception') ? floor(proficiency / 2) : 0))))",
+      "formula": "signed(charisma_mod - exhaustion_d20 + (contains(skill_expertise, 'Deception') ? 2 * proficiency : (contains(skill_profs, 'Deception') ? proficiency : (contains(skill_half_profs, 'Deception') ? floor(proficiency / 2) : 0))))",
       "label": "Deception"
     },
     "skill_history": {
-      "formula": "signed(intelligence_mod + (contains(skill_expertise, 'History') ? 2 * proficiency : (contains(skill_profs, 'History') ? proficiency : (contains(skill_half_profs, 'History') ? floor(proficiency / 2) : 0))))",
+      "formula": "signed(intelligence_mod - exhaustion_d20 + (contains(skill_expertise, 'History') ? 2 * proficiency : (contains(skill_profs, 'History') ? proficiency : (contains(skill_half_profs, 'History') ? floor(proficiency / 2) : 0))))",
       "label": "History"
     },
     "skill_insight": {
-      "formula": "signed(wisdom_mod + (contains(skill_expertise, 'Insight') ? 2 * proficiency : (contains(skill_profs, 'Insight') ? proficiency : (contains(skill_half_profs, 'Insight') ? floor(proficiency / 2) : 0))))",
+      "formula": "signed(wisdom_mod - exhaustion_d20 + (contains(skill_expertise, 'Insight') ? 2 * proficiency : (contains(skill_profs, 'Insight') ? proficiency : (contains(skill_half_profs, 'Insight') ? floor(proficiency / 2) : 0))))",
       "label": "Insight"
     },
     "skill_intimidation": {
-      "formula": "signed(charisma_mod + (contains(skill_expertise, 'Intimidation') ? 2 * proficiency : (contains(skill_profs, 'Intimidation') ? proficiency : (contains(skill_half_profs, 'Intimidation') ? floor(proficiency / 2) : 0))))",
+      "formula": "signed(charisma_mod - exhaustion_d20 + (contains(skill_expertise, 'Intimidation') ? 2 * proficiency : (contains(skill_profs, 'Intimidation') ? proficiency : (contains(skill_half_profs, 'Intimidation') ? floor(proficiency / 2) : 0))))",
       "label": "Intimidation"
     },
     "skill_investigation": {
-      "formula": "signed(intelligence_mod + (contains(skill_expertise, 'Investigation') ? 2 * proficiency : (contains(skill_profs, 'Investigation') ? proficiency : (contains(skill_half_profs, 'Investigation') ? floor(proficiency / 2) : 0))))",
+      "formula": "signed(intelligence_mod - exhaustion_d20 + (contains(skill_expertise, 'Investigation') ? 2 * proficiency : (contains(skill_profs, 'Investigation') ? proficiency : (contains(skill_half_profs, 'Investigation') ? floor(proficiency / 2) : 0))))",
       "label": "Investigation"
     },
     "skill_medicine": {
-      "formula": "signed(wisdom_mod + (contains(skill_expertise, 'Medicine') ? 2 * proficiency : (contains(skill_profs, 'Medicine') ? proficiency : (contains(skill_half_profs, 'Medicine') ? floor(proficiency / 2) : 0))))",
+      "formula": "signed(wisdom_mod - exhaustion_d20 + (contains(skill_expertise, 'Medicine') ? 2 * proficiency : (contains(skill_profs, 'Medicine') ? proficiency : (contains(skill_half_profs, 'Medicine') ? floor(proficiency / 2) : 0))))",
       "label": "Medicine"
     },
     "skill_nature": {
-      "formula": "signed(intelligence_mod + (contains(skill_expertise, 'Nature') ? 2 * proficiency : (contains(skill_profs, 'Nature') ? proficiency : (contains(skill_half_profs, 'Nature') ? floor(proficiency / 2) : 0))))",
+      "formula": "signed(intelligence_mod - exhaustion_d20 + (contains(skill_expertise, 'Nature') ? 2 * proficiency : (contains(skill_profs, 'Nature') ? proficiency : (contains(skill_half_profs, 'Nature') ? floor(proficiency / 2) : 0))))",
       "label": "Nature"
     },
     "skill_perception": {
-      "formula": "signed(wisdom_mod + (contains(skill_expertise, 'Perception') ? 2 * proficiency : (contains(skill_profs, 'Perception') ? proficiency : (contains(skill_half_profs, 'Perception') ? floor(proficiency / 2) : 0))))",
+      "formula": "signed(wisdom_mod - exhaustion_d20 + (contains(skill_expertise, 'Perception') ? 2 * proficiency : (contains(skill_profs, 'Perception') ? proficiency : (contains(skill_half_profs, 'Perception') ? floor(proficiency / 2) : 0))))",
       "label": "Perception"
     },
     "skill_performance": {
-      "formula": "signed(charisma_mod + (contains(skill_expertise, 'Performance') ? 2 * proficiency : (contains(skill_profs, 'Performance') ? proficiency : (contains(skill_half_profs, 'Performance') ? floor(proficiency / 2) : 0))))",
+      "formula": "signed(charisma_mod - exhaustion_d20 + (contains(skill_expertise, 'Performance') ? 2 * proficiency : (contains(skill_profs, 'Performance') ? proficiency : (contains(skill_half_profs, 'Performance') ? floor(proficiency / 2) : 0))))",
       "label": "Performance"
     },
     "skill_persuasion": {
-      "formula": "signed(charisma_mod + (contains(skill_expertise, 'Persuasion') ? 2 * proficiency : (contains(skill_profs, 'Persuasion') ? proficiency : (contains(skill_half_profs, 'Persuasion') ? floor(proficiency / 2) : 0))))",
+      "formula": "signed(charisma_mod - exhaustion_d20 + (contains(skill_expertise, 'Persuasion') ? 2 * proficiency : (contains(skill_profs, 'Persuasion') ? proficiency : (contains(skill_half_profs, 'Persuasion') ? floor(proficiency / 2) : 0))))",
       "label": "Persuasion"
     },
     "skill_religion": {
-      "formula": "signed(intelligence_mod + (contains(skill_expertise, 'Religion') ? 2 * proficiency : (contains(skill_profs, 'Religion') ? proficiency : (contains(skill_half_profs, 'Religion') ? floor(proficiency / 2) : 0))))",
+      "formula": "signed(intelligence_mod - exhaustion_d20 + (contains(skill_expertise, 'Religion') ? 2 * proficiency : (contains(skill_profs, 'Religion') ? proficiency : (contains(skill_half_profs, 'Religion') ? floor(proficiency / 2) : 0))))",
       "label": "Religion"
     },
     "skill_sleight_of_hand": {
-      "formula": "signed(dexterity_mod + (contains(skill_expertise, 'Sleight of Hand') ? 2 * proficiency : (contains(skill_profs, 'Sleight of Hand') ? proficiency : (contains(skill_half_profs, 'Sleight of Hand') ? floor(proficiency / 2) : 0))))",
+      "formula": "signed(dexterity_mod - exhaustion_d20 + (contains(skill_expertise, 'Sleight of Hand') ? 2 * proficiency : (contains(skill_profs, 'Sleight of Hand') ? proficiency : (contains(skill_half_profs, 'Sleight of Hand') ? floor(proficiency / 2) : 0))))",
       "label": "Sleight of Hand"
     },
     "skill_stealth": {
-      "formula": "signed(dexterity_mod + (contains(skill_expertise, 'Stealth') ? 2 * proficiency : (contains(skill_profs, 'Stealth') ? proficiency : (contains(skill_half_profs, 'Stealth') ? floor(proficiency / 2) : 0))))",
+      "formula": "signed(dexterity_mod - exhaustion_d20 + (contains(skill_expertise, 'Stealth') ? 2 * proficiency : (contains(skill_profs, 'Stealth') ? proficiency : (contains(skill_half_profs, 'Stealth') ? floor(proficiency / 2) : 0))))",
       "label": "Stealth"
     },
     "skill_survival": {
-      "formula": "signed(wisdom_mod + (contains(skill_expertise, 'Survival') ? 2 * proficiency : (contains(skill_profs, 'Survival') ? proficiency : (contains(skill_half_profs, 'Survival') ? floor(proficiency / 2) : 0))))",
+      "formula": "signed(wisdom_mod - exhaustion_d20 + (contains(skill_expertise, 'Survival') ? 2 * proficiency : (contains(skill_profs, 'Survival') ? proficiency : (contains(skill_half_profs, 'Survival') ? floor(proficiency / 2) : 0))))",
       "label": "Survival"
     },
     "initiative": {
-      "formula": "signed(dexterity_mod)",
+      "formula": "signed(dexterity_mod - exhaustion_d20)",
       "label": "Initiative"
     },
     "armor_class": {
-      "formula": "10 + dexterity_mod + armor_bonus + (shield ? 2 : 0)",
+      "formula": "10 + dexterity_mod + armor_bonus + (shield ? 2 : 0) - exhaustion_flat",
       "label": "Armour Class"
     },
     "passive_perception": {
-      "formula": "10 + wisdom_mod + (contains(skill_expertise, 'Perception') ? 2 * proficiency : (contains(skill_profs, 'Perception') ? proficiency : (contains(skill_half_profs, 'Perception') ? floor(proficiency / 2) : 0)))",
+      "formula": "10 + wisdom_mod - exhaustion_flat + (contains(skill_expertise, 'Perception') ? 2 * proficiency : (contains(skill_profs, 'Perception') ? proficiency : (contains(skill_half_profs, 'Perception') ? floor(proficiency / 2) : 0)))",
       "label": "Passive Perception"
     },
     "spell_mod": {
@@ -1521,11 +1648,11 @@
       "label": "Spellcasting Modifier"
     },
     "spell_save_dc": {
-      "formula": "8 + proficiency + spell_mod",
+      "formula": "8 + proficiency + spell_mod - exhaustion_flat",
       "label": "Spell Save DC"
     },
     "spell_attack": {
-      "formula": "signed(proficiency + spell_mod)",
+      "formula": "signed(proficiency + spell_mod - exhaustion_d20)",
       "label": "Spell Attack"
     },
     "prepared_count": {
@@ -1543,6 +1670,46 @@
     "attuned_count": {
       "formula": "count_refs(magic_items, 'attuned')",
       "label": "Attuned Items"
+    },
+    "exhaustion_d20": {
+      "formula": "campaign_rules ? exhaustion : 2 * exhaustion",
+      "label": "Exhaustion: d20 Test Penalty"
+    },
+    "exhaustion_flat": {
+      "formula": "campaign_rules ? exhaustion : 0",
+      "label": "Exhaustion: AC, Spell DC and Damage Penalty"
+    },
+    "exhaustion_speed": {
+      "formula": "campaign_rules ? (exhaustion >= 3 ? 10 : 0) : 5 * exhaustion",
+      "label": "Exhaustion: Speed Penalty"
+    },
+    "current_speed": {
+      "formula": "(exhaustion >= 6 or contains(conditions, 'Grappled') or contains(conditions, 'Restrained') or contains(conditions, 'Paralyzed') or contains(conditions, 'Petrified') or contains(conditions, 'Unconscious')) ? 0 : max(0, speed - exhaustion_speed)",
+      "label": "Current Speed"
+    },
+    "active_effects": {
+      "formula": "len(conditions) + (exhaustion > 0 ? 1 : 0) + (len(concentration) > 0 ? 1 : 0) + len(effects)",
+      "label": "Active Effects"
+    },
+    "melee_attack": {
+      "formula": "signed(strength_mod + proficiency - exhaustion_d20)",
+      "label": "Weapon Attack (Str)"
+    },
+    "ranged_attack": {
+      "formula": "signed(dexterity_mod + proficiency - exhaustion_d20)",
+      "label": "Weapon Attack (Dex)"
+    },
+    "strength_damage": {
+      "formula": "signed(strength_mod - exhaustion_flat)",
+      "label": "Weapon Damage Bonus (Str)"
+    },
+    "dexterity_damage": {
+      "formula": "signed(dexterity_mod - exhaustion_flat)",
+      "label": "Weapon Damage Bonus (Dex)"
+    },
+    "equipped_magic_count": {
+      "formula": "count_refs(magic_items, 'equipped')",
+      "label": "Magic Items Equipped"
     }
   },
   "layout_file": "dnd-5e-2024.html",
@@ -1560,6 +1727,17 @@
     {
       "rule": "attuned_count <= 3",
       "message": "More than three magic items are attuned - a creature can attune to no more than three at once."
+    },
+    {
+      "rule": "exhaustion < 6",
+      "message": "Exhaustion level 6 - the character dies.",
+      "field": "exhaustion",
+      "severity": "error"
+    },
+    {
+      "rule": "len(concentration) == 0 or not (contains(conditions, 'Incapacitated') or contains(conditions, 'Paralyzed') or contains(conditions, 'Petrified') or contains(conditions, 'Stunned') or contains(conditions, 'Unconscious'))",
+      "message": "An Incapacitated creature loses Concentration.",
+      "field": "concentration"
     }
   ]
 }

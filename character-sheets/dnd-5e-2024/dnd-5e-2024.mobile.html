@@ -2,13 +2,15 @@
      The same content as the desktop sheet, in one column across seven pages
      sized for a phone rather than the printed sheet's two:
        Main    - name, class and level, hit points, AC, initiative, speed,
-                 proficiency, heroic inspiration, hit dice, death saves, and
+                 proficiency, active effects (exhaustion, concentration,
+                 conditions, other effects, the house-rules switch), heroic
+                 inspiration, resources with the hit dice, death saves, and
                  each ability's modifier, score and saving throw: everything
                  a turn at the table reaches for
        Skills  - passive Perception and every skill line, grouped by ability,
                  then each ability's base and bonus, which matter only while
                  building a character
-       Combat  - weapons and damage cantrips, class features, feats and
+       Combat  - attack bonuses, weapons and damage cantrips, class features, feats and
                  species traits, then equipment training and the AC bonus
        Spells  - the Spellcaster switch, casting stats, spell slots one level
                  to a row, and the spell list
@@ -53,6 +55,7 @@
     <div class="box stat">
       <span class="tiny box-title">Speed</span>
       <span class="big-input"><g-field name="speed" label="" variant="compact" /></span>
+      <g-if test="current_speed != speed"><span class="tiny centre now">Now <g-value name="current_speed" /> ft</span></g-if>
     </div>
     <div class="box stat">
       <span class="tiny box-title">Proficiency</span>
@@ -61,16 +64,83 @@
     </div>
   </section>
 
+  <section class="box effects">
+    <h3 class="box-heading">Active Effects · <g-value name="active_effects" /></h3>
+    <g-if test="active_effects == 0"><p class="hint">Nothing active. Set exhaustion, concentration and conditions below.</p></g-if>
+    <g-if test="exhaustion > 0">
+      <g-if test="campaign_rules"><p class="effect warn"><strong>Exhaustion <g-value name="exhaustion" /></strong> −<g-value name="exhaustion_flat" /> to AC, spell save DC, saving throws, ability checks, attack rolls and damage<g-if test="exhaustion >= 3">; Speed −10 ft</g-if>. Level 6 is death. A long rest removes 2 levels, Lesser Restoration 1, Greater Restoration all.</p></g-if>
+      <g-if test="not campaign_rules"><p class="effect warn"><strong>Exhaustion <g-value name="exhaustion" /></strong> −<g-value name="exhaustion_d20" /> to every d20 Test; Speed −<g-value name="exhaustion_speed" /> ft. Level 6 is death. A long rest removes 1 level.</p></g-if>
+    </g-if>
+    <g-if test="len(concentration) > 0"><p class="effect"><strong>Concentrating</strong> <g-value name="concentration" />. Taking damage: Con save, DC 10 or half the damage (up to 30).</p></g-if>
+    <g-if test="contains(conditions, 'Blinded')"><p class="effect"><strong>Blinded</strong> Can't see; fail any check that needs sight. Attacks against you have Advantage, yours have Disadvantage.</p></g-if>
+    <g-if test="contains(conditions, 'Charmed')"><p class="effect"><strong>Charmed</strong> Can't attack the charmer or target it with harmful abilities; it has Advantage on social checks against you.</p></g-if>
+    <g-if test="contains(conditions, 'Deafened')"><p class="effect"><strong>Deafened</strong> Can't hear; fail any check that needs hearing.</p></g-if>
+    <g-if test="contains(conditions, 'Frightened')"><p class="effect"><strong>Frightened</strong> Disadvantage on checks and attack rolls while the source is in sight; can't willingly move closer to it.</p></g-if>
+    <g-if test="contains(conditions, 'Grappled')"><p class="effect"><strong>Grappled</strong> Speed 0. Disadvantage on attacks against anyone but the grappler, who can move you with it.</p></g-if>
+    <g-if test="contains(conditions, 'Incapacitated')"><p class="effect"><strong>Incapacitated</strong> No actions, Bonus Actions or Reactions; can't speak; Concentration ends. Disadvantage on Initiative.</p></g-if>
+    <g-if test="contains(conditions, 'Invisible')"><p class="effect"><strong>Invisible</strong> Advantage on Initiative. Attacks against you have Disadvantage, yours have Advantage, unless the other can see you.</p></g-if>
+    <g-if test="contains(conditions, 'Paralyzed')"><p class="effect"><strong>Paralyzed</strong> Incapacitated, Speed 0. Fail Str and Dex saves. Attacks against you have Advantage; a hit from within 5 ft is a Critical Hit.</p></g-if>
+    <g-if test="contains(conditions, 'Petrified')"><p class="effect"><strong>Petrified</strong> Incapacitated, Speed 0. Fail Str and Dex saves. Attacks against you have Advantage. Resistance to all damage; immune to Poisoned.</p></g-if>
+    <g-if test="contains(conditions, 'Poisoned')"><p class="effect"><strong>Poisoned</strong> Disadvantage on attack rolls and ability checks.</p></g-if>
+    <g-if test="contains(conditions, 'Prone')"><p class="effect"><strong>Prone</strong> Crawl, or stand up for half your Speed. Disadvantage on your attacks; attacks against you have Advantage within 5 ft, Disadvantage beyond.</p></g-if>
+    <g-if test="contains(conditions, 'Restrained')"><p class="effect"><strong>Restrained</strong> Speed 0. Disadvantage on Dex saves and on your attacks; attacks against you have Advantage.</p></g-if>
+    <g-if test="contains(conditions, 'Stunned')"><p class="effect"><strong>Stunned</strong> Incapacitated. Fail Str and Dex saves. Attacks against you have Advantage.</p></g-if>
+    <g-if test="contains(conditions, 'Unconscious')"><p class="effect"><strong>Unconscious</strong> Incapacitated and Prone, drop what you hold, Speed 0. Fail Str and Dex saves. Attacks against you have Advantage; a hit from within 5 ft is a Critical Hit.</p></g-if>
+    <g-if test="exhaustion > 0"><p class="hint">Saves, skills, initiative, AC and the attack bonuses on this sheet already include the exhaustion penalty.</p></g-if>
+    <div class="exh"><span class="tiny">Exhaustion</span><g-pips count="6" value="exhaustion" label="Exhaustion level" /><span class="exh-num"><g-field name="exhaustion" label="" variant="compact" /></span></div>
+    <div class="line"><g-field name="concentration" label="" /><span class="tiny">Concentrating On</span></div>
+    <details class="sub">
+      <summary>Conditions</summary>
+      <div class="opts conds">
+        <label class="opt"><g-option field="conditions" value="Blinded" label="Blinded" />Blinded</label>
+        <label class="opt"><g-option field="conditions" value="Charmed" label="Charmed" />Charmed</label>
+        <label class="opt"><g-option field="conditions" value="Deafened" label="Deafened" />Deafened</label>
+        <label class="opt"><g-option field="conditions" value="Frightened" label="Frightened" />Frightened</label>
+        <label class="opt"><g-option field="conditions" value="Grappled" label="Grappled" />Grappled</label>
+        <label class="opt"><g-option field="conditions" value="Incapacitated" label="Incapacitated" />Incapacitated</label>
+        <label class="opt"><g-option field="conditions" value="Invisible" label="Invisible" />Invisible</label>
+        <label class="opt"><g-option field="conditions" value="Paralyzed" label="Paralyzed" />Paralyzed</label>
+        <label class="opt"><g-option field="conditions" value="Petrified" label="Petrified" />Petrified</label>
+        <label class="opt"><g-option field="conditions" value="Poisoned" label="Poisoned" />Poisoned</label>
+        <label class="opt"><g-option field="conditions" value="Prone" label="Prone" />Prone</label>
+        <label class="opt"><g-option field="conditions" value="Restrained" label="Restrained" />Restrained</label>
+        <label class="opt"><g-option field="conditions" value="Stunned" label="Stunned" />Stunned</label>
+        <label class="opt"><g-option field="conditions" value="Unconscious" label="Unconscious" />Unconscious</label>
+      </div>
+    </details>
+    <span class="tiny">Other Effects</span>
+    <g-field name="effects" label="" />
+    <label class="opt small"><g-field name="campaign_rules" label="" />Campaign house rules</label>
+  </section>
   <section class="box">
     <label class="opt inspiration"><g-field name="heroic_inspiration" label="" />Heroic Inspiration</label>
   </section>
 
-  <section class="box">
-    <h3 class="box-heading">Hit Dice</h3>
-    <div class="pair">
-      <div class="cell"><span class="tiny">Max</span><g-field name="hit_dice" label="" /></div>
-      <div class="cell"><span class="tiny">Spent</span><g-field name="hit_dice_spent" label="" /></div>
+  <section class="box resources">
+    <h3 class="box-heading">Resources</h3>
+    <div class="res">
+      <span class="res-name">Hit Dice</span>
+      <div class="pair">
+        <div class="cell"><span class="tiny">Max</span><g-field name="hit_dice" label="" /></div>
+        <div class="cell"><span class="tiny">Spent</span><g-field name="hit_dice_spent" label="" /></div>
+      </div>
     </div>
+    <g-repeat over="resources">
+      <div class="res">
+        <div class="line res-title"><g-field name="resource" label="" /></div>
+        <div class="res-nums">
+          <div class="cell"><span class="tiny">Used</span><g-field name="used" label="" variant="compact" /></div>
+          <div class="cell"><span class="tiny">Max</span><g-field name="max" label="" variant="compact" /></div>
+          <div class="cell res-rec"><span class="tiny">Recovery</span><g-field name="recovery" label="" /></div>
+        </div>
+        <div class="line"><g-field name="source" label="" /><span class="tiny">From</span></div>
+      </div>
+    </g-repeat>
+    <details class="sub">
+      <summary>Add, remove or reorder</summary>
+      <g-field name="resources" label="" />
+    </details>
+    <p class="hint">Long rest: everything comes back, Hit Dice too. Short rest: only short-rest resources; spend Hit Dice by hand.</p>
   </section>
 
   <section class="box">
@@ -204,6 +274,18 @@
 <g-tab title="Combat">
 
   <section class="box">
+    <h3 class="box-heading">Attack Bonuses</h3>
+    <div class="atk-rows">
+      <div class="atk"><span class="atk-name">Weapon, Strength</span><span class="atk-hit"><g-value name="melee_attack" /></span><span class="atk-dmg">Dmg <g-value name="strength_damage" /></span></div>
+      <div class="atk"><span class="atk-name">Weapon, Dexterity</span><span class="atk-hit"><g-value name="ranged_attack" /></span><span class="atk-dmg">Dmg <g-value name="dexterity_damage" /></span></div>
+      <g-if test="is_caster">
+        <div class="atk"><span class="atk-name">Spell</span><span class="atk-hit"><g-value name="spell_attack" /></span><span class="atk-dmg">DC <g-value name="spell_save_dc" /></span></div>
+      </g-if>
+    </div>
+    <p class="hint">With proficiency. Finesse and ranged weapons may use Dexterity; add a magic weapon's bonus yourself.</p>
+  </section>
+
+  <section class="box">
     <h3 class="box-heading">Weapons &amp; Damage Cantrips</h3>
     <g-field name="attacks" label="" />
   </section>
@@ -316,7 +398,8 @@
   <section class="box stat">
     <span class="tiny box-title">Magic Item Attunement</span>
     <span class="big"><g-value name="attuned_count" /> / 3</span>
-    <span class="tiny centre">Tick Attuned beside an item in Magic Items.</span>
+    <span class="tiny centre">Equipped: <g-value name="equipped_magic_count" /></span>
+    <span class="tiny centre">Tick Eq. and Attuned beside an item in Magic Items.</span>
   </section>
 
 </g-tab>

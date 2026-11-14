@@ -5,11 +5,12 @@ layout that follows the shape of the published sheet.
 
 On a phone the sheet has its own layout, `dnd-5e-2024.mobile.html` and
 `.mobile.css`, with the same content in one column across seven tabs:
-**Main** (hit points, AC, initiative, speed, proficiency, heroic inspiration,
-hit dice, death saves, and each ability's modifier, score and save - what play
-reaches for), **Skills** (passive Perception and every skill, then each
-ability's base and bonus), **Combat** (weapons, class features, feats, species
-traits and equipment training), **Spells**, **Gear**, **Story** (background,
+**Main** (hit points, AC, initiative, speed, proficiency, active effects,
+heroic inspiration, resources with the hit dice, death saves, and each
+ability's modifier, score and save - what play reaches for), **Skills**
+(passive Perception and every skill, then each ability's base and bonus),
+**Combat** (attack bonuses, weapons, class features, feats, species traits and
+equipment training), **Spells**, **Gear**, **Story** (background,
 species, the other details, portrait, appearance and backstory) and **Notes**.
 
 ## What it covers
@@ -26,7 +27,26 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   DC and attack bonus follow
 - **Equipment** picked from the catalogue or typed in, each with a quantity,
   and carried weight - counting quantity - against a `Strength × 15` capacity
-- **Magic items**, with a warning if more than three are attuned
+- **Magic items**, each marked equipped and attuned, with a warning if more
+  than three are attuned
+- **Active effects**: exhaustion (0-6), concentration, the fourteen other
+  conditions and a list for anything else (Bless, a potion, a curse). Each
+  active one is summarised in one line, and the numbers follow: exhaustion
+  lowers saves, skills, initiative, AC, spell save DC and the attack bonuses,
+  and Grappled, Restrained, Paralyzed, Petrified, Unconscious or exhaustion
+  level 6 bring the current speed to 0. Losing concentration while
+  incapacitated, and exhaustion level 6, raise a warning
+- **Campaign house rules switch** (on by default): exhaustion as a table
+  rule - −1 per level to AC, spell save DC, saving throws, ability checks,
+  attack rolls and damage, −10 ft of speed from level 3, a long rest removes
+  two levels. Switched off, the 2024 rule: −2 per level to every d20 Test and
+  −5 ft of speed per level
+- **Resources**: one list of what the character spends - uses, maximum, how it
+  comes back (short rest, long rest, dawn) and where it comes from - shown
+  under the hit dice
+- **Attack bonuses** worked out for a proficient weapon with Strength or
+  Dexterity (with the damage bonus) and, for a caster, the spell attack and
+  save DC
 - **Attacks**, feats, and a catalogue of classes, subclasses, species,
   backgrounds, feats
   and spells
