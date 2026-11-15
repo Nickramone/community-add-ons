@@ -20,6 +20,17 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
 - **Armour class, initiative, passive Perception and proficiency bonus**, all
   derived — proficiency scales `2 + floor((level - 1) / 4)`, and passive
   Perception picks up your Perception proficiency automatically
+- **Armour class from what you wear**: the best equipped armour (Dexterity
+  added in full for light armour, up to +2 for medium, not at all for heavy),
+  equipped shields, and the AC bonus of magic items that are equipped (and
+  attuned, where they need it). With no armour: 10 + Dexterity, plus
+  Constitution for a Barbarian or Wisdom for a Monk (Unarmored Defense, picked
+  as a class feature; the Monk's version is lost with a shield). Bracers of
+  Defense count only with no armour and no shield. Magic armour such as +1
+  Armor is added as a magic item next to the ordinary armour it enchants.
+  *Armour Class Bonus* in Other details is for anything else (a fighting style,
+  a spell). Needs the per-row forms (`sum_each`, `max_each`) of the Grimoire
+  fork, so the AC of a freeform item without those properties reads as 0
 - **Skill proficiency tiers** — none, half (`floor(proficiency / 2)`), proficient,
   or expertise — via the skill ladder (useful for Jack of All Trades-style half
   proficiency on individual skills)

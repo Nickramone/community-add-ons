@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -1215,11 +1215,7 @@
       "type": "number",
       "label": "Armour Class Bonus",
       "default": 0,
-      "placeholder": "Armour, shield and other bonuses"
-    },
-    "shield": {
-      "type": "checkbox",
-      "label": "Shield"
+      "placeholder": "Other bonuses (a fighting style, a spell)"
     },
     "speed": {
       "type": "number",
@@ -1864,8 +1860,28 @@
       "formula": "signed(dexterity_mod - exhaustion_d20)",
       "label": "Initiative"
     },
+    "armor_worn": {
+      "formula": "count_each(equipment, row.equipped && row.ac_base)",
+      "label": "Armour Worn"
+    },
+    "shield_worn": {
+      "formula": "count_each(equipment, row.equipped && row.category == 'Shield')",
+      "label": "Shield Carried"
+    },
+    "ac_unarmored": {
+      "formula": "10 + dexterity_mod + max(has_ref(features, 'unarmored-defense-barbarian-1-xphb') ? constitution_mod : 0, (has_ref(features, 'unarmored-defense-monk-1-xphb') && shield_worn == 0) ? wisdom_mod : 0)",
+      "label": "Unarmoured AC"
+    },
+    "ac_body": {
+      "formula": "max_each(equipment, row.ac_base + (row.category == 'Heavy Armor' ? 0 : (row.category == 'Medium Armor' ? min(dexterity_mod, row.dex_cap) : dexterity_mod)), row.equipped && row.ac_base, ac_unarmored)",
+      "label": "Armour AC"
+    },
+    "ac_items": {
+      "formula": "sum_each(equipment, row.ac_bonus, row.equipped) + sum_each(magic_items, row.ac_bonus, row.equipped && (row.attuned or not row.attunement) && row.name != 'Bracers of Defense') + sum_each(magic_items, row.ac_bonus, row.name == 'Bracers of Defense' && row.equipped && row.attuned && armor_worn == 0 && shield_worn == 0)",
+      "label": "AC from Items"
+    },
     "armor_class": {
-      "formula": "10 + dexterity_mod + armor_bonus + (shield ? 2 : 0) - exhaustion_flat",
+      "formula": "ac_body + ac_items + armor_bonus - exhaustion_flat",
       "label": "Armour Class"
     },
     "passive_perception": {
