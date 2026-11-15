@@ -1864,6 +1864,10 @@
       "formula": "count_each(equipment, row.equipped && row.ac_base)",
       "label": "Armour Worn"
     },
+    "shield_owned": {
+      "formula": "count_each(equipment, row.category == 'Shield')",
+      "label": "Shields in Inventory"
+    },
     "shield_worn": {
       "formula": "count_each(equipment, row.equipped && row.category == 'Shield')",
       "label": "Shield Carried"

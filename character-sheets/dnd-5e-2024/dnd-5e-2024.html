@@ -27,6 +27,7 @@
       <div class="armour box">
         <span class="tiny box-title">Armour Class</span>
         <span class="big"><g-value name="armor_class" /></span>
+        <g-if test="shield_owned > 0"><span class="tiny now">Shield: <g-if test="shield_worn > 0">equipped</g-if><g-if test="shield_worn == 0">not equipped</g-if></span></g-if>
       </div>
       <div class="hp box">
         <span class="tiny box-title">Hit Points</span>
