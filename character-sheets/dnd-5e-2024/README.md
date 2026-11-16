@@ -30,7 +30,9 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   Armor is added as a magic item next to the ordinary armour it enchants.
   *Armour Class Bonus* in Other details is for anything else (a fighting style,
   a spell). Needs the per-row forms (`sum_each`, `max_each`) of the Grimoire
-  fork, so the AC of a freeform item without those properties reads as 0
+  fork, so the AC of a freeform item without those properties reads as 0.
+  With a shield in the equipment, a *Shield* box under the armour class equips
+  or unequips it without opening the list (`<g-check>`, also from the fork)
 - **Skill proficiency tiers** — none, half (`floor(proficiency / 2)`), proficient,
   or expertise — via the skill ladder (useful for Jack of All Trades-style half
   proficiency on individual skills)

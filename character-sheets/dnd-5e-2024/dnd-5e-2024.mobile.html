@@ -46,7 +46,7 @@
     <div class="box stat armour">
       <span class="tiny box-title">Armour Class</span>
       <span class="big"><g-value name="armor_class" /></span>
-      <g-if test="shield_owned > 0"><span class="tiny now">Shield: <g-if test="shield_worn > 0">equipped</g-if><g-if test="shield_worn == 0">not equipped</g-if></span></g-if>
+      <g-if test="shield_owned > 0"><label class="tiny now"><g-check field="equipment" per="equipped" where="row.category == 'Shield'" label="Shield equipped" /> Shield</label></g-if>
     </div>
     <div class="box stat">
       <span class="tiny box-title">Initiative</span>
