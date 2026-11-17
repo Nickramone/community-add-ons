@@ -240,7 +240,7 @@
         <h3 class="box-heading">Resources</h3>
         <p class="tiny res-hd">Hit Dice <g-value name="hit_dice" /> · spent <g-value name="hit_dice_spent" /></p>
         <g-field name="resources" label="" />
-        <p class="hint">Long rest: everything comes back, Hit Dice too. Short rest: only short-rest resources; spend Hit Dice by hand.</p>
+        <div class="rest-buttons"><g-action name="short_rest" label="Short rest"></g-action> <g-action name="long_rest" label="Long rest"></g-action></div><p class="hint">Long rest: HP, slots, every resource and Hit Dice come back, exhaustion drops. Short rest: only short-rest resources and Pact slots; spend Hit Dice by hand.</p>
       </section>
 
       <section class="box">

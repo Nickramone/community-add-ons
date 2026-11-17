@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -2079,6 +2079,45 @@
       "label": "Magic Items Equipped"
     }
   },
+  "actions": [
+    {
+      "name": "short_rest",
+      "label": "Short rest",
+      "confirm": "Take a short rest? Short-rest resources and Pact Magic slots come back; spend Hit Dice by hand.",
+      "steps": [
+        {"each": "resources", "where": "row.recovery == 'short'", "set": {"used": "0"}},
+        {"set": "pact_slots_used", "to": "0"}
+      ]
+    },
+    {
+      "name": "long_rest",
+      "label": "Long rest",
+      "confirm": "Take a long rest? HP, spell slots, resources and Hit Dice come back; exhaustion drops.",
+      "steps": [
+        {"set": "hp_current", "to": "hp_max"},
+        {"set": "hp_temp", "to": "0"},
+        {"set": "hit_dice_spent", "to": "''"},
+        {"each": "resources", "set": {"used": "0"}},
+        {"set": "slots_1_used", "to": "0"},
+        {"set": "slots_2_used", "to": "0"},
+        {"set": "slots_3_used", "to": "0"},
+        {"set": "slots_4_used", "to": "0"},
+        {"set": "slots_5_used", "to": "0"},
+        {"set": "slots_6_used", "to": "0"},
+        {"set": "slots_7_used", "to": "0"},
+        {"set": "slots_8_used", "to": "0"},
+        {"set": "slots_9_used", "to": "0"},
+        {"set": "pact_slots_used", "to": "0"},
+        {"set": "death_success_1", "to": "false"},
+        {"set": "death_success_2", "to": "false"},
+        {"set": "death_success_3", "to": "false"},
+        {"set": "death_failure_1", "to": "false"},
+        {"set": "death_failure_2", "to": "false"},
+        {"set": "death_failure_3", "to": "false"},
+        {"set": "exhaustion", "to": "max(0, exhaustion - (campaign_rules ? 2 : 1))"}
+      ]
+    }
+  ],
   "layout_file": "dnd-5e-2024.html",
   "styles_file": "dnd-5e-2024.css",
   "name_field": "hero_name",

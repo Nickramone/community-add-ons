@@ -28,6 +28,7 @@ for completion and inline errors.
 - [Defaults, conditions and validators](#defaults-conditions-and-validators)
 - [Content types](#content-types)
 - [What a pick does: `on_pick`](#what-a-pick-does-on_pick)
+- [Actions](#actions)
 - [Simple layout](#simple-layout)
 - [Custom HTML layout](#custom-html-layout)
 - [Stylesheet](#stylesheet)
@@ -52,6 +53,7 @@ for completion and inline errors.
 | `validators` | | Warnings the sheet raises. See [Validators](#validators) |
 | `content_types` | | The shape of catalog content the sheet picks from. See [Content types](#content-types) |
 | `name_field` | | A `text` field that holds the character's name. See [The character's name](#the-characters-name) |
+| `actions` | | Named buttons that change several values at once. See [Actions](#actions). Needs a Grimoire with them (the Nickramone fork today) |
 | `layout` | | A simple layout of titled sections. See [Simple layout](#simple-layout) |
 | `layout_file` / `layout_html` | | A custom HTML layout, as a sibling file (preferred) or an inline string |
 | `styles_file` / `styles` | | Its stylesheet, as a sibling file (preferred) or an inline string |
@@ -485,6 +487,48 @@ not target its own field. Up to 20 rules per field.
 Grimoire refuses to install a sheet whose rule reads a property its content type
 does not declare, so a typo is caught at install rather than at the table.
 
+## Actions
+
+`actions` is a list of named buttons. Each runs a list of steps (at most 50)
+against the sheet as it stands when pressed, then saves the result like a hand
+edit. A rest is the case they were made for: every counter that recovers on it
+back to nought, hit points to their maximum, in one press. The server only
+checks them - a field or column that does not exist, a formula that does not
+parse or reads an unknown name, is refused at install.
+
+```json
+"actions": [
+  {
+    "name": "long_rest",
+    "label": "Long rest",
+    "confirm": "Take a long rest?",
+    "steps": [
+      {"set": "hp_current", "to": "hp_max"},
+      {"each": "resources", "set": {"used": "0"}},
+      {"each": "items", "where": "row.charges > 0", "set": {"charges_used": "0"}},
+      {"append": "log", "values": {"entry": "'Rested'"}}
+    ]
+  }
+]
+```
+
+| Key | Meaning |
+| --- | --- |
+| `name` | Unique, what `<g-action name>` refers to |
+| `label` | The button's caption |
+| `confirm` | Optional. A question asked before anything changes |
+| `steps` | A non-empty list; each step has exactly one of `set`, `each`, `append` |
+
+| Step | Does |
+| --- | --- |
+| `{"set": "field", "to": "formula"}` | Writes one `text`, `number`, `textarea`, `checkbox` or `select` field from a formula. Not a list, multiselect or image |
+| `{"each": "list", "where": "…", "set": {"column": "formula"}}` | Writes columns of the rows of a `list` (or per-entry fields of a `content_list`'s entries) that `where` picks - all of them without `where`. Formulas and `where` see the row as `row` |
+| `{"append": "list", "values": {"column": "formula"}}` | Adds a row to a `list` (not a `content_list`), each column worked out from the sheet |
+
+Every formula reads the sheet as it was when the button was pressed, not what
+earlier steps wrote, so the order of steps never changes a result. Booleans
+are written with the literals `true` and `false`.
+
 ## Simple layout
 
 `layout` is a list of sections, drawn as titled cards in a responsive grid:
@@ -538,6 +582,7 @@ a sibling `<id>.html` file (or name it with `layout_file`). It is real HTML with
 | `<g-tier>` | `value`, `fields`, `labels`, `titles`, `label` | One dropdown for which rung of a ladder of multiselects holds `value`. `fields` lists the multiselects lowest rung first (`"skill_profs skill_expertise"`); `labels` is the short text shown closed and `titles` the full names in the list, both `\|`-separated, one more than the fields (the first is "none"). Choosing a rung adds `value` to every list up to it and removes it above |
 | `<g-pips>` | `count`, `value`, `label` | `count` boxes - a number, or a field or computed name - with the first `value` ticked, `value` naming a `number` field. Ticking one uses everything up to it. Spell slots, stress, a feature's uses |
 | `<g-check>` | `field`, `per`, `where`, `label` | One checkbox over some rows of a `content_list` (or `list`) `field`: `per` names one of its checkbox per-entry fields (or columns), `where` a condition in which `row` is one row - the entry with the character's per-entry values on top. Ticked when any matching row is; ticking marks the first matching row, clearing clears them all, and with no matching row it is disabled. A shield's "equipped" beside the armour class: `<g-check field="equipment" per="equipped" where="row.category == 'Shield'" label="Shield" />`. Needs a Grimoire with `<g-check>` (the Nickramone fork today) |
+| `<g-action>` | `name`, `label`, `visible_if` | A button running the sheet's [action](#actions) `name`, captioned `label` (default: the action's own label). Drawn only while `visible_if` is true |
 | `<g-portrait>` | `visible_if` | The character's art, large - the header only has room for a thumbnail. Framed the way the player chose (they pick a focus point and zoom when they open it), and opens the art full size when clicked. The owner gets an "Add art" box when there is none; anyone else sees nothing there. A `<figure class="gc-portrait">`, 3:4 and full width by default - size it from the stylesheet, as the D&D 5e sheet does with `aspect-ratio` and `max-height`. Needs Grimoire 1.10.0 |
 
 A layout naming a field or computed value the sheet does not declare is refused

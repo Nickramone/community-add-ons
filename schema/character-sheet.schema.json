@@ -395,6 +395,38 @@
       "maxLength": 131072,
       "description": "CSS for the layout, written inline. Prefer 'styles_file' for anything substantial."
     },
+    "actions": {
+      "type": "array",
+      "maxItems": 50,
+      "description": "Named buttons that change several values at once (a rest, a level gained). Drawn with <g-action>. Needs a Grimoire with actions (the Nickramone fork today).",
+      "items": {
+        "type": "object",
+        "required": ["name", "label", "steps"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {"type": "string", "minLength": 1},
+          "label": {"type": "string", "minLength": 1},
+          "confirm": {"type": "string", "minLength": 1, "description": "A question asked before anything changes."},
+          "steps": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 50,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "set": {"description": "A field name (with 'to'), or with 'each' a map of column to formula."},
+                "to": {"type": "string"},
+                "each": {"type": "string"},
+                "where": {"type": "string"},
+                "append": {"type": "string"},
+                "values": {"type": "object", "additionalProperties": {"type": "string"}}
+              }
+            }
+          }
+        }
+      }
+    },
     "validators": {
       "type": "array",
       "maxItems": 200,
