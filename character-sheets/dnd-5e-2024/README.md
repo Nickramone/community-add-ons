@@ -41,13 +41,23 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   DC and attack bonus follow
 - **Equipment** picked from the catalogue or typed in, each with a quantity,
   and carried weight - counting quantity - against a `Strength × 15` capacity
-- **Magic items**, each marked equipped and attuned, with a warning if more
-  than three are attuned. Items equipped (and attuned, where they need it)
-  add their bonuses: saving throws (Cloak of Protection), spell attack and
-  save DC (Rod of the Pact Keeper), and attack and damage on a line of their
-  own under the attack bonuses (+1 Weapon, Staff of Power, Bracers of Archery
-  on ranged damage only). Those lines need `<g-repeat>` over a content list
-  and `<g-value formula>` from the Grimoire fork
+- **Magic items**, each marked equipped and, only for those that need it,
+  attuned: past three attuned items the box can no longer be ticked
+  (`visible_if` and `disabled_if` on per-entry fields, from the Grimoire
+  fork). Items equipped (and attuned, where they need it) add their bonuses:
+  saving throws (Cloak of Protection), spell attack and save DC (Rod of the
+  Pact Keeper), attack and damage on a line of their own under the attack
+  bonuses (+1 Weapon, Staff of Power, Bracers of Archery on ranged damage
+  only, Sword of Kas's critical range), ability scores set to a value
+  (Amulet of Health, Belts of Giant Strength) or raised up to a maximum (Ioun
+  Stones, Belt of Dwarvenkind, Manuals and Tomes while they are in the list
+  and equipped), proficiency bonus (Ioun Stone of Mastery), ability checks
+  (Stone of Good Luck), walking speed (Boots of Striding and Springing), other
+  speeds as a line under Speed and resistances and immunities among the
+  active effects. Potions never count, and neither do items that let you
+  choose the ability (Book of Vile Darkness, Deck of Many Things). The item
+  lines need `<g-repeat>` over a content list and `<g-value formula>` from the
+  Grimoire fork
 - **Active effects**: exhaustion (0-6), concentration, the fourteen other
   conditions and a list for anything else (Bless, a potion, a curse). Each
   active one is summarised in one line, and the numbers follow: exhaustion

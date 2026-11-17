@@ -173,7 +173,7 @@ it as missing.
 | --- | --- |
 | `content_type` | Which of the sheet's `content_types` it picks from. Required |
 | `allow_freeform` | Adds an **Add custom** button, so the player can add an entry the catalog lacks. It is stored inline as `{ "_inline": true, "name": "…", … }` with the content type's own properties |
-| `per_entry_fields` | The character's own notes on each pick - prepared, equipped, uses left. An object of ordinary field definitions, stored under `_per` |
+| `per_entry_fields` | The character's own notes on each pick - prepared, equipped, uses left. An object of ordinary field definitions, stored under `_per`. Each may take `visible_if` (drawn only where it holds) and `disabled_if` (read-only where it holds), reading the pick as `row` beside the character's names: `"visible_if": "row.attunement"`, `"disabled_if": "not row.attuned && attuned_count >= 3"`. Needs a Grimoire with them (the Nickramone fork today) |
 | `display_columns` | `content_list` only. Draws the list as a table of the entries' own properties: `["level", "range"]`, or `[{ "key": "level", "label": "Lvl" }]` |
 | `add_label`, `empty_text` | The add button's text, and what an empty list says |
 | `on_pick` | `content_ref` only. Rules that run when the player picks. See [`on_pick`](#what-a-pick-does-on_pick) |

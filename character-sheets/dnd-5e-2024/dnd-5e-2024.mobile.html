@@ -55,7 +55,7 @@
     <div class="box stat">
       <span class="tiny box-title">Speed</span>
       <span class="big-input"><g-field name="speed" label="" variant="compact" /></span>
-      <g-if test="current_speed != speed"><span class="tiny centre now">Now <g-value name="current_speed" /> ft</span></g-if>
+      <g-if test="current_speed != speed"><span class="tiny centre now">Now <g-value name="current_speed" /> ft</span></g-if><g-repeat over="magic_items" where="row.equipped &amp;&amp; (row.attuned or not row.attunement) &amp;&amp; not row._inline &amp;&amp; row.speeds"><span class="tiny now"><g-value formula="row.speeds" /></span></g-repeat>
     </div>
     <div class="box stat">
       <span class="tiny box-title">Proficiency</span>
@@ -72,6 +72,7 @@
       <g-if test="not campaign_rules"><p class="effect warn"><strong>Exhaustion <g-value name="exhaustion" /></strong> −<g-value name="exhaustion_d20" /> to every d20 Test; Speed −<g-value name="exhaustion_speed" /> ft. Level 6 is death. A long rest removes 1 level.</p></g-if>
     </g-if>
     <g-if test="len(concentration) > 0"><p class="effect"><strong>Concentrating</strong> <g-value name="concentration" />. Taking damage: Con save, DC 10 or half the damage (up to 30).</p></g-if>
+    <g-repeat over="magic_items" where="row.equipped &amp;&amp; (row.attuned or not row.attunement) &amp;&amp; not row._inline &amp;&amp; row.defenses"><p class="effect"><strong><g-value formula="row.name" /></strong> <g-value formula="row.defenses" />.</p></g-repeat>
     <g-if test="contains(conditions, 'Blinded')"><p class="effect"><strong>Blinded</strong> Can't see; fail any check that needs sight. Attacks against you have Advantage, yours have Disadvantage.</p></g-if>
     <g-if test="contains(conditions, 'Charmed')"><p class="effect"><strong>Charmed</strong> Can't attack the charmer or target it with harmful abilities; it has Advantage on social checks against you.</p></g-if>
     <g-if test="contains(conditions, 'Deafened')"><p class="effect"><strong>Deafened</strong> Can't hear; fail any check that needs hearing.</p></g-if>
@@ -280,10 +281,10 @@
       <div class="atk"><span class="atk-name">Weapon, Dexterity</span><span class="atk-hit"><g-value name="ranged_attack" /></span><span class="atk-dmg">Dmg <g-value name="dexterity_damage" /></span></div>
       <g-repeat over="magic_items" where="row.equipped &amp;&amp; (row.attuned or not row.attunement) &amp;&amp; not row._inline &amp;&amp; (row.attack_bonus or row.damage_bonus)">
         <g-if test="not contains(row.item_type, 'Ammunition') &amp;&amp; row.name != 'Bracers of Archery'">
-          <div class="atk atk-item"><span class="atk-name"><g-value formula="row.name" />, Strength</span><span class="atk-hit"><g-value formula="signed(attack_str + row.attack_bonus)" /></span><span class="atk-dmg">Dmg <g-value formula="signed(damage_str + row.damage_bonus)" /></span></div>
+          <div class="atk atk-item"><span class="atk-name"><g-value formula="row.name" />, Strength<g-if test="row.crit_threshold"> · crit <g-value formula="row.crit_threshold" />+</g-if></span><span class="atk-hit"><g-value formula="signed(attack_str + row.attack_bonus)" /></span><span class="atk-dmg">Dmg <g-value formula="signed(damage_str + row.damage_bonus)" /></span></div>
         </g-if>
         <g-if test="not (contains(row.item_type, 'Staff') or contains(row.item_type, 'Rod') or contains(row.item_type, 'Wand'))">
-          <div class="atk atk-item"><span class="atk-name"><g-value formula="row.name" />, Dexterity</span><span class="atk-hit"><g-value formula="signed(attack_dex + row.attack_bonus)" /></span><span class="atk-dmg">Dmg <g-value formula="signed(damage_dex + row.damage_bonus)" /></span></div>
+          <div class="atk atk-item"><span class="atk-name"><g-value formula="row.name" />, Dexterity<g-if test="row.crit_threshold"> · crit <g-value formula="row.crit_threshold" />+</g-if></span><span class="atk-hit"><g-value formula="signed(attack_dex + row.attack_bonus)" /></span><span class="atk-dmg">Dmg <g-value formula="signed(damage_dex + row.damage_bonus)" /></span></div>
         </g-if>
       </g-repeat>
       <g-if test="is_caster">
