@@ -556,3 +556,27 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* --- rest buttons ---------------------------------------------------------- */
+.rest-buttons {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0 6px;
+}
+.rest-buttons .gc-action {
+  flex: 1;
+  padding: 12px 14px !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--bg-card, #1b1b1b) !important;
+  background: var(--gold) !important;
+  border: 2px solid var(--gold) !important;
+  border-radius: 8px !important;
+  cursor: pointer;
+}
+.rest-buttons .gc-action:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
