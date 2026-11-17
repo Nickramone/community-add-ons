@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.12.0",
+  "version": "1.13.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -1660,6 +1660,13 @@
           "label": "Attuned",
           "visible_if": "row.attunement",
           "disabled_if": "not row.attuned && attuned_count >= attune_limit"
+        },
+        "charges_used": {
+          "type": "number",
+          "label": "",
+          "min": 0,
+          "default": 0,
+          "visible_if": "false"
         }
       },
       "display_columns": [
@@ -1705,9 +1712,10 @@
       "per_entry_fields": {
         "used": {
           "type": "number",
-          "label": "Used",
+          "label": "",
           "min": 0,
-          "default": 0
+          "default": 0,
+          "visible_if": "false"
         }
       }
     },
@@ -2096,24 +2104,26 @@
     {
       "name": "short_rest",
       "label": "Short rest",
-      "confirm": "Take a short rest? Short-rest resources, class feature uses and Pact Magic slots come back (Rage, Channel Divinity, Wild Shape and Second Wind give back one use); spend Hit Dice by hand.",
+      "confirm": "Take a short rest? Short-rest resources, class feature uses, short-rest item charges and Pact Magic slots come back (Rage, Channel Divinity, Wild Shape and Second Wind give back one use); spend Hit Dice by hand.",
       "steps": [
         {"each": "resources", "where": "row.recovery == 'short'", "set": {"used": "0"}},
         {"each": "features", "where": "(row.recovery_by_level ? by_level(row.recovery_by_level, level) : row.recovery) == 'short'", "set": {"used": "0"}},
         {"each": "features", "where": "(row.recovery_by_level ? by_level(row.recovery_by_level, level) : row.recovery) == 'long' && row.short_regain", "set": {"used": "max(row.used - row.short_regain, 0)"}},
+        {"each": "magic_items", "where": "row.recharge == 'short'", "set": {"charges_used": "0"}},
         {"set": "pact_slots_used", "to": "0"}
       ]
     },
     {
       "name": "long_rest",
       "label": "Long rest",
-      "confirm": "Take a long rest? HP, spell slots, resources and Hit Dice come back; exhaustion drops.",
+      "confirm": "Take a long rest? HP, spell slots, resources, feature uses, item charges and Hit Dice come back; exhaustion drops.",
       "steps": [
         {"set": "hp_current", "to": "hp_max"},
         {"set": "hp_temp", "to": "0"},
         {"set": "hit_dice_spent", "to": "''"},
         {"each": "resources", "set": {"used": "0"}},
         {"each": "features", "set": {"used": "0"}},
+        {"each": "magic_items", "where": "row.recharge == 'short' || row.recharge == 'long' || row.recharge == 'dawn'", "set": {"charges_used": "0"}},
         {"set": "slots_1_used", "to": "0"},
         {"set": "slots_2_used", "to": "0"},
         {"set": "slots_3_used", "to": "0"},

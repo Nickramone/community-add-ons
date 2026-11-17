@@ -596,6 +596,10 @@
   flex: 0 1 auto;
   min-width: 0;
 }
+.feat-use-left {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
 .feat-use-rec {
   flex: 0 0 auto;
   opacity: 0.8;

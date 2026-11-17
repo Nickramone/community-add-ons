@@ -77,11 +77,18 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   Bardic Inspiration, Superiority Dice and so on) gets a line under the
   resources with one box per use, ticked as they are spent - as many as the
   character's level (`uses_by_level`) and ability modifier (`uses_ability`)
-  allow - and how it comes back. The Short rest button resets the short-rest ones and gives back
+  allow, with how many are left - and how it comes back. Past 20 (Lay on
+  Hands) the boxes give way to a number. Features without uses get no box,
+  in the tracker or in the Class Features list. The Short rest button resets the short-rest ones and gives back
   `short_regain` uses of the ones that return one use on a short rest (Rage,
   Channel Divinity, Wild Shape, Second Wind); Long rest resets all. The level
   is the character's level, until the sheet tracks classes one by one. Needs
   `by_level` and `<g-pips formula per>` from the Grimoire fork
+- **Magic item charges**: each equipped or attuned magic item with `charges`
+  gets a line under the feature uses, one box per charge (a number past 20),
+  with how many are left and its `recharge`. Short rest resets the
+  short-rest ones; Long rest resets short, long and dawn ones in full (a
+  dawn item that regains only some charges is corrected by hand)
 - **Attack bonuses** worked out for a proficient weapon with Strength or
   Dexterity (with the damage bonus) and, for a caster, the spell attack and
   save DC
