@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.7.3",
+  "version": "1.8.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -1722,8 +1722,12 @@
       "formula": "floor((strength_score - 10) / 2)",
       "label": "STR Modifier"
     },
+    "item_save": {
+      "formula": "sum_each(magic_items, row.save_bonus, row.equipped && (row.attuned or not row.attunement) && not row._inline)",
+      "label": "Saving Throw Bonus from Items"
+    },
     "strength_save": {
-      "formula": "signed(strength_mod - exhaustion_d20 + (strength_save_prof ? proficiency : 0))",
+      "formula": "signed(strength_mod - exhaustion_d20 + (strength_save_prof ? proficiency : 0) + item_save)",
       "label": "STR Save"
     },
     "dexterity_score": {
@@ -1735,7 +1739,7 @@
       "label": "DEX Modifier"
     },
     "dexterity_save": {
-      "formula": "signed(dexterity_mod - exhaustion_d20 + (dexterity_save_prof ? proficiency : 0))",
+      "formula": "signed(dexterity_mod - exhaustion_d20 + (dexterity_save_prof ? proficiency : 0) + item_save)",
       "label": "DEX Save"
     },
     "constitution_score": {
@@ -1747,7 +1751,7 @@
       "label": "CON Modifier"
     },
     "constitution_save": {
-      "formula": "signed(constitution_mod - exhaustion_d20 + (constitution_save_prof ? proficiency : 0))",
+      "formula": "signed(constitution_mod - exhaustion_d20 + (constitution_save_prof ? proficiency : 0) + item_save)",
       "label": "CON Save"
     },
     "intelligence_score": {
@@ -1759,7 +1763,7 @@
       "label": "INT Modifier"
     },
     "intelligence_save": {
-      "formula": "signed(intelligence_mod - exhaustion_d20 + (intelligence_save_prof ? proficiency : 0))",
+      "formula": "signed(intelligence_mod - exhaustion_d20 + (intelligence_save_prof ? proficiency : 0) + item_save)",
       "label": "INT Save"
     },
     "wisdom_score": {
@@ -1771,7 +1775,7 @@
       "label": "WIS Modifier"
     },
     "wisdom_save": {
-      "formula": "signed(wisdom_mod - exhaustion_d20 + (wisdom_save_prof ? proficiency : 0))",
+      "formula": "signed(wisdom_mod - exhaustion_d20 + (wisdom_save_prof ? proficiency : 0) + item_save)",
       "label": "WIS Save"
     },
     "charisma_score": {
@@ -1783,7 +1787,7 @@
       "label": "CHA Modifier"
     },
     "charisma_save": {
-      "formula": "signed(charisma_mod - exhaustion_d20 + (charisma_save_prof ? proficiency : 0))",
+      "formula": "signed(charisma_mod - exhaustion_d20 + (charisma_save_prof ? proficiency : 0) + item_save)",
       "label": "CHA Save"
     },
     "skill_acrobatics": {
@@ -1883,7 +1887,7 @@
       "label": "Armour AC"
     },
     "ac_items": {
-      "formula": "sum_each(equipment, row.ac_bonus, row.equipped) + sum_each(magic_items, row.ac_bonus, row.equipped && (row.attuned or not row.attunement) && row.name != 'Bracers of Defense') + sum_each(magic_items, row.ac_bonus, row.name == 'Bracers of Defense' && row.equipped && row.attuned && armor_worn == 0 && shield_worn == 0)",
+      "formula": "sum_each(equipment, row.ac_bonus, row.equipped && not row._inline) + sum_each(magic_items, row.ac_bonus, row.equipped && (row.attuned or not row.attunement) && not row._inline && row.name != 'Bracers of Defense') + sum_each(magic_items, row.ac_bonus, row.name == 'Bracers of Defense' && row.equipped && row.attuned && not row._inline && armor_worn == 0 && shield_worn == 0)",
       "label": "AC from Items"
     },
     "armor_class": {
@@ -1898,12 +1902,20 @@
       "formula": "spell_ability == 'intelligence' ? intelligence_mod : (spell_ability == 'wisdom' ? wisdom_mod : (spell_ability == 'charisma' ? charisma_mod : 0))",
       "label": "Spellcasting Modifier"
     },
+    "item_spell_dc": {
+      "formula": "sum_each(magic_items, row.spell_dc_bonus, row.equipped && (row.attuned or not row.attunement) && not row._inline)",
+      "label": "Spell Save DC Bonus from Items"
+    },
+    "item_spell_attack": {
+      "formula": "sum_each(magic_items, row.spell_attack_bonus, row.equipped && (row.attuned or not row.attunement) && not row._inline)",
+      "label": "Spell Attack Bonus from Items"
+    },
     "spell_save_dc": {
-      "formula": "8 + proficiency + spell_mod - exhaustion_flat",
+      "formula": "8 + proficiency + spell_mod + item_spell_dc - exhaustion_flat",
       "label": "Spell Save DC"
     },
     "spell_attack": {
-      "formula": "signed(proficiency + spell_mod - exhaustion_d20)",
+      "formula": "signed(proficiency + spell_mod + item_spell_attack - exhaustion_d20)",
       "label": "Spell Attack"
     },
     "prepared_count": {
@@ -1942,20 +1954,36 @@
       "formula": "len(conditions) + (exhaustion > 0 ? 1 : 0) + (len(concentration) > 0 ? 1 : 0) + len(effects)",
       "label": "Active Effects"
     },
+    "attack_str": {
+      "formula": "strength_mod + proficiency - exhaustion_d20",
+      "label": "Weapon Attack (Str), Number"
+    },
+    "attack_dex": {
+      "formula": "dexterity_mod + proficiency - exhaustion_d20",
+      "label": "Weapon Attack (Dex), Number"
+    },
+    "damage_str": {
+      "formula": "strength_mod - exhaustion_flat",
+      "label": "Weapon Damage (Str), Number"
+    },
+    "damage_dex": {
+      "formula": "dexterity_mod - exhaustion_flat",
+      "label": "Weapon Damage (Dex), Number"
+    },
     "melee_attack": {
-      "formula": "signed(strength_mod + proficiency - exhaustion_d20)",
+      "formula": "signed(attack_str)",
       "label": "Weapon Attack (Str)"
     },
     "ranged_attack": {
-      "formula": "signed(dexterity_mod + proficiency - exhaustion_d20)",
+      "formula": "signed(attack_dex)",
       "label": "Weapon Attack (Dex)"
     },
     "strength_damage": {
-      "formula": "signed(strength_mod - exhaustion_flat)",
+      "formula": "signed(damage_str)",
       "label": "Weapon Damage Bonus (Str)"
     },
     "dexterity_damage": {
-      "formula": "signed(dexterity_mod - exhaustion_flat)",
+      "formula": "signed(damage_dex)",
       "label": "Weapon Damage Bonus (Dex)"
     },
     "equipped_magic_count": {

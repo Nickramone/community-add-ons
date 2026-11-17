@@ -30,7 +30,8 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   Armor is added as a magic item next to the ordinary armour it enchants.
   *Armour Class Bonus* in Other details is for anything else (a fighting style,
   a spell). Needs the per-row forms (`sum_each`, `max_each`) of the Grimoire
-  fork, so the AC of a freeform item without those properties reads as 0.
+  fork. Freeform items (typed in rather than picked) never add to AC, saves,
+  attacks or spells: bonuses come only from catalogue entries.
   With a shield in the equipment, a *Shield* box under the armour class equips
   or unequips it without opening the list (`<g-check>`, also from the fork)
 - **Skill proficiency tiers** — none, half (`floor(proficiency / 2)`), proficient,
@@ -41,7 +42,12 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
 - **Equipment** picked from the catalogue or typed in, each with a quantity,
   and carried weight - counting quantity - against a `Strength × 15` capacity
 - **Magic items**, each marked equipped and attuned, with a warning if more
-  than three are attuned
+  than three are attuned. Items equipped (and attuned, where they need it)
+  add their bonuses: saving throws (Cloak of Protection), spell attack and
+  save DC (Rod of the Pact Keeper), and attack and damage on a line of their
+  own under the attack bonuses (+1 Weapon, Staff of Power, Bracers of Archery
+  on ranged damage only). Those lines need `<g-repeat>` over a content list
+  and `<g-value formula>` from the Grimoire fork
 - **Active effects**: exhaustion (0-6), concentration, the fourteen other
   conditions and a list for anything else (Bless, a potion, a curse). Each
   active one is summarised in one line, and the numbers follow: exhaustion

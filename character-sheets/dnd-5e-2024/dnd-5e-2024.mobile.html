@@ -278,11 +278,19 @@
     <div class="atk-rows">
       <div class="atk"><span class="atk-name">Weapon, Strength</span><span class="atk-hit"><g-value name="melee_attack" /></span><span class="atk-dmg">Dmg <g-value name="strength_damage" /></span></div>
       <div class="atk"><span class="atk-name">Weapon, Dexterity</span><span class="atk-hit"><g-value name="ranged_attack" /></span><span class="atk-dmg">Dmg <g-value name="dexterity_damage" /></span></div>
+      <g-repeat over="magic_items" where="row.equipped &amp;&amp; (row.attuned or not row.attunement) &amp;&amp; not row._inline &amp;&amp; (row.attack_bonus or row.damage_bonus)">
+        <g-if test="not contains(row.item_type, 'Ammunition') &amp;&amp; row.name != 'Bracers of Archery'">
+          <div class="atk atk-item"><span class="atk-name"><g-value formula="row.name" />, Strength</span><span class="atk-hit"><g-value formula="signed(attack_str + row.attack_bonus)" /></span><span class="atk-dmg">Dmg <g-value formula="signed(damage_str + row.damage_bonus)" /></span></div>
+        </g-if>
+        <g-if test="not (contains(row.item_type, 'Staff') or contains(row.item_type, 'Rod') or contains(row.item_type, 'Wand'))">
+          <div class="atk atk-item"><span class="atk-name"><g-value formula="row.name" />, Dexterity</span><span class="atk-hit"><g-value formula="signed(attack_dex + row.attack_bonus)" /></span><span class="atk-dmg">Dmg <g-value formula="signed(damage_dex + row.damage_bonus)" /></span></div>
+        </g-if>
+      </g-repeat>
       <g-if test="is_caster">
         <div class="atk"><span class="atk-name">Spell</span><span class="atk-hit"><g-value name="spell_attack" /></span><span class="atk-dmg">DC <g-value name="spell_save_dc" /></span></div>
       </g-if>
     </div>
-    <p class="hint">With proficiency. Finesse and ranged weapons may use Dexterity; add a magic weapon's bonus yourself.</p>
+    <p class="hint">With proficiency. Finesse and ranged weapons may use Dexterity. Magic weapons equipped (and attuned where required) get their own rows.</p>
   </section>
 
   <section class="box">
