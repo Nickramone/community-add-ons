@@ -151,6 +151,16 @@
         </div>
       </div>
     </g-repeat>
+    <p class="tiny res-hd">Species trait uses</p>
+    <g-repeat over="species_traits" where="(row.uses || row.uses_by_level || row.uses_pb) && ((row.uses_by_level ? by_level(row.uses_by_level, level) : (row.uses ? row.uses : 0)) + (row.uses_pb ? proficiency : 0)) > 0">
+      <div class="res">
+        <div class="line res-title"><g-value formula="row.name" /></div>
+        <div class="res-nums feat-use-nums">
+          <div class="cell res-pips"><span class="tiny">Uses · <g-value formula="concat(max(0, ((row.uses_by_level ? by_level(row.uses_by_level, level) : (row.uses ? row.uses : 0)) + (row.uses_pb ? proficiency : 0)) - (row.used ? row.used : 0)), ' / ', (row.uses_by_level ? by_level(row.uses_by_level, level) : (row.uses ? row.uses : 0)) + (row.uses_pb ? proficiency : 0), ' left')" /></span><g-if test="20 >= ((row.uses_by_level ? by_level(row.uses_by_level, level) : (row.uses ? row.uses : 0)) + (row.uses_pb ? proficiency : 0))"><g-pips formula="(row.uses_by_level ? by_level(row.uses_by_level, level) : (row.uses ? row.uses : 0)) + (row.uses_pb ? proficiency : 0)" per="used" label="Used" /></g-if><g-if test="((row.uses_by_level ? by_level(row.uses_by_level, level) : (row.uses ? row.uses : 0)) + (row.uses_pb ? proficiency : 0)) > 20"><g-field name="used" label="" variant="compact" /></g-if></div>
+          <div class="cell res-rec"><span class="tiny">Recovery</span><g-value formula="row.recovery == 'short' ? 'Short or long rest' : row.recovery == 'long' ? 'Long rest' : row.recovery == 'dawn' ? 'Dawn' : 'Other'" /></div>
+        </div>
+      </div>
+    </g-repeat>
     <p class="tiny res-hd">Magic item charges</p>
     <g-repeat over="magic_items" where="row.charges && (row.equipped || row.attuned)">
       <div class="res">

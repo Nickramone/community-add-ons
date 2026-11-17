@@ -84,6 +84,13 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   Channel Divinity, Wild Shape, Second Wind); Long rest resets all. The level
   is the character's level, until the sheet tracks classes one by one. Needs
   `by_level` and `<g-pips formula per>` from the Grimoire fork
+- **Species trait uses**: species traits with uses (Breath Weapon,
+  Stonecunning, Giant Ancestry, Adrenaline Rush, Healing Hands and so on)
+  get the same boxes - `uses`, `uses_by_level` or `uses_pb` (as many as the
+  Proficiency Bonus) - reset by the rest buttons
+- **From the class and species**: armour training and weapon proficiencies
+  start from the class; the HP maximum adds Dwarven Toughness (+1 per level)
+  and the Tough feat (+2 per level)
 - **Magic item charges**: each equipped or attuned magic item with `charges`
   gets a line under the feature uses, one box per charge (a number past 20),
   with how many are left and its `recharge`. Short rest resets the
