@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.10.1",
+  "version": "1.11.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -573,6 +573,11 @@
         "recovery_by_level": {
           "type": "text",
           "label": "Recovery By Level"
+        },
+        "short_regain": {
+          "type": "number",
+          "label": "Uses Regained On A Short Rest",
+          "min": 0
         }
       }
     },
@@ -1696,7 +1701,15 @@
       "type": "content_list",
       "label": "Class Features",
       "content_type": "feature",
-      "allow_freeform": true
+      "allow_freeform": true,
+      "per_entry_fields": {
+        "used": {
+          "type": "number",
+          "label": "Used",
+          "min": 0,
+          "default": 0
+        }
+      }
     },
     "species_traits": {
       "type": "content_list",
@@ -2083,9 +2096,11 @@
     {
       "name": "short_rest",
       "label": "Short rest",
-      "confirm": "Take a short rest? Short-rest resources and Pact Magic slots come back; spend Hit Dice by hand.",
+      "confirm": "Take a short rest? Short-rest resources, class feature uses and Pact Magic slots come back (Rage, Channel Divinity, Wild Shape and Second Wind give back one use); spend Hit Dice by hand.",
       "steps": [
         {"each": "resources", "where": "row.recovery == 'short'", "set": {"used": "0"}},
+        {"each": "features", "where": "(row.recovery_by_level ? by_level(row.recovery_by_level, level) : row.recovery) == 'short'", "set": {"used": "0"}},
+        {"each": "features", "where": "(row.recovery_by_level ? by_level(row.recovery_by_level, level) : row.recovery) == 'long' && row.short_regain", "set": {"used": "max(row.used - row.short_regain, 0)"}},
         {"set": "pact_slots_used", "to": "0"}
       ]
     },
@@ -2098,6 +2113,7 @@
         {"set": "hp_temp", "to": "0"},
         {"set": "hit_dice_spent", "to": "''"},
         {"each": "resources", "set": {"used": "0"}},
+        {"each": "features", "set": {"used": "0"}},
         {"set": "slots_1_used", "to": "0"},
         {"set": "slots_2_used", "to": "0"},
         {"set": "slots_3_used", "to": "0"},

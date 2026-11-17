@@ -597,3 +597,22 @@
   opacity: 0.45;
   cursor: default;
 }
+
+/* --- class feature uses ---------------------------------------------------- */
+.feat-use {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 0;
+}
+.feat-use-name {
+  flex: 1;
+  min-width: 0;
+}
+.feat-use-used {
+  width: 52px;
+}
+.feat-use-rec {
+  flex: 0 0 auto;
+  opacity: 0.8;
+}

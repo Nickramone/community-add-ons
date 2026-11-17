@@ -141,6 +141,17 @@
       <summary>Add, remove or reorder</summary>
       <g-field name="resources" label="" />
     </details>
+    <p class="tiny res-hd">Class feature uses</p>
+    <g-repeat over="features" where="row.uses || row.uses_by_level || row.uses_ability">
+      <div class="res">
+        <div class="line res-title"><g-value formula="row.resource ? row.resource : row.name" /></div>
+        <div class="res-nums">
+          <div class="cell"><span class="tiny">Used</span><g-field name="used" label="" variant="compact" /></div>
+          <div class="cell"><span class="tiny">Max</span><g-value formula="(row.uses_by_level ? by_level(row.uses_by_level, level) : row.uses) + (row.uses_ability ? max(1, (row.uses_ability == 'strength' ? strength_mod : (row.uses_ability == 'dexterity' ? dexterity_mod : (row.uses_ability == 'constitution' ? constitution_mod : (row.uses_ability == 'intelligence' ? intelligence_mod : (row.uses_ability == 'wisdom' ? wisdom_mod : charisma_mod)))))) : 0)" /></div>
+          <div class="cell res-rec"><span class="tiny">Recovery</span><g-value formula="concat((row.recovery_by_level ? by_level(row.recovery_by_level, level) : row.recovery) == 'short' ? 'Short rest' : (row.recovery_by_level ? by_level(row.recovery_by_level, level) : row.recovery) == 'long' ? 'Long rest' : (row.recovery_by_level ? by_level(row.recovery_by_level, level) : row.recovery) == 'dawn' ? 'Dawn' : '', row.short_regain ? ' (1 back on a short rest)' : '')" /></div>
+        </div>
+      </div>
+    </g-repeat>
     <div class="rest-buttons"><g-action name="short_rest" label="Short rest"></g-action> <g-action name="long_rest" label="Long rest"></g-action></div><p class="hint">Long rest: HP, slots, every resource and Hit Dice come back, exhaustion drops. Short rest: only short-rest resources and Pact slots; spend Hit Dice by hand.</p>
   </section>
 

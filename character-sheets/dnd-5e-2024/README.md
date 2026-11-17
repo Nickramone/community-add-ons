@@ -73,6 +73,15 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
 - **Resources**: one list of what the character spends - uses, maximum, how it
   comes back (short rest, long rest, dawn) and where it comes from - shown
   under the hit dice
+- **Class feature uses**: each feature with uses (Rage, Channel Divinity,
+  Bardic Inspiration, Superiority Dice and so on) gets a line under the
+  resources with a Used box and its maximum worked out from the character's
+  level (`uses_by_level`) and ability modifier (`uses_ability`), and how it
+  comes back. The Short rest button resets the short-rest ones and gives back
+  `short_regain` uses of the ones that return one use on a short rest (Rage,
+  Channel Divinity, Wild Shape, Second Wind); Long rest resets all. The level
+  is the character's level, until the sheet tracks classes one by one. Needs
+  `by_level` from the Grimoire fork
 - **Attack bonuses** worked out for a proficient weapon with Strength or
   Dexterity (with the damage bonus) and, for a caster, the spell attack and
   save DC
