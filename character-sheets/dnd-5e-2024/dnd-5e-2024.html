@@ -15,6 +15,7 @@
         <div><span class="tiny">Background</span><g-field name="background" label="" /></div>
         <div><span class="tiny">Class</span><g-field name="klass" label="" /></div>
         <div><span class="tiny">Species</span><g-field name="species" label="" /></div>
+        <g-if test="ref(species, 'lineages') != ''"><div><span class="tiny"><g-value formula="ref(species, 'lineage_label')" /></span><g-field name="lineage" label="" /></div></g-if>
         <div><span class="tiny">Subclass</span><g-field name="subclass" label="" /></div>
       </div>
     </div>

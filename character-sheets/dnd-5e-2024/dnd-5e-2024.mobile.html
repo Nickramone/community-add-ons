@@ -449,6 +449,7 @@
     <h3 class="box-heading">Character</h3>
     <div class="line"><g-field name="background" label="" /><span class="tiny">Background</span></div>
     <div class="line"><g-field name="species" label="" /><span class="tiny">Species</span></div>
+    <g-if test="ref(species, 'lineages') != ''"><div class="line"><g-field name="lineage" label="" /><span class="tiny"><g-value formula="ref(species, 'lineage_label')" /></span></div></g-if>
     <div class="line"><g-field name="subclass" label="" /><span class="tiny">Subclass</span></div>
     <div class="pair">
       <div class="line"><g-field name="size" label="" /><span class="tiny">Size</span></div>

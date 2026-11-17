@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.14.0",
+  "version": "1.15.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -235,6 +235,124 @@
         "trait_ids": {
           "type": "text",
           "label": "Trait Ids"
+        },
+        "lineage_label": {
+          "type": "text",
+          "label": "Lineage Choice"
+        },
+        "lineages": {
+          "type": "text",
+          "label": "Lineages"
+        }
+      }
+    },
+    "lineage": {
+      "label": "Lineage",
+      "label_plural": "Lineages",
+      "identity_field": "name",
+      "sort_default": [
+        "species",
+        "name"
+      ],
+      "search_fields": [
+        "name",
+        "species",
+        "description"
+      ],
+      "filter_fields": [
+        "species"
+      ],
+      "compact_display": "{species} · {label}",
+      "fields": {
+        "name": {
+          "type": "text",
+          "label": "Name"
+        },
+        "species": {
+          "type": "text",
+          "label": "Species"
+        },
+        "label": {
+          "type": "text",
+          "label": "Choice"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "damage_type": {
+          "type": "text",
+          "label": "Damage Type"
+        },
+        "darkvision": {
+          "type": "number",
+          "label": "Darkvision (ft.)",
+          "min": 0
+        },
+        "speed": {
+          "type": "number",
+          "label": "Speed",
+          "min": 0
+        },
+        "cantrips": {
+          "type": "text",
+          "label": "Cantrips"
+        },
+        "cantrip_ids": {
+          "type": "text",
+          "label": "Cantrip Ids"
+        },
+        "spell_1": {
+          "type": "text",
+          "label": "Level 1 Spell"
+        },
+        "spell_1_id": {
+          "type": "text",
+          "label": "Level 1 Spell Id"
+        },
+        "spell_3": {
+          "type": "text",
+          "label": "Level 3 Spell"
+        },
+        "spell_3_id": {
+          "type": "text",
+          "label": "Level 3 Spell Id"
+        },
+        "spell_5": {
+          "type": "text",
+          "label": "Level 5 Spell"
+        },
+        "spell_5_id": {
+          "type": "text",
+          "label": "Level 5 Spell Id"
+        },
+        "resource": {
+          "type": "text",
+          "label": "Resource Name"
+        },
+        "uses": {
+          "type": "number",
+          "label": "Uses",
+          "min": 0
+        },
+        "uses_by_level": {
+          "type": "text",
+          "label": "Uses By Level"
+        },
+        "uses_pb": {
+          "type": "checkbox",
+          "label": "Uses = Proficiency Bonus"
+        },
+        "recovery": {
+          "type": "select",
+          "label": "Recovery",
+          "options": [
+            {"value": "", "label": "None"},
+            {"value": "short", "label": "Short rest"},
+            {"value": "long", "label": "Long rest"},
+            {"value": "dawn", "label": "Dawn"},
+            {"value": "other", "label": "Other"}
+          ]
         }
       }
     },
@@ -350,6 +468,30 @@
         "tool_proficiencies": {
           "type": "text",
           "label": "Tool Proficiencies"
+        },
+        "resource": {
+          "type": "text",
+          "label": "Resource Name"
+        },
+        "uses": {
+          "type": "number",
+          "label": "Uses",
+          "min": 0
+        },
+        "uses_pb": {
+          "type": "checkbox",
+          "label": "Uses = Proficiency Bonus"
+        },
+        "recovery": {
+          "type": "select",
+          "label": "Recovery",
+          "options": [
+            {"value": "", "label": "None"},
+            {"value": "short", "label": "Short rest"},
+            {"value": "long", "label": "Long rest"},
+            {"value": "dawn", "label": "Dawn"},
+            {"value": "other", "label": "Other"}
+          ]
         }
       }
     },
@@ -475,6 +617,52 @@
             {"value": "dawn", "label": "Dawn"},
             {"value": "other", "label": "Other"}
           ]
+        },
+        "save_ability": {
+          "type": "select",
+          "label": "Saving Throw",
+          "options": [
+            {"value": "", "label": "None"},
+            {"value": "strength", "label": "Strength"},
+            {"value": "dexterity", "label": "Dexterity"},
+            {"value": "constitution", "label": "Constitution"},
+            {"value": "intelligence", "label": "Intelligence"},
+            {"value": "wisdom", "label": "Wisdom"},
+            {"value": "charisma", "label": "Charisma"}
+          ]
+        },
+        "dc_ability": {
+          "type": "select",
+          "label": "DC Ability",
+          "options": [
+            {"value": "", "label": "None"},
+            {"value": "strength", "label": "Strength"},
+            {"value": "dexterity", "label": "Dexterity"},
+            {"value": "constitution", "label": "Constitution"},
+            {"value": "intelligence", "label": "Intelligence"},
+            {"value": "wisdom", "label": "Wisdom"},
+            {"value": "charisma", "label": "Charisma"}
+          ]
+        },
+        "effect_label": {
+          "type": "text",
+          "label": "Effect"
+        },
+        "effect_die": {
+          "type": "text",
+          "label": "Effect Die (times Proficiency Bonus)"
+        },
+        "effect_dice_pb": {
+          "type": "checkbox",
+          "label": "Number Of Dice = Proficiency Bonus"
+        },
+        "effect_dice_by_level": {
+          "type": "text",
+          "label": "Effect Dice By Level"
+        },
+        "effect_flat_pb": {
+          "type": "checkbox",
+          "label": "Effect = Proficiency Bonus"
         }
       }
     },
@@ -740,6 +928,56 @@
               "label": "Other"
             }
           ]
+        },
+        "damage_dice": {
+          "type": "text",
+          "label": "Damage Dice"
+        },
+        "damage_type": {
+          "type": "text",
+          "label": "Damage Type"
+        },
+        "damage_versatile": {
+          "type": "text",
+          "label": "Versatile Damage Dice"
+        },
+        "range_normal": {
+          "type": "number",
+          "label": "Normal Range (ft.)",
+          "min": 0
+        },
+        "range_long": {
+          "type": "number",
+          "label": "Long Range (ft.)",
+          "min": 0
+        },
+        "ranged": {
+          "type": "checkbox",
+          "label": "Ranged Weapon"
+        },
+        "thrown": {
+          "type": "checkbox",
+          "label": "Thrown"
+        },
+        "finesse": {
+          "type": "checkbox",
+          "label": "Finesse"
+        },
+        "light": {
+          "type": "checkbox",
+          "label": "Light"
+        },
+        "heavy": {
+          "type": "checkbox",
+          "label": "Heavy"
+        },
+        "two_handed": {
+          "type": "checkbox",
+          "label": "Two-Handed"
+        },
+        "reach": {
+          "type": "checkbox",
+          "label": "Reach"
         }
       }
     },
@@ -910,6 +1148,60 @@
         "defenses": {
           "type": "text",
           "label": "Resistances and Immunities"
+        },
+        "base_item": {
+          "type": "text",
+          "label": "Base Item"
+        },
+        "damage_dice": {
+          "type": "text",
+          "label": "Damage Dice"
+        },
+        "damage_type": {
+          "type": "text",
+          "label": "Damage Type"
+        },
+        "damage_versatile": {
+          "type": "text",
+          "label": "Versatile Damage Dice"
+        },
+        "range_normal": {
+          "type": "number",
+          "label": "Normal Range (ft.)",
+          "min": 0
+        },
+        "range_long": {
+          "type": "number",
+          "label": "Long Range (ft.)",
+          "min": 0
+        },
+        "ranged": {
+          "type": "checkbox",
+          "label": "Ranged Weapon"
+        },
+        "thrown": {
+          "type": "checkbox",
+          "label": "Thrown"
+        },
+        "finesse": {
+          "type": "checkbox",
+          "label": "Finesse"
+        },
+        "light": {
+          "type": "checkbox",
+          "label": "Light"
+        },
+        "heavy": {
+          "type": "checkbox",
+          "label": "Heavy"
+        },
+        "two_handed": {
+          "type": "checkbox",
+          "label": "Two-Handed"
+        },
+        "reach": {
+          "type": "checkbox",
+          "label": "Reach"
         }
       }
     }
@@ -951,6 +1243,12 @@
           }
         }
       ]
+    },
+    "lineage": {
+      "type": "content_ref",
+      "label": "Lineage",
+      "content_type": "lineage",
+      "visible_if": "ref(species, 'lineages') != ''"
     },
     "background": {
       "type": "content_ref",
@@ -1691,6 +1989,18 @@
           "min": 0,
           "default": 0,
           "visible_if": "false"
+        },
+        "base_weapon": {
+          "type": "content_ref",
+          "label": "Base Weapon",
+          "content_type": "item",
+          "visible_if": "false"
+        },
+        "base_armor": {
+          "type": "content_ref",
+          "label": "Base Armor",
+          "content_type": "item",
+          "visible_if": "false"
         }
       },
       "display_columns": [
@@ -2188,6 +2498,11 @@
   "styles_file": "dnd-5e-2024.css",
   "name_field": "hero_name",
   "validators": [
+    {
+      "rule": "ref(lineage, 'species') == '' or ref(lineage, 'species') == ref(species, 'name')",
+      "message": "The lineage belongs to another species - pick one of your species' lineages.",
+      "field": "lineage"
+    },
     {
       "rule": "strength_bonus + dexterity_bonus + constitution_bonus + intelligence_bonus + wisdom_bonus + charisma_bonus <= 3",
       "message": "A background grants +2 and +1, or +1 to three abilities - 3 in total."

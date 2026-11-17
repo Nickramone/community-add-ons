@@ -96,6 +96,22 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   with how many are left and its `recharge`. Short rest resets the
   short-rest ones; Long rest resets short, long and dawn ones in full (a
   dawn item that regains only some charges is corrected by hand)
+- **Lineage**: a species with a sub-choice (Elf, Dragonborn, Goliath, Gnome,
+  Tiefling) shows a Lineage picker under it, labelled with the species' own
+  name for the choice (Elven Lineage, Draconic Ancestry...); a lineage of
+  another species is flagged. Catalogue type `lineage` (`species`, `label`,
+  `damage_type`, `darkvision`, `speed`, cantrips and level 1/3/5 spells with
+  their ids, uses and recovery); species carry `lineage_label` and `lineages`
+- **Catalogue data for later rows**: weapons (equipment and magic items) carry
+  `damage_dice`, `damage_type`, `damage_versatile`, `range_normal`,
+  `range_long` and the `ranged`, `thrown`, `finesse`, `light`, `heavy`,
+  `two_handed`, `reach` flags; magic weapons with a known base carry
+  `base_item`; feats carry `resource`, `uses`, `uses_pb` and `recovery`;
+  species traits carry a saving throw (`save_ability`, `dc_ability`) and an
+  effect (`effect_label`, `effect_die`, `effect_dice_pb`,
+  `effect_dice_by_level`, `effect_flat_pb`). Magic items also keep two hidden
+  per-entry picks, `base_weapon` and `base_armor`, for the base of a generic
+  +1 weapon or armour (shown once the Grimoire fork resolves per-entry picks)
 - **Attack bonuses** worked out for a proficient weapon with Strength or
   Dexterity (with the damage bonus) and, for a caster, the spell attack and
   save DC
