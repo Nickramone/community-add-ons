@@ -593,7 +593,8 @@
   min-width: 0;
 }
 .feat-use-used {
-  width: 52px;
+  flex: 0 1 auto;
+  min-width: 0;
 }
 .feat-use-rec {
   flex: 0 0 auto;

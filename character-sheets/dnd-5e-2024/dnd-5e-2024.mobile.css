@@ -544,6 +544,15 @@
   gap: 8px;
 }
 
+.feat-use-nums {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.res-pips .gc-pips {
+  justify-content: center;
+  padding-top: 4px;
+}
+
 .res-rec select {
   width: 100%;
 }
