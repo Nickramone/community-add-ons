@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.21.0",
+  "version": "1.22.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -100,6 +100,7 @@
         },
         "asi_levels": {"type": "text", "label": "Ability Score Improvement Levels"},
         "subclass_level": {"type": "number", "label": "Subclass Level", "min": 0, "max": 20},
+        "languages": {"type": "multiselect", "label": "Languages", "options": ["Common", "Common Sign Language", "Draconic", "Dwarvish", "Elvish", "Giant", "Gnomish", "Goblin", "Halfling", "Orc", "Abyssal", "Celestial", "Deep Speech", "Druidic", "Infernal", "Primordial", "Sylvan", "Thieves' Cant", "Undercommon"]},
         "skill_choices": {
           "type": "number",
           "label": "Skill Choices",
@@ -245,7 +246,10 @@
         "lineages": {
           "type": "text",
           "label": "Lineages"
-        }
+        },
+        "skill_options": {"type": "multiselect", "label": "Skill Choice Options", "options": ["Acrobatics", "Animal Handling", "Arcana", "Athletics", "Deception", "History", "Insight", "Intimidation", "Investigation", "Medicine", "Nature", "Perception", "Performance", "Persuasion", "Religion", "Sleight of Hand", "Stealth", "Survival"]},
+        "skill_count": {"type": "number", "label": "Skills to Choose", "min": 0},
+        "origin_feat": {"type": "checkbox", "label": "Origin Feat of Choice"}
       }
     },
     "lineage": {
@@ -1251,6 +1255,7 @@
       "default": 1,
       "default_from": "len(advancements)"
     },
+    "language_profs": {"type": "multiselect", "label": "Languages", "options": ["Common", "Common Sign Language", "Draconic", "Dwarvish", "Elvish", "Giant", "Gnomish", "Goblin", "Halfling", "Orc", "Abyssal", "Celestial", "Deep Speech", "Druidic", "Infernal", "Primordial", "Sylvan", "Thieves' Cant", "Undercommon"], "default": ["Common"]},
     "advancements": {
       "type": "list",
       "label": "Level-ups",
@@ -1448,7 +1453,8 @@
           "carry": {
             "species": "name"
           }
-        }
+        },
+        {"prompt": "species_choices"}
       ]
     },
     "lineage": {
@@ -1494,7 +1500,8 @@
           "carry": {
             "class": "name"
           }
-        }
+        },
+        {"grant": "language_profs", "from": "languages"}
       ]
     },
     "subclass": {
@@ -2334,7 +2341,7 @@
     },
     "languages": {
       "type": "textarea",
-      "label": "Languages",
+      "label": "Other languages",
       "rows": 2
     },
     "appearance": {
@@ -2708,13 +2715,35 @@
       "label": "Level up",
       "steps": [
         {
+          "key": "klass_pick",
+          "type": "entry",
+          "label": "Class",
+          "content_type": "class",
+          "visible_if": "len(advancements) == 0 and ref(klass, 'name') == ''"
+        },
+        {
+          "key": "species_pick",
+          "type": "entry",
+          "label": "Species",
+          "content_type": "species",
+          "visible_if": "len(advancements) == 0 and ref(species, 'name') == ''"
+        },
+        {
+          "key": "background_pick",
+          "type": "entry",
+          "label": "Background",
+          "content_type": "background",
+          "visible_if": "len(advancements) == 0 and ref(background, 'name') == ''"
+        },
+        {
           "key": "hp",
           "type": "number",
-          "label": "Hit points rolled (0 = average; the first level takes the maximum)",
+          "label": "Hit points rolled (0 = average)",
           "default": "0",
           "average": "0",
           "min": 0,
-          "max": 12
+          "max": 12,
+          "visible_if": "len(advancements) > 0"
         },
         {
           "key": "choice",
@@ -2782,28 +2811,20 @@
           "label": "Ability increase from the feat",
           "options": "answer.feat.ability_options",
           "visible_if": "answer.choice == 'feat' and len(answer.feat.ability_options) > 0"
-        },
-        {
-          "key": "subclass",
-          "type": "entry",
-          "label": "Subclass",
-          "content_type": "subclass",
-          "filter": "entry.class == ref(klass, 'name')",
-          "visible_if": "(len(advancements) + 1) == ref(klass, 'subclass_level')"
         }
       ],
       "apply": [
         {
           "append": "advancements",
           "values": {
-            "class": "ref(klass, 'name')",
-            "hit_die": "ref(klass, 'hit_die')",
-            "hp": "answer.hp",
-            "choice": "answer.choice == 'asi' ? 'asi' : (answer.choice == 'feat' ? 'feat' : (answer.subclass ? 'subclass' : ''))",
+            "class": "answer.klass_pick ? answer.klass_pick.name : ref(klass, 'name')",
+            "hit_die": "answer.klass_pick ? answer.klass_pick.hit_die : ref(klass, 'hit_die')",
+            "hp": "answer.hp ? answer.hp : 0",
+            "choice": "answer.choice == 'asi' ? 'asi' : (answer.choice == 'feat' ? 'feat' : (len(advancements) == 0 ? '' : (answer.choice ? answer.choice : (((len(advancements) + 1) == ref(klass, 'subclass_level')) ? 'subclass' : ''))))",
             "plus2": "answer.choice == 'asi' ? (answer.asi.strength == 2 ? 'strength' : (answer.asi.dexterity == 2 ? 'dexterity' : (answer.asi.constitution == 2 ? 'constitution' : (answer.asi.intelligence == 2 ? 'intelligence' : (answer.asi.wisdom == 2 ? 'wisdom' : (answer.asi.charisma == 2 ? 'charisma' : (''))))))) : ''",
             "plus1a": "answer.choice == 'asi' ? (answer.asi.strength == 1 ? 'strength' : (answer.asi.dexterity == 1 ? 'dexterity' : (answer.asi.constitution == 1 ? 'constitution' : (answer.asi.intelligence == 1 ? 'intelligence' : (answer.asi.wisdom == 1 ? 'wisdom' : (answer.asi.charisma == 1 ? 'charisma' : (''))))))) : ''",
             "plus1b": "answer.choice == 'asi' ? (answer.asi.charisma == 1 ? 'charisma' : (answer.asi.wisdom == 1 ? 'wisdom' : (answer.asi.intelligence == 1 ? 'intelligence' : (answer.asi.constitution == 1 ? 'constitution' : (answer.asi.dexterity == 1 ? 'dexterity' : (answer.asi.strength == 1 ? 'strength' : (''))))))) : ''",
-            "notes": "answer.feat ? answer.feat.name : (answer.subclass ? answer.subclass.name : '')"
+            "notes": "answer.feat ? answer.feat.name : ''"
           }
         },
         {
@@ -2815,8 +2836,16 @@
           }
         },
         {
-          "pick": "subclass",
-          "entry": "answer.subclass"
+          "pick": "klass",
+          "entry": "answer.klass_pick"
+        },
+        {
+          "pick": "species",
+          "entry": "answer.species_pick"
+        },
+        {
+          "pick": "background",
+          "entry": "answer.background_pick"
         }
       ]
     },
@@ -2832,6 +2861,25 @@
             "2,1",
             "1,1,1"
           ]
+        },
+        {
+          "key": "languages",
+          "type": "choose",
+          "target": "language_profs",
+          "options": [
+            "Common",
+            "Common Sign Language",
+            "Draconic",
+            "Dwarvish",
+            "Elvish",
+            "Giant",
+            "Gnomish",
+            "Goblin",
+            "Halfling",
+            "Orc"
+          ],
+          "count": 2,
+          "label": "Languages: two standard languages besides Common"
         }
       ],
       "apply": [
@@ -2858,6 +2906,56 @@
         {
           "set": "bg_charisma",
           "to": "answer.abilities.charisma ? answer.abilities.charisma : 0"
+        },
+        {
+          "add": "language_profs",
+          "values": "answer.languages"
+        }
+      ]
+    },
+    "species_choices": {
+      "label": "Species choices",
+      "steps": [
+        {
+          "key": "skills",
+          "type": "choose",
+          "target": "skill_profs",
+          "options": "row.skill_options",
+          "count": "row.skill_count",
+          "label": "Skill proficiency",
+          "visible_if": "len(row.skill_options) > 0"
+        },
+        {
+          "key": "origin",
+          "type": "entry",
+          "label": "Origin feat",
+          "content_type": "feat",
+          "filters": {
+            "category": "Origin"
+          },
+          "visible_if": "row.origin_feat"
+        },
+        {
+          "key": "lineage",
+          "type": "entry",
+          "label": "Lineage",
+          "content_type": "lineage",
+          "filter": "entry.species == row.name",
+          "visible_if": "row.lineages != ''"
+        }
+      ],
+      "apply": [
+        {
+          "add": "skill_profs",
+          "values": "answer.skills"
+        },
+        {
+          "pick": "feats",
+          "entry": "answer.origin"
+        },
+        {
+          "pick": "lineage",
+          "entry": "answer.lineage"
         }
       ]
     }
@@ -2918,6 +3016,36 @@
   "styles_file": "dnd-5e-2024.css",
   "name_field": "hero_name",
   "validators": [
+    {
+      "rule": "len(advancements) == 0 or ref(klass, 'name') != ''",
+      "message": "Pick a class.",
+      "field": "klass"
+    },
+    {
+      "rule": "len(advancements) == 0 or ref(species, 'name') != ''",
+      "message": "Pick a species.",
+      "field": "species"
+    },
+    {
+      "rule": "len(advancements) == 0 or ref(background, 'name') != ''",
+      "message": "Pick a background.",
+      "field": "background"
+    },
+    {
+      "rule": "not ref(klass, 'subclass_level') or len(advancements) < ref(klass, 'subclass_level') or ref(subclass, 'name') != ''",
+      "message": "Pick a subclass: your class gets one at its subclass level.",
+      "field": "subclass"
+    },
+    {
+      "rule": "ref(subclass, 'class') == '' or ref(subclass, 'class') == ref(klass, 'name')",
+      "message": "The subclass belongs to another class.",
+      "field": "subclass"
+    },
+    {
+      "rule": "count_each(advancements, row.hit_die and row.hp > row.hit_die) == 0",
+      "message": "A level-up row has more hit points than the hit die allows.",
+      "field": "advancements"
+    },
     {
       "rule": "ref(lineage, 'species') == '' or ref(lineage, 'species') == ref(species, 'name')",
       "message": "The lineage belongs to another species - pick one of your species' lineages.",
