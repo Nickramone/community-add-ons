@@ -717,3 +717,10 @@
   font-size: 16px;
   padding: 6px 4px;
 }
+
+/* 1.18.1: a weapon's mastery beneath its name, when the class grants Weapon Mastery */
+.atk-mastery {
+  display: block;
+  font-size: 10px;
+  color: var(--text-muted);
+}

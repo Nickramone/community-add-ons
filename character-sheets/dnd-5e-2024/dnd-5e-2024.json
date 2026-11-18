@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.18.0",
+  "version": "1.18.1",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -2206,6 +2206,10 @@
     "half_proficiency": {
       "formula": "floor(proficiency / 2)",
       "label": "Half Proficiency Bonus"
+    },
+    "weapon_mastery": {
+      "formula": "count_each(features, row.name == 'Weapon Mastery') + (has_ref(feats, 'weapon-master-xphb') ? 1 : 0) > 0",
+      "label": "Weapon Mastery"
     },
     "strength_score": {
       "formula": "max(max(strength + strength_bonus, min(strength + strength_bonus + sum_each(magic_items, row.ability_increase, row.equipped && (row.attuned or not row.attunement) && not row._inline && row.ability == 'strength'), max_each(magic_items, row.ability_max, row.equipped && (row.attuned or not row.attunement) && not row._inline && row.ability == 'strength' && row.ability_increase, 0))), max_each(magic_items, row.ability_score, row.equipped && (row.attuned or not row.attunement) && not row._inline && row.ability == 'strength' && row.ability_score, 0))",

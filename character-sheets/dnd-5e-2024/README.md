@@ -156,6 +156,10 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   thrown lines). Something newly equipped or gained comes first. Resources of
   every kind mix in one list; your own are added, removed and edited under
   "Add, remove or edit resources". Needs Grimoire with `<g-order>`
+- **Generic magic weapons** are named after their base (+1 Weapon on a
+  Quarterstaff reads +1 Quarterstaff; Weapon of Warning reads Weapon of Warning
+  (Quarterstaff)); a weapon's **mastery** shows beneath its name when the class
+  has Weapon Mastery (or with the Weapon Master feat)
 - **Attacks list**, feats, and a catalogue of classes, subclasses, species,
   backgrounds, feats
   and spells
