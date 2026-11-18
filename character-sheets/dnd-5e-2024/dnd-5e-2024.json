@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.24.1",
+  "version": "1.24.2",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -716,7 +716,9 @@
         "tool_proficiencies": {
           "type": "text",
           "label": "Tool Proficiencies"
-        }
+        },
+        "tool_options": {"type": "multiselect", "label": "Tool Options", "options": ["Alchemist's Supplies", "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools", "Cartographer's Tools", "Cobbler's Tools", "Cook's Utensils", "Glassblower's Tools", "Jeweler's Tools", "Leatherworker's Tools", "Mason's Tools", "Painter's Supplies", "Potter's Tools", "Smith's Tools", "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools", "Bagpipes", "Drum", "Dulcimer", "Flute", "Horn", "Lute", "Lyre", "Pan Flute", "Shawm", "Viol", "Dice Set", "Dragonchess Set", "Playing Cards", "Three-Dragon Ante Set", "Disguise Kit", "Forgery Kit", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit", "Thieves' Tools"]},
+        "tool_count": {"type": "number", "label": "Tools to Choose", "min": 0}
       }
     },
     "feat": {
@@ -2618,7 +2620,7 @@
       "type": "textarea",
       "label": "Tools",
       "rows": 2,
-      "default_from": "ref(klass, 'tool_proficiencies') != '' && ref(background, 'tool_proficiencies') != '' ? concat(ref(klass, 'tool_proficiencies'), '; ', ref(background, 'tool_proficiencies')) : concat(ref(klass, 'tool_proficiencies'), ref(background, 'tool_proficiencies'))"
+      "default_from": "concat((ref(klass, 'tool_proficiencies') != '' && ref(background, 'tool_proficiencies') != '' ? concat(ref(klass, 'tool_proficiencies'), '; ', ref(background, 'tool_proficiencies')) : concat(ref(klass, 'tool_proficiencies'), ref(background, 'tool_proficiencies'))), ((ref(klass, 'tool_proficiencies') != '' && ref(background, 'tool_proficiencies') != '' ? concat(ref(klass, 'tool_proficiencies'), '; ', ref(background, 'tool_proficiencies')) : concat(ref(klass, 'tool_proficiencies'), ref(background, 'tool_proficiencies'))) != '' && len(tool_profs) > 0) ? '; ' : '', (at(tool_profs, 0) ? concat((0 > 0 ? ', ' : ''), at(tool_profs, 0)) : ''), (at(tool_profs, 1) ? concat((1 > 0 ? ', ' : ''), at(tool_profs, 1)) : ''), (at(tool_profs, 2) ? concat((2 > 0 ? ', ' : ''), at(tool_profs, 2)) : ''), (at(tool_profs, 3) ? concat((3 > 0 ? ', ' : ''), at(tool_profs, 3)) : ''), (at(tool_profs, 4) ? concat((4 > 0 ? ', ' : ''), at(tool_profs, 4)) : ''), (at(tool_profs, 5) ? concat((5 > 0 ? ', ' : ''), at(tool_profs, 5)) : ''), (at(tool_profs, 6) ? concat((6 > 0 ? ', ' : ''), at(tool_profs, 6)) : ''), (at(tool_profs, 7) ? concat((7 > 0 ? ', ' : ''), at(tool_profs, 7)) : ''), (at(tool_profs, 8) ? concat((8 > 0 ? ', ' : ''), at(tool_profs, 8)) : ''), (at(tool_profs, 9) ? concat((9 > 0 ? ', ' : ''), at(tool_profs, 9)) : ''), (at(tool_profs, 10) ? concat((10 > 0 ? ', ' : ''), at(tool_profs, 10)) : ''), (at(tool_profs, 11) ? concat((11 > 0 ? ', ' : ''), at(tool_profs, 11)) : ''))"
     },
     "languages": {
       "type": "textarea",
@@ -3195,6 +3197,15 @@
           ]
         },
         {
+          "key": "tools",
+          "type": "choose",
+          "target": "tool_profs",
+          "options": "row.tool_options",
+          "count": "row.tool_count",
+          "label": "Tool proficiencies",
+          "visible_if": "len(row.tool_options) > 0"
+        },
+        {
           "key": "languages",
           "type": "choose",
           "target": "language_profs",
@@ -3238,6 +3249,10 @@
         {
           "set": "bg_charisma",
           "to": "answer.abilities.charisma ? answer.abilities.charisma : 0"
+        },
+        {
+          "add": "tool_profs",
+          "values": "answer.tools"
         },
         {
           "add": "language_profs",
