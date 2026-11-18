@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.22.0",
+  "version": "1.23.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -139,6 +139,158 @@
           "type": "text",
           "label": "Level 1 Features"
         },
+        "feature_ids_2": {
+          "type": "text",
+          "label": "Level 2 Feature Ids"
+        },
+        "feature_names_2": {
+          "type": "text",
+          "label": "Level 2 Features"
+        },
+        "feature_ids_3": {
+          "type": "text",
+          "label": "Level 3 Feature Ids"
+        },
+        "feature_names_3": {
+          "type": "text",
+          "label": "Level 3 Features"
+        },
+        "feature_ids_4": {
+          "type": "text",
+          "label": "Level 4 Feature Ids"
+        },
+        "feature_names_4": {
+          "type": "text",
+          "label": "Level 4 Features"
+        },
+        "feature_ids_5": {
+          "type": "text",
+          "label": "Level 5 Feature Ids"
+        },
+        "feature_names_5": {
+          "type": "text",
+          "label": "Level 5 Features"
+        },
+        "feature_ids_6": {
+          "type": "text",
+          "label": "Level 6 Feature Ids"
+        },
+        "feature_names_6": {
+          "type": "text",
+          "label": "Level 6 Features"
+        },
+        "feature_ids_7": {
+          "type": "text",
+          "label": "Level 7 Feature Ids"
+        },
+        "feature_names_7": {
+          "type": "text",
+          "label": "Level 7 Features"
+        },
+        "feature_ids_8": {
+          "type": "text",
+          "label": "Level 8 Feature Ids"
+        },
+        "feature_names_8": {
+          "type": "text",
+          "label": "Level 8 Features"
+        },
+        "feature_ids_9": {
+          "type": "text",
+          "label": "Level 9 Feature Ids"
+        },
+        "feature_names_9": {
+          "type": "text",
+          "label": "Level 9 Features"
+        },
+        "feature_ids_10": {
+          "type": "text",
+          "label": "Level 10 Feature Ids"
+        },
+        "feature_names_10": {
+          "type": "text",
+          "label": "Level 10 Features"
+        },
+        "feature_ids_11": {
+          "type": "text",
+          "label": "Level 11 Feature Ids"
+        },
+        "feature_names_11": {
+          "type": "text",
+          "label": "Level 11 Features"
+        },
+        "feature_ids_12": {
+          "type": "text",
+          "label": "Level 12 Feature Ids"
+        },
+        "feature_names_12": {
+          "type": "text",
+          "label": "Level 12 Features"
+        },
+        "feature_ids_13": {
+          "type": "text",
+          "label": "Level 13 Feature Ids"
+        },
+        "feature_names_13": {
+          "type": "text",
+          "label": "Level 13 Features"
+        },
+        "feature_ids_14": {
+          "type": "text",
+          "label": "Level 14 Feature Ids"
+        },
+        "feature_names_14": {
+          "type": "text",
+          "label": "Level 14 Features"
+        },
+        "feature_ids_15": {
+          "type": "text",
+          "label": "Level 15 Feature Ids"
+        },
+        "feature_names_15": {
+          "type": "text",
+          "label": "Level 15 Features"
+        },
+        "feature_ids_16": {
+          "type": "text",
+          "label": "Level 16 Feature Ids"
+        },
+        "feature_names_16": {
+          "type": "text",
+          "label": "Level 16 Features"
+        },
+        "feature_ids_17": {
+          "type": "text",
+          "label": "Level 17 Feature Ids"
+        },
+        "feature_names_17": {
+          "type": "text",
+          "label": "Level 17 Features"
+        },
+        "feature_ids_18": {
+          "type": "text",
+          "label": "Level 18 Feature Ids"
+        },
+        "feature_names_18": {
+          "type": "text",
+          "label": "Level 18 Features"
+        },
+        "feature_ids_19": {
+          "type": "text",
+          "label": "Level 19 Feature Ids"
+        },
+        "feature_names_19": {
+          "type": "text",
+          "label": "Level 19 Features"
+        },
+        "feature_ids_20": {
+          "type": "text",
+          "label": "Level 20 Feature Ids"
+        },
+        "feature_names_20": {
+          "type": "text",
+          "label": "Level 20 Features"
+        },
         "weapon_proficiencies": {
           "type": "text",
           "label": "Weapon Proficiencies"
@@ -196,6 +348,142 @@
         "feature_names": {
           "type": "text",
           "label": "Features"
+        },
+        "feature_ids_4": {
+          "type": "text",
+          "label": "Level 4 Feature Ids"
+        },
+        "feature_names_4": {
+          "type": "text",
+          "label": "Level 4 Features"
+        },
+        "feature_ids_5": {
+          "type": "text",
+          "label": "Level 5 Feature Ids"
+        },
+        "feature_names_5": {
+          "type": "text",
+          "label": "Level 5 Features"
+        },
+        "feature_ids_6": {
+          "type": "text",
+          "label": "Level 6 Feature Ids"
+        },
+        "feature_names_6": {
+          "type": "text",
+          "label": "Level 6 Features"
+        },
+        "feature_ids_7": {
+          "type": "text",
+          "label": "Level 7 Feature Ids"
+        },
+        "feature_names_7": {
+          "type": "text",
+          "label": "Level 7 Features"
+        },
+        "feature_ids_8": {
+          "type": "text",
+          "label": "Level 8 Feature Ids"
+        },
+        "feature_names_8": {
+          "type": "text",
+          "label": "Level 8 Features"
+        },
+        "feature_ids_9": {
+          "type": "text",
+          "label": "Level 9 Feature Ids"
+        },
+        "feature_names_9": {
+          "type": "text",
+          "label": "Level 9 Features"
+        },
+        "feature_ids_10": {
+          "type": "text",
+          "label": "Level 10 Feature Ids"
+        },
+        "feature_names_10": {
+          "type": "text",
+          "label": "Level 10 Features"
+        },
+        "feature_ids_11": {
+          "type": "text",
+          "label": "Level 11 Feature Ids"
+        },
+        "feature_names_11": {
+          "type": "text",
+          "label": "Level 11 Features"
+        },
+        "feature_ids_12": {
+          "type": "text",
+          "label": "Level 12 Feature Ids"
+        },
+        "feature_names_12": {
+          "type": "text",
+          "label": "Level 12 Features"
+        },
+        "feature_ids_13": {
+          "type": "text",
+          "label": "Level 13 Feature Ids"
+        },
+        "feature_names_13": {
+          "type": "text",
+          "label": "Level 13 Features"
+        },
+        "feature_ids_14": {
+          "type": "text",
+          "label": "Level 14 Feature Ids"
+        },
+        "feature_names_14": {
+          "type": "text",
+          "label": "Level 14 Features"
+        },
+        "feature_ids_15": {
+          "type": "text",
+          "label": "Level 15 Feature Ids"
+        },
+        "feature_names_15": {
+          "type": "text",
+          "label": "Level 15 Features"
+        },
+        "feature_ids_16": {
+          "type": "text",
+          "label": "Level 16 Feature Ids"
+        },
+        "feature_names_16": {
+          "type": "text",
+          "label": "Level 16 Features"
+        },
+        "feature_ids_17": {
+          "type": "text",
+          "label": "Level 17 Feature Ids"
+        },
+        "feature_names_17": {
+          "type": "text",
+          "label": "Level 17 Features"
+        },
+        "feature_ids_18": {
+          "type": "text",
+          "label": "Level 18 Feature Ids"
+        },
+        "feature_names_18": {
+          "type": "text",
+          "label": "Level 18 Features"
+        },
+        "feature_ids_19": {
+          "type": "text",
+          "label": "Level 19 Feature Ids"
+        },
+        "feature_names_19": {
+          "type": "text",
+          "label": "Level 19 Features"
+        },
+        "feature_ids_20": {
+          "type": "text",
+          "label": "Level 20 Feature Ids"
+        },
+        "feature_names_20": {
+          "type": "text",
+          "label": "Level 20 Features"
         }
       }
     },
@@ -1290,6 +1578,7 @@
           "key": "choice",
           "label": "Choice",
           "type": "select",
+          "readonly": true,
           "flex": 2,
           "default": "",
           "options": [
@@ -1319,6 +1608,7 @@
           "key": "plus2",
           "label": "+2",
           "type": "select",
+          "readonly": true,
           "flex": 1,
           "default": "",
           "options": [
@@ -1356,6 +1646,7 @@
           "key": "plus1a",
           "label": "+1",
           "type": "select",
+          "readonly": true,
           "flex": 1,
           "default": "",
           "options": [
@@ -1393,6 +1684,7 @@
           "key": "plus1b",
           "label": "+1",
           "type": "select",
+          "readonly": true,
           "flex": 1,
           "default": "",
           "options": [
@@ -2736,6 +3028,14 @@
           "visible_if": "len(advancements) == 0 and ref(background, 'name') == ''"
         },
         {
+          "key": "subclass_pick",
+          "type": "entry",
+          "label": "Subclass",
+          "content_type": "subclass",
+          "filter": "entry.class == ref(klass, 'name')",
+          "visible_if": "len(advancements) > 0 and ref(subclass, 'name') == '' and (len(advancements) + 1) >= ref(klass, 'subclass_level')"
+        },
+        {
           "key": "hp",
           "type": "number",
           "label": "Hit points rolled (0 = average)",
@@ -2820,7 +3120,7 @@
             "class": "answer.klass_pick ? answer.klass_pick.name : ref(klass, 'name')",
             "hit_die": "answer.klass_pick ? answer.klass_pick.hit_die : ref(klass, 'hit_die')",
             "hp": "answer.hp ? answer.hp : 0",
-            "choice": "answer.choice == 'asi' ? 'asi' : (answer.choice == 'feat' ? 'feat' : (len(advancements) == 0 ? '' : (answer.choice ? answer.choice : (((len(advancements) + 1) == ref(klass, 'subclass_level')) ? 'subclass' : ''))))",
+            "choice": "answer.choice == 'asi' ? 'asi' : (answer.choice == 'feat' ? 'feat' : (len(advancements) == 0 ? '' : (answer.choice ? answer.choice : (answer.subclass_pick ? 'subclass' : ''))))",
             "plus2": "answer.choice == 'asi' ? (answer.asi.strength == 2 ? 'strength' : (answer.asi.dexterity == 2 ? 'dexterity' : (answer.asi.constitution == 2 ? 'constitution' : (answer.asi.intelligence == 2 ? 'intelligence' : (answer.asi.wisdom == 2 ? 'wisdom' : (answer.asi.charisma == 2 ? 'charisma' : (''))))))) : ''",
             "plus1a": "answer.choice == 'asi' ? (answer.asi.strength == 1 ? 'strength' : (answer.asi.dexterity == 1 ? 'dexterity' : (answer.asi.constitution == 1 ? 'constitution' : (answer.asi.intelligence == 1 ? 'intelligence' : (answer.asi.wisdom == 1 ? 'wisdom' : (answer.asi.charisma == 1 ? 'charisma' : (''))))))) : ''",
             "plus1b": "answer.choice == 'asi' ? (answer.asi.charisma == 1 ? 'charisma' : (answer.asi.wisdom == 1 ? 'wisdom' : (answer.asi.intelligence == 1 ? 'intelligence' : (answer.asi.constitution == 1 ? 'constitution' : (answer.asi.dexterity == 1 ? 'dexterity' : (answer.asi.strength == 1 ? 'strength' : (''))))))) : ''",
@@ -2840,12 +3140,35 @@
           "entry": "answer.klass_pick"
         },
         {
+          "pick": "subclass",
+          "entry": "answer.subclass_pick"
+        },
+        {
           "pick": "species",
           "entry": "answer.species_pick"
         },
         {
           "pick": "background",
           "entry": "answer.background_pick"
+        },
+        {
+          "grant": "features",
+          "from": "ref(klass, concat('feature_ids_', (len(advancements) + 1)))",
+          "names": "ref(klass, concat('feature_names_', (len(advancements) + 1)))",
+          "carry": {
+            "class": "ref(klass, 'name')"
+          },
+          "source": "klass"
+        },
+        {
+          "grant": "features",
+          "from": "ref(subclass, concat('feature_ids_', (len(advancements) + 1)))",
+          "names": "ref(subclass, concat('feature_names_', (len(advancements) + 1)))",
+          "carry": {
+            "class": "ref(subclass, 'class')",
+            "subclass": "ref(subclass, 'name')"
+          },
+          "source": "subclass"
         }
       ]
     },
