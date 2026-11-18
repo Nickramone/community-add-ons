@@ -724,3 +724,21 @@
   font-size: 10px;
   color: var(--text-muted);
 }
+
+/* 1.24.0: what a weapon's mastery does, behind an info icon */
+.mastery-info {
+  display: inline;
+}
+.mastery-info > summary {
+  display: inline;
+  list-style: none;
+  cursor: pointer;
+  color: var(--text-muted);
+}
+.mastery-info[open] > summary {
+  color: var(--gold);
+}
+.mastery-info > .hint {
+  margin: 2px 0 0;
+  white-space: normal;
+}

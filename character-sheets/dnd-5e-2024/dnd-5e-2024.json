@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.23.1",
+  "version": "1.24.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -1155,6 +1155,10 @@
           "type": "text",
           "label": "Mastery"
         },
+        "mastery_text": {
+          "type": "textarea",
+          "label": "Mastery effect"
+        },
         "armor_class": {
           "type": "text",
           "label": "Armor Class"
@@ -1577,32 +1581,10 @@
         {
           "key": "choice",
           "label": "Choice",
-          "type": "select",
+          "type": "text",
           "readonly": true,
-          "flex": 2,
-          "default": "",
-          "options": [
-            {
-              "value": "",
-              "label": "-"
-            },
-            {
-              "value": "asi",
-              "label": "Ability Score Improvement"
-            },
-            {
-              "value": "feat",
-              "label": "Feat"
-            },
-            {
-              "value": "subclass",
-              "label": "Subclass"
-            },
-            {
-              "value": "spells",
-              "label": "Spells"
-            }
-          ]
+          "flex": 3,
+          "default": ""
         },
         {
           "key": "plus2",
@@ -1959,7 +1941,8 @@
       "type": "number",
       "label": "Current HP",
       "min": 0,
-      "default": 8
+      "default": 8,
+      "default_from": "hp_max"
     },
     "hp_temp": {
       "type": "number",
@@ -3121,11 +3104,11 @@
             "class": "answer.klass_pick ? answer.klass_pick.name : ref(klass, 'name')",
             "hit_die": "answer.klass_pick ? answer.klass_pick.hit_die : ref(klass, 'hit_die')",
             "hp": "answer.hp ? answer.hp : 0",
-            "choice": "answer.choice == 'asi' ? 'asi' : (answer.choice == 'feat' ? 'feat' : (len(advancements) == 0 ? '' : (answer.choice ? answer.choice : (answer.subclass_pick ? 'subclass' : ''))))",
+            "choice": "len(advancements) == 0 ? concat('Class ', (answer.klass_pick ? answer.klass_pick.name : ref(klass, 'name')), ', Background ', (answer.background_pick ? answer.background_pick.name : ref(background, 'name')), ', Species ', (answer.species_pick ? answer.species_pick.name : ref(species, 'name'))) : (answer.choice == 'asi' ? 'Ability Score Improvement' : (answer.choice == 'feat' ? concat('Feat ', answer.feat.name) : (answer.subclass_pick ? concat('Subclass ', answer.subclass_pick.name) : '')))",
             "plus2": "answer.choice == 'asi' ? (answer.asi.strength == 2 ? 'strength' : (answer.asi.dexterity == 2 ? 'dexterity' : (answer.asi.constitution == 2 ? 'constitution' : (answer.asi.intelligence == 2 ? 'intelligence' : (answer.asi.wisdom == 2 ? 'wisdom' : (answer.asi.charisma == 2 ? 'charisma' : (''))))))) : ''",
             "plus1a": "answer.choice == 'asi' ? (answer.asi.strength == 1 ? 'strength' : (answer.asi.dexterity == 1 ? 'dexterity' : (answer.asi.constitution == 1 ? 'constitution' : (answer.asi.intelligence == 1 ? 'intelligence' : (answer.asi.wisdom == 1 ? 'wisdom' : (answer.asi.charisma == 1 ? 'charisma' : (''))))))) : ''",
             "plus1b": "answer.choice == 'asi' ? (answer.asi.charisma == 1 ? 'charisma' : (answer.asi.wisdom == 1 ? 'wisdom' : (answer.asi.intelligence == 1 ? 'intelligence' : (answer.asi.constitution == 1 ? 'constitution' : (answer.asi.dexterity == 1 ? 'dexterity' : (answer.asi.strength == 1 ? 'strength' : (''))))))) : ''",
-            "notes": "answer.feat ? answer.feat.name : ''"
+            "notes": "concat((len(advancements) == 0 ? (answer.klass_pick ? answer.klass_pick.feature_names : '') : ref(klass, concat('feature_names_', (len(advancements) + 1)))), ((len(advancements) == 0 ? (answer.klass_pick ? answer.klass_pick.feature_names : '') : ref(klass, concat('feature_names_', (len(advancements) + 1)))) and (answer.subclass_pick ? answer.subclass_pick.feature_names : ref(subclass, concat('feature_names_', (len(advancements) + 1))))) ? ', ' : '', (answer.subclass_pick ? answer.subclass_pick.feature_names : ref(subclass, concat('feature_names_', (len(advancements) + 1)))))"
           }
         },
         {
