@@ -395,6 +395,20 @@
       "maxLength": 131072,
       "description": "CSS for the layout, written inline. Prefer 'styles_file' for anything substantial."
     },
+    "prompts": {
+      "type": "object",
+      "maxProperties": 30,
+      "description": "Windows asking the player a few questions (a level gained): each has a label, 'steps' (choose, distribute, entry, number or select) and an 'apply' list of writes that read the answers as answer.<key>. Opened by an action's {prompt} step or a field's on_pick. Needs a Grimoire with prompts (the Nickramone fork today).",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["label", "steps", "apply"],
+        "properties": {
+          "label": {"type": "string", "minLength": 1},
+          "steps": {"type": "array", "minItems": 1, "maxItems": 20, "items": {"type": "object", "required": ["key", "type"]}},
+          "apply": {"type": "array", "minItems": 1, "maxItems": 50, "items": {"type": "object"}}
+        }
+      }
+    },
     "actions": {
       "type": "array",
       "maxItems": 50,
@@ -419,6 +433,10 @@
                 "to": {"type": "string"},
                 "each": {"type": "string"},
                 "where": {"type": "string"},
+                "prompt": {
+                  "type": "string",
+                  "description": "Open one of the sheet's prompts once the other writes are made."
+                },
                 "append": {"type": "string"},
                 "values": {"type": "object", "additionalProperties": {"type": "string"}}
               }

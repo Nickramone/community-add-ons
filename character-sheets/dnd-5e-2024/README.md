@@ -20,6 +20,12 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   subclass, spells). The level, maximum hit points (first level at the full
   die) and the Proficiency Bonus follow the rows; a sheet with no rows keeps
   using the Level field. The ASI picks add to the ability scores
+- **Level up button** under Level: asks for the hit points rolled (0 = the
+  average), then, on the levels your class grants one, an Ability Score
+  Improvement (+2, or +1/+1) or a feat you qualify for (General, or an Epic
+  Boon from level 19; level, ability score, spellcasting and armour training
+  are checked), and a subclass at the class's subclass level. It adds the
+  level-up row and the feat for you
 - **Abilities** with live modifiers, and saving throws that add proficiency
   where you have it
 - **Armour class, initiative, passive Perception and proficiency bonus**, all

@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.19.3",
+  "version": "1.20.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -98,6 +98,8 @@
           "min": 0,
           "max": 20
         },
+        "asi_levels": {"type": "text", "label": "Ability Score Improvement Levels"},
+        "subclass_level": {"type": "number", "label": "Subclass Level", "min": 0, "max": 20},
         "skill_choices": {
           "type": "number",
           "label": "Skill Choices",
@@ -454,7 +456,12 @@
           "label": "Prerequisite"
         },
         "prereq_level": {"type": "number", "label": "Prerequisite Level", "min": 0},
-        "prereq_abilities": {"type": "text", "label": "Prerequisite Abilities"},
+        "prereq_str": {"type": "number", "label": "Prerequisite Str (any one)", "min": 0},
+        "prereq_dex": {"type": "number", "label": "Prerequisite Dex (any one)", "min": 0},
+        "prereq_con": {"type": "number", "label": "Prerequisite Con (any one)", "min": 0},
+        "prereq_int": {"type": "number", "label": "Prerequisite Int (any one)", "min": 0},
+        "prereq_wis": {"type": "number", "label": "Prerequisite Wis (any one)", "min": 0},
+        "prereq_cha": {"type": "number", "label": "Prerequisite Cha (any one)", "min": 0},
         "prereq_feats": {"type": "text", "label": "Prerequisite Feats"},
         "prereq_spellcasting": {"type": "checkbox", "label": "Prerequisite Spellcasting"},
         "prereq_proficiencies": {"type": "text", "label": "Prerequisite Proficiencies"},
@@ -1246,7 +1253,7 @@
     "advancements": {
       "type": "list",
       "label": "Level-ups",
-      "add_label": "Level up",
+      "add_label": "Add row by hand",
       "empty_text": "One row per level. Level, hit points, spell slots and Proficiency Bonus follow the rows; with no rows the Level field counts.",
       "columns": [
         {
@@ -2166,7 +2173,10 @@
       "type": "content_list",
       "label": "Feats",
       "content_type": "feat",
-      "allow_freeform": true
+      "allow_freeform": true,
+      "per_entry_fields": {
+        "from_level": {"type": "number", "label": "From level", "min": 0, "max": 20}
+      }
     },
     "equipment": {
       "type": "content_list",
@@ -2699,7 +2709,122 @@
       "label": "Magic Items Equipped"
     }
   },
+  "prompts": {
+    "level_up": {
+      "label": "Level up",
+      "steps": [
+        {
+          "key": "hp",
+          "type": "number",
+          "label": "Hit points rolled (0 = average; the first level takes the maximum)",
+          "default": "0",
+          "average": "0",
+          "min": 0,
+          "max": "ref(klass, 'hit_die')"
+        },
+        {
+          "key": "choice",
+          "type": "select",
+          "label": "Ability Score Improvement or feat",
+          "options": [
+            {
+              "value": "asi",
+              "label": "Ability Score Improvement"
+            },
+            {
+              "value": "feat",
+              "label": "Feat"
+            }
+          ],
+          "visible_if": "contains(ref(klass, 'asi_levels'), concat(',', (len(advancements) + 1), ','))"
+        },
+        {
+          "key": "asi",
+          "type": "distribute",
+          "label": "Ability Score Improvement: +2 to one ability, or +1 to two",
+          "options": [
+            {
+              "value": "strength",
+              "label": "Str"
+            },
+            {
+              "value": "dexterity",
+              "label": "Dex"
+            },
+            {
+              "value": "constitution",
+              "label": "Con"
+            },
+            {
+              "value": "intelligence",
+              "label": "Int"
+            },
+            {
+              "value": "wisdom",
+              "label": "Wis"
+            },
+            {
+              "value": "charisma",
+              "label": "Cha"
+            }
+          ],
+          "patterns": [
+            "2",
+            "1,1"
+          ],
+          "visible_if": "answer.choice == 'asi'"
+        },
+        {
+          "key": "feat",
+          "type": "entry",
+          "label": "Feat (General, or an Epic Boon from level 19, whose prerequisites you meet)",
+          "content_type": "feat",
+          "filter": "(entry.category == 'General' or ((len(advancements) + 1) >= 19 and entry.category == 'Epic Boon')) and entry.name != 'Ability Score Improvement' and not has_ref(feats, entry._ref) and (not entry.prereq_level or entry.prereq_level <= (len(advancements) + 1)) and (not (entry.prereq_str or entry.prereq_dex or entry.prereq_con or entry.prereq_int or entry.prereq_wis or entry.prereq_cha) or (entry.prereq_str and strength_score >= entry.prereq_str) or (entry.prereq_dex and dexterity_score >= entry.prereq_dex) or (entry.prereq_con and constitution_score >= entry.prereq_con) or (entry.prereq_int and intelligence_score >= entry.prereq_int) or (entry.prereq_wis and wisdom_score >= entry.prereq_wis) or (entry.prereq_cha and charisma_score >= entry.prereq_cha)) and (not entry.prereq_spellcasting or ref(klass, 'spellcasting') != '') and (not contains(entry.prereq_proficiencies, 'armor:light') or armor_light) and (not contains(entry.prereq_proficiencies, 'armor:medium') or armor_medium) and (not contains(entry.prereq_proficiencies, 'armor:heavy') or armor_heavy) and (not contains(entry.prereq_proficiencies, 'armor:shield') or armor_shields)",
+          "visible_if": "answer.choice == 'feat'"
+        },
+        {
+          "key": "subclass",
+          "type": "entry",
+          "label": "Subclass",
+          "content_type": "subclass",
+          "filter": "entry.class == ref(klass, 'name')",
+          "visible_if": "(len(advancements) + 1) == ref(klass, 'subclass_level')"
+        }
+      ],
+      "apply": [
+        {
+          "append": "advancements",
+          "values": {
+            "class": "ref(klass, 'name')",
+            "hit_die": "ref(klass, 'hit_die')",
+            "hp": "answer.hp",
+            "choice": "answer.choice == 'asi' ? 'asi' : (answer.choice == 'feat' ? 'feat' : (answer.subclass ? 'subclass' : ''))",
+            "plus2": "answer.choice == 'asi' ? (answer.asi.strength == 2 ? 'strength' : (answer.asi.dexterity == 2 ? 'dexterity' : (answer.asi.constitution == 2 ? 'constitution' : (answer.asi.intelligence == 2 ? 'intelligence' : (answer.asi.wisdom == 2 ? 'wisdom' : (answer.asi.charisma == 2 ? 'charisma' : (''))))))) : ''",
+            "plus1a": "answer.choice == 'asi' ? (answer.asi.strength == 1 ? 'strength' : (answer.asi.dexterity == 1 ? 'dexterity' : (answer.asi.constitution == 1 ? 'constitution' : (answer.asi.intelligence == 1 ? 'intelligence' : (answer.asi.wisdom == 1 ? 'wisdom' : (answer.asi.charisma == 1 ? 'charisma' : (''))))))) : ''",
+            "plus1b": "answer.choice == 'asi' ? (answer.asi.charisma == 1 ? 'charisma' : (answer.asi.wisdom == 1 ? 'wisdom' : (answer.asi.intelligence == 1 ? 'intelligence' : (answer.asi.constitution == 1 ? 'constitution' : (answer.asi.dexterity == 1 ? 'dexterity' : (answer.asi.strength == 1 ? 'strength' : (''))))))) : ''",
+            "notes": "answer.feat ? answer.feat.name : (answer.subclass ? answer.subclass.name : '')"
+          }
+        },
+        {
+          "pick": "feats",
+          "entry": "answer.feat",
+          "values": {
+            "from_level": "(len(advancements) + 1)"
+          }
+        },
+        {
+          "pick": "subclass",
+          "entry": "answer.subclass"
+        }
+      ]
+    }
+  },
   "actions": [
+    {
+      "name": "level_up",
+      "label": "Level up",
+      "steps": [{"prompt": "level_up"}]
+    },
     {
       "name": "short_rest",
       "label": "Short rest",
