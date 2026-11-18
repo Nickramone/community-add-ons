@@ -625,3 +625,18 @@
   flex: 0 0 auto;
   opacity: 0.8;
 }
+
+/* 1.16.0: where a score comes from, lineage summary, weapon rows and notes */
+.origin {
+  margin: 4px 0 0;
+  color: var(--text-muted);
+}
+
+.lineage-note {
+  margin: 2px 0 0;
+  color: var(--text-muted);
+}
+
+.atk-note {
+  font-size: 12px;
+}

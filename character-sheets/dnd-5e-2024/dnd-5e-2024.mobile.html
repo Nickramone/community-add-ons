@@ -55,7 +55,7 @@
     <div class="box stat">
       <span class="tiny box-title">Speed</span>
       <span class="big-input"><g-field name="speed" label="" variant="compact" /></span>
-      <g-if test="current_speed != speed"><span class="tiny centre now">Now <g-value name="current_speed" /> ft</span></g-if><g-repeat over="magic_items" where="row.equipped &amp;&amp; (row.attuned or not row.attunement) &amp;&amp; not row._inline &amp;&amp; row.speeds"><span class="tiny now"><g-value formula="row.speeds" /></span></g-repeat>
+      <g-if test="current_speed != speed"><span class="tiny centre now">Now <g-value name="current_speed" /> ft</span></g-if><g-if test="speed_bonus > 0"><span class="tiny now">Feats +<g-value name="speed_bonus" /> ft</span></g-if><g-repeat over="magic_items" where="row.equipped &amp;&amp; (row.attuned or not row.attunement) &amp;&amp; not row._inline &amp;&amp; row.speeds"><span class="tiny now"><g-value formula="row.speeds" /></span></g-repeat>
     </div>
     <div class="box stat">
       <span class="tiny box-title">Proficiency</span>
@@ -161,6 +161,7 @@
         </div>
       </div>
     </g-repeat>
+    <g-if test="lineage_uses > 0"><p class="tiny res-hd">Lineage uses</p><div class="feat-use"><span class="feat-use-name"><g-value formula="ref(lineage, 'resource') != '' ? ref(lineage, 'resource') : ref(lineage, 'name')" /></span><span class="feat-use-used"><g-pips count="lineage_uses" value="lineage_used" label="Lineage uses spent" /></span><span class="tiny feat-use-left"><g-value formula="concat(max(0, lineage_uses - lineage_used), ' / ', lineage_uses, ' left · Long rest')" /></span></div></g-if>
     <p class="tiny res-hd">Magic item charges</p>
     <g-repeat over="magic_items" where="row.charges && (row.equipped || row.attuned)">
       <div class="res">
@@ -195,6 +196,7 @@
           <div class="ability-score"><span class="score-value"><g-value name="strength_score" /></span><span class="tiny">Score</span></div>
         </div>
         <div class="save"><label class="tap save-tap"><g-field name="strength_save_prof" label="" /><span class="tiny">Save</span></label><span class="c-value"><g-value name="strength_save" /></span></div>
+        <p class="tiny origin"><g-value formula="concat('Starting ', strength, strength_bonus ? concat(' · Background +', strength_bonus) : '', (strength_score - strength - strength_bonus) != 0 ? concat(' · Items ', signed(strength_score - strength - strength_bonus)) : '')" /></p>
       </div>
       <div class="ability">
         <h4 class="ability-name">Dexterity</h4>
@@ -203,6 +205,7 @@
           <div class="ability-score"><span class="score-value"><g-value name="dexterity_score" /></span><span class="tiny">Score</span></div>
         </div>
         <div class="save"><label class="tap save-tap"><g-field name="dexterity_save_prof" label="" /><span class="tiny">Save</span></label><span class="c-value"><g-value name="dexterity_save" /></span></div>
+        <p class="tiny origin"><g-value formula="concat('Starting ', dexterity, dexterity_bonus ? concat(' · Background +', dexterity_bonus) : '', (dexterity_score - dexterity - dexterity_bonus) != 0 ? concat(' · Items ', signed(dexterity_score - dexterity - dexterity_bonus)) : '')" /></p>
       </div>
       <div class="ability">
         <h4 class="ability-name">Constitution</h4>
@@ -211,6 +214,7 @@
           <div class="ability-score"><span class="score-value"><g-value name="constitution_score" /></span><span class="tiny">Score</span></div>
         </div>
         <div class="save"><label class="tap save-tap"><g-field name="constitution_save_prof" label="" /><span class="tiny">Save</span></label><span class="c-value"><g-value name="constitution_save" /></span></div>
+        <p class="tiny origin"><g-value formula="concat('Starting ', constitution, constitution_bonus ? concat(' · Background +', constitution_bonus) : '', (constitution_score - constitution - constitution_bonus) != 0 ? concat(' · Items ', signed(constitution_score - constitution - constitution_bonus)) : '')" /></p>
       </div>
       <div class="ability">
         <h4 class="ability-name">Intelligence</h4>
@@ -219,6 +223,7 @@
           <div class="ability-score"><span class="score-value"><g-value name="intelligence_score" /></span><span class="tiny">Score</span></div>
         </div>
         <div class="save"><label class="tap save-tap"><g-field name="intelligence_save_prof" label="" /><span class="tiny">Save</span></label><span class="c-value"><g-value name="intelligence_save" /></span></div>
+        <p class="tiny origin"><g-value formula="concat('Starting ', intelligence, intelligence_bonus ? concat(' · Background +', intelligence_bonus) : '', (intelligence_score - intelligence - intelligence_bonus) != 0 ? concat(' · Items ', signed(intelligence_score - intelligence - intelligence_bonus)) : '')" /></p>
       </div>
       <div class="ability">
         <h4 class="ability-name">Wisdom</h4>
@@ -227,6 +232,7 @@
           <div class="ability-score"><span class="score-value"><g-value name="wisdom_score" /></span><span class="tiny">Score</span></div>
         </div>
         <div class="save"><label class="tap save-tap"><g-field name="wisdom_save_prof" label="" /><span class="tiny">Save</span></label><span class="c-value"><g-value name="wisdom_save" /></span></div>
+        <p class="tiny origin"><g-value formula="concat('Starting ', wisdom, wisdom_bonus ? concat(' · Background +', wisdom_bonus) : '', (wisdom_score - wisdom - wisdom_bonus) != 0 ? concat(' · Items ', signed(wisdom_score - wisdom - wisdom_bonus)) : '')" /></p>
       </div>
       <div class="ability">
         <h4 class="ability-name">Charisma</h4>
@@ -235,6 +241,7 @@
           <div class="ability-score"><span class="score-value"><g-value name="charisma_score" /></span><span class="tiny">Score</span></div>
         </div>
         <div class="save"><label class="tap save-tap"><g-field name="charisma_save_prof" label="" /><span class="tiny">Save</span></label><span class="c-value"><g-value name="charisma_save" /></span></div>
+        <p class="tiny origin"><g-value formula="concat('Starting ', charisma, charisma_bonus ? concat(' · Background +', charisma_bonus) : '', (charisma_score - charisma - charisma_bonus) != 0 ? concat(' · Items ', signed(charisma_score - charisma - charisma_bonus)) : '')" /></p>
       </div>
     </div>
   </section>
@@ -288,9 +295,9 @@
 
   <section class="box">
     <h3 class="box-heading">Ability Scores</h3>
-    <p class="hint">The base you rolled or bought, plus your background's bonus.</p>
+    <p class="hint">The starting score you rolled or bought, plus your background's bonus; magic items on top. Each ability on the Main tab says where its score comes from.</p>
     <div class="parts">
-      <span></span><span class="tiny">Base</span><span class="tiny">Bonus</span><span class="tiny">Score</span>
+      <span></span><span class="tiny">Starting</span><span class="tiny">Bonus</span><span class="tiny">Score</span>
       <span class="p-name">STR</span><g-field name="strength" label="" variant="compact" /><g-field name="strength_bonus" label="" variant="compact" /><span class="p-score"><g-value name="strength_score" /></span>
       <span class="p-name">DEX</span><g-field name="dexterity" label="" variant="compact" /><g-field name="dexterity_bonus" label="" variant="compact" /><span class="p-score"><g-value name="dexterity_score" /></span>
       <span class="p-name">CON</span><g-field name="constitution" label="" variant="compact" /><g-field name="constitution_bonus" label="" variant="compact" /><span class="p-score"><g-value name="constitution_score" /></span>
@@ -305,11 +312,20 @@
 <g-tab title="Combat">
 
   <section class="box">
-    <h3 class="box-heading">Attack Bonuses</h3>
+    <h3 class="box-heading">Attacks</h3>
     <div class="atk-rows">
-      <div class="atk"><span class="atk-name">Weapon, Strength</span><span class="atk-hit"><g-value name="melee_attack" /></span><span class="atk-dmg">Dmg <g-value name="strength_damage" /></span></div>
-      <div class="atk"><span class="atk-name">Weapon, Dexterity</span><span class="atk-hit"><g-value name="ranged_attack" /></span><span class="atk-dmg">Dmg <g-value name="dexterity_damage" /></span></div>
-      <g-repeat over="magic_items" where="row.equipped &amp;&amp; (row.attuned or not row.attunement) &amp;&amp; not row._inline &amp;&amp; (row.attack_bonus or row.damage_bonus)">
+      <div class="atk"><span class="atk-name">Unarmed Strike</span><span class="atk-hit"><g-value formula="signed(strength_mod + proficiency - exhaustion_d20)" /></span><span class="atk-dmg"><g-value formula="concat(max(0, 1 + strength_mod - exhaustion_flat), ' Bludgeoning')" /></span></div>
+      <g-repeat over="equipment" where="row.equipped &amp;&amp; not row._inline &amp;&amp; row.damage_dice">
+        <div class="atk atk-weapon"><span class="atk-name"><g-value formula="row.name" /><g-if test="row.ranged or row.reach"><g-value formula="row.ranged ? concat(' · ', row.range_normal, '/', row.range_long, ' ft') : ' · reach'" /></g-if></span><span class="atk-hit"><g-value formula="signed((row.finesse ? max(strength_mod, dexterity_mod) : (row.ranged ? dexterity_mod : strength_mod)) + (((row.weapon_type != '' && contains(weapon_training, row.weapon_type)) or contains(weapon_training, row.name)) ? proficiency : 0) - exhaustion_d20 + (row.ranged && has_ref(feats, 'archery-xphb') ? 2 : 0))" /></span><span class="atk-dmg"><g-value formula="concat(row.damage_dice, ' ', signed((row.finesse ? max(strength_mod, dexterity_mod) : (row.ranged ? dexterity_mod : strength_mod)) - exhaustion_flat), ' ', row.damage_type)" /></span></div>
+        <g-if test="row.damage_versatile"><div class="atk atk-weapon"><span class="atk-name"><g-value formula="row.name" />, two hands<g-if test="false"><g-value formula="''" /></g-if></span><span class="atk-hit"><g-value formula="signed((row.finesse ? max(strength_mod, dexterity_mod) : (row.ranged ? dexterity_mod : strength_mod)) + (((row.weapon_type != '' && contains(weapon_training, row.weapon_type)) or contains(weapon_training, row.name)) ? proficiency : 0) - exhaustion_d20 + (row.ranged && has_ref(feats, 'archery-xphb') ? 2 : 0))" /></span><span class="atk-dmg"><g-value formula="concat(row.damage_versatile, ' ', signed((row.finesse ? max(strength_mod, dexterity_mod) : (row.ranged ? dexterity_mod : strength_mod)) - exhaustion_flat), ' ', row.damage_type)" /></span></div></g-if>
+        <g-if test="row.thrown &amp;&amp; not row.ranged"><div class="atk atk-weapon"><span class="atk-name"><g-value formula="row.name" />, thrown<g-if test="true"><g-value formula="concat(' · ', row.range_normal, '/', row.range_long, ' ft')" /></g-if></span><span class="atk-hit"><g-value formula="signed((row.finesse ? max(strength_mod, dexterity_mod) : (row.ranged ? dexterity_mod : strength_mod)) + (((row.weapon_type != '' && contains(weapon_training, row.weapon_type)) or contains(weapon_training, row.name)) ? proficiency : 0) - exhaustion_d20 + (row.ranged && has_ref(feats, 'archery-xphb') ? 2 : 0))" /></span><span class="atk-dmg"><g-value formula="concat(row.damage_dice, ' ', signed((row.finesse ? max(strength_mod, dexterity_mod) : (row.ranged ? dexterity_mod : strength_mod)) - exhaustion_flat), ' ', row.damage_type)" /></span></div></g-if>
+      </g-repeat>
+      <g-repeat over="magic_items" where="row.equipped &amp;&amp; (row.attuned or not row.attunement) &amp;&amp; not row._inline &amp;&amp; (row.base_weapon ? ref(row.base_weapon, 'damage_dice') : row.damage_dice)">
+        <div class="atk atk-item"><span class="atk-name"><g-value formula="row.name" /><g-if test="(row.base_weapon ? ref(row.base_weapon, 'ranged') : row.ranged) or (row.base_weapon ? ref(row.base_weapon, 'reach') : row.reach)"><g-value formula="(row.base_weapon ? ref(row.base_weapon, 'ranged') : row.ranged) ? concat(' · ', (row.base_weapon ? ref(row.base_weapon, 'range_normal') : row.range_normal), '/', (row.base_weapon ? ref(row.base_weapon, 'range_long') : row.range_long), ' ft') : ' · reach'" /></g-if><g-if test="row.crit_threshold"> · crit <g-value formula="row.crit_threshold" />+</g-if></span><span class="atk-hit"><g-value formula="signed(((row.base_weapon ? ref(row.base_weapon, 'finesse') : row.finesse) ? max(strength_mod, dexterity_mod) : ((row.base_weapon ? ref(row.base_weapon, 'ranged') : row.ranged) ? dexterity_mod : strength_mod)) + ((((row.base_weapon ? ref(row.base_weapon, 'weapon_type') : row.weapon_type) != '' && contains(weapon_training, (row.base_weapon ? ref(row.base_weapon, 'weapon_type') : row.weapon_type))) or contains(weapon_training, (row.base_weapon ? ref(row.base_weapon, 'name') : row.name))) ? proficiency : 0) - exhaustion_d20 + ((row.base_weapon ? ref(row.base_weapon, 'ranged') : row.ranged) && has_ref(feats, 'archery-xphb') ? 2 : 0) + row.attack_bonus)" /></span><span class="atk-dmg"><g-value formula="concat((row.base_weapon ? ref(row.base_weapon, 'damage_dice') : row.damage_dice), ' ', signed(((row.base_weapon ? ref(row.base_weapon, 'finesse') : row.finesse) ? max(strength_mod, dexterity_mod) : ((row.base_weapon ? ref(row.base_weapon, 'ranged') : row.ranged) ? dexterity_mod : strength_mod)) - exhaustion_flat + row.damage_bonus), ' ', (row.base_weapon ? ref(row.base_weapon, 'damage_type') : row.damage_type))" /></span></div>
+        <g-if test="(row.base_weapon ? ref(row.base_weapon, 'damage_versatile') : row.damage_versatile)"><div class="atk atk-item"><span class="atk-name"><g-value formula="row.name" />, two hands<g-if test="false"><g-value formula="''" /></g-if><g-if test="row.crit_threshold"> · crit <g-value formula="row.crit_threshold" />+</g-if></span><span class="atk-hit"><g-value formula="signed(((row.base_weapon ? ref(row.base_weapon, 'finesse') : row.finesse) ? max(strength_mod, dexterity_mod) : ((row.base_weapon ? ref(row.base_weapon, 'ranged') : row.ranged) ? dexterity_mod : strength_mod)) + ((((row.base_weapon ? ref(row.base_weapon, 'weapon_type') : row.weapon_type) != '' && contains(weapon_training, (row.base_weapon ? ref(row.base_weapon, 'weapon_type') : row.weapon_type))) or contains(weapon_training, (row.base_weapon ? ref(row.base_weapon, 'name') : row.name))) ? proficiency : 0) - exhaustion_d20 + ((row.base_weapon ? ref(row.base_weapon, 'ranged') : row.ranged) && has_ref(feats, 'archery-xphb') ? 2 : 0) + row.attack_bonus)" /></span><span class="atk-dmg"><g-value formula="concat((row.base_weapon ? ref(row.base_weapon, 'damage_versatile') : row.damage_versatile), ' ', signed(((row.base_weapon ? ref(row.base_weapon, 'finesse') : row.finesse) ? max(strength_mod, dexterity_mod) : ((row.base_weapon ? ref(row.base_weapon, 'ranged') : row.ranged) ? dexterity_mod : strength_mod)) - exhaustion_flat + row.damage_bonus), ' ', (row.base_weapon ? ref(row.base_weapon, 'damage_type') : row.damage_type))" /></span></div></g-if>
+        <g-if test="(row.base_weapon ? ref(row.base_weapon, 'thrown') : row.thrown) &amp;&amp; not (row.base_weapon ? ref(row.base_weapon, 'ranged') : row.ranged)"><div class="atk atk-item"><span class="atk-name"><g-value formula="row.name" />, thrown<g-if test="true"><g-value formula="concat(' · ', (row.base_weapon ? ref(row.base_weapon, 'range_normal') : row.range_normal), '/', (row.base_weapon ? ref(row.base_weapon, 'range_long') : row.range_long), ' ft')" /></g-if><g-if test="row.crit_threshold"> · crit <g-value formula="row.crit_threshold" />+</g-if></span><span class="atk-hit"><g-value formula="signed(((row.base_weapon ? ref(row.base_weapon, 'finesse') : row.finesse) ? max(strength_mod, dexterity_mod) : ((row.base_weapon ? ref(row.base_weapon, 'ranged') : row.ranged) ? dexterity_mod : strength_mod)) + ((((row.base_weapon ? ref(row.base_weapon, 'weapon_type') : row.weapon_type) != '' && contains(weapon_training, (row.base_weapon ? ref(row.base_weapon, 'weapon_type') : row.weapon_type))) or contains(weapon_training, (row.base_weapon ? ref(row.base_weapon, 'name') : row.name))) ? proficiency : 0) - exhaustion_d20 + ((row.base_weapon ? ref(row.base_weapon, 'ranged') : row.ranged) && has_ref(feats, 'archery-xphb') ? 2 : 0) + row.attack_bonus)" /></span><span class="atk-dmg"><g-value formula="concat((row.base_weapon ? ref(row.base_weapon, 'damage_dice') : row.damage_dice), ' ', signed(((row.base_weapon ? ref(row.base_weapon, 'finesse') : row.finesse) ? max(strength_mod, dexterity_mod) : ((row.base_weapon ? ref(row.base_weapon, 'ranged') : row.ranged) ? dexterity_mod : strength_mod)) - exhaustion_flat + row.damage_bonus), ' ', (row.base_weapon ? ref(row.base_weapon, 'damage_type') : row.damage_type))" /></span></div></g-if>
+      </g-repeat>
+      <g-repeat over="magic_items" where="row.equipped &amp;&amp; (row.attuned or not row.attunement) &amp;&amp; not row._inline &amp;&amp; (row.attack_bonus or row.damage_bonus) &amp;&amp; not (row.base_weapon ? ref(row.base_weapon, 'damage_dice') : row.damage_dice)">
         <g-if test="not contains(row.item_type, 'Ammunition') &amp;&amp; row.name != 'Bracers of Archery'">
           <div class="atk atk-item"><span class="atk-name"><g-value formula="row.name" />, Strength<g-if test="row.crit_threshold"> · crit <g-value formula="row.crit_threshold" />+</g-if></span><span class="atk-hit"><g-value formula="signed(attack_str + row.attack_bonus)" /></span><span class="atk-dmg">Dmg <g-value formula="signed(damage_str + row.damage_bonus)" /></span></div>
         </g-if>
@@ -321,11 +337,19 @@
         <div class="atk"><span class="atk-name">Spell</span><span class="atk-hit"><g-value name="spell_attack" /></span><span class="atk-dmg">DC <g-value name="spell_save_dc" /></span></div>
       </g-if>
     </div>
-    <p class="hint">With proficiency. Finesse and ranged weapons may use Dexterity. Magic weapons equipped (and attuned where required) get their own rows.</p>
+      <g-if test="has_ref(feats, 'archery-xphb')"><p class="hint atk-note"><g-value formula="'Archery: +2 to hit with ranged weapons, already in the rows above.'" /></p></g-if>
+      <g-if test="has_ref(feats, 'dueling-xphb')"><p class="hint atk-note"><g-value formula="'Dueling: +2 damage with a melee weapon in one hand and no other weapon.'" /></p></g-if>
+      <g-if test="has_ref(feats, 'great-weapon-fighting-xphb')"><p class="hint atk-note"><g-value formula="'Great Weapon Fighting: with a Two-Handed or Versatile weapon in two hands, treat a 1 or 2 on a damage die as a 3.'" /></p></g-if>
+      <g-if test="has_ref(feats, 'two-weapon-fighting-xphb')"><p class="hint atk-note"><g-value formula="'Two-Weapon Fighting: add your ability modifier to the damage of the extra Light weapon attack.'" /></p></g-if>
+      <g-if test="has_ref(feats, 'great-weapon-master-xphb')"><p class="hint atk-note"><g-value formula="concat('Great Weapon Master: a hit with a Heavy weapon as part of the Attack action deals +', proficiency, ' damage; after a Critical Hit or a kill, one more attack as a Bonus Action.')" /></p></g-if>
+      <g-if test="has_ref(feats, 'heavy-armor-master-xphb')"><p class="hint atk-note"><g-value formula="concat('Heavy Armor Master: in Heavy armour, Bludgeoning, Piercing and Slashing damage you take is reduced by ', proficiency, '.')" /></p></g-if>
+      <g-if test="has_ref(feats, 'defensive-duelist-xphb')"><p class="hint atk-note"><g-value formula="concat('Defensive Duelist: holding a Finesse weapon you are proficient with, a Reaction adds +', proficiency, ' AC against a melee attack until the start of your next turn.')" /></p></g-if>
+      <g-if test="has_ref(feats, 'defense-xphb')"><p class="hint atk-note"><g-value formula="'Defense: +1 AC while wearing armour, already in your AC.'" /></p></g-if>
+    <p class="hint">To hit with proficiency where your weapon training covers the weapon; Finesse uses the better of Strength and Dexterity, ranged weapons Dexterity. Equipped weapons get a row each, Versatile and thrown ones a row per use. A generic magic weapon or armour (+1 Weapon, +1 Armor) takes its base from the Base pick on its Magic Items row; equip the magic item, not the base as well.</p>
   </section>
 
   <section class="box">
-    <h3 class="box-heading">Weapons &amp; Damage Cantrips</h3>
+    <h3 class="box-heading">Other Attacks &amp; Damage Cantrips</h3>
     <g-field name="attacks" label="" />
   </section>
 
@@ -404,6 +428,7 @@
 
   <section class="box">
     <h3 class="box-heading">Cantrips &amp; Prepared Spells</h3>
+    <g-if test="ref(lineage, 'cantrips') != '' or ref(lineage, 'spell_1') != '' or ref(lineage, 'spell_3') != ''"><p class="hint lineage-spells"><strong>Lineage spells</strong> <g-value formula="concat(ref(lineage, 'cantrips') != '' ? concat('Cantrips: ', ref(lineage, 'cantrips')) : '', ref(lineage, 'spell_1') != '' ? concat(' · 1st: ', ref(lineage, 'spell_1')) : '', ref(lineage, 'spell_3') != '' && level >= 3 ? concat(' · 3rd: ', ref(lineage, 'spell_3')) : '', ref(lineage, 'spell_5') != '' && level >= 5 ? concat(' · 5th: ', ref(lineage, 'spell_5')) : '', '. Add them to the list below.')" /></p></g-if>
     <g-field name="spells" label="" />
     <span class="tiny">Prepared: <g-value name="prepared_count" /></span>
   </section>
@@ -449,7 +474,7 @@
     <h3 class="box-heading">Character</h3>
     <div class="line"><g-field name="background" label="" /><span class="tiny">Background</span></div>
     <div class="line"><g-field name="species" label="" /><span class="tiny">Species</span></div>
-    <g-if test="ref(species, 'lineages') != ''"><div class="line"><g-field name="lineage" label="" /><span class="tiny"><g-value formula="ref(species, 'lineage_label')" /></span></div></g-if>
+    <g-if test="ref(species, 'lineages') != ''"><div class="line"><g-field name="lineage" label="" /><span class="tiny"><g-value formula="ref(species, 'lineage_label')" /></span></div><g-if test="lineage"><p class="tiny lineage-note"><g-value formula="concat(ref(lineage, 'name'), ref(lineage, 'damage_type') != '' ? concat(' · ', ref(lineage, 'damage_type')) : '', ref(lineage, 'darkvision') ? concat(' · Darkvision ', ref(lineage, 'darkvision'), ' ft') : '', ref(lineage, 'speed') ? concat(' · Speed ', ref(lineage, 'speed'), ' ft') : '')" /></p></g-if></g-if>
     <div class="line"><g-field name="subclass" label="" /><span class="tiny">Subclass</span></div>
     <div class="pair">
       <div class="line"><g-field name="size" label="" /><span class="tiny">Size</span></div>

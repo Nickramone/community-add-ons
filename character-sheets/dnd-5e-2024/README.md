@@ -101,21 +101,45 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   name for the choice (Elven Lineage, Draconic Ancestry...); a lineage of
   another species is flagged. Catalogue type `lineage` (`species`, `label`,
   `damage_type`, `darkvision`, `speed`, cantrips and level 1/3/5 spells with
-  their ids, uses and recovery); species carry `lineage_label` and `lineages`
-- **Catalogue data for later rows**: weapons (equipment and magic items) carry
+  their ids, uses and recovery); species carry `lineage_label` and `lineages`.
+  Under the picker, the lineage's damage type, darkvision and speed; its
+  speed becomes the base speed; its spells, by character level, above the
+  spell list; its free uses (`lineage_used`) tracked in Resources and reset
+  by a long rest
+- **Catalogue data for weapon rows**: weapons (equipment and magic items) carry
   `damage_dice`, `damage_type`, `damage_versatile`, `range_normal`,
   `range_long` and the `ranged`, `thrown`, `finesse`, `light`, `heavy`,
   `two_handed`, `reach` flags; magic weapons with a known base carry
-  `base_item`; feats carry `resource`, `uses`, `uses_pb` and `recovery`;
+  `base_item`, and magic weapons and armour with a known base `base_item_ref`
+  (the base's id); feats carry `resource`, `uses`, `uses_pb` and `recovery`;
   species traits carry a saving throw (`save_ability`, `dc_ability`) and an
   effect (`effect_label`, `effect_die`, `effect_dice_pb`,
-  `effect_dice_by_level`, `effect_flat_pb`). Magic items also keep two hidden
-  per-entry picks, `base_weapon` and `base_armor`, for the base of a generic
-  +1 weapon or armour (shown once the Grimoire fork resolves per-entry picks)
-- **Attack bonuses** worked out for a proficient weapon with Strength or
-  Dexterity (with the damage bonus) and, for a caster, the spell attack and
-  save DC
-- **Attacks**, feats, and a catalogue of classes, subclasses, species,
+  `effect_dice_by_level`, `effect_flat_pb`)
+- **Base of a generic magic weapon or armour** (+1 Weapon, +1 Armor): a Base
+  Weapon or Base Armor pick on the Magic Items row, from the weapons or the
+  armour only, filled in from `base_item_ref` when the item names its base.
+  The attack row uses the base's dice and properties, and the AC the base's
+  armour with the item's bonus on top; equip the magic item, not the base.
+  Needs a Grimoire with per-entry picks (catalogue picks inside a row)
+- **Attacks** in one box: Unarmed Strike; a row for each equipped weapon and
+  magic weapon (with a Versatile two-handed row and a thrown row where they
+  apply), with the attack bonus (proficiency where the weapon training
+  covers the weapon, Finesse taking the better of Strength and Dexterity,
+  ranged weapons Dexterity, Archery's +2), damage dice, modifier and type,
+  range or reach, and a magic weapon's own bonuses and critical range; magic
+  items with attack or damage bonuses and no weapon data keep a Strength and a
+  Dexterity row; the spell attack and save DC for a caster; notes for
+  Dueling, Great Weapon Fighting, Two-Weapon Fighting, Great Weapon Master,
+  Heavy Armor Master, Defensive Duelist and Defense, with the proficiency
+  bonus filled in. The typed list below is for other attacks and damage
+  cantrips
+- **Feats worked into the numbers**: Alert adds proficiency to initiative,
+  Speedy (+10 ft) and Boon of Speed (+30 ft) add to the current speed,
+  Boon of Fortitude adds 40 to the HP maximum, Defense +1 AC in armour
+- **Where a score comes from**: under each ability, the starting score, the
+  background bonus and what magic items add; the base box is labelled
+  Starting score
+- **Attacks list**, feats, and a catalogue of classes, subclasses, species,
   backgrounds, feats
   and spells
 - **Custom class, species, or background** — type a homebrew name when the

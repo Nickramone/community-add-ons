@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.15.0",
+  "version": "1.16.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -1153,6 +1153,10 @@
           "type": "text",
           "label": "Base Item"
         },
+        "base_item_ref": {
+          "type": "text",
+          "label": "Base Item Id"
+        },
         "damage_dice": {
           "type": "text",
           "label": "Damage Dice"
@@ -1440,7 +1444,7 @@
       "label": "HP Maximum",
       "min": 0,
       "default": 8,
-      "default_from": "ref(klass, 'hit_die') ? ref(klass, 'hit_die') + floor((constitution - 10) / 2) + (level - 1) * (floor(ref(klass, 'hit_die') / 2) + 1 + floor((constitution - 10) / 2)) + (has_ref(species_traits, 'dwarf-dwarven-toughness-xphb') ? level : 0) + (has_ref(feats, 'tough-xphb') ? 2 * level : 0) : ''"
+      "default_from": "ref(klass, 'hit_die') ? ref(klass, 'hit_die') + floor((constitution - 10) / 2) + (level - 1) * (floor(ref(klass, 'hit_die') / 2) + 1 + floor((constitution - 10) / 2)) + (has_ref(species_traits, 'dwarf-dwarven-toughness-xphb') ? level : 0) + (has_ref(feats, 'tough-xphb') ? 2 * level : 0) + (has_ref(feats, 'boon-of-fortitude-xphb') ? 40 : 0) : ''"
     },
     "hp_current": {
       "type": "number",
@@ -1623,7 +1627,7 @@
       "label": "Speed",
       "min": 0,
       "default": 30,
-      "default_from": "ref(species, 'speed')"
+      "default_from": "ref(lineage, 'speed') ? ref(lineage, 'speed') : ref(species, 'speed')"
     },
     "size": {
       "type": "text",
@@ -1994,13 +1998,17 @@
           "type": "content_ref",
           "label": "Base Weapon",
           "content_type": "item",
-          "visible_if": "false"
+          "visible_if": "contains(row.item_type, 'Weapon')",
+          "filter": {"category": ["Melee Weapon", "Ranged Weapon"]},
+          "default_from": "contains(row.item_type, 'Weapon') ? row.base_item_ref : ''"
         },
         "base_armor": {
           "type": "content_ref",
           "label": "Base Armor",
           "content_type": "item",
-          "visible_if": "false"
+          "visible_if": "contains(row.item_type, 'Armor') && not contains(row.item_type, 'Shield')",
+          "filter": {"category": ["Light Armor", "Medium Armor", "Heavy Armor"]},
+          "default_from": "contains(row.item_type, 'Armor') && not contains(row.item_type, 'Shield') ? row.base_item_ref : ''"
         }
       },
       "display_columns": [
@@ -2148,6 +2156,12 @@
       "type": "textarea",
       "label": "Notes",
       "rows": 6
+    },
+    "lineage_used": {
+      "type": "number",
+      "label": "Lineage Uses Spent",
+      "min": 0,
+      "default": 0
     }
   },
   "computed": {
@@ -2312,11 +2326,11 @@
       "label": "Ability Check Bonus from Items"
     },
     "initiative": {
-      "formula": "signed(dexterity_mod - exhaustion_d20 + item_check)",
+      "formula": "signed(dexterity_mod - exhaustion_d20 + item_check + (has_ref(feats, 'alert-xphb') ? proficiency : 0))",
       "label": "Initiative"
     },
     "armor_worn": {
-      "formula": "count_each(equipment, row.equipped && row.ac_base)",
+      "formula": "count_each(equipment, row.equipped && row.ac_base) + count_each(magic_items, row.equipped && not row._inline && row.base_armor && ref(row.base_armor, 'ac_base'))",
       "label": "Armour Worn"
     },
     "shield_owned": {
@@ -2332,15 +2346,19 @@
       "label": "Unarmoured AC"
     },
     "ac_body": {
-      "formula": "max_each(equipment, row.ac_base + (row.category == 'Heavy Armor' ? 0 : (row.category == 'Medium Armor' ? min(dexterity_mod, row.dex_cap) : dexterity_mod)), row.equipped && row.ac_base, ac_unarmored)",
+      "formula": "max(max_each(equipment, row.ac_base + (row.category == 'Heavy Armor' ? 0 : (row.category == 'Medium Armor' ? min(dexterity_mod, row.dex_cap) : dexterity_mod)), row.equipped && row.ac_base, ac_unarmored), max_each(magic_items, ref(row.base_armor, 'ac_base') + (ref(row.base_armor, 'category') == 'Heavy Armor' ? 0 : (ref(row.base_armor, 'category') == 'Medium Armor' ? min(dexterity_mod, ref(row.base_armor, 'dex_cap')) : dexterity_mod)), row.equipped && not row._inline && row.base_armor && ref(row.base_armor, 'ac_base'), 0))",
       "label": "Armour AC"
     },
     "ac_items": {
       "formula": "sum_each(equipment, row.ac_bonus, row.equipped && not row._inline) + sum_each(magic_items, row.ac_bonus, row.equipped && (row.attuned or not row.attunement) && not row._inline && row.name != 'Bracers of Defense') + sum_each(magic_items, row.ac_bonus, row.name == 'Bracers of Defense' && row.equipped && row.attuned && not row._inline && armor_worn == 0 && shield_worn == 0)",
       "label": "AC from Items"
     },
+    "ac_defense": {
+      "formula": "has_ref(feats, 'defense-xphb') && armor_worn > 0 ? 1 : 0",
+      "label": "AC from the Defense Fighting Style"
+    },
     "armor_class": {
-      "formula": "ac_body + ac_items + armor_bonus - exhaustion_flat",
+      "formula": "ac_body + ac_items + ac_defense + armor_bonus - exhaustion_flat",
       "label": "Armour Class"
     },
     "passive_perception": {
@@ -2403,8 +2421,16 @@
       "formula": "max_each(magic_items, row.walk_min, row.equipped && (row.attuned or not row.attunement) && not row._inline, 0)",
       "label": "Walking Speed from Items"
     },
+    "speed_bonus": {
+      "formula": "(has_ref(feats, 'speedy-xphb') ? 10 : 0) + (has_ref(feats, 'boon-of-speed-xphb') ? 30 : 0)",
+      "label": "Speed from Feats"
+    },
+    "lineage_uses": {
+      "formula": "ref(lineage, 'uses_by_level') != '' ? by_level(ref(lineage, 'uses_by_level'), level) : (ref(lineage, 'uses_pb') ? proficiency : (ref(lineage, 'uses') ? ref(lineage, 'uses') : 0))",
+      "label": "Lineage Uses"
+    },
     "current_speed": {
-      "formula": "(exhaustion >= 6 or contains(conditions, 'Grappled') or contains(conditions, 'Restrained') or contains(conditions, 'Paralyzed') or contains(conditions, 'Petrified') or contains(conditions, 'Unconscious')) ? 0 : max(0, max(speed, item_walk_min) - exhaustion_speed)",
+      "formula": "(exhaustion >= 6 or contains(conditions, 'Grappled') or contains(conditions, 'Restrained') or contains(conditions, 'Paralyzed') or contains(conditions, 'Petrified') or contains(conditions, 'Unconscious')) ? 0 : max(0, max(speed + speed_bonus, item_walk_min) - exhaustion_speed)",
       "label": "Current Speed"
     },
     "active_effects": {
@@ -2484,6 +2510,7 @@
         {"set": "slots_8_used", "to": "0"},
         {"set": "slots_9_used", "to": "0"},
         {"set": "pact_slots_used", "to": "0"},
+        {"set": "lineage_used", "to": "0"},
         {"set": "death_success_1", "to": "false"},
         {"set": "death_success_2", "to": "false"},
         {"set": "death_success_3", "to": "false"},
