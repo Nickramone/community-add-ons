@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.20.0",
+  "version": "1.21.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -380,6 +380,7 @@
           "type": "text",
           "label": "Ability Scores"
         },
+        "ability_options": {"type": "multiselect", "label": "Ability Increase Options", "options": [{"value": "strength", "label": "Str"}, {"value": "dexterity", "label": "Dex"}, {"value": "constitution", "label": "Con"}, {"value": "intelligence", "label": "Int"}, {"value": "wisdom", "label": "Wis"}, {"value": "charisma", "label": "Cha"}]},
         "feat": {
           "type": "text",
           "label": "Origin Feat"
@@ -465,7 +466,7 @@
         "prereq_feats": {"type": "text", "label": "Prerequisite Feats"},
         "prereq_spellcasting": {"type": "checkbox", "label": "Prerequisite Spellcasting"},
         "prereq_proficiencies": {"type": "text", "label": "Prerequisite Proficiencies"},
-        "ability_options": {"type": "text", "label": "Ability Increase Options"},
+        "ability_options": {"type": "multiselect", "label": "Ability Increase Options", "options": [{"value": "strength", "label": "Str"}, {"value": "dexterity", "label": "Dex"}, {"value": "constitution", "label": "Con"}, {"value": "intelligence", "label": "Int"}, {"value": "wisdom", "label": "Wis"}, {"value": "charisma", "label": "Cha"}]},
         "ability_amount": {"type": "number", "label": "Ability Increase Amount", "min": 0},
         "ability_max": {"type": "number", "label": "Ability Increase Maximum", "min": 0},
         "description": {
@@ -1470,7 +1471,8 @@
           "grant": "feats",
           "ref": "feat_id",
           "name": "feat"
-        }
+        },
+        {"prompt": "background_abilities"}
       ]
     },
     "klass": {
@@ -1527,21 +1529,12 @@
         "Chaotic Evil"
       ]
     },
-    "bg_ability_1": {
-      "type": "select",
-      "label": "Background increase 1",
-      "options": [{"value": "", "label": "—"}, {"value": "strength", "label": "Strength"}, {"value": "dexterity", "label": "Dexterity"}, {"value": "constitution", "label": "Constitution"}, {"value": "intelligence", "label": "Intelligence"}, {"value": "wisdom", "label": "Wisdom"}, {"value": "charisma", "label": "Charisma"}]
-    },
-    "bg_ability_2": {
-      "type": "select",
-      "label": "Background increase 2",
-      "options": [{"value": "", "label": "—"}, {"value": "strength", "label": "Strength"}, {"value": "dexterity", "label": "Dexterity"}, {"value": "constitution", "label": "Constitution"}, {"value": "intelligence", "label": "Intelligence"}, {"value": "wisdom", "label": "Wisdom"}, {"value": "charisma", "label": "Charisma"}]
-    },
-    "bg_ability_3": {
-      "type": "select",
-      "label": "Background increase 3",
-      "options": [{"value": "", "label": "—"}, {"value": "strength", "label": "Strength"}, {"value": "dexterity", "label": "Dexterity"}, {"value": "constitution", "label": "Constitution"}, {"value": "intelligence", "label": "Intelligence"}, {"value": "wisdom", "label": "Wisdom"}, {"value": "charisma", "label": "Charisma"}]
-    },
+    "bg_strength": {"type": "number", "label": "Background increase: Str", "min": 0, "max": 2, "default": 0},
+    "bg_dexterity": {"type": "number", "label": "Background increase: Dex", "min": 0, "max": 2, "default": 0},
+    "bg_constitution": {"type": "number", "label": "Background increase: Con", "min": 0, "max": 2, "default": 0},
+    "bg_intelligence": {"type": "number", "label": "Background increase: Int", "min": 0, "max": 2, "default": 0},
+    "bg_wisdom": {"type": "number", "label": "Background increase: Wis", "min": 0, "max": 2, "default": 0},
+    "bg_charisma": {"type": "number", "label": "Background increase: Cha", "min": 0, "max": 2, "default": 0},
     "strength": {
       "type": "number",
       "label": "Strength (base)",
@@ -1554,7 +1547,7 @@
       "label": "Strength bonus",
       "min": 0,
       "max": 10,
-      "default_from": "(bg_ability_1 == 'strength' ? 1 : 0) + (bg_ability_2 == 'strength' ? 1 : 0) + (bg_ability_3 == 'strength' ? 1 : 0) + 2 * count_each(advancements, row.plus2 == 'strength') + count_each(advancements, row.plus1a == 'strength') + count_each(advancements, row.plus1b == 'strength')"
+      "default_from": "bg_strength + sum_each(feats, row.ability_amount, row.asi == 'strength') + 2 * count_each(advancements, row.plus2 == 'strength') + count_each(advancements, row.plus1a == 'strength') + count_each(advancements, row.plus1b == 'strength')"
     },
     "strength_save_prof": {
       "type": "checkbox",
@@ -1573,7 +1566,7 @@
       "label": "Dexterity bonus",
       "min": 0,
       "max": 10,
-      "default_from": "(bg_ability_1 == 'dexterity' ? 1 : 0) + (bg_ability_2 == 'dexterity' ? 1 : 0) + (bg_ability_3 == 'dexterity' ? 1 : 0) + 2 * count_each(advancements, row.plus2 == 'dexterity') + count_each(advancements, row.plus1a == 'dexterity') + count_each(advancements, row.plus1b == 'dexterity')"
+      "default_from": "bg_dexterity + sum_each(feats, row.ability_amount, row.asi == 'dexterity') + 2 * count_each(advancements, row.plus2 == 'dexterity') + count_each(advancements, row.plus1a == 'dexterity') + count_each(advancements, row.plus1b == 'dexterity')"
     },
     "dexterity_save_prof": {
       "type": "checkbox",
@@ -1592,7 +1585,7 @@
       "label": "Constitution bonus",
       "min": 0,
       "max": 10,
-      "default_from": "(bg_ability_1 == 'constitution' ? 1 : 0) + (bg_ability_2 == 'constitution' ? 1 : 0) + (bg_ability_3 == 'constitution' ? 1 : 0) + 2 * count_each(advancements, row.plus2 == 'constitution') + count_each(advancements, row.plus1a == 'constitution') + count_each(advancements, row.plus1b == 'constitution')"
+      "default_from": "bg_constitution + sum_each(feats, row.ability_amount, row.asi == 'constitution') + 2 * count_each(advancements, row.plus2 == 'constitution') + count_each(advancements, row.plus1a == 'constitution') + count_each(advancements, row.plus1b == 'constitution')"
     },
     "constitution_save_prof": {
       "type": "checkbox",
@@ -1611,7 +1604,7 @@
       "label": "Intelligence bonus",
       "min": 0,
       "max": 10,
-      "default_from": "(bg_ability_1 == 'intelligence' ? 1 : 0) + (bg_ability_2 == 'intelligence' ? 1 : 0) + (bg_ability_3 == 'intelligence' ? 1 : 0) + 2 * count_each(advancements, row.plus2 == 'intelligence') + count_each(advancements, row.plus1a == 'intelligence') + count_each(advancements, row.plus1b == 'intelligence')"
+      "default_from": "bg_intelligence + sum_each(feats, row.ability_amount, row.asi == 'intelligence') + 2 * count_each(advancements, row.plus2 == 'intelligence') + count_each(advancements, row.plus1a == 'intelligence') + count_each(advancements, row.plus1b == 'intelligence')"
     },
     "intelligence_save_prof": {
       "type": "checkbox",
@@ -1630,7 +1623,7 @@
       "label": "Wisdom bonus",
       "min": 0,
       "max": 10,
-      "default_from": "(bg_ability_1 == 'wisdom' ? 1 : 0) + (bg_ability_2 == 'wisdom' ? 1 : 0) + (bg_ability_3 == 'wisdom' ? 1 : 0) + 2 * count_each(advancements, row.plus2 == 'wisdom') + count_each(advancements, row.plus1a == 'wisdom') + count_each(advancements, row.plus1b == 'wisdom')"
+      "default_from": "bg_wisdom + sum_each(feats, row.ability_amount, row.asi == 'wisdom') + 2 * count_each(advancements, row.plus2 == 'wisdom') + count_each(advancements, row.plus1a == 'wisdom') + count_each(advancements, row.plus1b == 'wisdom')"
     },
     "wisdom_save_prof": {
       "type": "checkbox",
@@ -1649,7 +1642,7 @@
       "label": "Charisma bonus",
       "min": 0,
       "max": 10,
-      "default_from": "(bg_ability_1 == 'charisma' ? 1 : 0) + (bg_ability_2 == 'charisma' ? 1 : 0) + (bg_ability_3 == 'charisma' ? 1 : 0) + 2 * count_each(advancements, row.plus2 == 'charisma') + count_each(advancements, row.plus1a == 'charisma') + count_each(advancements, row.plus1b == 'charisma')"
+      "default_from": "bg_charisma + sum_each(feats, row.ability_amount, row.asi == 'charisma') + 2 * count_each(advancements, row.plus2 == 'charisma') + count_each(advancements, row.plus1a == 'charisma') + count_each(advancements, row.plus1b == 'charisma')"
     },
     "charisma_save_prof": {
       "type": "checkbox",
@@ -2175,7 +2168,8 @@
       "content_type": "feat",
       "allow_freeform": true,
       "per_entry_fields": {
-        "from_level": {"type": "number", "label": "From level", "min": 0, "max": 20}
+        "from_level": {"type": "number", "label": "From level", "min": 0, "max": 20},
+        "asi": {"type": "select", "label": "Ability increase", "options": [{"value": "", "label": "—"}, {"value": "strength", "label": "Str"}, {"value": "dexterity", "label": "Dex"}, {"value": "constitution", "label": "Con"}, {"value": "intelligence", "label": "Int"}, {"value": "wisdom", "label": "Wis"}, {"value": "charisma", "label": "Cha"}]}
       }
     },
     "equipment": {
@@ -2783,6 +2777,13 @@
           "visible_if": "answer.choice == 'feat'"
         },
         {
+          "key": "feat_asi",
+          "type": "select",
+          "label": "Ability increase from the feat",
+          "options": "answer.feat.ability_options",
+          "visible_if": "answer.choice == 'feat' and len(answer.feat.ability_options) > 0"
+        },
+        {
           "key": "subclass",
           "type": "entry",
           "label": "Subclass",
@@ -2809,12 +2810,54 @@
           "pick": "feats",
           "entry": "answer.feat",
           "values": {
-            "from_level": "(len(advancements) + 1)"
+            "from_level": "(len(advancements) + 1)",
+            "asi": "answer.feat_asi"
           }
         },
         {
           "pick": "subclass",
           "entry": "answer.subclass"
+        }
+      ]
+    },
+    "background_abilities": {
+      "label": "Background ability increases",
+      "steps": [
+        {
+          "key": "abilities",
+          "type": "distribute",
+          "label": "Ability Score Increase: +2 and +1, or +1 to each of the three",
+          "options": "row.ability_options",
+          "patterns": [
+            "2,1",
+            "1,1,1"
+          ]
+        }
+      ],
+      "apply": [
+        {
+          "set": "bg_strength",
+          "to": "answer.abilities.strength ? answer.abilities.strength : 0"
+        },
+        {
+          "set": "bg_dexterity",
+          "to": "answer.abilities.dexterity ? answer.abilities.dexterity : 0"
+        },
+        {
+          "set": "bg_constitution",
+          "to": "answer.abilities.constitution ? answer.abilities.constitution : 0"
+        },
+        {
+          "set": "bg_intelligence",
+          "to": "answer.abilities.intelligence ? answer.abilities.intelligence : 0"
+        },
+        {
+          "set": "bg_wisdom",
+          "to": "answer.abilities.wisdom ? answer.abilities.wisdom : 0"
+        },
+        {
+          "set": "bg_charisma",
+          "to": "answer.abilities.charisma ? answer.abilities.charisma : 0"
         }
       ]
     }
@@ -2876,22 +2919,9 @@
   "name_field": "hero_name",
   "validators": [
     {
-      "rule": "not (bg_ability_1 != '' && bg_ability_1 == bg_ability_2 && bg_ability_2 == bg_ability_3)",
-      "message": "The same ability in all three background increases would be +3 - a background gives at most +2 to one ability.",
-      "field": "bg_ability_3"
-    },
-    {
       "rule": "ref(lineage, 'species') == '' or ref(lineage, 'species') == ref(species, 'name')",
       "message": "The lineage belongs to another species - pick one of your species' lineages.",
       "field": "lineage"
-    },
-    {
-      "rule": "bg_ability_1 == '' or bg_ability_1 != bg_ability_2 or bg_ability_2 != bg_ability_3",
-      "message": "A background grants +2 and +1, or +1 to three abilities - not +3 to one."
-    },
-    {
-      "rule": "ref(background, 'ability_scores') == '' or ((bg_ability_1 == '' or contains(ref(background, 'ability_scores'), bg_ability_1)) and (bg_ability_2 == '' or contains(ref(background, 'ability_scores'), bg_ability_2)) and (bg_ability_3 == '' or contains(ref(background, 'ability_scores'), bg_ability_3)))",
-      "message": "A background bonus is on an ability your background does not list."
     },
     {
       "rule": "attuned_count <= attune_limit",

@@ -149,11 +149,12 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   Boon of Fortitude adds 40 to the HP maximum, Defense +1 AC in armour
 - **Where a score comes from**: under each ability, the starting score, the
   background bonus and what magic items add; the base box is labelled
-  Starting score; the Bonus box holds the background increases, and the player adds later increases (feats, ASI) there by hand, up to +10
-- **Background increases**: three menus under the background, +1 each (the
-  same ability twice is +2, three times is flagged), with the abilities the
-  background lists beside them; they fill the Bonus boxes. Tools come
-  from the class and the background
+  Starting score; the Bonus box holds the background, level-up and feat increases, and the player can still add more there by hand, up to +10
+- **Background increases**: picking a background opens a window to spread
+  +2 and +1, or +1 to each of the three, over the abilities it lists; the
+  result fills the Bonus boxes, together with the level-up rows and the
+  ability increase set on a feat. Tools come from the class and the
+  background
 - **Attack rows**: damage as large as the hit bonus, with "to hit" and the
   damage type beneath; Unarmed Strike last. **Subclass** from level 3;
   cantrips have no Prepared box
