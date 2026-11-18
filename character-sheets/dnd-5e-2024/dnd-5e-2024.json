@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.17.0",
+  "version": "1.17.1",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -1357,9 +1357,9 @@
     },
     "strength_bonus": {
       "type": "number",
-      "label": "Strength background bonus",
+      "label": "Strength bonus",
       "min": 0,
-      "max": 2,
+      "max": 10,
       "default_from": "(bg_ability_1 == 'strength' ? 1 : 0) + (bg_ability_2 == 'strength' ? 1 : 0) + (bg_ability_3 == 'strength' ? 1 : 0)"
     },
     "strength_save_prof": {
@@ -1376,9 +1376,9 @@
     },
     "dexterity_bonus": {
       "type": "number",
-      "label": "Dexterity background bonus",
+      "label": "Dexterity bonus",
       "min": 0,
-      "max": 2,
+      "max": 10,
       "default_from": "(bg_ability_1 == 'dexterity' ? 1 : 0) + (bg_ability_2 == 'dexterity' ? 1 : 0) + (bg_ability_3 == 'dexterity' ? 1 : 0)"
     },
     "dexterity_save_prof": {
@@ -1395,9 +1395,9 @@
     },
     "constitution_bonus": {
       "type": "number",
-      "label": "Constitution background bonus",
+      "label": "Constitution bonus",
       "min": 0,
-      "max": 2,
+      "max": 10,
       "default_from": "(bg_ability_1 == 'constitution' ? 1 : 0) + (bg_ability_2 == 'constitution' ? 1 : 0) + (bg_ability_3 == 'constitution' ? 1 : 0)"
     },
     "constitution_save_prof": {
@@ -1414,9 +1414,9 @@
     },
     "intelligence_bonus": {
       "type": "number",
-      "label": "Intelligence background bonus",
+      "label": "Intelligence bonus",
       "min": 0,
-      "max": 2,
+      "max": 10,
       "default_from": "(bg_ability_1 == 'intelligence' ? 1 : 0) + (bg_ability_2 == 'intelligence' ? 1 : 0) + (bg_ability_3 == 'intelligence' ? 1 : 0)"
     },
     "intelligence_save_prof": {
@@ -1433,9 +1433,9 @@
     },
     "wisdom_bonus": {
       "type": "number",
-      "label": "Wisdom background bonus",
+      "label": "Wisdom bonus",
       "min": 0,
-      "max": 2,
+      "max": 10,
       "default_from": "(bg_ability_1 == 'wisdom' ? 1 : 0) + (bg_ability_2 == 'wisdom' ? 1 : 0) + (bg_ability_3 == 'wisdom' ? 1 : 0)"
     },
     "wisdom_save_prof": {
@@ -1452,9 +1452,9 @@
     },
     "charisma_bonus": {
       "type": "number",
-      "label": "Charisma background bonus",
+      "label": "Charisma bonus",
       "min": 0,
-      "max": 2,
+      "max": 10,
       "default_from": "(bg_ability_1 == 'charisma' ? 1 : 0) + (bg_ability_2 == 'charisma' ? 1 : 0) + (bg_ability_3 == 'charisma' ? 1 : 0)"
     },
     "charisma_save_prof": {
@@ -2561,11 +2561,11 @@
       "field": "lineage"
     },
     {
-      "rule": "strength_bonus + dexterity_bonus + constitution_bonus + intelligence_bonus + wisdom_bonus + charisma_bonus <= 3",
-      "message": "A background grants +2 and +1, or +1 to three abilities - 3 in total."
+      "rule": "bg_ability_1 == '' or bg_ability_1 != bg_ability_2 or bg_ability_2 != bg_ability_3",
+      "message": "A background grants +2 and +1, or +1 to three abilities - not +3 to one."
     },
     {
-      "rule": "ref(background, 'ability_scores') == '' or ((strength_bonus == 0 or contains(ref(background, 'ability_scores'), 'strength')) and (dexterity_bonus == 0 or contains(ref(background, 'ability_scores'), 'dexterity')) and (constitution_bonus == 0 or contains(ref(background, 'ability_scores'), 'constitution')) and (intelligence_bonus == 0 or contains(ref(background, 'ability_scores'), 'intelligence')) and (wisdom_bonus == 0 or contains(ref(background, 'ability_scores'), 'wisdom')) and (charisma_bonus == 0 or contains(ref(background, 'ability_scores'), 'charisma')))",
+      "rule": "ref(background, 'ability_scores') == '' or ((bg_ability_1 == '' or contains(ref(background, 'ability_scores'), bg_ability_1)) and (bg_ability_2 == '' or contains(ref(background, 'ability_scores'), bg_ability_2)) and (bg_ability_3 == '' or contains(ref(background, 'ability_scores'), bg_ability_3)))",
       "message": "A background bonus is on an ability your background does not list."
     },
     {
