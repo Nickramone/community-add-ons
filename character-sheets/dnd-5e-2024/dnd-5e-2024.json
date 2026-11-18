@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.19.2",
+  "version": "1.19.3",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -453,6 +453,14 @@
           "type": "text",
           "label": "Prerequisite"
         },
+        "prereq_level": {"type": "number", "label": "Prerequisite Level", "min": 0},
+        "prereq_abilities": {"type": "text", "label": "Prerequisite Abilities"},
+        "prereq_feats": {"type": "text", "label": "Prerequisite Feats"},
+        "prereq_spellcasting": {"type": "checkbox", "label": "Prerequisite Spellcasting"},
+        "prereq_proficiencies": {"type": "text", "label": "Prerequisite Proficiencies"},
+        "ability_options": {"type": "text", "label": "Ability Increase Options"},
+        "ability_amount": {"type": "number", "label": "Ability Increase Amount", "min": 0},
+        "ability_max": {"type": "number", "label": "Ability Increase Maximum", "min": 0},
         "description": {
           "type": "textarea",
           "label": "Description"
