@@ -167,6 +167,12 @@
                     "choose"
                   ],
                   "description": "Ask the player to choose 'count' values from the entry's 'from' list, into a multiselect."
+                },
+                {
+                  "required": [
+                    "prompt"
+                  ],
+                  "description": "Open one of the sheet's 'prompts', reading the picked entry as row."
                 }
               ],
               "properties": {
@@ -177,6 +183,10 @@
                 "choose": {
                   "type": "string",
                   "description": "The multiselect field to choose into."
+                },
+                "prompt": {
+                  "type": "string",
+                  "description": "The name of a prompt to open."
                 },
                 "from": {
                   "type": "string",
