@@ -15,6 +15,11 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
 
 ## What it covers
 
+- **Level-ups**: one row per level (class, hit die, HP rolled or the average,
+  and a choice: Ability Score Improvement as +2 / +1 / +1 columns, feat,
+  subclass, spells). The level, maximum hit points (first level at the full
+  die) and the Proficiency Bonus follow the rows; a sheet with no rows keeps
+  using the Level field. The ASI picks add to the ability scores
 - **Abilities** with live modifiers, and saving throws that add proficiency
   where you have it
 - **Armour class, initiative, passive Perception and proficiency bonus**, all

@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.18.1",
+  "version": "1.19.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -1232,7 +1232,186 @@
       "label": "Level",
       "min": 1,
       "max": 20,
-      "default": 1
+      "default": 1,
+      "default_from": "len(advancements)"
+    },
+    "advancements": {
+      "type": "list",
+      "label": "Level-ups",
+      "add_label": "Level up",
+      "empty_text": "One row per level. Level, hit points, spell slots and Proficiency Bonus follow the rows; with no rows the Level field counts.",
+      "columns": [
+        {
+          "key": "class",
+          "label": "Class",
+          "type": "text",
+          "flex": 2,
+          "default_from": "ref(klass, 'name')"
+        },
+        {
+          "key": "hit_die",
+          "label": "Hit die",
+          "type": "number",
+          "min": 0,
+          "max": 20,
+          "flex": 1,
+          "default_from": "ref(klass, 'hit_die')"
+        },
+        {
+          "key": "hp",
+          "label": "HP rolled (0 = average)",
+          "type": "number",
+          "min": 0,
+          "default": 0,
+          "flex": 1
+        },
+        {
+          "key": "choice",
+          "label": "Choice",
+          "type": "select",
+          "flex": 2,
+          "default": "",
+          "options": [
+            {
+              "value": "",
+              "label": "-"
+            },
+            {
+              "value": "asi",
+              "label": "Ability Score Improvement"
+            },
+            {
+              "value": "feat",
+              "label": "Feat"
+            },
+            {
+              "value": "subclass",
+              "label": "Subclass"
+            },
+            {
+              "value": "spells",
+              "label": "Spells"
+            }
+          ]
+        },
+        {
+          "key": "plus2",
+          "label": "+2",
+          "type": "select",
+          "flex": 1,
+          "default": "",
+          "options": [
+            {
+              "value": "",
+              "label": "-"
+            },
+            {
+              "value": "strength",
+              "label": "Str"
+            },
+            {
+              "value": "dexterity",
+              "label": "Dex"
+            },
+            {
+              "value": "constitution",
+              "label": "Con"
+            },
+            {
+              "value": "intelligence",
+              "label": "Int"
+            },
+            {
+              "value": "wisdom",
+              "label": "Wis"
+            },
+            {
+              "value": "charisma",
+              "label": "Cha"
+            }
+          ]
+        },
+        {
+          "key": "plus1a",
+          "label": "+1",
+          "type": "select",
+          "flex": 1,
+          "default": "",
+          "options": [
+            {
+              "value": "",
+              "label": "-"
+            },
+            {
+              "value": "strength",
+              "label": "Str"
+            },
+            {
+              "value": "dexterity",
+              "label": "Dex"
+            },
+            {
+              "value": "constitution",
+              "label": "Con"
+            },
+            {
+              "value": "intelligence",
+              "label": "Int"
+            },
+            {
+              "value": "wisdom",
+              "label": "Wis"
+            },
+            {
+              "value": "charisma",
+              "label": "Cha"
+            }
+          ]
+        },
+        {
+          "key": "plus1b",
+          "label": "+1",
+          "type": "select",
+          "flex": 1,
+          "default": "",
+          "options": [
+            {
+              "value": "",
+              "label": "-"
+            },
+            {
+              "value": "strength",
+              "label": "Str"
+            },
+            {
+              "value": "dexterity",
+              "label": "Dex"
+            },
+            {
+              "value": "constitution",
+              "label": "Con"
+            },
+            {
+              "value": "intelligence",
+              "label": "Int"
+            },
+            {
+              "value": "wisdom",
+              "label": "Wis"
+            },
+            {
+              "value": "charisma",
+              "label": "Cha"
+            }
+          ]
+        },
+        {
+          "key": "notes",
+          "label": "Notes",
+          "type": "text",
+          "flex": 2
+        }
+      ]
     },
     "xp": {
       "type": "number",
@@ -1360,7 +1539,7 @@
       "label": "Strength bonus",
       "min": 0,
       "max": 10,
-      "default_from": "(bg_ability_1 == 'strength' ? 1 : 0) + (bg_ability_2 == 'strength' ? 1 : 0) + (bg_ability_3 == 'strength' ? 1 : 0)"
+      "default_from": "(bg_ability_1 == 'strength' ? 1 : 0) + (bg_ability_2 == 'strength' ? 1 : 0) + (bg_ability_3 == 'strength' ? 1 : 0) + 2 * count_each(advancements, row.plus2 == 'strength') + count_each(advancements, row.plus1a == 'strength') + count_each(advancements, row.plus1b == 'strength')"
     },
     "strength_save_prof": {
       "type": "checkbox",
@@ -1379,7 +1558,7 @@
       "label": "Dexterity bonus",
       "min": 0,
       "max": 10,
-      "default_from": "(bg_ability_1 == 'dexterity' ? 1 : 0) + (bg_ability_2 == 'dexterity' ? 1 : 0) + (bg_ability_3 == 'dexterity' ? 1 : 0)"
+      "default_from": "(bg_ability_1 == 'dexterity' ? 1 : 0) + (bg_ability_2 == 'dexterity' ? 1 : 0) + (bg_ability_3 == 'dexterity' ? 1 : 0) + 2 * count_each(advancements, row.plus2 == 'dexterity') + count_each(advancements, row.plus1a == 'dexterity') + count_each(advancements, row.plus1b == 'dexterity')"
     },
     "dexterity_save_prof": {
       "type": "checkbox",
@@ -1398,7 +1577,7 @@
       "label": "Constitution bonus",
       "min": 0,
       "max": 10,
-      "default_from": "(bg_ability_1 == 'constitution' ? 1 : 0) + (bg_ability_2 == 'constitution' ? 1 : 0) + (bg_ability_3 == 'constitution' ? 1 : 0)"
+      "default_from": "(bg_ability_1 == 'constitution' ? 1 : 0) + (bg_ability_2 == 'constitution' ? 1 : 0) + (bg_ability_3 == 'constitution' ? 1 : 0) + 2 * count_each(advancements, row.plus2 == 'constitution') + count_each(advancements, row.plus1a == 'constitution') + count_each(advancements, row.plus1b == 'constitution')"
     },
     "constitution_save_prof": {
       "type": "checkbox",
@@ -1417,7 +1596,7 @@
       "label": "Intelligence bonus",
       "min": 0,
       "max": 10,
-      "default_from": "(bg_ability_1 == 'intelligence' ? 1 : 0) + (bg_ability_2 == 'intelligence' ? 1 : 0) + (bg_ability_3 == 'intelligence' ? 1 : 0)"
+      "default_from": "(bg_ability_1 == 'intelligence' ? 1 : 0) + (bg_ability_2 == 'intelligence' ? 1 : 0) + (bg_ability_3 == 'intelligence' ? 1 : 0) + 2 * count_each(advancements, row.plus2 == 'intelligence') + count_each(advancements, row.plus1a == 'intelligence') + count_each(advancements, row.plus1b == 'intelligence')"
     },
     "intelligence_save_prof": {
       "type": "checkbox",
@@ -1436,7 +1615,7 @@
       "label": "Wisdom bonus",
       "min": 0,
       "max": 10,
-      "default_from": "(bg_ability_1 == 'wisdom' ? 1 : 0) + (bg_ability_2 == 'wisdom' ? 1 : 0) + (bg_ability_3 == 'wisdom' ? 1 : 0)"
+      "default_from": "(bg_ability_1 == 'wisdom' ? 1 : 0) + (bg_ability_2 == 'wisdom' ? 1 : 0) + (bg_ability_3 == 'wisdom' ? 1 : 0) + 2 * count_each(advancements, row.plus2 == 'wisdom') + count_each(advancements, row.plus1a == 'wisdom') + count_each(advancements, row.plus1b == 'wisdom')"
     },
     "wisdom_save_prof": {
       "type": "checkbox",
@@ -1455,7 +1634,7 @@
       "label": "Charisma bonus",
       "min": 0,
       "max": 10,
-      "default_from": "(bg_ability_1 == 'charisma' ? 1 : 0) + (bg_ability_2 == 'charisma' ? 1 : 0) + (bg_ability_3 == 'charisma' ? 1 : 0)"
+      "default_from": "(bg_ability_1 == 'charisma' ? 1 : 0) + (bg_ability_2 == 'charisma' ? 1 : 0) + (bg_ability_3 == 'charisma' ? 1 : 0) + 2 * count_each(advancements, row.plus2 == 'charisma') + count_each(advancements, row.plus1a == 'charisma') + count_each(advancements, row.plus1b == 'charisma')"
     },
     "charisma_save_prof": {
       "type": "checkbox",
@@ -1467,7 +1646,7 @@
       "label": "HP Maximum",
       "min": 0,
       "default": 8,
-      "default_from": "ref(klass, 'hit_die') ? ref(klass, 'hit_die') + floor((constitution - 10) / 2) + (level - 1) * (floor(ref(klass, 'hit_die') / 2) + 1 + floor((constitution - 10) / 2)) + (has_ref(species_traits, 'dwarf-dwarven-toughness-xphb') ? level : 0) + (has_ref(feats, 'tough-xphb') ? 2 * level : 0) + (has_ref(feats, 'boon-of-fortitude-xphb') ? 40 : 0) : ''"
+      "default_from": "len(advancements) > 0 ? (at(advancements, 0, 'hit_die') ? at(advancements, 0, 'hit_die') : ref(klass, 'hit_die')) - (at(advancements, 0, 'hp') > 0 ? at(advancements, 0, 'hp') : floor((at(advancements, 0, 'hit_die') ? at(advancements, 0, 'hit_die') : ref(klass, 'hit_die')) / 2) + 1) + sum_each(advancements, (row.hp > 0 ? row.hp : floor((row.hit_die ? row.hit_die : ref(klass, 'hit_die')) / 2) + 1)) + len(advancements) * floor((constitution - 10) / 2) + (has_ref(species_traits, 'dwarf-dwarven-toughness-xphb') ? (len(advancements) > 0 ? len(advancements) : level) : 0) + (has_ref(feats, 'tough-xphb') ? 2 * (len(advancements) > 0 ? len(advancements) : level) : 0) + (has_ref(feats, 'boon-of-fortitude-xphb') ? 40 : 0) : (ref(klass, 'hit_die') ? ref(klass, 'hit_die') + floor((constitution - 10) / 2) + (level - 1) * (floor(ref(klass, 'hit_die') / 2) + 1 + floor((constitution - 10) / 2)) + (has_ref(species_traits, 'dwarf-dwarven-toughness-xphb') ? level : 0) + (has_ref(feats, 'tough-xphb') ? 2 * level : 0) + (has_ref(feats, 'boon-of-fortitude-xphb') ? 40 : 0) : '')"
     },
     "hp_current": {
       "type": "number",
@@ -1484,7 +1663,7 @@
     "hit_dice": {
       "type": "text",
       "label": "Hit Dice",
-      "default_from": "ref(klass, 'hit_die') ? concat(level, 'd', ref(klass, 'hit_die')) : ''",
+      "default_from": "ref(klass, 'hit_die') ? concat((len(advancements) > 0 ? len(advancements) : level), 'd', ref(klass, 'hit_die')) : ''",
       "placeholder": "e.g. 5d10 + 2d6"
     },
     "hit_dice_spent": {
@@ -1774,7 +1953,7 @@
       "min": 0,
       "max": 20,
       "default": 0,
-      "default_from": "ref(klass, 'caster_type') == 'full' ? level : (ref(klass, 'caster_type') == 'half' ? ceil(level / 2) : 0)"
+      "default_from": "ref(klass, 'caster_type') == 'full' ? (len(advancements) > 0 ? len(advancements) : level) : (ref(klass, 'caster_type') == 'half' ? ceil((len(advancements) > 0 ? len(advancements) : level) / 2) : 0)"
     },
     "slots_1_total": {
       "type": "number",
@@ -1917,7 +2096,7 @@
       "min": 0,
       "max": 9,
       "default": 0,
-      "default_from": "ref(klass, 'caster_type') == 'pact' ? (level >= 17 ? 4 : (level >= 11 ? 3 : (level >= 2 ? 2 : 1))) : 0"
+      "default_from": "ref(klass, 'caster_type') == 'pact' ? ((len(advancements) > 0 ? len(advancements) : level) >= 17 ? 4 : ((len(advancements) > 0 ? len(advancements) : level) >= 11 ? 3 : ((len(advancements) > 0 ? len(advancements) : level) >= 2 ? 2 : 1))) : 0"
     },
     "pact_slot_level": {
       "type": "number",
@@ -1925,7 +2104,7 @@
       "min": 0,
       "max": 5,
       "default": 0,
-      "default_from": "ref(klass, 'caster_type') == 'pact' ? min(5, ceil(level / 2)) : 0"
+      "default_from": "ref(klass, 'caster_type') == 'pact' ? min(5, ceil((len(advancements) > 0 ? len(advancements) : level) / 2)) : 0"
     },
     "pact_slots_used": {
       "type": "number",
