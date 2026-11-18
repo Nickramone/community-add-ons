@@ -679,3 +679,30 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 6px;
 }
+
+/* 1.17.0: explanations behind an info icon, extra damage beneath the weapon's */
+.box-info {
+  margin-top: -22px;
+}
+.box-info > summary {
+  width: max-content;
+  margin-left: auto;
+  padding: 0 2px;
+  list-style: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1;
+}
+.box-info[open] > summary {
+  color: var(--gold);
+}
+.box-info > .hint {
+  margin: 0;
+}
+.atk-extra {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+}

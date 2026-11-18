@@ -146,6 +146,11 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
 - **Attack rows**: damage as large as the hit bonus, with "to hit" and the
   damage type beneath; Unarmed Strike last. **Subclass** from level 3;
   cantrips have no Prepared box
+- **Extra damage of magic weapons**: a magic item's Extra Damage (Sword of
+  Wounding: 2d6 necrotic) shows beneath the weapon's damage in its attack row;
+  Conditional Extra Damage (Flame Tongue, Slayer) shows as a note, not added.
+  The explanations of Attacks and Resources sit behind the ⓘ beside the
+  heading; the Resources headings appear only when they have rows
 - **Attacks list**, feats, and a catalogue of classes, subclasses, species,
   backgrounds, feats
   and spells
