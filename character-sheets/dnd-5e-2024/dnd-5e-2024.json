@@ -2714,7 +2714,7 @@
           "default": "0",
           "average": "0",
           "min": 0,
-          "max": "ref(klass, 'hit_die')"
+          "max": 12
         },
         {
           "key": "choice",
