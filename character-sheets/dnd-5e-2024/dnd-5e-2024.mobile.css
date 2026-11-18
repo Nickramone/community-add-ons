@@ -706,3 +706,8 @@
   color: var(--text);
   white-space: nowrap;
 }
+
+/* 1.17.2: no placeholder text under an empty Resources list */
+.res-list .gc-list > p {
+  display: none;
+}

@@ -66,7 +66,6 @@
 
   <section class="box effects">
     <h3 class="box-heading">Active Effects · <g-value name="active_effects" /></h3>
-    <g-if test="active_effects == 0"><p class="hint">Nothing active. Set exhaustion, concentration and conditions below.</p></g-if>
     <g-if test="exhaustion > 0">
       <g-if test="campaign_rules"><p class="effect warn"><strong>Exhaustion <g-value name="exhaustion" /></strong> −<g-value name="exhaustion_flat" /> to AC, spell save DC, saving throws, ability checks, attack rolls and damage<g-if test="exhaustion >= 3">; Speed −10 ft</g-if>. Level 6 is death. A long rest removes 2 levels, Lesser Restoration 1, Greater Restoration all.</p></g-if>
       <g-if test="not campaign_rules"><p class="effect warn"><strong>Exhaustion <g-value name="exhaustion" /></strong> −<g-value name="exhaustion_d20" /> to every d20 Test; Speed −<g-value name="exhaustion_speed" /> ft. Level 6 is death. A long rest removes 1 level.</p></g-if>
@@ -87,7 +86,6 @@
     <g-if test="contains(conditions, 'Restrained')"><p class="effect"><strong>Restrained</strong> Speed 0. Disadvantage on Dex saves and on your attacks; attacks against you have Advantage.</p></g-if>
     <g-if test="contains(conditions, 'Stunned')"><p class="effect"><strong>Stunned</strong> Incapacitated. Fail Str and Dex saves. Attacks against you have Advantage.</p></g-if>
     <g-if test="contains(conditions, 'Unconscious')"><p class="effect"><strong>Unconscious</strong> Incapacitated and Prone, drop what you hold, Speed 0. Fail Str and Dex saves. Attacks against you have Advantage; a hit from within 5 ft is a Critical Hit.</p></g-if>
-    <g-if test="exhaustion > 0"><p class="hint">Saves, skills, initiative, AC and the attack bonuses on this sheet already include the exhaustion penalty.</p></g-if>
     <div class="exh"><span class="tiny">Exhaustion</span><g-pips count="6" value="exhaustion" label="Exhaustion level" /><span class="exh-num"><g-field name="exhaustion" label="" variant="compact" /></span></div>
     <div class="line"><g-field name="concentration" label="" /><span class="tiny">Concentrating On</span></div>
     <details class="sub">
@@ -137,10 +135,6 @@
         <div class="line"><g-field name="source" label="" /><span class="tiny">From</span></div>
       </div>
     </g-repeat>
-    <details class="sub">
-      <summary>Add, remove or reorder</summary>
-      <g-field name="resources" label="" />
-    </details>
     <g-if test="count_each(features, row.uses || row.uses_by_level || row.uses_ability) > 0"><p class="tiny res-hd">Class feature uses</p></g-if>
     <g-repeat over="features" where="row.uses || row.uses_by_level || row.uses_ability">
       <div class="res">
@@ -172,6 +166,10 @@
         </div>
       </div>
     </g-repeat>
+    <details class="sub res-list">
+      <summary>Add, remove or reorder</summary>
+      <g-field name="resources" label="" />
+    </details>
     <div class="rest-buttons"><g-action name="short_rest" label="Short rest"></g-action> <g-action name="long_rest" label="Long rest"></g-action></div>
   </section>
 

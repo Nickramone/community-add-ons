@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.17.1",
+  "version": "1.17.2",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -1496,7 +1496,6 @@
       "type": "list",
       "label": "Resources",
       "add_label": "Add resource",
-      "empty_text": "Rage, Channel Divinity, Second Wind, a wand's charges.",
       "columns": [
         {
           "key": "resource",
