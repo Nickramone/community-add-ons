@@ -741,4 +741,6 @@
 .mastery-info > .hint {
   margin: 2px 0 0;
   white-space: normal;
+  text-transform: none;
+  letter-spacing: normal;
 }

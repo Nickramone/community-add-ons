@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.24.0",
+  "version": "1.24.1",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -759,6 +759,8 @@
         "prereq_spellcasting": {"type": "checkbox", "label": "Prerequisite Spellcasting"},
         "prereq_proficiencies": {"type": "text", "label": "Prerequisite Proficiencies"},
         "ability_options": {"type": "multiselect", "label": "Ability Increase Options", "options": [{"value": "strength", "label": "Str"}, {"value": "dexterity", "label": "Dex"}, {"value": "constitution", "label": "Con"}, {"value": "intelligence", "label": "Int"}, {"value": "wisdom", "label": "Wis"}, {"value": "charisma", "label": "Cha"}]},
+        "tool_options": {"type": "multiselect", "label": "Tool Options", "options": ["Alchemist's Supplies", "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools", "Cartographer's Tools", "Cobbler's Tools", "Cook's Utensils", "Glassblower's Tools", "Jeweler's Tools", "Leatherworker's Tools", "Mason's Tools", "Painter's Supplies", "Potter's Tools", "Smith's Tools", "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools", "Bagpipes", "Drum", "Dulcimer", "Flute", "Horn", "Lute", "Lyre", "Pan Flute", "Shawm", "Viol", "Dice Set", "Dragonchess Set", "Playing Cards", "Three-Dragon Ante Set", "Disguise Kit", "Forgery Kit", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit", "Thieves' Tools"]},
+        "tool_count": {"type": "number", "label": "Tools to Choose", "min": 0},
         "ability_amount": {"type": "number", "label": "Ability Increase Amount", "min": 0},
         "ability_max": {"type": "number", "label": "Ability Increase Maximum", "min": 0},
         "description": {
@@ -1547,6 +1549,7 @@
       "default": 1,
       "default_from": "len(advancements)"
     },
+    "tool_profs": {"type": "multiselect", "label": "Tool proficiencies chosen", "options": ["Alchemist's Supplies", "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools", "Cartographer's Tools", "Cobbler's Tools", "Cook's Utensils", "Glassblower's Tools", "Jeweler's Tools", "Leatherworker's Tools", "Mason's Tools", "Painter's Supplies", "Potter's Tools", "Smith's Tools", "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools", "Bagpipes", "Drum", "Dulcimer", "Flute", "Horn", "Lute", "Lyre", "Pan Flute", "Shawm", "Viol", "Dice Set", "Dragonchess Set", "Playing Cards", "Three-Dragon Ante Set", "Disguise Kit", "Forgery Kit", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit", "Thieves' Tools"]},
     "language_profs": {"type": "multiselect", "label": "Languages", "options": ["Common", "Common Sign Language", "Draconic", "Dwarvish", "Elvish", "Giant", "Gnomish", "Goblin", "Halfling", "Orc", "Abyssal", "Celestial", "Deep Speech", "Druidic", "Infernal", "Primordial", "Sylvan", "Thieves' Cant", "Undercommon"], "default": ["Common"]},
     "advancements": {
       "type": "list",
@@ -1704,6 +1707,7 @@
           "key": "notes",
           "label": "Notes",
           "type": "text",
+          "readonly": true,
           "flex": 2
         }
       ]
@@ -2449,6 +2453,7 @@
       "label": "Feats",
       "content_type": "feat",
       "allow_freeform": true,
+      "on_pick": [{"prompt": "feat_tools"}],
       "per_entry_fields": {
         "from_level": {"type": "number", "label": "From level", "min": 0, "max": 20, "visible_if": "false"},
         "asi": {"type": "select", "label": "Ability increase", "visible_if": "len(row.ability_options) > 0", "options": [{"value": "", "label": "—"}, {"value": "strength", "label": "Str"}, {"value": "dexterity", "label": "Dex"}, {"value": "constitution", "label": "Con"}, {"value": "intelligence", "label": "Int"}, {"value": "wisdom", "label": "Wis"}, {"value": "charisma", "label": "Cha"}]}
@@ -3153,6 +3158,26 @@
             "subclass": "ref(subclass, 'name')"
           },
           "source": "subclass"
+        }
+      ]
+    },
+    "feat_tools": {
+      "label": "Feat tools",
+      "steps": [
+        {
+          "key": "tools",
+          "type": "choose",
+          "target": "tool_profs",
+          "options": "row.tool_options",
+          "count": "row.tool_count",
+          "label": "Tool proficiencies",
+          "visible_if": "len(row.tool_options) > 0"
+        }
+      ],
+      "apply": [
+        {
+          "add": "tool_profs",
+          "values": "answer.tools"
         }
       ]
     },
