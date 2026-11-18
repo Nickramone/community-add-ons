@@ -640,3 +640,42 @@
 .atk-note {
   font-size: 12px;
 }
+
+/* 1.16.1: attack numbers as large as the hit bonus, labels beneath; background increases */
+.atk {
+  grid-template-columns: minmax(0, 1fr) 64px 104px;
+}
+
+.atk-hit,
+.atk-dmg {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.atk-dmg {
+  align-items: flex-end;
+}
+
+.atk-num {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.atk-label {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.bg-abilities {
+  margin-top: 6px;
+}
+
+.bg-picks {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}

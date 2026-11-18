@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.16.0",
+  "version": "1.16.1",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -1325,6 +1325,21 @@
         "Chaotic Evil"
       ]
     },
+    "bg_ability_1": {
+      "type": "select",
+      "label": "Background increase 1",
+      "options": [{"value": "", "label": "—"}, {"value": "strength", "label": "Strength"}, {"value": "dexterity", "label": "Dexterity"}, {"value": "constitution", "label": "Constitution"}, {"value": "intelligence", "label": "Intelligence"}, {"value": "wisdom", "label": "Wisdom"}, {"value": "charisma", "label": "Charisma"}]
+    },
+    "bg_ability_2": {
+      "type": "select",
+      "label": "Background increase 2",
+      "options": [{"value": "", "label": "—"}, {"value": "strength", "label": "Strength"}, {"value": "dexterity", "label": "Dexterity"}, {"value": "constitution", "label": "Constitution"}, {"value": "intelligence", "label": "Intelligence"}, {"value": "wisdom", "label": "Wisdom"}, {"value": "charisma", "label": "Charisma"}]
+    },
+    "bg_ability_3": {
+      "type": "select",
+      "label": "Background increase 3",
+      "options": [{"value": "", "label": "—"}, {"value": "strength", "label": "Strength"}, {"value": "dexterity", "label": "Dexterity"}, {"value": "constitution", "label": "Constitution"}, {"value": "intelligence", "label": "Intelligence"}, {"value": "wisdom", "label": "Wisdom"}, {"value": "charisma", "label": "Charisma"}]
+    },
     "strength": {
       "type": "number",
       "label": "Strength (base)",
@@ -1337,7 +1352,7 @@
       "label": "Strength background bonus",
       "min": 0,
       "max": 2,
-      "default": 0
+      "default_from": "(bg_ability_1 == 'strength' ? 1 : 0) + (bg_ability_2 == 'strength' ? 1 : 0) + (bg_ability_3 == 'strength' ? 1 : 0)"
     },
     "strength_save_prof": {
       "type": "checkbox",
@@ -1356,7 +1371,7 @@
       "label": "Dexterity background bonus",
       "min": 0,
       "max": 2,
-      "default": 0
+      "default_from": "(bg_ability_1 == 'dexterity' ? 1 : 0) + (bg_ability_2 == 'dexterity' ? 1 : 0) + (bg_ability_3 == 'dexterity' ? 1 : 0)"
     },
     "dexterity_save_prof": {
       "type": "checkbox",
@@ -1375,7 +1390,7 @@
       "label": "Constitution background bonus",
       "min": 0,
       "max": 2,
-      "default": 0
+      "default_from": "(bg_ability_1 == 'constitution' ? 1 : 0) + (bg_ability_2 == 'constitution' ? 1 : 0) + (bg_ability_3 == 'constitution' ? 1 : 0)"
     },
     "constitution_save_prof": {
       "type": "checkbox",
@@ -1394,7 +1409,7 @@
       "label": "Intelligence background bonus",
       "min": 0,
       "max": 2,
-      "default": 0
+      "default_from": "(bg_ability_1 == 'intelligence' ? 1 : 0) + (bg_ability_2 == 'intelligence' ? 1 : 0) + (bg_ability_3 == 'intelligence' ? 1 : 0)"
     },
     "intelligence_save_prof": {
       "type": "checkbox",
@@ -1413,7 +1428,7 @@
       "label": "Wisdom background bonus",
       "min": 0,
       "max": 2,
-      "default": 0
+      "default_from": "(bg_ability_1 == 'wisdom' ? 1 : 0) + (bg_ability_2 == 'wisdom' ? 1 : 0) + (bg_ability_3 == 'wisdom' ? 1 : 0)"
     },
     "wisdom_save_prof": {
       "type": "checkbox",
@@ -1432,7 +1447,7 @@
       "label": "Charisma background bonus",
       "min": 0,
       "max": 2,
-      "default": 0
+      "default_from": "(bg_ability_1 == 'charisma' ? 1 : 0) + (bg_ability_2 == 'charisma' ? 1 : 0) + (bg_ability_3 == 'charisma' ? 1 : 0)"
     },
     "charisma_save_prof": {
       "type": "checkbox",
@@ -1932,7 +1947,8 @@
         },
         "prepared": {
           "type": "checkbox",
-          "label": "Prepared"
+          "label": "Prepared",
+          "visible_if": "row.level > 0 or row._inline"
         }
       },
       "display_columns": [
@@ -2105,7 +2121,8 @@
     "tool_training": {
       "type": "textarea",
       "label": "Tools",
-      "rows": 2
+      "rows": 2,
+      "default_from": "ref(klass, 'tool_proficiencies') != '' && ref(background, 'tool_proficiencies') != '' ? concat(ref(klass, 'tool_proficiencies'), '; ', ref(background, 'tool_proficiencies')) : concat(ref(klass, 'tool_proficiencies'), ref(background, 'tool_proficiencies'))"
     },
     "languages": {
       "type": "textarea",
@@ -2525,6 +2542,11 @@
   "styles_file": "dnd-5e-2024.css",
   "name_field": "hero_name",
   "validators": [
+    {
+      "rule": "not (bg_ability_1 != '' && bg_ability_1 == bg_ability_2 && bg_ability_2 == bg_ability_3)",
+      "message": "The same ability in all three background increases would be +3 - a background gives at most +2 to one ability.",
+      "field": "bg_ability_3"
+    },
     {
       "rule": "ref(lineage, 'species') == '' or ref(lineage, 'species') == ref(species, 'name')",
       "message": "The lineage belongs to another species - pick one of your species' lineages.",
