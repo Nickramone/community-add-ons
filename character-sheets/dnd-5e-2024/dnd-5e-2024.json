@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.23.0",
+  "version": "1.23.1",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -2467,8 +2467,8 @@
       "content_type": "feat",
       "allow_freeform": true,
       "per_entry_fields": {
-        "from_level": {"type": "number", "label": "From level", "min": 0, "max": 20},
-        "asi": {"type": "select", "label": "Ability increase", "options": [{"value": "", "label": "—"}, {"value": "strength", "label": "Str"}, {"value": "dexterity", "label": "Dex"}, {"value": "constitution", "label": "Con"}, {"value": "intelligence", "label": "Int"}, {"value": "wisdom", "label": "Wis"}, {"value": "charisma", "label": "Cha"}]}
+        "from_level": {"type": "number", "label": "From level", "min": 0, "max": 20, "visible_if": "false"},
+        "asi": {"type": "select", "label": "Ability increase", "visible_if": "len(row.ability_options) > 0", "options": [{"value": "", "label": "—"}, {"value": "strength", "label": "Str"}, {"value": "dexterity", "label": "Dex"}, {"value": "constitution", "label": "Con"}, {"value": "intelligence", "label": "Int"}, {"value": "wisdom", "label": "Wis"}, {"value": "charisma", "label": "Cha"}]}
       }
     },
     "equipment": {
@@ -2485,7 +2485,8 @@
         },
         "equipped": {
           "type": "checkbox",
-          "label": "Eq."
+          "label": "Eq.",
+          "visible_if": "row._inline or contains('Melee Weapon,Ranged Weapon,Light Armor,Medium Armor,Heavy Armor,Shield,Spellcasting Focus', row.category)"
         }
       },
       "display_columns": [

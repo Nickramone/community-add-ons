@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": "2026-11-18T16:33:46Z",
+  "generated": "2026-11-18T21:28:18Z",
   "sheets": [
     {
       "id": "basic-fantasy",
@@ -125,9 +125,9 @@
     {
       "id": "dnd-5e-2024",
       "name": "D&D 5th Edition (2024)",
-      "version": "1.23.0",
+      "version": "1.23.1",
       "path": "character-sheets/dnd-5e-2024/dnd-5e-2024.json",
-      "sha256": "d556324a131a99fa6a1a341076a4b520f626d69f033366e7aad790efcd322c3d",
+      "sha256": "a332613672f1e53977374224be2effee6f2a572bca9996cd74871eb2a1160027",
       "custom_layout": true,
       "custom_mobile_layout": true,
       "field_count": 109,
