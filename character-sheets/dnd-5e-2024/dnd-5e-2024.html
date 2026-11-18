@@ -54,11 +54,6 @@
     </div>
   </header>
 
-  <details class="extras box levelups">
-    <summary>Level-ups</summary>
-    <g-field name="advancements" label="" />
-  </details>
-
   <div class="page-one">
     <div class="abilities">
       <div class="abilities-col">
@@ -342,7 +337,7 @@
 
 </g-tab>
 
-<g-tab title="Spells &amp; Details">
+<g-tab title="Spells &amp; Equipment">
 
   <div class="page-two">
     <div class="p2-main">
@@ -401,20 +396,6 @@
     </div>
 
     <div class="p2-side">
-      <section class="box appearance">
-        <h3 class="box-heading">Appearance</h3>
-        <g-portrait class="appearance-art" />
-        <g-field name="appearance" label="" />
-      </section>
-      <section class="box">
-        <h3 class="box-heading">Backstory &amp; Personality</h3>
-        <g-field name="backstory" label="" />
-        <span class="tiny">Alignment</span><g-field name="alignment" label="" />
-      </section>
-      <section class="box">
-        <h3 class="box-heading">Languages</h3>
-        <g-field name="languages" label="" />
-      </section>
       <section class="box attunement">
         <h3 class="box-heading">Magic Item Attunement</h3>
         <span class="big"><g-value name="attuned_count" /> / 3</span>
@@ -430,6 +411,36 @@
           <div><span class="tiny">GP</span><g-field name="gp" label="" variant="compact" /></div>
           <div><span class="tiny">PP</span><g-field name="pp" label="" variant="compact" /></div>
         </div>
+      </section>
+    </div>
+  </div>
+
+</g-tab>
+
+<g-tab title="Story">
+
+  <div class="page-two">
+    <div class="p2-main">
+      <section class="box">
+        <h3 class="box-heading">Backstory &amp; Personality</h3>
+        <g-field name="backstory" label="" />
+        <span class="tiny">Alignment</span><g-field name="alignment" label="" />
+      </section>
+      <section class="box">
+        <h3 class="box-heading">Level-ups</h3>
+        <g-field name="advancements" label="" />
+      </section>
+      <section class="box">
+        <h3 class="box-heading">Languages</h3>
+        <g-field name="languages" label="" />
+      </section>
+    </div>
+
+    <div class="p2-side">
+      <section class="box appearance">
+        <h3 class="box-heading">Appearance</h3>
+        <g-portrait class="appearance-art" />
+        <g-field name="appearance" label="" />
       </section>
       <details class="extras box">
         <summary>Other details</summary>

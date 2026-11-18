@@ -172,7 +172,7 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   catalogue entry is missing (or you prefer not to pick one)
 - **Picking a class** adds its level 1 features, and **picking a subclass** adds
   the features it grants at the level it is chosen
-- **Your character's art, large** on the Spells & Details page, beside their
+- **Your character's art, large** on the Story page, beside their
   appearance - framed the way you chose (click it to choose)
 
 ## With the SRD 5.2 pack
