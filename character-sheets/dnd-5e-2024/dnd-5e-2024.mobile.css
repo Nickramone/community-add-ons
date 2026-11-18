@@ -711,3 +711,9 @@
 .res-list .gc-list > p {
   display: none;
 }
+
+/* 1.18.0: rows dragged into the player's order */
+.gc-order-handle {
+  font-size: 16px;
+  padding: 6px 4px;
+}

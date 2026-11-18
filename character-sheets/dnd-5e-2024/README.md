@@ -151,6 +151,11 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   Conditional Extra Damage (Flame Tongue, Slayer) shows as a note, not added.
   The explanations of Attacks and Resources sit behind the ⓘ beside the
   heading; the Resources headings appear only when they have rows
+- **Your own order**: drag the ⋮⋮ handle beside an attack or a resource to
+  move it (Spell and Unarmed Strike too; a weapon moves with its two-handed and
+  thrown lines). Something newly equipped or gained comes first. Resources of
+  every kind mix in one list; your own are added, removed and edited under
+  "Add, remove or edit resources". Needs Grimoire with `<g-order>`
 - **Attacks list**, feats, and a catalogue of classes, subclasses, species,
   backgrounds, feats
   and spells
