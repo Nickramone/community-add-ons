@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.24.2",
+  "version": "1.25.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -2466,6 +2466,7 @@
       "label": "Equipment",
       "content_type": "item",
       "allow_freeform": true,
+      "on_pick": [{"grant": "equipment", "from": "pack_ids", "names": "pack_names", "values": {"qty": "pack_qty"}}],
       "per_entry_fields": {
         "qty": {
           "type": "number",

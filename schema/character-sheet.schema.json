@@ -228,6 +228,13 @@
                     "type": "string"
                   },
                   "description": "Values copied from the picked entry onto each granted freeform entry, as {target field: picked property} - the species' name as each trait's source."
+                },
+                "values": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "description": "Per-entry field values for a content_list grant, as {target field: picked property}: the property lists one value per entry of `from`, in the same order - the quantity of each item in a pack."
                 }
               }
             }
