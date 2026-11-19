@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.26.0",
+  "version": "1.26.1",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -3208,7 +3208,7 @@
             "category": "Fighting Style"
           },
           "filter": "entry.category == 'Fighting Style' and (not entry.fs_class or entry.fs_class == ref(klass, 'name')) and not has_ref(feats, entry._ref)",
-          "visible_if": "(by_level(ref(klass, 'fighting_style_by_level'), len(advancements)) + by_level(ref(subclass, 'fighting_style_by_level'), len(advancements))) > 0"
+          "visible_if": "(by_level(ref(klass, 'fighting_style_by_level'), len(advancements)) + by_level(ref(subclass, 'fighting_style_by_level'), len(advancements))) > 0 and count_each(feats, row.category == 'Fighting Style' and row.from_level == len(advancements)) == 0"
         },
         {
           "key": "variant",
@@ -3216,7 +3216,7 @@
           "label": "Feature option (Divine Order, Primal Order, Blessed Strikes, Elemental Fury)",
           "content_type": "feature",
           "filter": "entry.variant_of == by_level(ref(klass, 'variant_by_level'), len(advancements)) and entry.class == ref(klass, 'name') and not has_ref(features, entry._ref)",
-          "visible_if": "by_level(ref(klass, 'variant_by_level'), len(advancements)) != ''"
+          "visible_if": "by_level(ref(klass, 'variant_by_level'), len(advancements)) != '' and count_each(features, row.variant_of == by_level(ref(klass, 'variant_by_level'), len(advancements))) == 0"
         },
         {
           "key": "expertise",
