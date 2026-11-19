@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.27.0",
+  "version": "1.28.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -3315,6 +3315,7 @@
           "key": "opt1",
           "type": "entry",
           "label": "Metamagic, invocation or maneuver",
+          "label_formula": "concat('New ', concat(ref(klass, 'option_type'), ref(subclass, 'option_type')))",
           "content_type": "option",
           "filter": "entry.option_type == concat(ref(klass, 'option_type'), ref(subclass, 'option_type')) and entry.prereq_level <= len(advancements) and (not entry.prereq_option or count_each(class_options, row.name == entry.prereq_option) > 0) and (entry.repeatable or (not has_ref(class_options, entry._ref)))",
           "visible_if": "((by_level(ref(klass, 'options_by_level'), len(advancements)) + by_level(ref(subclass, 'options_by_level'), len(advancements))) - count_each(class_options, row.from_level == len(advancements))) >= 1"
@@ -3323,6 +3324,7 @@
           "key": "opt2",
           "type": "entry",
           "label": "Second option",
+          "label_formula": "concat('Second new ', concat(ref(klass, 'option_type'), ref(subclass, 'option_type')))",
           "content_type": "option",
           "filter": "entry.option_type == concat(ref(klass, 'option_type'), ref(subclass, 'option_type')) and entry.prereq_level <= len(advancements) and (not entry.prereq_option or count_each(class_options, row.name == entry.prereq_option) > 0 or answer.opt1.name == entry.prereq_option) and (entry.repeatable or (not has_ref(class_options, entry._ref) and not has_ref(answer.opt1, entry._ref)))",
           "visible_if": "((by_level(ref(klass, 'options_by_level'), len(advancements)) + by_level(ref(subclass, 'options_by_level'), len(advancements))) - count_each(class_options, row.from_level == len(advancements))) >= 2 and has_ref(answer.opt1, answer.opt1._ref)"
@@ -3331,6 +3333,7 @@
           "key": "opt3",
           "type": "entry",
           "label": "Third option",
+          "label_formula": "concat('Third new ', concat(ref(klass, 'option_type'), ref(subclass, 'option_type')))",
           "content_type": "option",
           "filter": "entry.option_type == concat(ref(klass, 'option_type'), ref(subclass, 'option_type')) and entry.prereq_level <= len(advancements) and (not entry.prereq_option or count_each(class_options, row.name == entry.prereq_option) > 0 or answer.opt1.name == entry.prereq_option or answer.opt2.name == entry.prereq_option) and (entry.repeatable or (not has_ref(class_options, entry._ref) and not has_ref(answer.opt1, entry._ref) and not has_ref(answer.opt2, entry._ref)))",
           "visible_if": "((by_level(ref(klass, 'options_by_level'), len(advancements)) + by_level(ref(subclass, 'options_by_level'), len(advancements))) - count_each(class_options, row.from_level == len(advancements))) >= 3 and has_ref(answer.opt2, answer.opt2._ref)"
@@ -3339,6 +3342,7 @@
           "key": "swap",
           "type": "select",
           "label": "Replace one of your options with another (allowed each level)",
+          "label_formula": "concat('Your ', (concat(ref(klass, 'option_type'), ref(subclass, 'option_type')) == 'Metamagic' ? 'Metamagic options' : concat(concat(ref(klass, 'option_type'), ref(subclass, 'option_type')), 's')), ': keep them all or replace one (allowed each level)')",
           "options": [
             {
               "value": "keep",
@@ -3355,6 +3359,7 @@
           "key": "drop",
           "type": "entry",
           "label": "Option to give up",
+          "label_formula": "concat(concat(ref(klass, 'option_type'), ref(subclass, 'option_type')), ' to give up')",
           "content_type": "option",
           "filter": "entry.option_type == concat(ref(klass, 'option_type'), ref(subclass, 'option_type')) and has_ref(class_options, entry._ref)",
           "visible_if": "answer.swap == 'replace'"
@@ -3363,6 +3368,7 @@
           "key": "swap_new",
           "type": "entry",
           "label": "Option that replaces it",
+          "label_formula": "concat(concat(ref(klass, 'option_type'), ref(subclass, 'option_type')), ' that replaces it')",
           "content_type": "option",
           "filter": "entry.option_type == concat(ref(klass, 'option_type'), ref(subclass, 'option_type')) and entry.prereq_level <= len(advancements) and entry._ref != answer.drop._ref and (not entry.prereq_option or (entry.prereq_option != answer.drop.name and (count_each(class_options, row.name == entry.prereq_option) > 0 or answer.opt1.name == entry.prereq_option or answer.opt2.name == entry.prereq_option or answer.opt3.name == entry.prereq_option))) and (entry.repeatable or (not has_ref(class_options, entry._ref) and not has_ref(answer.opt1, entry._ref) and not has_ref(answer.opt2, entry._ref) and not has_ref(answer.opt3, entry._ref)))",
           "visible_if": "answer.swap == 'replace' and has_ref(answer.drop, answer.drop._ref)"
@@ -3650,6 +3656,7 @@
       ]
     }
   ],
+  "start_prompt": {"prompt": "level_up", "when": "len(advancements) == 0 and ref(klass, 'name') == ''"},
   "layout_file": "dnd-5e-2024.html",
   "styles_file": "dnd-5e-2024.css",
   "name_field": "hero_name",

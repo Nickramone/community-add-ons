@@ -44,7 +44,12 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   `options_by_level` on the class or subclass: Sorcerer, Warlock, Battle
   Master), up to three, leaving out those you have unless repeatable and those
   whose prerequisite you lack; on any later level you may replace one with
-  another. Replacing needs `unpick` from the Grimoire fork
+  another, each question naming the kind (Metamagic, Eldritch Invocation,
+  Maneuver). Replacing needs `unpick`, the headings `label_formula`, from the
+  Grimoire fork
+- **A new character** (no class, no level-up rows) opens the Level up window by
+  itself (`start_prompt`, from the Grimoire fork); put off, it waits under
+  *Choices to make*
 - **Abilities** with live modifiers, and saving throws that add proficiency
   where you have it
 - **Armour class, initiative, passive Perception and proficiency bonus**, all
