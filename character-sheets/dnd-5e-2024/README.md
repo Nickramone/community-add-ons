@@ -49,12 +49,14 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   Grimoire fork
 - **Subclass feature choices** (land of the Circle of the Land, Hunter's Prey and
   Defensive Tactics, Aspect of the Wilds, Elemental Affinity, Primal Companion,
-  Dread Allegiance): a *Choice* on the feature's row in Class Features, the
-  options from the feature's `choice_options`. Level up asks for the first one
-  (`choice_by_level`, `choice_label_by_level` and `choice_options` on the
-  subclass); those you may change after a rest you change on the row. A feature
-  with no choice made is flagged. Writing the answer onto the row needs `row._ref`
-  in an `each` step, from the Grimoire fork
+  Dread Allegiance): a *Choice* on the feature's row in Class Features, offering
+  only that feature's options (`choice_options`). Level up asks for the first
+  one among the *Class Option* entries of that feature (`option_type` is the
+  feature's name), each opening to show what it does (`choice_by_level` and
+  `choice_label_by_level` on the subclass); those you may change after a rest
+  you change on the row. A feature with no choice made is flagged. Writing the
+  answer onto the row needs `row._ref` in an `each` step, the row's own options
+  `options_filter` and `width` on a per-entry select, from the Grimoire fork
 - **A new character** (no class, no level-up rows) opens the Level up window by
   itself (`start_prompt`, from the Grimoire fork); put off, it waits under
   *Choices to make*
