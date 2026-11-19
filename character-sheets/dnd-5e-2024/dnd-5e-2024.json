@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.25.1",
+  "version": "1.25.2",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -763,6 +763,8 @@
         "ability_options": {"type": "multiselect", "label": "Ability Increase Options", "options": [{"value": "strength", "label": "Str"}, {"value": "dexterity", "label": "Dex"}, {"value": "constitution", "label": "Con"}, {"value": "intelligence", "label": "Int"}, {"value": "wisdom", "label": "Wis"}, {"value": "charisma", "label": "Cha"}]},
         "tool_options": {"type": "multiselect", "label": "Tool Options", "options": ["Alchemist's Supplies", "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools", "Cartographer's Tools", "Cobbler's Tools", "Cook's Utensils", "Glassblower's Tools", "Jeweler's Tools", "Leatherworker's Tools", "Mason's Tools", "Painter's Supplies", "Potter's Tools", "Smith's Tools", "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools", "Bagpipes", "Drum", "Dulcimer", "Flute", "Horn", "Lute", "Lyre", "Pan Flute", "Shawm", "Viol", "Dice Set", "Dragonchess Set", "Playing Cards", "Three-Dragon Ante Set", "Disguise Kit", "Forgery Kit", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit", "Thieves' Tools"]},
         "tool_count": {"type": "number", "label": "Tools to Choose", "min": 0},
+        "skilled_options": {"type": "multiselect", "label": "Skill or Tool Options", "options": ["Acrobatics", "Animal Handling", "Arcana", "Athletics", "Deception", "History", "Insight", "Intimidation", "Investigation", "Medicine", "Nature", "Perception", "Performance", "Persuasion", "Religion", "Sleight of Hand", "Stealth", "Survival", "Alchemist's Supplies", "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools", "Cartographer's Tools", "Cobbler's Tools", "Cook's Utensils", "Glassblower's Tools", "Jeweler's Tools", "Leatherworker's Tools", "Mason's Tools", "Painter's Supplies", "Potter's Tools", "Smith's Tools", "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools", "Bagpipes", "Drum", "Dulcimer", "Flute", "Horn", "Lute", "Lyre", "Pan Flute", "Shawm", "Viol", "Dice Set", "Dragonchess Set", "Playing Cards", "Three-Dragon Ante Set", "Disguise Kit", "Forgery Kit", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit", "Thieves' Tools"]},
+        "skilled_count": {"type": "number", "label": "Skills or Tools to Choose", "min": 0},
         "ability_amount": {"type": "number", "label": "Ability Increase Amount", "min": 0},
         "ability_max": {"type": "number", "label": "Ability Increase Maximum", "min": 0},
         "description": {
@@ -1163,6 +1165,9 @@
           "type": "textarea",
           "label": "Mastery effect"
         },
+        "pack_ids": {"type": "textarea", "label": "Pack item ids"},
+        "pack_names": {"type": "textarea", "label": "Pack item names"},
+        "pack_qty": {"type": "text", "label": "Pack item quantities"},
         "armor_class": {
           "type": "text",
           "label": "Armor Class"
