@@ -36,6 +36,15 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   proficient in, and the skill, language and tool proficiencies a class or
   subclass feature lets you choose. The levels come from the class and
   subclass entries (`*_by_level` fields)
+- **Metamagic, Eldritch Invocations and Maneuvers**: a *Class Option* catalogue
+  type (`option`, with its prerequisites as fields: `prereq_level`,
+  `prereq_option` for an invocation that needs a Pact or another invocation,
+  `repeatable`) and a list under Class Features. Class feature choices asks
+  for the new ones on each level that grants them (`option_type` and
+  `options_by_level` on the class or subclass: Sorcerer, Warlock, Battle
+  Master), up to three, leaving out those you have unless repeatable and those
+  whose prerequisite you lack; on any later level you may replace one with
+  another. Replacing needs `unpick` from the Grimoire fork
 - **Abilities** with live modifiers, and saving throws that add proficiency
   where you have it
 - **Armour class, initiative, passive Perception and proficiency bonus**, all

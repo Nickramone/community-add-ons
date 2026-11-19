@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.26.1",
+  "version": "1.27.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -311,7 +311,9 @@
         "skill_choice_options": {"type": "text", "label": "Skill Choice Options"},
         "language_choice_by_level": {"type": "text", "label": "Language Choices By Level"},
         "tool_choice_by_level": {"type": "text", "label": "Tool Choices By Level"},
-        "tool_choice_options": {"type": "text", "label": "Tool Choice Options"}
+        "tool_choice_options": {"type": "text", "label": "Tool Choice Options"},
+        "option_type": {"type": "text", "label": "Option Type (Metamagic, Eldritch Invocation, Maneuver)"},
+        "options_by_level": {"type": "text", "label": "New Options By Level"}
       }
     },
     "subclass": {
@@ -502,7 +504,9 @@
         "language_choice_by_level": {"type": "text", "label": "Language Choices By Level"},
         "tool_choice_by_level": {"type": "text", "label": "Tool Choices By Level"},
         "tool_choice_options": {"type": "text", "label": "Tool Choice Options"},
-        "skill_choice_expertise": {"type": "checkbox", "label": "Skill Choices Gain Expertise"}
+        "skill_choice_expertise": {"type": "checkbox", "label": "Skill Choices Gain Expertise"},
+        "option_type": {"type": "text", "label": "Option Type (Metamagic, Eldritch Invocation, Maneuver)"},
+        "options_by_level": {"type": "text", "label": "New Options By Level"}
       }
     },
     "species": {
@@ -1324,6 +1328,24 @@
           "type": "checkbox",
           "label": "Reach"
         }
+      }
+    },
+    "option": {
+      "label": "Class Option",
+      "label_plural": "Class Options",
+      "identity_field": "name",
+      "sort_default": ["option_type", "name"],
+      "search_fields": ["name", "option_type", "description"],
+      "filter_fields": ["option_type"],
+      "compact_display": "{option_type} · {prerequisite}",
+      "fields": {
+        "name": {"type": "text", "label": "Name"},
+        "option_type": {"type": "select", "label": "Type", "options": ["Metamagic", "Eldritch Invocation", "Maneuver"]},
+        "prerequisite": {"type": "text", "label": "Prerequisite"},
+        "prereq_level": {"type": "number", "label": "Prerequisite Level", "min": 0},
+        "prereq_option": {"type": "text", "label": "Prerequisite Option"},
+        "repeatable": {"type": "checkbox", "label": "Repeatable"},
+        "description": {"type": "textarea", "label": "Description"}
       }
     },
     "magic_item": {
@@ -2605,6 +2627,15 @@
         }
       }
     },
+    "class_options": {
+      "type": "content_list",
+      "label": "Metamagic, Invocations and Maneuvers",
+      "content_type": "option",
+      "allow_freeform": true,
+      "per_entry_fields": {
+        "from_level": {"type": "number", "label": "From level", "min": 0, "max": 20, "visible_if": "false"}
+      }
+    },
     "species_traits": {
       "type": "content_list",
       "label": "Species Traits",
@@ -3279,6 +3310,62 @@
           "options": "concat(ref(klass, 'tool_choice_options'), ref(subclass, 'tool_choice_options'))",
           "count": "(by_level(ref(klass, 'tool_choice_by_level'), len(advancements)) + by_level(ref(subclass, 'tool_choice_by_level'), len(advancements)))",
           "visible_if": "(by_level(ref(klass, 'tool_choice_by_level'), len(advancements)) + by_level(ref(subclass, 'tool_choice_by_level'), len(advancements))) > 0"
+        },
+        {
+          "key": "opt1",
+          "type": "entry",
+          "label": "Metamagic, invocation or maneuver",
+          "content_type": "option",
+          "filter": "entry.option_type == concat(ref(klass, 'option_type'), ref(subclass, 'option_type')) and entry.prereq_level <= len(advancements) and (not entry.prereq_option or count_each(class_options, row.name == entry.prereq_option) > 0) and (entry.repeatable or (not has_ref(class_options, entry._ref)))",
+          "visible_if": "((by_level(ref(klass, 'options_by_level'), len(advancements)) + by_level(ref(subclass, 'options_by_level'), len(advancements))) - count_each(class_options, row.from_level == len(advancements))) >= 1"
+        },
+        {
+          "key": "opt2",
+          "type": "entry",
+          "label": "Second option",
+          "content_type": "option",
+          "filter": "entry.option_type == concat(ref(klass, 'option_type'), ref(subclass, 'option_type')) and entry.prereq_level <= len(advancements) and (not entry.prereq_option or count_each(class_options, row.name == entry.prereq_option) > 0 or answer.opt1.name == entry.prereq_option) and (entry.repeatable or (not has_ref(class_options, entry._ref) and not has_ref(answer.opt1, entry._ref)))",
+          "visible_if": "((by_level(ref(klass, 'options_by_level'), len(advancements)) + by_level(ref(subclass, 'options_by_level'), len(advancements))) - count_each(class_options, row.from_level == len(advancements))) >= 2 and has_ref(answer.opt1, answer.opt1._ref)"
+        },
+        {
+          "key": "opt3",
+          "type": "entry",
+          "label": "Third option",
+          "content_type": "option",
+          "filter": "entry.option_type == concat(ref(klass, 'option_type'), ref(subclass, 'option_type')) and entry.prereq_level <= len(advancements) and (not entry.prereq_option or count_each(class_options, row.name == entry.prereq_option) > 0 or answer.opt1.name == entry.prereq_option or answer.opt2.name == entry.prereq_option) and (entry.repeatable or (not has_ref(class_options, entry._ref) and not has_ref(answer.opt1, entry._ref) and not has_ref(answer.opt2, entry._ref)))",
+          "visible_if": "((by_level(ref(klass, 'options_by_level'), len(advancements)) + by_level(ref(subclass, 'options_by_level'), len(advancements))) - count_each(class_options, row.from_level == len(advancements))) >= 3 and has_ref(answer.opt2, answer.opt2._ref)"
+        },
+        {
+          "key": "swap",
+          "type": "select",
+          "label": "Replace one of your options with another (allowed each level)",
+          "options": [
+            {
+              "value": "keep",
+              "label": "Keep them all"
+            },
+            {
+              "value": "replace",
+              "label": "Replace one"
+            }
+          ],
+          "visible_if": "concat(ref(klass, 'option_type'), ref(subclass, 'option_type')) != '' and count_each(class_options, row.option_type == concat(ref(klass, 'option_type'), ref(subclass, 'option_type'))) > 0"
+        },
+        {
+          "key": "drop",
+          "type": "entry",
+          "label": "Option to give up",
+          "content_type": "option",
+          "filter": "entry.option_type == concat(ref(klass, 'option_type'), ref(subclass, 'option_type')) and has_ref(class_options, entry._ref)",
+          "visible_if": "answer.swap == 'replace'"
+        },
+        {
+          "key": "swap_new",
+          "type": "entry",
+          "label": "Option that replaces it",
+          "content_type": "option",
+          "filter": "entry.option_type == concat(ref(klass, 'option_type'), ref(subclass, 'option_type')) and entry.prereq_level <= len(advancements) and entry._ref != answer.drop._ref and (not entry.prereq_option or (entry.prereq_option != answer.drop.name and (count_each(class_options, row.name == entry.prereq_option) > 0 or answer.opt1.name == entry.prereq_option or answer.opt2.name == entry.prereq_option or answer.opt3.name == entry.prereq_option))) and (entry.repeatable or (not has_ref(class_options, entry._ref) and not has_ref(answer.opt1, entry._ref) and not has_ref(answer.opt2, entry._ref) and not has_ref(answer.opt3, entry._ref)))",
+          "visible_if": "answer.swap == 'replace' and has_ref(answer.drop, answer.drop._ref)"
         }
       ],
       "apply": [
@@ -3316,6 +3403,38 @@
         {
           "add": "tool_profs",
           "values": "answer.tools"
+        },
+        {
+          "pick": "class_options",
+          "entry": "answer.opt1",
+          "values": {
+            "from_level": "len(advancements)"
+          }
+        },
+        {
+          "pick": "class_options",
+          "entry": "answer.opt2",
+          "values": {
+            "from_level": "len(advancements)"
+          }
+        },
+        {
+          "pick": "class_options",
+          "entry": "answer.opt3",
+          "values": {
+            "from_level": "len(advancements)"
+          }
+        },
+        {
+          "unpick": "class_options",
+          "entry": "answer.drop"
+        },
+        {
+          "pick": "class_options",
+          "entry": "answer.swap_new",
+          "values": {
+            "from_level": "max_each(class_options, row.from_level, row.name == answer.drop.name)"
+          }
         }
       ]
     },
