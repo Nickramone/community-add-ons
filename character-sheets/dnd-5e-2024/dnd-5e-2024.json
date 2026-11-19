@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.28.1",
+  "version": "1.29.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -506,7 +506,10 @@
         "tool_choice_options": {"type": "text", "label": "Tool Choice Options"},
         "skill_choice_expertise": {"type": "checkbox", "label": "Skill Choices Gain Expertise"},
         "option_type": {"type": "text", "label": "Option Type (Metamagic, Eldritch Invocation, Maneuver)"},
-        "options_by_level": {"type": "text", "label": "New Options By Level"}
+        "options_by_level": {"type": "text", "label": "New Options By Level"},
+        "choice_by_level": {"type": "text", "label": "Feature With A Choice By Level (id)"},
+        "choice_label_by_level": {"type": "text", "label": "Feature With A Choice By Level (name)"},
+        "choice_options": {"type": "text", "label": "Feature Choice Options (level:option)"}
       }
     },
     "species": {
@@ -1132,7 +1135,8 @@
         "armor_training": {"type": "text", "label": "Armor Training Granted"},
         "weapon_training": {"type": "text", "label": "Weapon Proficiencies Granted"},
         "wis_check_skills": {"type": "text", "label": "Skills Adding Wisdom To Checks"},
-        "save_profs": {"type": "text", "label": "Saving Throw Proficiencies Granted"}
+        "save_profs": {"type": "text", "label": "Saving Throw Proficiencies Granted"},
+        "choice_options": {"type": "text", "label": "Choice Options"}
       }
     },
     "item": {
@@ -2624,7 +2628,8 @@
           "min": 0,
           "default": 0,
           "visible_if": "false"
-        }
+        },
+        "choice": {"type": "select", "label": "Choice", "options": [{"value": "", "label": "Choose..."}, {"value": "Arid", "label": "Land: Arid"}, {"value": "Polar", "label": "Land: Polar"}, {"value": "Temperate", "label": "Land: Temperate"}, {"value": "Tropical", "label": "Land: Tropical"}, {"value": "Colossus Slayer", "label": "Hunter's Prey: Colossus Slayer"}, {"value": "Horde Breaker", "label": "Hunter's Prey: Horde Breaker"}, {"value": "Escape the Horde", "label": "Defensive Tactics: Escape the Horde"}, {"value": "Multiattack Defense", "label": "Defensive Tactics: Multiattack Defense"}, {"value": "Owl", "label": "Aspect: Owl"}, {"value": "Panther", "label": "Aspect: Panther"}, {"value": "Salmon", "label": "Aspect: Salmon"}, {"value": "Acid", "label": "Affinity: Acid"}, {"value": "Cold", "label": "Affinity: Cold"}, {"value": "Fire", "label": "Affinity: Fire"}, {"value": "Lightning", "label": "Affinity: Lightning"}, {"value": "Poison", "label": "Affinity: Poison"}, {"value": "Beast of the Land", "label": "Companion: Beast of the Land"}, {"value": "Beast of the Sea", "label": "Companion: Beast of the Sea"}, {"value": "Beast of the Sky", "label": "Companion: Beast of the Sky"}, {"value": "Bane", "label": "Allegiance: Bane"}, {"value": "Bhaal", "label": "Allegiance: Bhaal"}, {"value": "Myrkul", "label": "Allegiance: Myrkul"}], "default": "", "visible_if": "contains(row.choice_options, ',')"}
       }
     },
     "class_options": {
@@ -3312,6 +3317,14 @@
           "visible_if": "(by_level(ref(klass, 'tool_choice_by_level'), len(advancements)) + by_level(ref(subclass, 'tool_choice_by_level'), len(advancements))) > 0"
         },
         {
+          "key": "sub_choice",
+          "type": "select",
+          "label": "Subclass feature choice",
+          "label_formula": "concat(by_level(ref(subclass, 'choice_label_by_level'), len(advancements)), ': choose one (the feature row keeps it, change it there when the feature lets you)')",
+          "options": "concat(contains(ref(subclass, 'choice_options'), concat(',', len(advancements), ':Arid,')) ? 'Arid,' : '', contains(ref(subclass, 'choice_options'), concat(',', len(advancements), ':Polar,')) ? 'Polar,' : '', contains(ref(subclass, 'choice_options'), concat(',', len(advancements), ':Temperate,')) ? 'Temperate,' : '', contains(ref(subclass, 'choice_options'), concat(',', len(advancements), ':Tropical,')) ? 'Tropical,' : '', contains(ref(subclass, 'choice_options'), concat(',', len(advancements), ':Colossus Slayer,')) ? 'Colossus Slayer,' : '', contains(ref(subclass, 'choice_options'), concat(',', len(advancements), ':Horde Breaker,')) ? 'Horde Breaker,' : '', contains(ref(subclass, 'choice_options'), concat(',', len(advancements), ':Escape the Horde,')) ? 'Escape the Horde,' : '', contains(ref(subclass, 'choice_options'), concat(',', len(advancements), ':Multiattack Defense,')) ? 'Multiattack Defense,' : '', contains(ref(subclass, 'choice_options'), concat(',', len(advancements), ':Owl,')) ? 'Owl,' : '', contains(ref(subclass, 'choice_options'), concat(',', len(advancements), ':Panther,')) ? 'Panther,' : '', contains(ref(subclass, 'choice_options'), concat(',', len(advancements), ':Salmon,')) ? 'Salmon,' : '', contains(ref(subclass, 'choice_options'), concat(',', len(advancements), ':Acid,')) ? 'Acid,' : '', contains(ref(subclass, 'choice_options'), concat(',', len(advancements), ':Cold,')) ? 'Cold,' : '', contains(ref(subclass, 'choice_options'), concat(',', len(advancements), ':Fire,')) ? 'Fire,' : '', contains(ref(subclass, 'choice_options'), concat(',', len(advancements), ':Lightning,')) ? 'Lightning,' : '', contains(ref(subclass, 'choice_options'), concat(',', len(advancements), ':Poison,')) ? 'Poison,' : '', contains(ref(subclass, 'choice_options'), concat(',', len(advancements), ':Beast of the Land,')) ? 'Beast of the Land,' : '', contains(ref(subclass, 'choice_options'), concat(',', len(advancements), ':Beast of the Sea,')) ? 'Beast of the Sea,' : '', contains(ref(subclass, 'choice_options'), concat(',', len(advancements), ':Beast of the Sky,')) ? 'Beast of the Sky,' : '', contains(ref(subclass, 'choice_options'), concat(',', len(advancements), ':Bane,')) ? 'Bane,' : '', contains(ref(subclass, 'choice_options'), concat(',', len(advancements), ':Bhaal,')) ? 'Bhaal,' : '', contains(ref(subclass, 'choice_options'), concat(',', len(advancements), ':Myrkul,')) ? 'Myrkul,' : '')",
+          "visible_if": "by_level(ref(subclass, 'choice_by_level'), len(advancements)) != '' and has_ref(features, by_level(ref(subclass, 'choice_by_level'), len(advancements)))"
+        },
+        {
           "key": "opt1",
           "type": "entry",
           "label": "Metamagic, invocation or maneuver",
@@ -3409,6 +3422,13 @@
         {
           "add": "tool_profs",
           "values": "answer.tools"
+        },
+        {
+          "each": "features",
+          "where": "row._ref == by_level(ref(subclass, 'choice_by_level'), len(advancements))",
+          "set": {
+            "choice": "answer.sub_choice"
+          }
         },
         {
           "pick": "class_options",
@@ -3712,6 +3732,7 @@
       "rule": "len(concentration) == 0 or not (contains(conditions, 'Incapacitated') or contains(conditions, 'Paralyzed') or contains(conditions, 'Petrified') or contains(conditions, 'Stunned') or contains(conditions, 'Unconscious'))",
       "message": "An Incapacitated creature loses Concentration.",
       "field": "concentration"
-    }
+    },
+    {"rule": "count_each(features, contains(row.choice_options, ',') and not contains(row.choice_options, concat(',', row.choice, ','))) == 0", "message": "A class feature is missing its choice (Hunter's Prey, type of land, damage type...): set it in the Choice column of Class Features.", "field": "features"}
   ]
 }
