@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.25.2",
+  "version": "1.26.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -302,7 +302,16 @@
         "tool_proficiencies": {
           "type": "text",
           "label": "Tool Proficiencies"
-        }
+        },
+        "variant_by_level": {"type": "text", "label": "Feature Options By Level"},
+        "fighting_style_by_level": {"type": "text", "label": "Fighting Style Feats By Level"},
+        "expertise_by_level": {"type": "text", "label": "Expertise By Level"},
+        "expertise_options": {"type": "text", "label": "Expertise Options"},
+        "skill_choice_by_level": {"type": "text", "label": "Skill Choices By Level"},
+        "skill_choice_options": {"type": "text", "label": "Skill Choice Options"},
+        "language_choice_by_level": {"type": "text", "label": "Language Choices By Level"},
+        "tool_choice_by_level": {"type": "text", "label": "Tool Choices By Level"},
+        "tool_choice_options": {"type": "text", "label": "Tool Choice Options"}
       }
     },
     "subclass": {
@@ -484,7 +493,16 @@
         "feature_names_20": {
           "type": "text",
           "label": "Level 20 Features"
-        }
+        },
+        "fighting_style_by_level": {"type": "text", "label": "Fighting Style Feats By Level"},
+        "expertise_by_level": {"type": "text", "label": "Expertise By Level"},
+        "expertise_options": {"type": "text", "label": "Expertise Options"},
+        "skill_choice_by_level": {"type": "text", "label": "Skill Choices By Level"},
+        "skill_choice_options": {"type": "text", "label": "Skill Choice Options"},
+        "language_choice_by_level": {"type": "text", "label": "Language Choices By Level"},
+        "tool_choice_by_level": {"type": "text", "label": "Tool Choices By Level"},
+        "tool_choice_options": {"type": "text", "label": "Tool Choice Options"},
+        "skill_choice_expertise": {"type": "checkbox", "label": "Skill Choices Gain Expertise"}
       }
     },
     "species": {
@@ -767,6 +785,7 @@
         "skilled_count": {"type": "number", "label": "Skills or Tools to Choose", "min": 0},
         "ability_amount": {"type": "number", "label": "Ability Increase Amount", "min": 0},
         "ability_max": {"type": "number", "label": "Ability Increase Maximum", "min": 0},
+        "fs_class": {"type": "text", "label": "Fighting Style Of One Class Only"},
         "description": {
           "type": "textarea",
           "label": "Description"
@@ -1104,7 +1123,12 @@
           "type": "number",
           "label": "Uses Regained On A Short Rest",
           "min": 0
-        }
+        },
+        "variant_of": {"type": "text", "label": "Option Of"},
+        "armor_training": {"type": "text", "label": "Armor Training Granted"},
+        "weapon_training": {"type": "text", "label": "Weapon Proficiencies Granted"},
+        "wis_check_skills": {"type": "text", "label": "Skills Adding Wisdom To Checks"},
+        "save_profs": {"type": "text", "label": "Saving Throw Proficiencies Granted"}
       }
     },
     "item": {
@@ -1920,7 +1944,7 @@
     "wisdom_save_prof": {
       "type": "checkbox",
       "label": "WIS save proficiency",
-      "default_from": "contains(ref(klass, 'saving_throws'), 'wisdom')"
+      "default_from": "contains(ref(klass, 'saving_throws'), 'wisdom') or count_each(features, contains(row.save_profs, ',wisdom,')) > 0"
     },
     "charisma": {
       "type": "number",
@@ -2604,12 +2628,12 @@
     "armor_medium": {
       "type": "checkbox",
       "label": "Medium armour",
-      "default_from": "contains(ref(klass, 'armor_proficiencies'), 'Medium')"
+      "default_from": "contains(ref(klass, 'armor_proficiencies'), 'Medium') or count_each(features, contains(row.armor_training, 'Medium')) > 0"
     },
     "armor_heavy": {
       "type": "checkbox",
       "label": "Heavy armour",
-      "default_from": "contains(ref(klass, 'armor_proficiencies'), 'Heavy')"
+      "default_from": "contains(ref(klass, 'armor_proficiencies'), 'Heavy') or count_each(features, contains(row.armor_training, 'Heavy')) > 0"
     },
     "armor_shields": {
       "type": "checkbox",
@@ -2620,7 +2644,7 @@
       "type": "textarea",
       "label": "Weapons",
       "rows": 2,
-      "default_from": "ref(klass, 'weapon_proficiencies')"
+      "default_from": "concat(ref(klass, 'weapon_proficiencies'), (count_each(features, row.weapon_training == 'Martial weapons') > 0 and not contains(ref(klass, 'weapon_proficiencies'), 'Martial')) ? ', Martial weapons' : '', count_each(features, row.weapon_training == 'Battleaxe, Flail, Longsword, Morningstar, Rapier, Scimitar, Shortsword, Trident, War Pick, Warhammer, Whip') > 0 ? ', Battleaxe, Flail, Longsword, Morningstar, Rapier, Scimitar, Shortsword, Trident, War Pick, Warhammer, Whip' : '')"
     },
     "tool_training": {
       "type": "textarea",
@@ -2783,7 +2807,7 @@
       "label": "Animal Handling"
     },
     "skill_arcana": {
-      "formula": "signed(intelligence_mod - exhaustion_d20 + item_check + (contains(skill_expertise, 'Arcana') ? 2 * proficiency : (contains(skill_profs, 'Arcana') ? proficiency : (contains(skill_half_profs, 'Arcana') ? floor(proficiency / 2) : 0))))",
+      "formula": "signed(intelligence_mod - exhaustion_d20 + item_check + (contains(skill_expertise, 'Arcana') ? 2 * proficiency : (contains(skill_profs, 'Arcana') ? proficiency : (contains(skill_half_profs, 'Arcana') ? floor(proficiency / 2) : 0))) + (count_each(features, contains(row.wis_check_skills, ',Arcana,')) > 0 ? max(1, wisdom_mod) : 0))",
       "label": "Arcana"
     },
     "skill_athletics": {
@@ -2815,7 +2839,7 @@
       "label": "Medicine"
     },
     "skill_nature": {
-      "formula": "signed(intelligence_mod - exhaustion_d20 + item_check + (contains(skill_expertise, 'Nature') ? 2 * proficiency : (contains(skill_profs, 'Nature') ? proficiency : (contains(skill_half_profs, 'Nature') ? floor(proficiency / 2) : 0))))",
+      "formula": "signed(intelligence_mod - exhaustion_d20 + item_check + (contains(skill_expertise, 'Nature') ? 2 * proficiency : (contains(skill_profs, 'Nature') ? proficiency : (contains(skill_half_profs, 'Nature') ? floor(proficiency / 2) : 0))) + (count_each(features, contains(row.wis_check_skills, ',Nature,')) > 0 ? max(1, wisdom_mod) : 0))",
       "label": "Nature"
     },
     "skill_perception": {
@@ -2831,7 +2855,7 @@
       "label": "Persuasion"
     },
     "skill_religion": {
-      "formula": "signed(intelligence_mod - exhaustion_d20 + item_check + (contains(skill_expertise, 'Religion') ? 2 * proficiency : (contains(skill_profs, 'Religion') ? proficiency : (contains(skill_half_profs, 'Religion') ? floor(proficiency / 2) : 0))))",
+      "formula": "signed(intelligence_mod - exhaustion_d20 + item_check + (contains(skill_expertise, 'Religion') ? 2 * proficiency : (contains(skill_profs, 'Religion') ? proficiency : (contains(skill_half_profs, 'Religion') ? floor(proficiency / 2) : 0))) + (count_each(features, contains(row.wis_check_skills, ',Religion,')) > 0 ? max(1, wisdom_mod) : 0))",
       "label": "Religion"
     },
     "skill_sleight_of_hand": {
@@ -3166,6 +3190,132 @@
             "subclass": "ref(subclass, 'name')"
           },
           "source": "subclass"
+        },
+        {
+          "prompt": "class_choices"
+        }
+      ]
+    },
+    "class_choices": {
+      "label": "Class feature choices",
+      "steps": [
+        {
+          "key": "style",
+          "type": "entry",
+          "label": "Fighting Style feat",
+          "content_type": "feat",
+          "filters": {
+            "category": "Fighting Style"
+          },
+          "filter": "entry.category == 'Fighting Style' and (not entry.fs_class or entry.fs_class == ref(klass, 'name')) and not has_ref(feats, entry._ref)",
+          "visible_if": "(by_level(ref(klass, 'fighting_style_by_level'), len(advancements)) + by_level(ref(subclass, 'fighting_style_by_level'), len(advancements))) > 0"
+        },
+        {
+          "key": "variant",
+          "type": "entry",
+          "label": "Feature option (Divine Order, Primal Order, Blessed Strikes, Elemental Fury)",
+          "content_type": "feature",
+          "filter": "entry.variant_of == by_level(ref(klass, 'variant_by_level'), len(advancements)) and entry.class == ref(klass, 'name') and not has_ref(features, entry._ref)",
+          "visible_if": "by_level(ref(klass, 'variant_by_level'), len(advancements)) != ''"
+        },
+        {
+          "key": "expertise",
+          "type": "choose",
+          "target": "skill_expertise",
+          "label": "Expertise: skills you are proficient in",
+          "options": "concat((contains(skill_profs, 'Acrobatics') and (ref(klass, 'expertise_options') == '' or contains(ref(klass, 'expertise_options'), ',Acrobatics,'))) ? 'Acrobatics,' : '', (contains(skill_profs, 'Animal Handling') and (ref(klass, 'expertise_options') == '' or contains(ref(klass, 'expertise_options'), ',Animal Handling,'))) ? 'Animal Handling,' : '', (contains(skill_profs, 'Arcana') and (ref(klass, 'expertise_options') == '' or contains(ref(klass, 'expertise_options'), ',Arcana,'))) ? 'Arcana,' : '', (contains(skill_profs, 'Athletics') and (ref(klass, 'expertise_options') == '' or contains(ref(klass, 'expertise_options'), ',Athletics,'))) ? 'Athletics,' : '', (contains(skill_profs, 'Deception') and (ref(klass, 'expertise_options') == '' or contains(ref(klass, 'expertise_options'), ',Deception,'))) ? 'Deception,' : '', (contains(skill_profs, 'History') and (ref(klass, 'expertise_options') == '' or contains(ref(klass, 'expertise_options'), ',History,'))) ? 'History,' : '', (contains(skill_profs, 'Insight') and (ref(klass, 'expertise_options') == '' or contains(ref(klass, 'expertise_options'), ',Insight,'))) ? 'Insight,' : '', (contains(skill_profs, 'Intimidation') and (ref(klass, 'expertise_options') == '' or contains(ref(klass, 'expertise_options'), ',Intimidation,'))) ? 'Intimidation,' : '', (contains(skill_profs, 'Investigation') and (ref(klass, 'expertise_options') == '' or contains(ref(klass, 'expertise_options'), ',Investigation,'))) ? 'Investigation,' : '', (contains(skill_profs, 'Medicine') and (ref(klass, 'expertise_options') == '' or contains(ref(klass, 'expertise_options'), ',Medicine,'))) ? 'Medicine,' : '', (contains(skill_profs, 'Nature') and (ref(klass, 'expertise_options') == '' or contains(ref(klass, 'expertise_options'), ',Nature,'))) ? 'Nature,' : '', (contains(skill_profs, 'Perception') and (ref(klass, 'expertise_options') == '' or contains(ref(klass, 'expertise_options'), ',Perception,'))) ? 'Perception,' : '', (contains(skill_profs, 'Performance') and (ref(klass, 'expertise_options') == '' or contains(ref(klass, 'expertise_options'), ',Performance,'))) ? 'Performance,' : '', (contains(skill_profs, 'Persuasion') and (ref(klass, 'expertise_options') == '' or contains(ref(klass, 'expertise_options'), ',Persuasion,'))) ? 'Persuasion,' : '', (contains(skill_profs, 'Religion') and (ref(klass, 'expertise_options') == '' or contains(ref(klass, 'expertise_options'), ',Religion,'))) ? 'Religion,' : '', (contains(skill_profs, 'Sleight of Hand') and (ref(klass, 'expertise_options') == '' or contains(ref(klass, 'expertise_options'), ',Sleight of Hand,'))) ? 'Sleight of Hand,' : '', (contains(skill_profs, 'Stealth') and (ref(klass, 'expertise_options') == '' or contains(ref(klass, 'expertise_options'), ',Stealth,'))) ? 'Stealth,' : '', (contains(skill_profs, 'Survival') and (ref(klass, 'expertise_options') == '' or contains(ref(klass, 'expertise_options'), ',Survival,'))) ? 'Survival,' : '')",
+          "count": "(by_level(ref(klass, 'expertise_by_level'), len(advancements)) + by_level(ref(subclass, 'expertise_by_level'), len(advancements)))",
+          "visible_if": "(by_level(ref(klass, 'expertise_by_level'), len(advancements)) + by_level(ref(subclass, 'expertise_by_level'), len(advancements))) > 0"
+        },
+        {
+          "key": "skills",
+          "type": "choose",
+          "target": "skill_profs",
+          "label": "Skill proficiency",
+          "options": "ref(klass, 'skill_choice_options') != '' ? ref(klass, 'skill_choice_options') : 'Acrobatics,Animal Handling,Arcana,Athletics,Deception,History,Insight,Intimidation,Investigation,Medicine,Nature,Perception,Performance,Persuasion,Religion,Sleight of Hand,Stealth,Survival'",
+          "count": "by_level(ref(klass, 'skill_choice_by_level'), len(advancements))",
+          "visible_if": "by_level(ref(klass, 'skill_choice_by_level'), len(advancements)) > 0"
+        },
+        {
+          "key": "sub_skills",
+          "type": "choose",
+          "target": "skill_profs",
+          "label": "Skill proficiency (subclass)",
+          "options": "ref(subclass, 'skill_choice_options') != '' ? ref(subclass, 'skill_choice_options') : 'Acrobatics,Animal Handling,Arcana,Athletics,Deception,History,Insight,Intimidation,Investigation,Medicine,Nature,Perception,Performance,Persuasion,Religion,Sleight of Hand,Stealth,Survival'",
+          "count": "by_level(ref(subclass, 'skill_choice_by_level'), len(advancements))",
+          "visible_if": "by_level(ref(subclass, 'skill_choice_by_level'), len(advancements)) > 0"
+        },
+        {
+          "key": "languages",
+          "type": "choose",
+          "target": "language_profs",
+          "label": "Languages",
+          "options": [
+            "Common Sign Language",
+            "Draconic",
+            "Dwarvish",
+            "Elvish",
+            "Giant",
+            "Gnomish",
+            "Goblin",
+            "Halfling",
+            "Orc",
+            "Abyssal",
+            "Celestial",
+            "Deep Speech",
+            "Infernal",
+            "Primordial",
+            "Sylvan",
+            "Undercommon"
+          ],
+          "count": "(by_level(ref(klass, 'language_choice_by_level'), len(advancements)) + by_level(ref(subclass, 'language_choice_by_level'), len(advancements)))",
+          "visible_if": "(by_level(ref(klass, 'language_choice_by_level'), len(advancements)) + by_level(ref(subclass, 'language_choice_by_level'), len(advancements))) > 0"
+        },
+        {
+          "key": "tools",
+          "type": "choose",
+          "target": "tool_profs",
+          "label": "Tool proficiency",
+          "options": "concat(ref(klass, 'tool_choice_options'), ref(subclass, 'tool_choice_options'))",
+          "count": "(by_level(ref(klass, 'tool_choice_by_level'), len(advancements)) + by_level(ref(subclass, 'tool_choice_by_level'), len(advancements)))",
+          "visible_if": "(by_level(ref(klass, 'tool_choice_by_level'), len(advancements)) + by_level(ref(subclass, 'tool_choice_by_level'), len(advancements))) > 0"
+        }
+      ],
+      "apply": [
+        {
+          "pick": "feats",
+          "entry": "answer.style",
+          "values": {
+            "from_level": "len(advancements)"
+          }
+        },
+        {
+          "pick": "features",
+          "entry": "answer.variant"
+        },
+        {
+          "add": "skill_expertise",
+          "values": "answer.expertise"
+        },
+        {
+          "add": "skill_profs",
+          "values": "answer.skills"
+        },
+        {
+          "add": "skill_profs",
+          "values": "answer.sub_skills"
+        },
+        {
+          "add": "skill_expertise",
+          "values": "ref(subclass, 'skill_choice_expertise') ? answer.sub_skills : ''"
+        },
+        {
+          "add": "language_profs",
+          "values": "answer.languages"
+        },
+        {
+          "add": "tool_profs",
+          "values": "answer.tools"
         }
       ]
     },

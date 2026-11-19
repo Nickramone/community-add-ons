@@ -26,6 +26,16 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   Boon from level 19; level, ability score, spellcasting and armour training
   are checked), and a subclass at the class's subclass level. It adds the
   level-up row and the feat for you
+- **Class feature choices** right after Level up, only on a level that has
+  them: a Fighting Style feat (Fighter 1, Paladin 2, Ranger 2, Champion 7;
+  Blessed Warrior and Druidic Warrior only for their class), one option of
+  Divine Order, Primal Order, Blessed Strikes or Elemental Fury (added as a
+  class feature whose effects the sheet works out: Heavy or Medium armour and
+  Martial weapons for Protector and Warden, Wisdom added to Arcana, Religion or
+  Nature checks for Thaumaturge and Magician), Expertise in skills you are
+  proficient in, and the skill, language and tool proficiencies a class or
+  subclass feature lets you choose. The levels come from the class and
+  subclass entries (`*_by_level` fields)
 - **Abilities** with live modifiers, and saving throws that add proficiency
   where you have it
 - **Armour class, initiative, passive Perception and proficiency bonus**, all
