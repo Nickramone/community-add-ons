@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.28.0",
+  "version": "1.28.1",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -3342,7 +3342,7 @@
           "key": "swap",
           "type": "select",
           "label": "Replace one of your options with another (allowed each level)",
-          "label_formula": "concat('Your ', (concat(ref(klass, 'option_type'), ref(subclass, 'option_type')) == 'Metamagic' ? 'Metamagic options' : concat(concat(ref(klass, 'option_type'), ref(subclass, 'option_type')), 's')), ': keep them all or replace one (allowed each level)')",
+          "label_formula": "concat('Your ', (concat(ref(klass, 'option_type'), ref(subclass, 'option_type')) == 'Metamagic' ? 'Metamagic options' : concat(concat(ref(klass, 'option_type'), ref(subclass, 'option_type')), 's')), ' (', at(class_options, 0, 'name'), at(class_options, 1, 'name') != '' ? concat(', ', at(class_options, 1, 'name')) : '', at(class_options, 2, 'name') != '' ? concat(', ', at(class_options, 2, 'name')) : '', at(class_options, 3, 'name') != '' ? concat(', ', at(class_options, 3, 'name')) : '', at(class_options, 4, 'name') != '' ? concat(', ', at(class_options, 4, 'name')) : '', at(class_options, 5, 'name') != '' ? concat(', ', at(class_options, 5, 'name')) : '', at(class_options, 6, 'name') != '' ? concat(', ', at(class_options, 6, 'name')) : '', at(class_options, 7, 'name') != '' ? concat(', ', at(class_options, 7, 'name')) : '', at(class_options, 8, 'name') != '' ? concat(', ', at(class_options, 8, 'name')) : '', at(class_options, 9, 'name') != '' ? concat(', ', at(class_options, 9, 'name')) : '', '): keep them all or replace one? (allowed each level)')",
           "options": [
             {
               "value": "keep",
