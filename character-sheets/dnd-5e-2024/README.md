@@ -106,7 +106,8 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   Arcanum, and lets the character replace one class cantrip and, for a Bard,
   Sorcerer or Warlock, one class spell; only spells of the class list (and the
   Magical Secrets lists), up to the highest slot level and not already taken
-  are offered (`entries` prompt step, from the Grimoire fork). **Prepare
+  are offered, each with its level beside the name (`entries` prompt step and
+  its `entry_note`, from the Grimoire fork). **Prepare
   spells**, in Spells for a Cleric, Druid, Paladin or Ranger, swaps prepared
   spells for others of the class list. The spells a class or subclass always
   has prepared (domain, oath, circle, patron spells; Hunter's Mark, Divine
