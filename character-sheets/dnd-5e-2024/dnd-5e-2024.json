@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.35.3",
+  "version": "1.36.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -4054,6 +4054,90 @@
         }
       ]
     },
+    "spell_catchup": {
+      "label": "Missing spells",
+      "steps": [
+        {
+          "key": "cantrips",
+          "type": "entries",
+          "content_type": "spell",
+          "label": "New cantrips",
+          "label_formula": "concat('Cantrips: choose ', cantrips_max - cantrips_count, ' from the ', ref(klass, 'name'), ' list')",
+          "count": "cantrips_max - cantrips_count",
+          "filter": "entry.level == 0 and contains(entry.spell_lists, ref(klass, 'name')) and not has_ref(spells, entry._ref)",
+          "visible_if": "cantrips_max - cantrips_count > 0"
+        },
+        {
+          "key": "spells",
+          "type": "entries",
+          "content_type": "spell",
+          "entry_note": "entry.level == 0 ? 'Cantrip' : concat('Lv. ', entry.level)",
+          "label": "New spells",
+          "label_formula": "prepare_on_level_up ? concat('Spells you learn: choose ', prepared_max - prepared_count, ' up to level ', slot_level_max, (ref(klass, 'extra_spell_classes') != '' and class_level >= ref(klass, 'extra_spell_from_level')) ? ' from your list or, with Magical Secrets, the Cleric, Druid and Wizard lists' : '') : concat('Spells to prepare: choose ', prepared_max - prepared_count, ' up to level ', slot_level_max, ' (after a long rest change them with Prepare spells in Spells)')",
+          "count": "prepared_max - prepared_count",
+          "filter": "entry.level >= 1 and entry.level <= slot_level_max and (contains(entry.spell_lists, ref(klass, 'name')) or (ref(klass, 'extra_spell_classes') != '' and class_level >= ref(klass, 'extra_spell_from_level') and ((contains(ref(klass, 'extra_spell_classes'), ',Bard,') and contains(entry.spell_lists, 'Bard')) or (contains(ref(klass, 'extra_spell_classes'), ',Cleric,') and contains(entry.spell_lists, 'Cleric')) or (contains(ref(klass, 'extra_spell_classes'), ',Druid,') and contains(entry.spell_lists, 'Druid')) or (contains(ref(klass, 'extra_spell_classes'), ',Paladin,') and contains(entry.spell_lists, 'Paladin')) or (contains(ref(klass, 'extra_spell_classes'), ',Ranger,') and contains(entry.spell_lists, 'Ranger')) or (contains(ref(klass, 'extra_spell_classes'), ',Sorcerer,') and contains(entry.spell_lists, 'Sorcerer')) or (contains(ref(klass, 'extra_spell_classes'), ',Warlock,') and contains(entry.spell_lists, 'Warlock')) or (contains(ref(klass, 'extra_spell_classes'), ',Wizard,') and contains(entry.spell_lists, 'Wizard'))))) and not has_ref(spells, entry._ref)",
+          "visible_if": "not has_spellbook and prepare_on_level_up and slot_level_max > 0 and prepared_max - prepared_count > 0"
+        },
+        {
+          "key": "book",
+          "type": "entries",
+          "content_type": "spell",
+          "entry_note": "entry.level == 0 ? 'Cantrip' : concat('Lv. ', entry.level)",
+          "label": "Spellbook",
+          "label_formula": "concat('Spellbook: write in ', spellbook_free - spellbook_count, ' Wizard spells up to level ', slot_level_max, ' (then tick Prepared in the Spellbook on the ones you prepare)')",
+          "count": "spellbook_free - spellbook_count",
+          "filter": "entry.level >= 1 and entry.level <= slot_level_max and contains(entry.spell_lists, ref(klass, 'name')) and not has_ref(spells, entry._ref)",
+          "visible_if": "ref(klass, 'spellbook_by_level') != '' and slot_level_max > 0 and spellbook_free - spellbook_count > 0"
+        },
+        {
+          "key": "arcanum",
+          "type": "entry",
+          "content_type": "spell",
+          "label": "Mystic Arcanum",
+          "label_formula": "concat('Mystic Arcanum: one Warlock spell of level ', by_level(ref(klass, 'arcanum_by_level'), class_level), ', cast once per long rest without a slot')",
+          "filter": "entry.level == by_level(ref(klass, 'arcanum_by_level'), class_level) and contains(entry.spell_lists, ref(klass, 'name')) and not has_ref(spells, entry._ref)",
+          "visible_if": "by_level(ref(klass, 'arcanum_by_level'), class_level) > 0 and count_each(spells, row.level == by_level(ref(klass, 'arcanum_by_level'), class_level) and row.use == 'long_rest' and row.origin == 'class') == 0"
+        }
+      ],
+      "apply": [
+        {
+          "pick": "spells",
+          "entry": "answer.cantrips",
+          "values": {
+            "origin": "'class'",
+            "from_level": "class_level"
+          }
+        },
+        {
+          "pick": "spells",
+          "entry": "answer.spells",
+          "values": {
+            "origin": "'class'",
+            "prepared": "true",
+            "from_level": "class_level"
+          }
+        },
+        {
+          "pick": "spells",
+          "entry": "answer.book",
+          "values": {
+            "origin": "'spellbook'",
+            "from_level": "class_level"
+          }
+        },
+        {
+          "pick": "spells",
+          "entry": "answer.arcanum",
+          "values": {
+            "origin": "'class'",
+            "always": "true",
+            "use": "'long_rest'",
+            "uses": "'1'",
+            "from_level": "class_level"
+          }
+        }
+      ]
+    },
     "prepare_spells": {
       "label": "Prepare spells",
       "steps": [
@@ -4274,6 +4358,11 @@
       "name": "prepare_spells",
       "label": "Prepare spells",
       "steps": [{"prompt": "prepare_spells"}]
+    },
+    {
+      "name": "spell_catchup",
+      "label": "Choose missing spells",
+      "steps": [{"prompt": "spell_catchup"}]
     },
     {
       "name": "short_rest",

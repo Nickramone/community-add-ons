@@ -860,6 +860,10 @@
 .sp-always {
   color: var(--gold);
 }
+.sp-known {
+  color: var(--gold);
+  font-weight: 700;
+}
 .spell-edit {
   margin-top: 8px;
 }

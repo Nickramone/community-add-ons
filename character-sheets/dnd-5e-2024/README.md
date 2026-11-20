@@ -109,7 +109,10 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   are offered, each with its level beside the name (`entries` prompt step and
   its `entry_note`, from the Grimoire fork). **Prepare
   spells**, in Spells for a Cleric, Druid, Paladin or Ranger, swaps prepared
-  spells for others of the class list. The spells a class or subclass always
+  spells for others of the class list. **Choose missing spells** appears in Spells while
+  cantrips, a Bard's, Sorcerer's or Warlock's spells, a Wizard's spellbook or a
+  Mystic Arcanum are missing (a Level up skipped), and asks only for those. A
+  Bard's, Sorcerer's or Warlock's class spells show a fixed ✓ instead of the box. The spells a class or subclass always
   has prepared (domain, oath, circle, patron spells; Hunter's Mark, Divine
   Smite) arrive at the level that grants them: those of the level the class or
   subclass is chosen at with the pick, the later ones with Level up, from the
