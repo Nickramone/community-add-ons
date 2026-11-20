@@ -84,6 +84,21 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   proficiency on individual skills)
 - **Spellcasting** that only appears for casters: pick the ability and the save
   DC and attack bonus follow
+- **Spells** in one list, each with its origin (Class, Subclass, Spellbook,
+  Feat, Species, Item, or Other for a spell added by hand; only Other and
+  Spellbook can be changed, and Spellbook only for a Wizard), drawn by level in
+  **Prepared** (cantrips, prepared and always-prepared spells, with
+  components), **Known** (every spell, with the box to prepare it) and, for a
+  Wizard, **Spellbook**; each row opens on its description (`<g-value
+  markdown>`, from the Grimoire fork). Counters for cantrips, prepared spells and
+  the spellbook come from the class's `cantrips_by_level`, `prepared_by_level`
+  and `spellbook_by_level`. Past the class maximum the Prepared box can no
+  longer be ticked; always-prepared spells (subclass, feat, species, item) do
+  not count, a Bard's, Sorcerer's or Warlock's class spells change only on level
+  up. Warnings: too many or too few cantrips and prepared spells, too few spells
+  in a Wizard's book, a spell above the highest slot level (or Mystic Arcanum),
+  a class or spellbook spell off the class list (any list for a Bard from
+  Magical Secrets on), a spell taken at a level the character no longer has
 - **Equipment** picked from the catalogue or typed in, each with a quantity,
   and carried weight - counting quantity - against a `Strength × 15` capacity
 - **Magic items**, each marked equipped and, only for those that need it,

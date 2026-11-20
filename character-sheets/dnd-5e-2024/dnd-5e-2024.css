@@ -727,3 +727,87 @@
   text-transform: none;
   letter-spacing: normal;
 }
+
+/* 1.34.0: spells in Prepared, Known and Spellbook, by level; a row opens on its description */
+.spell-counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 0;
+}
+.spell-sec {
+  margin: 8px 0 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+  border-bottom: 1px solid var(--border);
+}
+.spell-lvl {
+  margin: 4px 0 0;
+  color: var(--text-muted);
+}
+.spell-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  border-bottom: 1px dotted var(--border);
+}
+.spell-row > .spell {
+  flex: 1;
+  min-width: 0;
+}
+.sp-prep {
+  flex: 0 0 22px;
+  display: flex;
+  justify-content: center;
+  padding-top: 3px;
+}
+.spell > summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 76px 70px 22px minmax(0, 92px);
+  gap: 6px;
+  align-items: baseline;
+  list-style: none;
+  cursor: pointer;
+  padding: 3px 0;
+  font-size: 13px;
+}
+.spell > summary::-webkit-details-marker {
+  display: none;
+}
+.spell > summary > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.spell > summary .sp-name {
+  font-weight: 600;
+}
+.spell > summary .sp-time,
+.spell > summary .sp-range,
+.spell > summary .sp-comp {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.spell > summary .sp-rc {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gold);
+}
+.spell[open] > summary .sp-name {
+  color: var(--gold);
+}
+.sp-desc {
+  padding: 0 0 6px;
+  font-size: 12px;
+}
+.sp-desc > p.tiny {
+  margin: 0 0 4px;
+}
+.sp-always {
+  color: var(--gold);
+}
+.spell-edit {
+  margin-top: 8px;
+}
