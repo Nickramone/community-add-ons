@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.34.2",
+  "version": "1.34.3",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -1086,10 +1086,10 @@
       ],
       "filter_fields": [
         "level",
+        "spell_lists",
         "school",
         "concentration",
-        "ritual",
-        "spell_lists"
+        "ritual"
       ],
       "compact_display": "{name} — {school} {level}",
       "fields": {
@@ -1111,6 +1111,7 @@
           "type": "text",
           "label": "Casting Time"
         },
+        "casting_time_short": {"type": "text", "label": "Casting Time (short)"},
         "range": {
           "type": "text",
           "label": "Range"
@@ -2713,7 +2714,7 @@
       "add_label": "Add a spell",
       "empty_text": "No spells yet. Add them from the catalog; a Wizard then sets Origin to Spellbook for the spells copied into the book.",
       "per_entry_fields": {
-        "origin": {"type": "select", "label": "Origin", "options": [{"value": "other", "label": "Other"}, {"value": "class", "label": "Class"}, {"value": "subclass", "label": "Subclass"}, {"value": "spellbook", "label": "Spellbook"}, {"value": "feat", "label": "Feat"}, {"value": "species", "label": "Species"}, {"value": "item", "label": "Item"}], "default": "other", "options_filter": "option == 'other' or (option == 'spellbook' and has_spellbook)", "disabled_if": "row.origin and row.origin != 'other' and row.origin != 'spellbook'"},
+        "origin": {"type": "select", "label": "Origin", "options": [{"value": "other", "label": "Other"}, {"value": "class", "label": "Class"}, {"value": "subclass", "label": "Subclass"}, {"value": "spellbook", "label": "Spellbook"}, {"value": "feat", "label": "Feat"}, {"value": "species", "label": "Species"}, {"value": "item", "label": "Item"}], "width": 120, "default": "other", "options_filter": "option == 'other' or (option == 'spellbook' and has_spellbook)", "disabled_if": "row.origin and row.origin != 'other' and row.origin != 'spellbook'"},
         "source_ref": {"type": "text", "label": "Granted by", "visible_if": "false"},
         "from_level": {"type": "number", "label": "From level", "min": 0, "max": 20, "visible_if": "false"},
         "always": {"type": "checkbox", "label": "Always prepared", "visible_if": "false"},
@@ -2722,6 +2723,7 @@
         "ability": {
           "type": "select",
           "label": "Ability",
+          "visible_if": "row.origin == 'feat' or row.origin == 'species' or row.origin == 'item'",
           "options": [
             {
               "value": "",
@@ -2750,7 +2752,7 @@
       },
       "display_columns": [
         "level",
-        "casting_time",
+        {"key": "casting_time_short", "label": "Casting Time"},
         "range",
         "components"
       ]
