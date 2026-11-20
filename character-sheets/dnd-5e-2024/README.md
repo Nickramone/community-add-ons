@@ -90,7 +90,7 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   **Prepared** (cantrips, prepared and always-prepared spells, with
   components), **Known** (every spell, with the box to prepare it) and, for a
   Wizard, **Spellbook**; each row opens on its description (`<g-value
-  markdown>`, from the Grimoire fork). Counters for cantrips, prepared spells and
+  markdown>`, from the Grimoire fork); the catalog filters spells by Spell List. Counters for cantrips, prepared spells and
   the spellbook come from the class's `cantrips_by_level`, `prepared_by_level`
   and `spellbook_by_level`. Past the class maximum the Prepared box can no
   longer be ticked; always-prepared spells (subclass, feat, species, item) do

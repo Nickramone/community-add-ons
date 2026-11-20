@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.34.0",
+  "version": "1.34.1",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -1088,7 +1088,8 @@
         "level",
         "school",
         "concentration",
-        "ritual"
+        "ritual",
+        "spell_lists"
       ],
       "compact_display": "{name} — {school} {level}",
       "fields": {
@@ -1137,7 +1138,8 @@
         "classes": {
           "type": "text",
           "label": "Spell Lists"
-        }
+        },
+        "spell_lists": {"type": "multiselect", "label": "Spell List", "options": ["Bard", "Cleric", "Druid", "Paladin", "Ranger", "Sorcerer", "Warlock", "Wizard"]}
       }
     },
     "trait": {
@@ -2711,7 +2713,7 @@
       "add_label": "Add a spell",
       "empty_text": "No spells yet. Add them from the catalog; a Wizard then sets Origin to Spellbook for the spells copied into the book.",
       "per_entry_fields": {
-        "origin": {"type": "select", "label": "Origin", "options": [{"value": "", "label": "Other"}, {"value": "class", "label": "Class"}, {"value": "subclass", "label": "Subclass"}, {"value": "spellbook", "label": "Spellbook"}, {"value": "feat", "label": "Feat"}, {"value": "species", "label": "Species"}, {"value": "item", "label": "Item"}], "options_filter": "option == '' or (option == 'spellbook' and has_spellbook)", "disabled_if": "row.origin and row.origin != 'spellbook'"},
+        "origin": {"type": "select", "label": "Origin", "options": [{"value": "other", "label": "Other"}, {"value": "class", "label": "Class"}, {"value": "subclass", "label": "Subclass"}, {"value": "spellbook", "label": "Spellbook"}, {"value": "feat", "label": "Feat"}, {"value": "species", "label": "Species"}, {"value": "item", "label": "Item"}], "default": "other", "options_filter": "option == 'other' or (option == 'spellbook' and has_spellbook)", "disabled_if": "row.origin and row.origin != 'other' and row.origin != 'spellbook'"},
         "source_ref": {"type": "text", "label": "Granted by", "visible_if": "false"},
         "from_level": {"type": "number", "label": "From level", "min": 0, "max": 20, "visible_if": "false"},
         "always": {"type": "checkbox", "label": "Always prepared", "visible_if": "false"},
@@ -3219,12 +3221,12 @@
       "label": "Spell Attack"
     },
     "prepared_count": {
-      "formula": "count_each(spells, row.level > 0 and row.prepared and not row.always and (not row.origin or row.origin == 'class' or row.origin == 'spellbook'))",
+      "formula": "count_each(spells, row.level > 0 and row.prepared and not row.always and (not row.origin or row.origin == 'other' or row.origin == 'class' or row.origin == 'spellbook'))",
       "label": "Spells Prepared"
     },
     "class_level": {"formula": "len(advancements) > 0 ? len(advancements) : level", "label": "Class Level"},
     "cantrips_max": {"formula": "by_level(ref(klass, 'cantrips_by_level'), class_level)", "label": "Cantrips Known (most)"},
-    "cantrips_count": {"formula": "count_each(spells, row.level == 0 and not row.always and (not row.origin or row.origin == 'class'))", "label": "Cantrips Known"},
+    "cantrips_count": {"formula": "count_each(spells, row.level == 0 and not row.always and (not row.origin or row.origin == 'other' or row.origin == 'class'))", "label": "Cantrips Known"},
     "prepared_max": {"formula": "by_level(ref(klass, 'prepared_by_level'), class_level)", "label": "Prepared Spells (most)"},
     "prepare_on_level_up": {"formula": "ref(klass, 'prepare_change') == 'level_up'", "label": "Prepared Spells Change on Level Up"},
     "spellbook_free": {"formula": "by_level(ref(klass, 'spellbook_by_level'), class_level)", "label": "Spellbook Spells from Levels"},
@@ -4001,12 +4003,12 @@
     {"rule": "count_each(feats, (row.prereq_str or row.prereq_dex or row.prereq_con or row.prereq_int or row.prereq_wis or row.prereq_cha) and not ((row.prereq_str and strength_score >= row.prereq_str) or (row.prereq_dex and dexterity_score >= row.prereq_dex) or (row.prereq_con and constitution_score >= row.prereq_con) or (row.prereq_int and intelligence_score >= row.prereq_int) or (row.prereq_wis and wisdom_score >= row.prereq_wis) or (row.prereq_cha and charisma_score >= row.prereq_cha))) == 0", "message": "A feat needs an ability score the character no longer has: remove the feat or raise the score.", "field": "feats"},
     {"rule": "count_each(feats, (row.prereq_spellcasting and ref(klass, 'spellcasting') == '') or (contains(row.prereq_proficiencies, 'armor:light') and not armor_light) or (contains(row.prereq_proficiencies, 'armor:medium') and not armor_medium) or (contains(row.prereq_proficiencies, 'armor:heavy') and not armor_heavy) or (contains(row.prereq_proficiencies, 'armor:shield') and not armor_shields)) == 0", "message": "A feat needs spellcasting or an armor training the character no longer has: remove the feat or change the class.", "field": "feats"},
     {"rule": "ref(klass, 'name') == '' or count_each(feats, row.from_level > 0 and (row.category == 'General' or row.category == 'Epic Boon') and not contains(ref(klass, 'asi_levels'), concat(',', row.from_level, ','))) == 0", "message": "A feat was taken at a level where the class has no Ability Score Improvement: check the level it came from or the class.", "field": "feats"},
-    {"rule": "cantrips_max == 0 or cantrips_count <= cantrips_max", "message": "More cantrips than your class knows at this level: remove one (cantrips from a subclass, feat, species or item do not count).", "field": "spells"},
-    {"rule": "prepared_max == 0 or prepared_count <= prepared_max", "message": "More spells prepared than your class allows at this level: unprepare one (always-prepared spells do not count).", "field": "spells"},
-    {"rule": "spell_level_max == 0 or count_each(spells, row.level > spell_level_max and not row.always and (not row.origin or row.origin == 'class' or row.origin == 'spellbook')) == 0", "message": "A spell is above the highest level of your spell slots: remove it, or tick it off until you reach that level.", "field": "spells"},
-    {"rule": "cantrips_max == 0 or cantrips_count >= cantrips_max", "message": "Fewer cantrips than your class knows at this level: add the missing ones from the catalog.", "field": "spells"},
-    {"rule": "spellbook_free == 0 or spellbook_count >= spellbook_free", "message": "Fewer spells in the spellbook than a Wizard writes in by this level (6 at level 1, 2 more each level): add them and set their Origin to Spellbook.", "field": "spells"},
-    {"rule": "not prepare_on_level_up or prepared_max == 0 or prepared_count >= prepared_max", "message": "Fewer spells than your class knows at this level: add the missing ones and prepare them (a Bard, Sorcerer or Warlock keeps them prepared).", "field": "spells"},
+    {"rule": "not cantrips_max or cantrips_count <= cantrips_max", "message": "More cantrips than your class knows at this level: remove one (cantrips from a subclass, feat, species or item do not count).", "field": "spells"},
+    {"rule": "not prepared_max or prepared_count <= prepared_max", "message": "More spells prepared than your class allows at this level: unprepare one (always-prepared spells do not count).", "field": "spells"},
+    {"rule": "not spell_level_max or count_each(spells, row.level > spell_level_max and not row.always and (not row.origin or row.origin == 'other' or row.origin == 'class' or row.origin == 'spellbook')) == 0", "message": "A spell is above the highest level of your spell slots: remove it, or tick it off until you reach that level.", "field": "spells"},
+    {"rule": "not cantrips_max or cantrips_count >= cantrips_max", "message": "Fewer cantrips than your class knows at this level: add the missing ones from the catalog.", "field": "spells"},
+    {"rule": "not spellbook_free or spellbook_count >= spellbook_free", "message": "Fewer spells in the spellbook than a Wizard writes in by this level (6 at level 1, 2 more each level): add them and set their Origin to Spellbook.", "field": "spells"},
+    {"rule": "not prepare_on_level_up or not prepared_max or prepared_count >= prepared_max", "message": "Fewer spells than your class knows at this level: add the missing ones and prepare them (a Bard, Sorcerer or Warlock keeps them prepared).", "field": "spells"},
     {"rule": "ref(klass, 'name') == '' or count_each(spells, (row.origin == 'class' or row.origin == 'spellbook') and not row._inline and not contains(row.classes, ref(klass, 'name')) and not (ref(klass, 'extra_spell_classes') != '' and class_level >= ref(klass, 'extra_spell_from_level'))) == 0", "message": "A class or spellbook spell is not on your class's spell list: remove it, or add it again with Origin Other if a feature allows it.", "field": "spells"},
     {"rule": "len(advancements) == 0 or count_each(spells, row.from_level and row.from_level > len(advancements)) == 0", "message": "A spell was taken at a level the character no longer has: remove it or add the level back.", "field": "spells"}
   ]
