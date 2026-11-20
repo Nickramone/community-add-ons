@@ -811,3 +811,14 @@
 .spell-edit {
   margin-top: 8px;
 }
+
+/* 1.34.2: the spell a warning is about, marked on its row */
+.sp-warn {
+  margin-left: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--danger, #c0392b);
+}
+.spell > summary > .sp-name {
+  white-space: normal;
+}
