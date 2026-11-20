@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.37.1",
+  "version": "1.38.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -2551,6 +2551,10 @@
       "label": "Concentrating On",
       "placeholder": "Spell or effect"
     },
+    "raging": {
+      "type": "checkbox",
+      "label": "Raging"
+    },
     "effects": {
       "type": "list",
       "label": "Other Effects",
@@ -3483,6 +3487,10 @@
     "unarmed_mod": {
       "formula": "unarmed_arts ? max(strength_mod, dexterity_mod) : strength_mod",
       "label": "Unarmed Strike Modifier"
+    },
+    "rage_bonus": {
+      "formula": "raging && has_ref(features, 'rage-barbarian-1-xphb') ? (class_level >= 16 ? 4 : (class_level >= 9 ? 3 : 2)) : 0",
+      "label": "Rage Damage"
     },
     "unarmed_die": {
       "formula": "max(has_ref(feats, 'tavern-brawler-xphb') ? 4 : 0, has_ref(feats, 'unarmed-fighting-xphb') ? (armed_count == 0 && shield_worn == 0 ? 8 : 6) : 0, unarmed_arts ? (class_level >= 17 ? 12 : (class_level >= 11 ? 10 : (class_level >= 5 ? 8 : 6))) : 0)",
@@ -4808,6 +4816,7 @@
       "label": "Short rest",
       "confirm": "Take a short rest? Short-rest resources, class feature uses, short-rest trait uses, short-rest item charges and Pact Magic slots come back (Rage, Channel Divinity, Wild Shape and Second Wind give back one use); spend Hit Dice by hand.",
       "steps": [
+        {"set": "raging", "to": "false"},
         {"each": "resources", "where": "row.recovery == 'short'", "set": {"used": "0"}},
         {"each": "features", "where": "(row.recovery_by_level ? by_level(row.recovery_by_level, level) : row.recovery) == 'short'", "set": {"used": "0"}},
         {"each": "features", "where": "(row.recovery_by_level ? by_level(row.recovery_by_level, level) : row.recovery) == 'long' && row.short_regain", "set": {"used": "max(row.used - row.short_regain, 0)"}},
@@ -4823,6 +4832,7 @@
       "confirm": "Take a long rest? HP, spell slots, resources, feature and trait uses, item charges and Hit Dice come back; exhaustion drops.",
       "steps": [
         {"set": "hp_current", "to": "hp_max"},
+        {"set": "raging", "to": "false"},
         {"set": "hp_temp", "to": "0"},
         {"set": "hit_dice_spent", "to": "''"},
         {"each": "resources", "set": {"used": "0"}},

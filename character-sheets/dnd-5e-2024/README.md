@@ -219,8 +219,10 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   ranged weapons Dexterity, Archery's +2), damage dice, modifier and type,
   range or reach, and a magic weapon's own bonuses and critical range; magic
   items with attack or damage bonuses and no weapon data keep a Strength and a
-  Dexterity row; the spell attack and save DC for a caster, and for each other casting ability that a feat, species or item spell uses (a non-caster with a Magic Initiate spell gets its row too); notes for
-  Dueling, Great Weapon Fighting, Two-Weapon Fighting, Great Weapon Master,
+  Dexterity row; the spell attack and save DC for a caster, and for each other casting ability that a feat, species or item spell uses (a non-caster with a Magic Initiate spell gets its row too); Dueling (+2, one-handed melee weapon with no other weapon held), Thrown Weapon Fighting (+2 on thrown attacks),
+  Great Weapon Master (+proficiency with a Heavy weapon) and Rage (a Raging box next to Concentrating On for a Barbarian: +2/+3/+4 on Strength attacks,
+  cleared by a rest) are added to the damage; notes for
+  Great Weapon Fighting, Two-Weapon Fighting,
   Heavy Armor Master, Defensive Duelist and Defense, with the proficiency
   bonus filled in. The typed list below is for other attacks and damage
   cantrips
