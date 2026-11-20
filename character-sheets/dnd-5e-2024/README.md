@@ -86,10 +86,11 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   DC and attack bonus follow
 - **Spells** in one list, each with its origin (Class, Subclass, Spellbook,
   Feat, Species, Item, or Other for a spell added by hand; only Other and
-  Spellbook can be changed, and Spellbook only for a Wizard), drawn by level in
+  Spellbook can be changed, and Spellbook only for a Wizard), drawn by level,
+  each level under its own gold rule: one **Spells** list (every spell, with the
+  box to prepare it and ● on the always-prepared ones) or, for a Wizard,
   **Prepared** (cantrips, prepared and always-prepared spells, with
-  components), **Known** (every spell, with the box to prepare it) and, for a
-  Wizard, **Spellbook**; each row opens on its description (`<g-value
+  components), **Known** and **Spellbook**; each row opens on its description (`<g-value
   markdown>`, from the Grimoire fork); the catalog filters spells by Spell List. Counters for cantrips, prepared spells and
   the spellbook come from the class's `cantrips_by_level`, `prepared_by_level`
   and `spellbook_by_level`. Past the class maximum the Prepared box can no
