@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.31.0",
+  "version": "1.32.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -3025,7 +3025,7 @@
       "label": "Current Speed"
     },
     "active_effects": {
-      "formula": "len(conditions) + (exhaustion > 0 ? 1 : 0) + (len(concentration) > 0 ? 1 : 0) + len(effects) + count_each(magic_items, row.equipped && (row.attuned or not row.attunement) && not row._inline && row.defenses)",
+      "formula": "len(conditions) + (exhaustion > 0 ? 1 : 0) + (len(concentration) > 0 ? 1 : 0) + len(effects) + count_each(features, (row.choice != '' and (row.name == 'Elemental Affinity' or row.name == 'Dread Allegiance' or row.name == 'Aspect of the Wilds')) or (contains(row.name, 'Nature') and contains(row.name, 'Ward'))) + count_each(magic_items, row.equipped && (row.attuned or not row.attunement) && not row._inline && row.defenses)",
       "label": "Active Effects"
     },
     "attack_str": {
@@ -3744,6 +3744,7 @@
     {"rule": "count_each(feats, row.category == 'Fighting Style') >= by_level(ref(klass, 'fighting_style_total_by_level'), len(advancements)) + by_level(ref(subclass, 'fighting_style_total_by_level'), len(advancements))", "message": "A Fighting Style feat is missing: your class or subclass gave you one at an earlier level - add it under Feats (or reopen Level up).", "field": "feats"},
     {"rule": "count_each(features, row.variant_of != '') >= by_level(ref(klass, 'variant_total_by_level'), len(advancements))", "message": "A class feature option is missing (Divine Order, Primal Order, Blessed Strikes, Elemental Fury): add the one you chose under Class Features.", "field": "features"},
     {"rule": "len(skill_expertise) >= by_level(ref(klass, 'expertise_total_by_level'), len(advancements)) + by_level(ref(subclass, 'expertise_total_by_level'), len(advancements))", "message": "Fewer Expertise skills than your class and subclass give by this level: pick the missing ones in Skill Expertise.", "field": "skill_expertise"},
-    {"rule": "len(class_options) >= by_level(ref(klass, 'options_total_by_level'), len(advancements)) + by_level(ref(subclass, 'options_total_by_level'), len(advancements))", "message": "Fewer Metamagic options, Eldritch Invocations or Maneuvers than you should know at this level: add the missing ones.", "field": "class_options"}
+    {"rule": "len(class_options) >= by_level(ref(klass, 'options_total_by_level'), len(advancements)) + by_level(ref(subclass, 'options_total_by_level'), len(advancements))", "message": "Fewer Metamagic options, Eldritch Invocations or Maneuvers than you should know at this level: add the missing ones.", "field": "class_options"},
+    {"rule": "(count_each(class_options, row.prereq_option == 'Pact of the Blade') == 0 or count_each(class_options, row.name == 'Pact of the Blade') > 0) and (count_each(class_options, row.prereq_option == 'Pact of the Chain') == 0 or count_each(class_options, row.name == 'Pact of the Chain') > 0) and (count_each(class_options, row.prereq_option == 'Pact of the Tome') == 0 or count_each(class_options, row.name == 'Pact of the Tome') > 0) and (count_each(class_options, row.prereq_option == 'Thirsting Blade') == 0 or count_each(class_options, row.name == 'Thirsting Blade') > 0)", "message": "An option needs another you no longer have (Pact of the Blade, Chain or Tome, Thirsting Blade): add it back or replace the option that needs it.", "field": "class_options"}
   ]
 }
