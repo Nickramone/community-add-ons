@@ -98,7 +98,19 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   up. Warnings: too many or too few cantrips and prepared spells, too few spells
   in a Wizard's book, a spell above the highest slot level (or Mystic Arcanum),
   a class or spellbook spell off the class list (any list for a Bard from
-  Magical Secrets on), a spell taken at a level the character no longer has
+  Magical Secrets on), a spell taken at a level the character no longer has.
+  **Level up** asks, in a Spells step after the class choices, for the new
+  cantrips, the new spells (a Bard, Sorcerer or Warlock learns them, any other
+  caster prepares them), a Wizard's new spellbook spells, a Warlock's Mystic
+  Arcanum, and lets the character replace one class cantrip and, for a Bard,
+  Sorcerer or Warlock, one class spell; only spells of the class list (and the
+  Magical Secrets lists), up to the highest slot level and not already taken
+  are offered (`entries` prompt step, from the Grimoire fork). **Prepare
+  spells**, in Spells for a Cleric, Druid, Paladin or Ranger, swaps prepared
+  spells for others of the class list. The spells a class or subclass always
+  has prepared (domain, oath, circle, patron spells; Hunter's Mark, Divine
+  Smite) arrive with the class or subclass, from the converter's
+  `auto_spell_*` lists, and show from their level on
 - **Equipment** picked from the catalogue or typed in, each with a quantity,
   and carried weight - counting quantity - against a `Strength × 15` capacity
 - **Magic items**, each marked equipped and, only for those that need it,
