@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.36.0",
+  "version": "1.37.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -795,6 +795,12 @@
         "skill_options": {"type": "multiselect", "label": "Skill Choice Options", "options": ["Acrobatics", "Animal Handling", "Arcana", "Athletics", "Deception", "History", "Insight", "Intimidation", "Investigation", "Medicine", "Nature", "Perception", "Performance", "Persuasion", "Religion", "Sleight of Hand", "Stealth", "Survival"]},
         "skill_count": {"type": "number", "label": "Skills to Choose", "min": 0},
         "origin_feat": {"type": "checkbox", "label": "Origin Feat of Choice"},
+        "auto_spell_ids": {"type": "text", "label": "Auto Spells (ids)"},
+        "auto_spell_use": {"type": "text", "label": "Auto Spells Use"},
+        "auto_spell_uses": {"type": "text", "label": "Auto Spells Uses"},
+        "auto_spell_origin": {"type": "text", "label": "Auto Spells Origin"},
+        "auto_spell_always": {"type": "text", "label": "Auto Spells Always Prepared"},
+        "auto_spell_ability": {"type": "text", "label": "Auto Spells Ability"},
         "granted_spell_ids": {"type": "text", "label": "Granted Spells (ids)"},
         "granted_spell_from_levels": {"type": "text", "label": "Granted Spells From Level"},
         "granted_spell_use": {"type": "text", "label": "Granted Spells Use"},
@@ -934,6 +940,18 @@
             {"value": "other", "label": "Other"}
           ]
         },
+        "auto_spell_ids": {"type": "text", "label": "Auto Spells (ids)"},
+        "auto_spell_use": {"type": "text", "label": "Auto Spells Use"},
+        "auto_spell_uses": {"type": "text", "label": "Auto Spells Uses"},
+        "auto_spell_origin": {"type": "text", "label": "Auto Spells Origin"},
+        "auto_spell_always": {"type": "text", "label": "Auto Spells Always Prepared"},
+        "auto_spell_ability": {"type": "text", "label": "Auto Spells Ability"},
+        "auto_spell_ids_3": {"type": "text", "label": "Auto Spells (ids) 3"},
+        "auto_spell_use_3": {"type": "text", "label": "Auto Spells Use 3"},
+        "auto_spell_uses_3": {"type": "text", "label": "Auto Spells Uses 3"},
+        "auto_spell_ids_5": {"type": "text", "label": "Auto Spells (ids) 5"},
+        "auto_spell_use_5": {"type": "text", "label": "Auto Spells Use 5"},
+        "auto_spell_uses_5": {"type": "text", "label": "Auto Spells Uses 5"},
         "granted_spell_ids": {"type": "text", "label": "Granted Spells (ids)"},
         "granted_spell_from_levels": {"type": "text", "label": "Granted Spells From Level"},
         "granted_spell_use": {"type": "text", "label": "Granted Spells Use"},
@@ -1123,6 +1141,12 @@
             {"value": "other", "label": "Other"}
           ]
         },
+        "auto_spell_ids": {"type": "text", "label": "Auto Spells (ids)"},
+        "auto_spell_use": {"type": "text", "label": "Auto Spells Use"},
+        "auto_spell_uses": {"type": "text", "label": "Auto Spells Uses"},
+        "auto_spell_origin": {"type": "text", "label": "Auto Spells Origin"},
+        "auto_spell_always": {"type": "text", "label": "Auto Spells Always Prepared"},
+        "auto_spell_ability": {"type": "text", "label": "Auto Spells Ability"},
         "granted_spell_ids": {"type": "text", "label": "Granted Spells (ids)"},
         "granted_spell_from_levels": {"type": "text", "label": "Granted Spells From Level"},
         "granted_spell_use": {"type": "text", "label": "Granted Spells Use"},
@@ -1948,6 +1972,8 @@
           "type": "checkbox",
           "label": "Reach"
         },
+        "auto_spell_origin": {"type": "text", "label": "Auto Spells Origin"},
+        "auto_spell_always": {"type": "text", "label": "Auto Spells Always Prepared"},
         "granted_spell_ids": {"type": "text", "label": "Granted Spells (ids)"},
         "granted_spell_use": {"type": "text", "label": "Granted Spells Use"},
         "granted_spell_uses": {"type": "text", "label": "Granted Spells Cost In Charges"},
@@ -2155,6 +2181,7 @@
             "species": "name"
           }
         },
+        {"grant": "spells", "from": "auto_spell_ids", "values": {"origin": "auto_spell_origin", "always": "auto_spell_always", "use": "auto_spell_use", "uses": "auto_spell_uses", "ability": "auto_spell_ability"}},
         {"prompt": "species_choices"}
       ]
     },
@@ -2162,7 +2189,10 @@
       "type": "content_ref",
       "label": "Lineage",
       "content_type": "lineage",
-      "visible_if": "ref(species, 'lineages') != ''"
+      "visible_if": "ref(species, 'lineages') != ''",
+      "on_pick": [
+        {"prompt": "lineage_spells"}
+      ]
     },
     "background": {
       "type": "content_ref",
@@ -2179,7 +2209,8 @@
           "ref": "feat_id",
           "name": "feat"
         },
-        {"prompt": "background_abilities"}
+        {"prompt": "background_abilities"},
+        {"prompt": "background_spells"}
       ]
     },
     "klass": {
@@ -2846,6 +2877,7 @@
         "always": {"type": "checkbox", "label": "Always prepared", "visible_if": "false"},
         "uses": {"type": "text", "label": "Free uses", "visible_if": "false"},
         "use": {"type": "text", "label": "Free uses recovery", "visible_if": "false"},
+        "used": {"type": "number", "label": "Free uses spent", "min": 0, "default": 0, "visible_if": "false"},
         "ability": {
           "type": "select",
           "label": "Ability",
@@ -2888,7 +2920,7 @@
       "label": "Feats",
       "content_type": "feat",
       "allow_freeform": true,
-      "on_pick": [{"prompt": "feat_tools"}],
+      "on_pick": [{"prompt": "feat_tools"}, {"prompt": "feat_spells"}],
       "per_entry_fields": {
         "from_level": {"type": "number", "label": "From level", "min": 0, "max": 20, "visible_if": "false"},
         "asi": {"type": "select", "label": "Ability increase", "visible_if": "len(row.ability_options) > 0", "options": [{"value": "", "label": "—"}, {"value": "strength", "label": "Str"}, {"value": "dexterity", "label": "Dex"}, {"value": "constitution", "label": "Con"}, {"value": "intelligence", "label": "Int"}, {"value": "wisdom", "label": "Wis"}, {"value": "charisma", "label": "Cha"}]}
@@ -2924,6 +2956,9 @@
       "label": "Magic Items",
       "content_type": "magic_item",
       "allow_freeform": true,
+      "on_pick": [
+        {"grant": "spells", "from": "granted_spell_ids", "values": {"origin": "auto_spell_origin", "always": "auto_spell_always", "use": "granted_spell_use", "uses": "granted_spell_uses"}}
+      ],
       "per_entry_fields": {
         "equipped": {
           "type": "checkbox",
@@ -3121,6 +3156,17 @@
       "label": "Lineage Uses Spent",
       "min": 0,
       "default": 0
+    },
+    "species_spell_ability": {
+      "type": "select",
+      "label": "Species Spellcasting Ability",
+      "visible_if": "false",
+      "options": [
+        {"value": "", "label": "-"},
+        {"value": "intelligence", "label": "Intelligence"},
+        {"value": "wisdom", "label": "Wisdom"},
+        {"value": "charisma", "label": "Charisma"}
+      ]
     }
   },
   "computed": {
@@ -3636,6 +3682,18 @@
             "uses": "ref(subclass, concat('auto_spell_uses_', (len(advancements) + 1)))"
           },
           "source": "subclass"
+        },
+        {
+          "grant": "spells",
+          "from": "ref(lineage, concat('auto_spell_ids_', (len(advancements) + 1)))",
+          "values": {
+            "origin": "ref(lineage, 'auto_spell_origin')",
+            "always": "ref(lineage, 'auto_spell_always')",
+            "use": "ref(lineage, concat('auto_spell_use_', (len(advancements) + 1)))",
+            "uses": "ref(lineage, concat('auto_spell_uses_', (len(advancements) + 1)))",
+            "ability": "concat(species_spell_ability, ',', species_spell_ability, ',', species_spell_ability, ',', species_spell_ability)"
+          },
+          "source": "lineage"
         },
         {
           "prompt": "class_choices"
@@ -4346,6 +4404,371 @@
           "entry": "answer.lineage"
         }
       ]
+    },
+    "feat_spells": {
+      "label": "Feat spells",
+      "steps": [
+        {
+          "key": "variant",
+          "type": "select",
+          "label": "Spell list",
+          "options": [
+            {
+              "value": "Cleric Spells",
+              "label": "Cleric"
+            },
+            {
+              "value": "Druid Spells",
+              "label": "Druid"
+            },
+            {
+              "value": "Wizard Spells",
+              "label": "Wizard"
+            }
+          ],
+          "visible_if": "row.spell_variants"
+        },
+        {
+          "key": "ability",
+          "type": "select",
+          "label": "Spellcasting ability of the feat's spells",
+          "options": [
+            {
+              "value": "intelligence",
+              "label": "Intelligence"
+            },
+            {
+              "value": "wisdom",
+              "label": "Wisdom"
+            },
+            {
+              "value": "charisma",
+              "label": "Charisma"
+            }
+          ],
+          "visible_if": "row.spell_ability == 'inherit' or row.spell_ability_options or (row.spell_pick_count and not row.spell_ability)"
+        },
+        {
+          "key": "g1",
+          "type": "entries",
+          "content_type": "spell",
+          "entry_note": "entry.level == 0 ? 'Cantrip' : concat('Lv. ', entry.level)",
+          "label": "Spells",
+          "label_formula": "concat('Choose ', by_level(row.spell_pick_1_count_by_level, max(level, 1)), row.spell_pick_1_level_max == 0 ? ' cantrip(s)' : concat(' spell(s) of level ', row.spell_pick_1_level_min, row.spell_pick_1_level_max != row.spell_pick_1_level_min ? concat('-', row.spell_pick_1_level_max) : ''), row.spell_pick_1_ritual ? ' with the Ritual tag' : '', row.spell_pick_1_classes ? concat(' from the ', contains(row.spell_pick_1_classes, ',Bard,') ? 'Bard ' : '', contains(row.spell_pick_1_classes, ',Cleric,') ? 'Cleric ' : '', contains(row.spell_pick_1_classes, ',Druid,') ? 'Druid ' : '', contains(row.spell_pick_1_classes, ',Paladin,') ? 'Paladin ' : '', contains(row.spell_pick_1_classes, ',Ranger,') ? 'Ranger ' : '', contains(row.spell_pick_1_classes, ',Sorcerer,') ? 'Sorcerer ' : '', contains(row.spell_pick_1_classes, ',Warlock,') ? 'Warlock ' : '', contains(row.spell_pick_1_classes, ',Wizard,') ? 'Wizard ' : '', 'list') : '', row.spell_pick_1_schools ? concat(' of ', contains(row.spell_pick_1_schools, ',Abjuration,') ? 'Abjuration ' : '', contains(row.spell_pick_1_schools, ',Conjuration,') ? 'Conjuration ' : '', contains(row.spell_pick_1_schools, ',Divination,') ? 'Divination ' : '', contains(row.spell_pick_1_schools, ',Enchantment,') ? 'Enchantment ' : '', contains(row.spell_pick_1_schools, ',Evocation,') ? 'Evocation ' : '', contains(row.spell_pick_1_schools, ',Illusion,') ? 'Illusion ' : '', contains(row.spell_pick_1_schools, ',Necromancy,') ? 'Necromancy ' : '', contains(row.spell_pick_1_schools, ',Transmutation,') ? 'Transmutation ' : '', 'schools') : '')",
+          "count": "by_level(row.spell_pick_1_count_by_level, max(level, 1))",
+          "filter": "entry.level >= (row.spell_pick_1_level_min ? row.spell_pick_1_level_min : 0) and entry.level <= (row.spell_pick_1_level_max ? row.spell_pick_1_level_max : 0) and (not row.spell_pick_1_classes or (contains(row.spell_pick_1_classes, ',Bard,') and contains(entry.spell_lists, 'Bard')) or (contains(row.spell_pick_1_classes, ',Cleric,') and contains(entry.spell_lists, 'Cleric')) or (contains(row.spell_pick_1_classes, ',Druid,') and contains(entry.spell_lists, 'Druid')) or (contains(row.spell_pick_1_classes, ',Paladin,') and contains(entry.spell_lists, 'Paladin')) or (contains(row.spell_pick_1_classes, ',Ranger,') and contains(entry.spell_lists, 'Ranger')) or (contains(row.spell_pick_1_classes, ',Sorcerer,') and contains(entry.spell_lists, 'Sorcerer')) or (contains(row.spell_pick_1_classes, ',Warlock,') and contains(entry.spell_lists, 'Warlock')) or (contains(row.spell_pick_1_classes, ',Wizard,') and contains(entry.spell_lists, 'Wizard'))) and (not row.spell_pick_1_schools or contains(row.spell_pick_1_schools, concat(',', entry.school, ','))) and (not row.spell_pick_1_ritual or entry.ritual) and not has_ref(spells, entry._ref)",
+          "visible_if": "row.spell_pick_count >= 1 and (row.spell_pick_1_variant == 'all' or row.spell_pick_1_variant == answer.variant)"
+        },
+        {
+          "key": "g2",
+          "type": "entries",
+          "content_type": "spell",
+          "entry_note": "entry.level == 0 ? 'Cantrip' : concat('Lv. ', entry.level)",
+          "label": "Spells",
+          "label_formula": "concat('Choose ', by_level(row.spell_pick_2_count_by_level, max(level, 1)), row.spell_pick_2_level_max == 0 ? ' cantrip(s)' : concat(' spell(s) of level ', row.spell_pick_2_level_min, row.spell_pick_2_level_max != row.spell_pick_2_level_min ? concat('-', row.spell_pick_2_level_max) : ''), row.spell_pick_2_ritual ? ' with the Ritual tag' : '', row.spell_pick_2_classes ? concat(' from the ', contains(row.spell_pick_2_classes, ',Bard,') ? 'Bard ' : '', contains(row.spell_pick_2_classes, ',Cleric,') ? 'Cleric ' : '', contains(row.spell_pick_2_classes, ',Druid,') ? 'Druid ' : '', contains(row.spell_pick_2_classes, ',Paladin,') ? 'Paladin ' : '', contains(row.spell_pick_2_classes, ',Ranger,') ? 'Ranger ' : '', contains(row.spell_pick_2_classes, ',Sorcerer,') ? 'Sorcerer ' : '', contains(row.spell_pick_2_classes, ',Warlock,') ? 'Warlock ' : '', contains(row.spell_pick_2_classes, ',Wizard,') ? 'Wizard ' : '', 'list') : '', row.spell_pick_2_schools ? concat(' of ', contains(row.spell_pick_2_schools, ',Abjuration,') ? 'Abjuration ' : '', contains(row.spell_pick_2_schools, ',Conjuration,') ? 'Conjuration ' : '', contains(row.spell_pick_2_schools, ',Divination,') ? 'Divination ' : '', contains(row.spell_pick_2_schools, ',Enchantment,') ? 'Enchantment ' : '', contains(row.spell_pick_2_schools, ',Evocation,') ? 'Evocation ' : '', contains(row.spell_pick_2_schools, ',Illusion,') ? 'Illusion ' : '', contains(row.spell_pick_2_schools, ',Necromancy,') ? 'Necromancy ' : '', contains(row.spell_pick_2_schools, ',Transmutation,') ? 'Transmutation ' : '', 'schools') : '')",
+          "count": "by_level(row.spell_pick_2_count_by_level, max(level, 1))",
+          "filter": "entry.level >= (row.spell_pick_2_level_min ? row.spell_pick_2_level_min : 0) and entry.level <= (row.spell_pick_2_level_max ? row.spell_pick_2_level_max : 0) and (not row.spell_pick_2_classes or (contains(row.spell_pick_2_classes, ',Bard,') and contains(entry.spell_lists, 'Bard')) or (contains(row.spell_pick_2_classes, ',Cleric,') and contains(entry.spell_lists, 'Cleric')) or (contains(row.spell_pick_2_classes, ',Druid,') and contains(entry.spell_lists, 'Druid')) or (contains(row.spell_pick_2_classes, ',Paladin,') and contains(entry.spell_lists, 'Paladin')) or (contains(row.spell_pick_2_classes, ',Ranger,') and contains(entry.spell_lists, 'Ranger')) or (contains(row.spell_pick_2_classes, ',Sorcerer,') and contains(entry.spell_lists, 'Sorcerer')) or (contains(row.spell_pick_2_classes, ',Warlock,') and contains(entry.spell_lists, 'Warlock')) or (contains(row.spell_pick_2_classes, ',Wizard,') and contains(entry.spell_lists, 'Wizard'))) and (not row.spell_pick_2_schools or contains(row.spell_pick_2_schools, concat(',', entry.school, ','))) and (not row.spell_pick_2_ritual or entry.ritual) and not has_ref(spells, entry._ref)",
+          "visible_if": "row.spell_pick_count >= 2 and (row.spell_pick_2_variant == 'all' or row.spell_pick_2_variant == answer.variant)"
+        },
+        {
+          "key": "g3",
+          "type": "entries",
+          "content_type": "spell",
+          "entry_note": "entry.level == 0 ? 'Cantrip' : concat('Lv. ', entry.level)",
+          "label": "Spells",
+          "label_formula": "concat('Choose ', by_level(row.spell_pick_3_count_by_level, max(level, 1)), row.spell_pick_3_level_max == 0 ? ' cantrip(s)' : concat(' spell(s) of level ', row.spell_pick_3_level_min, row.spell_pick_3_level_max != row.spell_pick_3_level_min ? concat('-', row.spell_pick_3_level_max) : ''), row.spell_pick_3_ritual ? ' with the Ritual tag' : '', row.spell_pick_3_classes ? concat(' from the ', contains(row.spell_pick_3_classes, ',Bard,') ? 'Bard ' : '', contains(row.spell_pick_3_classes, ',Cleric,') ? 'Cleric ' : '', contains(row.spell_pick_3_classes, ',Druid,') ? 'Druid ' : '', contains(row.spell_pick_3_classes, ',Paladin,') ? 'Paladin ' : '', contains(row.spell_pick_3_classes, ',Ranger,') ? 'Ranger ' : '', contains(row.spell_pick_3_classes, ',Sorcerer,') ? 'Sorcerer ' : '', contains(row.spell_pick_3_classes, ',Warlock,') ? 'Warlock ' : '', contains(row.spell_pick_3_classes, ',Wizard,') ? 'Wizard ' : '', 'list') : '', row.spell_pick_3_schools ? concat(' of ', contains(row.spell_pick_3_schools, ',Abjuration,') ? 'Abjuration ' : '', contains(row.spell_pick_3_schools, ',Conjuration,') ? 'Conjuration ' : '', contains(row.spell_pick_3_schools, ',Divination,') ? 'Divination ' : '', contains(row.spell_pick_3_schools, ',Enchantment,') ? 'Enchantment ' : '', contains(row.spell_pick_3_schools, ',Evocation,') ? 'Evocation ' : '', contains(row.spell_pick_3_schools, ',Illusion,') ? 'Illusion ' : '', contains(row.spell_pick_3_schools, ',Necromancy,') ? 'Necromancy ' : '', contains(row.spell_pick_3_schools, ',Transmutation,') ? 'Transmutation ' : '', 'schools') : '')",
+          "count": "by_level(row.spell_pick_3_count_by_level, max(level, 1))",
+          "filter": "entry.level >= (row.spell_pick_3_level_min ? row.spell_pick_3_level_min : 0) and entry.level <= (row.spell_pick_3_level_max ? row.spell_pick_3_level_max : 0) and (not row.spell_pick_3_classes or (contains(row.spell_pick_3_classes, ',Bard,') and contains(entry.spell_lists, 'Bard')) or (contains(row.spell_pick_3_classes, ',Cleric,') and contains(entry.spell_lists, 'Cleric')) or (contains(row.spell_pick_3_classes, ',Druid,') and contains(entry.spell_lists, 'Druid')) or (contains(row.spell_pick_3_classes, ',Paladin,') and contains(entry.spell_lists, 'Paladin')) or (contains(row.spell_pick_3_classes, ',Ranger,') and contains(entry.spell_lists, 'Ranger')) or (contains(row.spell_pick_3_classes, ',Sorcerer,') and contains(entry.spell_lists, 'Sorcerer')) or (contains(row.spell_pick_3_classes, ',Warlock,') and contains(entry.spell_lists, 'Warlock')) or (contains(row.spell_pick_3_classes, ',Wizard,') and contains(entry.spell_lists, 'Wizard'))) and (not row.spell_pick_3_schools or contains(row.spell_pick_3_schools, concat(',', entry.school, ','))) and (not row.spell_pick_3_ritual or entry.ritual) and not has_ref(spells, entry._ref)",
+          "visible_if": "row.spell_pick_count >= 3 and (row.spell_pick_3_variant == 'all' or row.spell_pick_3_variant == answer.variant)"
+        },
+        {
+          "key": "g4",
+          "type": "entries",
+          "content_type": "spell",
+          "entry_note": "entry.level == 0 ? 'Cantrip' : concat('Lv. ', entry.level)",
+          "label": "Spells",
+          "label_formula": "concat('Choose ', by_level(row.spell_pick_4_count_by_level, max(level, 1)), row.spell_pick_4_level_max == 0 ? ' cantrip(s)' : concat(' spell(s) of level ', row.spell_pick_4_level_min, row.spell_pick_4_level_max != row.spell_pick_4_level_min ? concat('-', row.spell_pick_4_level_max) : ''), row.spell_pick_4_ritual ? ' with the Ritual tag' : '', row.spell_pick_4_classes ? concat(' from the ', contains(row.spell_pick_4_classes, ',Bard,') ? 'Bard ' : '', contains(row.spell_pick_4_classes, ',Cleric,') ? 'Cleric ' : '', contains(row.spell_pick_4_classes, ',Druid,') ? 'Druid ' : '', contains(row.spell_pick_4_classes, ',Paladin,') ? 'Paladin ' : '', contains(row.spell_pick_4_classes, ',Ranger,') ? 'Ranger ' : '', contains(row.spell_pick_4_classes, ',Sorcerer,') ? 'Sorcerer ' : '', contains(row.spell_pick_4_classes, ',Warlock,') ? 'Warlock ' : '', contains(row.spell_pick_4_classes, ',Wizard,') ? 'Wizard ' : '', 'list') : '', row.spell_pick_4_schools ? concat(' of ', contains(row.spell_pick_4_schools, ',Abjuration,') ? 'Abjuration ' : '', contains(row.spell_pick_4_schools, ',Conjuration,') ? 'Conjuration ' : '', contains(row.spell_pick_4_schools, ',Divination,') ? 'Divination ' : '', contains(row.spell_pick_4_schools, ',Enchantment,') ? 'Enchantment ' : '', contains(row.spell_pick_4_schools, ',Evocation,') ? 'Evocation ' : '', contains(row.spell_pick_4_schools, ',Illusion,') ? 'Illusion ' : '', contains(row.spell_pick_4_schools, ',Necromancy,') ? 'Necromancy ' : '', contains(row.spell_pick_4_schools, ',Transmutation,') ? 'Transmutation ' : '', 'schools') : '')",
+          "count": "by_level(row.spell_pick_4_count_by_level, max(level, 1))",
+          "filter": "entry.level >= (row.spell_pick_4_level_min ? row.spell_pick_4_level_min : 0) and entry.level <= (row.spell_pick_4_level_max ? row.spell_pick_4_level_max : 0) and (not row.spell_pick_4_classes or (contains(row.spell_pick_4_classes, ',Bard,') and contains(entry.spell_lists, 'Bard')) or (contains(row.spell_pick_4_classes, ',Cleric,') and contains(entry.spell_lists, 'Cleric')) or (contains(row.spell_pick_4_classes, ',Druid,') and contains(entry.spell_lists, 'Druid')) or (contains(row.spell_pick_4_classes, ',Paladin,') and contains(entry.spell_lists, 'Paladin')) or (contains(row.spell_pick_4_classes, ',Ranger,') and contains(entry.spell_lists, 'Ranger')) or (contains(row.spell_pick_4_classes, ',Sorcerer,') and contains(entry.spell_lists, 'Sorcerer')) or (contains(row.spell_pick_4_classes, ',Warlock,') and contains(entry.spell_lists, 'Warlock')) or (contains(row.spell_pick_4_classes, ',Wizard,') and contains(entry.spell_lists, 'Wizard'))) and (not row.spell_pick_4_schools or contains(row.spell_pick_4_schools, concat(',', entry.school, ','))) and (not row.spell_pick_4_ritual or entry.ritual) and not has_ref(spells, entry._ref)",
+          "visible_if": "row.spell_pick_count >= 4 and (row.spell_pick_4_variant == 'all' or row.spell_pick_4_variant == answer.variant)"
+        },
+        {
+          "key": "g5",
+          "type": "entries",
+          "content_type": "spell",
+          "entry_note": "entry.level == 0 ? 'Cantrip' : concat('Lv. ', entry.level)",
+          "label": "Spells",
+          "label_formula": "concat('Choose ', by_level(row.spell_pick_5_count_by_level, max(level, 1)), row.spell_pick_5_level_max == 0 ? ' cantrip(s)' : concat(' spell(s) of level ', row.spell_pick_5_level_min, row.spell_pick_5_level_max != row.spell_pick_5_level_min ? concat('-', row.spell_pick_5_level_max) : ''), row.spell_pick_5_ritual ? ' with the Ritual tag' : '', row.spell_pick_5_classes ? concat(' from the ', contains(row.spell_pick_5_classes, ',Bard,') ? 'Bard ' : '', contains(row.spell_pick_5_classes, ',Cleric,') ? 'Cleric ' : '', contains(row.spell_pick_5_classes, ',Druid,') ? 'Druid ' : '', contains(row.spell_pick_5_classes, ',Paladin,') ? 'Paladin ' : '', contains(row.spell_pick_5_classes, ',Ranger,') ? 'Ranger ' : '', contains(row.spell_pick_5_classes, ',Sorcerer,') ? 'Sorcerer ' : '', contains(row.spell_pick_5_classes, ',Warlock,') ? 'Warlock ' : '', contains(row.spell_pick_5_classes, ',Wizard,') ? 'Wizard ' : '', 'list') : '', row.spell_pick_5_schools ? concat(' of ', contains(row.spell_pick_5_schools, ',Abjuration,') ? 'Abjuration ' : '', contains(row.spell_pick_5_schools, ',Conjuration,') ? 'Conjuration ' : '', contains(row.spell_pick_5_schools, ',Divination,') ? 'Divination ' : '', contains(row.spell_pick_5_schools, ',Enchantment,') ? 'Enchantment ' : '', contains(row.spell_pick_5_schools, ',Evocation,') ? 'Evocation ' : '', contains(row.spell_pick_5_schools, ',Illusion,') ? 'Illusion ' : '', contains(row.spell_pick_5_schools, ',Necromancy,') ? 'Necromancy ' : '', contains(row.spell_pick_5_schools, ',Transmutation,') ? 'Transmutation ' : '', 'schools') : '')",
+          "count": "by_level(row.spell_pick_5_count_by_level, max(level, 1))",
+          "filter": "entry.level >= (row.spell_pick_5_level_min ? row.spell_pick_5_level_min : 0) and entry.level <= (row.spell_pick_5_level_max ? row.spell_pick_5_level_max : 0) and (not row.spell_pick_5_classes or (contains(row.spell_pick_5_classes, ',Bard,') and contains(entry.spell_lists, 'Bard')) or (contains(row.spell_pick_5_classes, ',Cleric,') and contains(entry.spell_lists, 'Cleric')) or (contains(row.spell_pick_5_classes, ',Druid,') and contains(entry.spell_lists, 'Druid')) or (contains(row.spell_pick_5_classes, ',Paladin,') and contains(entry.spell_lists, 'Paladin')) or (contains(row.spell_pick_5_classes, ',Ranger,') and contains(entry.spell_lists, 'Ranger')) or (contains(row.spell_pick_5_classes, ',Sorcerer,') and contains(entry.spell_lists, 'Sorcerer')) or (contains(row.spell_pick_5_classes, ',Warlock,') and contains(entry.spell_lists, 'Warlock')) or (contains(row.spell_pick_5_classes, ',Wizard,') and contains(entry.spell_lists, 'Wizard'))) and (not row.spell_pick_5_schools or contains(row.spell_pick_5_schools, concat(',', entry.school, ','))) and (not row.spell_pick_5_ritual or entry.ritual) and not has_ref(spells, entry._ref)",
+          "visible_if": "row.spell_pick_count >= 5 and (row.spell_pick_5_variant == 'all' or row.spell_pick_5_variant == answer.variant)"
+        },
+        {
+          "key": "g6",
+          "type": "entries",
+          "content_type": "spell",
+          "entry_note": "entry.level == 0 ? 'Cantrip' : concat('Lv. ', entry.level)",
+          "label": "Spells",
+          "label_formula": "concat('Choose ', by_level(row.spell_pick_6_count_by_level, max(level, 1)), row.spell_pick_6_level_max == 0 ? ' cantrip(s)' : concat(' spell(s) of level ', row.spell_pick_6_level_min, row.spell_pick_6_level_max != row.spell_pick_6_level_min ? concat('-', row.spell_pick_6_level_max) : ''), row.spell_pick_6_ritual ? ' with the Ritual tag' : '', row.spell_pick_6_classes ? concat(' from the ', contains(row.spell_pick_6_classes, ',Bard,') ? 'Bard ' : '', contains(row.spell_pick_6_classes, ',Cleric,') ? 'Cleric ' : '', contains(row.spell_pick_6_classes, ',Druid,') ? 'Druid ' : '', contains(row.spell_pick_6_classes, ',Paladin,') ? 'Paladin ' : '', contains(row.spell_pick_6_classes, ',Ranger,') ? 'Ranger ' : '', contains(row.spell_pick_6_classes, ',Sorcerer,') ? 'Sorcerer ' : '', contains(row.spell_pick_6_classes, ',Warlock,') ? 'Warlock ' : '', contains(row.spell_pick_6_classes, ',Wizard,') ? 'Wizard ' : '', 'list') : '', row.spell_pick_6_schools ? concat(' of ', contains(row.spell_pick_6_schools, ',Abjuration,') ? 'Abjuration ' : '', contains(row.spell_pick_6_schools, ',Conjuration,') ? 'Conjuration ' : '', contains(row.spell_pick_6_schools, ',Divination,') ? 'Divination ' : '', contains(row.spell_pick_6_schools, ',Enchantment,') ? 'Enchantment ' : '', contains(row.spell_pick_6_schools, ',Evocation,') ? 'Evocation ' : '', contains(row.spell_pick_6_schools, ',Illusion,') ? 'Illusion ' : '', contains(row.spell_pick_6_schools, ',Necromancy,') ? 'Necromancy ' : '', contains(row.spell_pick_6_schools, ',Transmutation,') ? 'Transmutation ' : '', 'schools') : '')",
+          "count": "by_level(row.spell_pick_6_count_by_level, max(level, 1))",
+          "filter": "entry.level >= (row.spell_pick_6_level_min ? row.spell_pick_6_level_min : 0) and entry.level <= (row.spell_pick_6_level_max ? row.spell_pick_6_level_max : 0) and (not row.spell_pick_6_classes or (contains(row.spell_pick_6_classes, ',Bard,') and contains(entry.spell_lists, 'Bard')) or (contains(row.spell_pick_6_classes, ',Cleric,') and contains(entry.spell_lists, 'Cleric')) or (contains(row.spell_pick_6_classes, ',Druid,') and contains(entry.spell_lists, 'Druid')) or (contains(row.spell_pick_6_classes, ',Paladin,') and contains(entry.spell_lists, 'Paladin')) or (contains(row.spell_pick_6_classes, ',Ranger,') and contains(entry.spell_lists, 'Ranger')) or (contains(row.spell_pick_6_classes, ',Sorcerer,') and contains(entry.spell_lists, 'Sorcerer')) or (contains(row.spell_pick_6_classes, ',Warlock,') and contains(entry.spell_lists, 'Warlock')) or (contains(row.spell_pick_6_classes, ',Wizard,') and contains(entry.spell_lists, 'Wizard'))) and (not row.spell_pick_6_schools or contains(row.spell_pick_6_schools, concat(',', entry.school, ','))) and (not row.spell_pick_6_ritual or entry.ritual) and not has_ref(spells, entry._ref)",
+          "visible_if": "row.spell_pick_count >= 6 and (row.spell_pick_6_variant == 'all' or row.spell_pick_6_variant == answer.variant)"
+        }
+      ],
+      "apply": [
+        {
+          "grant": "spells",
+          "from": "row.auto_spell_ids ? row.auto_spell_ids : ''",
+          "values": {
+            "origin": "row.auto_spell_origin",
+            "always": "row.auto_spell_always",
+            "use": "row.auto_spell_use",
+            "uses": "row.auto_spell_uses",
+            "ability": "concat((answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : '')), ',', (answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : '')), ',', (answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : '')), ',', (answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : '')))"
+          }
+        },
+        {
+          "pick": "spells",
+          "entry": "answer.g1",
+          "values": {
+            "origin": "'feat'",
+            "always": "true",
+            "use": "row.spell_pick_1_use",
+            "uses": "row.spell_pick_1_uses",
+            "ability": "(answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : ''))"
+          }
+        },
+        {
+          "pick": "spells",
+          "entry": "answer.g2",
+          "values": {
+            "origin": "'feat'",
+            "always": "true",
+            "use": "row.spell_pick_2_use",
+            "uses": "row.spell_pick_2_uses",
+            "ability": "(answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : ''))"
+          }
+        },
+        {
+          "pick": "spells",
+          "entry": "answer.g3",
+          "values": {
+            "origin": "'feat'",
+            "always": "true",
+            "use": "row.spell_pick_3_use",
+            "uses": "row.spell_pick_3_uses",
+            "ability": "(answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : ''))"
+          }
+        },
+        {
+          "pick": "spells",
+          "entry": "answer.g4",
+          "values": {
+            "origin": "'feat'",
+            "always": "true",
+            "use": "row.spell_pick_4_use",
+            "uses": "row.spell_pick_4_uses",
+            "ability": "(answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : ''))"
+          }
+        },
+        {
+          "pick": "spells",
+          "entry": "answer.g5",
+          "values": {
+            "origin": "'feat'",
+            "always": "true",
+            "use": "row.spell_pick_5_use",
+            "uses": "row.spell_pick_5_uses",
+            "ability": "(answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : ''))"
+          }
+        },
+        {
+          "pick": "spells",
+          "entry": "answer.g6",
+          "values": {
+            "origin": "'feat'",
+            "always": "true",
+            "use": "row.spell_pick_6_use",
+            "uses": "row.spell_pick_6_uses",
+            "ability": "(answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : ''))"
+          }
+        }
+      ]
+    },
+    "lineage_spells": {
+      "label": "Species spells",
+      "steps": [
+        {
+          "key": "ability",
+          "type": "select",
+          "label": "Spellcasting ability of your species spells",
+          "options": [
+            {
+              "value": "intelligence",
+              "label": "Intelligence"
+            },
+            {
+              "value": "wisdom",
+              "label": "Wisdom"
+            },
+            {
+              "value": "charisma",
+              "label": "Charisma"
+            }
+          ],
+          "visible_if": "row.spell_ability_options"
+        },
+        {
+          "key": "g1",
+          "type": "entries",
+          "content_type": "spell",
+          "entry_note": "entry.level == 0 ? 'Cantrip' : concat('Lv. ', entry.level)",
+          "label": "Spells",
+          "label_formula": "concat('Choose ', by_level(row.spell_pick_1_count_by_level, max(level, 1)), row.spell_pick_1_level_max == 0 ? ' cantrip(s)' : concat(' spell(s) of level ', row.spell_pick_1_level_min, row.spell_pick_1_level_max != row.spell_pick_1_level_min ? concat('-', row.spell_pick_1_level_max) : ''), row.spell_pick_1_ritual ? ' with the Ritual tag' : '', row.spell_pick_1_classes ? concat(' from the ', contains(row.spell_pick_1_classes, ',Bard,') ? 'Bard ' : '', contains(row.spell_pick_1_classes, ',Cleric,') ? 'Cleric ' : '', contains(row.spell_pick_1_classes, ',Druid,') ? 'Druid ' : '', contains(row.spell_pick_1_classes, ',Paladin,') ? 'Paladin ' : '', contains(row.spell_pick_1_classes, ',Ranger,') ? 'Ranger ' : '', contains(row.spell_pick_1_classes, ',Sorcerer,') ? 'Sorcerer ' : '', contains(row.spell_pick_1_classes, ',Warlock,') ? 'Warlock ' : '', contains(row.spell_pick_1_classes, ',Wizard,') ? 'Wizard ' : '', 'list') : '', row.spell_pick_1_schools ? concat(' of ', contains(row.spell_pick_1_schools, ',Abjuration,') ? 'Abjuration ' : '', contains(row.spell_pick_1_schools, ',Conjuration,') ? 'Conjuration ' : '', contains(row.spell_pick_1_schools, ',Divination,') ? 'Divination ' : '', contains(row.spell_pick_1_schools, ',Enchantment,') ? 'Enchantment ' : '', contains(row.spell_pick_1_schools, ',Evocation,') ? 'Evocation ' : '', contains(row.spell_pick_1_schools, ',Illusion,') ? 'Illusion ' : '', contains(row.spell_pick_1_schools, ',Necromancy,') ? 'Necromancy ' : '', contains(row.spell_pick_1_schools, ',Transmutation,') ? 'Transmutation ' : '', 'schools') : '')",
+          "count": "by_level(row.spell_pick_1_count_by_level, max(level, 1))",
+          "filter": "entry.level >= (row.spell_pick_1_level_min ? row.spell_pick_1_level_min : 0) and entry.level <= (row.spell_pick_1_level_max ? row.spell_pick_1_level_max : 0) and (not row.spell_pick_1_classes or (contains(row.spell_pick_1_classes, ',Bard,') and contains(entry.spell_lists, 'Bard')) or (contains(row.spell_pick_1_classes, ',Cleric,') and contains(entry.spell_lists, 'Cleric')) or (contains(row.spell_pick_1_classes, ',Druid,') and contains(entry.spell_lists, 'Druid')) or (contains(row.spell_pick_1_classes, ',Paladin,') and contains(entry.spell_lists, 'Paladin')) or (contains(row.spell_pick_1_classes, ',Ranger,') and contains(entry.spell_lists, 'Ranger')) or (contains(row.spell_pick_1_classes, ',Sorcerer,') and contains(entry.spell_lists, 'Sorcerer')) or (contains(row.spell_pick_1_classes, ',Warlock,') and contains(entry.spell_lists, 'Warlock')) or (contains(row.spell_pick_1_classes, ',Wizard,') and contains(entry.spell_lists, 'Wizard'))) and (not row.spell_pick_1_schools or contains(row.spell_pick_1_schools, concat(',', entry.school, ','))) and (not row.spell_pick_1_ritual or entry.ritual) and not has_ref(spells, entry._ref)",
+          "visible_if": "row.spell_pick_count >= 1 and (row.spell_pick_1_variant == 'all' or row.spell_pick_1_variant == answer.variant)"
+        },
+        {
+          "key": "g2",
+          "type": "entries",
+          "content_type": "spell",
+          "entry_note": "entry.level == 0 ? 'Cantrip' : concat('Lv. ', entry.level)",
+          "label": "Spells",
+          "label_formula": "concat('Choose ', by_level(row.spell_pick_2_count_by_level, max(level, 1)), row.spell_pick_2_level_max == 0 ? ' cantrip(s)' : concat(' spell(s) of level ', row.spell_pick_2_level_min, row.spell_pick_2_level_max != row.spell_pick_2_level_min ? concat('-', row.spell_pick_2_level_max) : ''), row.spell_pick_2_ritual ? ' with the Ritual tag' : '', row.spell_pick_2_classes ? concat(' from the ', contains(row.spell_pick_2_classes, ',Bard,') ? 'Bard ' : '', contains(row.spell_pick_2_classes, ',Cleric,') ? 'Cleric ' : '', contains(row.spell_pick_2_classes, ',Druid,') ? 'Druid ' : '', contains(row.spell_pick_2_classes, ',Paladin,') ? 'Paladin ' : '', contains(row.spell_pick_2_classes, ',Ranger,') ? 'Ranger ' : '', contains(row.spell_pick_2_classes, ',Sorcerer,') ? 'Sorcerer ' : '', contains(row.spell_pick_2_classes, ',Warlock,') ? 'Warlock ' : '', contains(row.spell_pick_2_classes, ',Wizard,') ? 'Wizard ' : '', 'list') : '', row.spell_pick_2_schools ? concat(' of ', contains(row.spell_pick_2_schools, ',Abjuration,') ? 'Abjuration ' : '', contains(row.spell_pick_2_schools, ',Conjuration,') ? 'Conjuration ' : '', contains(row.spell_pick_2_schools, ',Divination,') ? 'Divination ' : '', contains(row.spell_pick_2_schools, ',Enchantment,') ? 'Enchantment ' : '', contains(row.spell_pick_2_schools, ',Evocation,') ? 'Evocation ' : '', contains(row.spell_pick_2_schools, ',Illusion,') ? 'Illusion ' : '', contains(row.spell_pick_2_schools, ',Necromancy,') ? 'Necromancy ' : '', contains(row.spell_pick_2_schools, ',Transmutation,') ? 'Transmutation ' : '', 'schools') : '')",
+          "count": "by_level(row.spell_pick_2_count_by_level, max(level, 1))",
+          "filter": "entry.level >= (row.spell_pick_2_level_min ? row.spell_pick_2_level_min : 0) and entry.level <= (row.spell_pick_2_level_max ? row.spell_pick_2_level_max : 0) and (not row.spell_pick_2_classes or (contains(row.spell_pick_2_classes, ',Bard,') and contains(entry.spell_lists, 'Bard')) or (contains(row.spell_pick_2_classes, ',Cleric,') and contains(entry.spell_lists, 'Cleric')) or (contains(row.spell_pick_2_classes, ',Druid,') and contains(entry.spell_lists, 'Druid')) or (contains(row.spell_pick_2_classes, ',Paladin,') and contains(entry.spell_lists, 'Paladin')) or (contains(row.spell_pick_2_classes, ',Ranger,') and contains(entry.spell_lists, 'Ranger')) or (contains(row.spell_pick_2_classes, ',Sorcerer,') and contains(entry.spell_lists, 'Sorcerer')) or (contains(row.spell_pick_2_classes, ',Warlock,') and contains(entry.spell_lists, 'Warlock')) or (contains(row.spell_pick_2_classes, ',Wizard,') and contains(entry.spell_lists, 'Wizard'))) and (not row.spell_pick_2_schools or contains(row.spell_pick_2_schools, concat(',', entry.school, ','))) and (not row.spell_pick_2_ritual or entry.ritual) and not has_ref(spells, entry._ref)",
+          "visible_if": "row.spell_pick_count >= 2 and (row.spell_pick_2_variant == 'all' or row.spell_pick_2_variant == answer.variant)"
+        }
+      ],
+      "apply": [
+        {
+          "set": "species_spell_ability",
+          "to": "answer.ability ? answer.ability : ''"
+        },
+        {
+          "grant": "spells",
+          "from": "row.auto_spell_ids ? row.auto_spell_ids : ''",
+          "values": {
+            "origin": "row.auto_spell_origin",
+            "always": "row.auto_spell_always",
+            "use": "row.auto_spell_use",
+            "uses": "row.auto_spell_uses",
+            "ability": "concat((answer.ability ? answer.ability : ''), ',', (answer.ability ? answer.ability : ''), ',', (answer.ability ? answer.ability : ''), ',', (answer.ability ? answer.ability : ''))"
+          }
+        },
+        {
+          "grant": "spells",
+          "from": "level >= 3 and row.auto_spell_ids_3 ? row.auto_spell_ids_3 : ''",
+          "values": {
+            "origin": "row.auto_spell_origin",
+            "always": "row.auto_spell_always",
+            "use": "row.auto_spell_use_3",
+            "uses": "row.auto_spell_uses_3",
+            "ability": "concat((answer.ability ? answer.ability : ''), ',', (answer.ability ? answer.ability : ''), ',', (answer.ability ? answer.ability : ''), ',', (answer.ability ? answer.ability : ''))"
+          }
+        },
+        {
+          "grant": "spells",
+          "from": "level >= 5 and row.auto_spell_ids_5 ? row.auto_spell_ids_5 : ''",
+          "values": {
+            "origin": "row.auto_spell_origin",
+            "always": "row.auto_spell_always",
+            "use": "row.auto_spell_use_5",
+            "uses": "row.auto_spell_uses_5",
+            "ability": "concat((answer.ability ? answer.ability : ''), ',', (answer.ability ? answer.ability : ''), ',', (answer.ability ? answer.ability : ''), ',', (answer.ability ? answer.ability : ''))"
+          }
+        },
+        {
+          "pick": "spells",
+          "entry": "answer.g1",
+          "values": {
+            "origin": "'species'",
+            "always": "true",
+            "use": "row.spell_pick_1_use",
+            "uses": "row.spell_pick_1_uses",
+            "ability": "(answer.ability ? answer.ability : '')"
+          }
+        },
+        {
+          "pick": "spells",
+          "entry": "answer.g2",
+          "values": {
+            "origin": "'species'",
+            "always": "true",
+            "use": "row.spell_pick_2_use",
+            "uses": "row.spell_pick_2_uses",
+            "ability": "(answer.ability ? answer.ability : '')"
+          }
+        }
+      ]
+    },
+    "background_spells": {
+      "label": "Background feat spells",
+      "steps": [
+        {
+          "key": "ability",
+          "type": "select",
+          "label": "Magic Initiate: spellcasting ability",
+          "options": [
+            {
+              "value": "intelligence",
+              "label": "Intelligence"
+            },
+            {
+              "value": "wisdom",
+              "label": "Wisdom"
+            },
+            {
+              "value": "charisma",
+              "label": "Charisma"
+            }
+          ],
+          "visible_if": "contains(row.feat, 'Magic Initiate')"
+        },
+        {
+          "key": "cantrips",
+          "type": "entries",
+          "content_type": "spell",
+          "label": "Magic Initiate: two cantrips from the list of the feat",
+          "count": 2,
+          "filter": "entry.level == 0 and not has_ref(spells, entry._ref) and ((contains(row.feat, 'Cleric') and contains(entry.spell_lists, 'Cleric')) or (contains(row.feat, 'Druid') and contains(entry.spell_lists, 'Druid')) or (contains(row.feat, 'Wizard') and contains(entry.spell_lists, 'Wizard')))",
+          "visible_if": "contains(row.feat, 'Magic Initiate')"
+        },
+        {
+          "key": "spell",
+          "type": "entries",
+          "content_type": "spell",
+          "label": "Magic Initiate: one level 1 spell from the list of the feat",
+          "count": 1,
+          "filter": "entry.level == 1 and not has_ref(spells, entry._ref) and ((contains(row.feat, 'Cleric') and contains(entry.spell_lists, 'Cleric')) or (contains(row.feat, 'Druid') and contains(entry.spell_lists, 'Druid')) or (contains(row.feat, 'Wizard') and contains(entry.spell_lists, 'Wizard')))",
+          "visible_if": "contains(row.feat, 'Magic Initiate')"
+        }
+      ],
+      "apply": [
+        {
+          "pick": "spells",
+          "entry": "answer.cantrips",
+          "values": {
+            "origin": "'feat'",
+            "always": "true",
+            "use": "'slots'",
+            "uses": "'1'",
+            "ability": "answer.ability"
+          }
+        },
+        {
+          "pick": "spells",
+          "entry": "answer.spell",
+          "values": {
+            "origin": "'feat'",
+            "always": "true",
+            "use": "'long_rest'",
+            "uses": "'1'",
+            "ability": "answer.ability"
+          }
+        }
+      ]
     }
   },
   "actions": [
@@ -4373,6 +4796,7 @@
         {"each": "features", "where": "(row.recovery_by_level ? by_level(row.recovery_by_level, level) : row.recovery) == 'short'", "set": {"used": "0"}},
         {"each": "features", "where": "(row.recovery_by_level ? by_level(row.recovery_by_level, level) : row.recovery) == 'long' && row.short_regain", "set": {"used": "max(row.used - row.short_regain, 0)"}},
         {"each": "species_traits", "where": "row.recovery == 'short'", "set": {"used": "0"}},
+        {"each": "spells", "where": "row.use == 'rest'", "set": {"used": "0"}},
         {"each": "magic_items", "where": "row.recharge == 'short'", "set": {"charges_used": "0"}},
         {"set": "pact_slots_used", "to": "0"}
       ]
@@ -4388,6 +4812,7 @@
         {"each": "resources", "set": {"used": "0"}},
         {"each": "features", "set": {"used": "0"}},
         {"each": "species_traits", "set": {"used": "0"}},
+        {"each": "spells", "set": {"used": "0"}},
         {"each": "magic_items", "where": "row.recharge == 'short' || row.recharge == 'long' || row.recharge == 'dawn'", "set": {"charges_used": "0"}},
         {"set": "slots_1_used", "to": "0"},
         {"set": "slots_2_used", "to": "0"},

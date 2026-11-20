@@ -116,7 +116,19 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   has prepared (domain, oath, circle, patron spells; Hunter's Mark, Divine
   Smite) arrive at the level that grants them: those of the level the class or
   subclass is chosen at with the pick, the later ones with Level up, from the
-  converter's `auto_spell_*` and `auto_spell_*_N` lists
+  converter's `auto_spell_*` and `auto_spell_*_N` lists. Spells of feats,
+  species and items come the same way, always prepared and outside the limits:
+  a feat asks for its spells when it is picked (Magic Initiate: the list, the
+  ability, two cantrips and one level 1 spell; Fey-Touched and Shadow-Touched:
+  the ability and one level 1 spell of the right schools, the fixed spell
+  coming with it; Ritual Caster, Blessed Warrior, Druidic Warrior, Telepathic,
+  Telekinetic), and so does a background that gives Magic Initiate; a species
+  with a fixed spell (Aasimar: Light) and a magic item (Magic Items, from the
+  catalogue's `granted_spell_*`, with the charge cost as its free uses) add
+  theirs on pick, and removing the row takes them back. A spell with a free
+  use per rest gets a line in Resources (long rest, or short or long rest),
+  cleared by the rest buttons, and a spell cast with another ability than the
+  class's has its own save DC and attack under the spell counts
 - **Equipment** picked from the catalogue or typed in, each with a quantity,
   and carried weight - counting quantity - against a `Strength × 15` capacity
 - **Magic items**, each marked equipped and, only for those that need it,
@@ -181,9 +193,10 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   `damage_type`, `darkvision`, `speed`, cantrips and level 1/3/5 spells with
   their ids, uses and recovery); species carry `lineage_label` and `lineages`.
   Under the picker, the lineage's damage type, darkvision and speed; its
-  speed becomes the base speed; its spells, by character level, above the
-  spell list; its free uses (`lineage_used`) tracked in Resources and reset
-  by a long rest
+  speed becomes the base speed; its spells come with the lineage (level 1)
+  and with Level up (levels 3 and 5), always prepared, after one question for
+  the spellcasting ability (Intelligence, Wisdom or Charisma, kept in
+  `species_spell_ability`) and, for the High Elf, the Wizard cantrip
 - **Catalogue data for weapon rows**: weapons (equipment and magic items) carry
   `damage_dice`, `damage_type`, `damage_versatile`, `range_normal`,
   `range_long` and the `ranged`, `thrown`, `finesse`, `light`, `heavy`,
