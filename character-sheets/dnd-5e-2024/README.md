@@ -212,14 +212,14 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   The attack row uses the base's dice and properties, and the AC the base's
   armour with the item's bonus on top; equip the magic item, not the base.
   Needs a Grimoire with per-entry picks (catalogue picks inside a row)
-- **Attacks** in one box: Unarmed Strike; a row for each equipped weapon and
+- **Attacks** in one box: Unarmed Strike (with the die of Unarmed Fighting, Tavern Brawler or the Monk's Martial Arts, which also takes the better of Strength and Dexterity; Unarmed Fighting drops to a d6 while a weapon or Shield is held); a row for each equipped weapon and
   magic weapon (with a Versatile two-handed row and a thrown row where they
   apply), with the attack bonus (proficiency where the weapon training
   covers the weapon, Finesse taking the better of Strength and Dexterity,
   ranged weapons Dexterity, Archery's +2), damage dice, modifier and type,
   range or reach, and a magic weapon's own bonuses and critical range; magic
   items with attack or damage bonuses and no weapon data keep a Strength and a
-  Dexterity row; the spell attack and save DC for a caster; notes for
+  Dexterity row; the spell attack and save DC for a caster, and for each other casting ability that a feat, species or item spell uses (a non-caster with a Magic Initiate spell gets its row too); notes for
   Dueling, Great Weapon Fighting, Two-Weapon Fighting, Great Weapon Master,
   Heavy Armor Master, Defensive Duelist and Defense, with the proficiency
   bonus filled in. The typed list below is for other attacks and damage

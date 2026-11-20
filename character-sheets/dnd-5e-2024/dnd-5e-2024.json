@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.37.0",
+  "version": "1.37.1",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -3471,6 +3471,22 @@
     "damage_dex": {
       "formula": "dexterity_mod - exhaustion_flat",
       "label": "Weapon Damage (Dex), Number"
+    },
+    "armed_count": {
+      "formula": "count_each(equipment, row.equipped && not row._inline && row.damage_dice) + count_each(magic_items, row.equipped && (row.attuned or not row.attunement) && not row._inline && (row.base_weapon ? ref(row.base_weapon, 'damage_dice') : row.damage_dice))",
+      "label": "Weapons Held"
+    },
+    "unarmed_arts": {
+      "formula": "has_ref(features, 'martial-arts-monk-1-xphb') && armor_worn == 0 && shield_worn == 0 ? 1 : 0",
+      "label": "Martial Arts Active"
+    },
+    "unarmed_mod": {
+      "formula": "unarmed_arts ? max(strength_mod, dexterity_mod) : strength_mod",
+      "label": "Unarmed Strike Modifier"
+    },
+    "unarmed_die": {
+      "formula": "max(has_ref(feats, 'tavern-brawler-xphb') ? 4 : 0, has_ref(feats, 'unarmed-fighting-xphb') ? (armed_count == 0 && shield_worn == 0 ? 8 : 6) : 0, unarmed_arts ? (class_level >= 17 ? 12 : (class_level >= 11 ? 10 : (class_level >= 5 ? 8 : 6))) : 0)",
+      "label": "Unarmed Strike Die"
     },
     "melee_attack": {
       "formula": "signed(attack_str)",

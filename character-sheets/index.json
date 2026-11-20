@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": "2026-11-20T16:13:01Z",
+  "generated": "2026-11-20T20:24:34Z",
   "sheets": [
     {
       "id": "basic-fantasy",
@@ -125,18 +125,18 @@
     {
       "id": "dnd-5e-2024",
       "name": "D&D 5th Edition (2024)",
-      "version": "1.37.0",
+      "version": "1.37.1",
       "path": "character-sheets/dnd-5e-2024/dnd-5e-2024.json",
-      "sha256": "21f47a71a62f01dbae24843a7d35e37152cfd4d741706d73b6cfa725e2353efc",
+      "sha256": "7b0b779bfb517879a9a5f68e047d8093598be3754a1a21d1f5ad76ba1039a9d0",
       "custom_layout": true,
       "custom_mobile_layout": true,
       "field_count": 112,
       "layout_path": "character-sheets/dnd-5e-2024/dnd-5e-2024.html",
-      "layout_sha256": "c2c2790121d496ab34d4158c92bbd5e288dbdef8fdf26abb9b0ff0acface6e67",
+      "layout_sha256": "b8652f4ef12b00fc3d2c943bef3b6f22f35c7318707b349385bbae6a816a1d85",
       "styles_path": "character-sheets/dnd-5e-2024/dnd-5e-2024.css",
       "styles_sha256": "b021af9a69e6c58b878ff0eaf5ef676df1b006f7b1da439aa9e589f7cd20b771",
       "mobile_layout_path": "character-sheets/dnd-5e-2024/dnd-5e-2024.mobile.html",
-      "mobile_layout_sha256": "3c5c37a6713a1154801b9d0a947ae7107f9fb19499debe0da3c146b9d5061e35",
+      "mobile_layout_sha256": "af2bed73934d013cfc35256d6379daf75cdb91404eb49775e5a57cce70d04901",
       "mobile_styles_path": "character-sheets/dnd-5e-2024/dnd-5e-2024.mobile.css",
       "mobile_styles_sha256": "1c1b96b48a465c16aa1f0707a57ef556f2976a52b335c0d976dffda47ccf85c1",
       "system": "Dungeons & Dragons 5th Edition (2024)",
