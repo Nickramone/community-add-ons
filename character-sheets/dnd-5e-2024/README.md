@@ -109,8 +109,9 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   spells**, in Spells for a Cleric, Druid, Paladin or Ranger, swaps prepared
   spells for others of the class list. The spells a class or subclass always
   has prepared (domain, oath, circle, patron spells; Hunter's Mark, Divine
-  Smite) arrive with the class or subclass, from the converter's
-  `auto_spell_*` lists, and show from their level on
+  Smite) arrive at the level that grants them: those of the level the class or
+  subclass is chosen at with the pick, the later ones with Level up, from the
+  converter's `auto_spell_*` and `auto_spell_*_N` lists
 - **Equipment** picked from the catalogue or typed in, each with a quantity,
   and carried weight - counting quantity - against a `Strength × 15` capacity
 - **Magic items**, each marked equipped and, only for those that need it,
