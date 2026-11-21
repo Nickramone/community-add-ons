@@ -226,6 +226,7 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   Heavy Armor Master, Defensive Duelist and Defense, with the proficiency
   bonus filled in. The typed list below is for other attacks and damage
   cantrips
+- **Short feat and trait pages**: the entry shown in a pick or the Compendium keeps only the prerequisites and the description; the fields the sheet's formulas read are marked `visible_if: "false"`, which needs a Grimoire that hides them (the fork's `ContentEntryDetail`)
 - **Feats worked into the numbers**: Alert adds proficiency to initiative,
   Speedy (+10 ft) and Boon of Speed (+30 ft) add to the current speed,
   Boon of Fortitude adds 40 to the HP maximum, Defense +1 AC in armour

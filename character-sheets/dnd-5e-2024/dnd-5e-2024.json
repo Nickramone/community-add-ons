@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.38.0",
+  "version": "1.38.1",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -1076,6 +1076,7 @@
           "label": "Name"
         },
         "category": {
+          "visible_if": "false",
           "type": "text",
           "label": "Category"
         },
@@ -1093,44 +1094,51 @@
         "prereq_feats": {"type": "text", "label": "Prerequisite Feats"},
         "prereq_spellcasting": {"type": "checkbox", "label": "Prerequisite Spellcasting"},
         "prereq_proficiencies": {"type": "text", "label": "Prerequisite Proficiencies"},
-        "ability_options": {"type": "multiselect", "label": "Ability Increase Options", "options": [{"value": "strength", "label": "Str"}, {"value": "dexterity", "label": "Dex"}, {"value": "constitution", "label": "Con"}, {"value": "intelligence", "label": "Int"}, {"value": "wisdom", "label": "Wis"}, {"value": "charisma", "label": "Cha"}]},
-        "tool_options": {"type": "multiselect", "label": "Tool Options", "options": ["Alchemist's Supplies", "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools", "Cartographer's Tools", "Cobbler's Tools", "Cook's Utensils", "Glassblower's Tools", "Jeweler's Tools", "Leatherworker's Tools", "Mason's Tools", "Painter's Supplies", "Potter's Tools", "Smith's Tools", "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools", "Bagpipes", "Drum", "Dulcimer", "Flute", "Horn", "Lute", "Lyre", "Pan Flute", "Shawm", "Viol", "Dice Set", "Dragonchess Set", "Playing Cards", "Three-Dragon Ante Set", "Disguise Kit", "Forgery Kit", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit", "Thieves' Tools"]},
-        "tool_count": {"type": "number", "label": "Tools to Choose", "min": 0},
-        "skilled_options": {"type": "multiselect", "label": "Skill or Tool Options", "options": ["Acrobatics", "Animal Handling", "Arcana", "Athletics", "Deception", "History", "Insight", "Intimidation", "Investigation", "Medicine", "Nature", "Perception", "Performance", "Persuasion", "Religion", "Sleight of Hand", "Stealth", "Survival", "Alchemist's Supplies", "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools", "Cartographer's Tools", "Cobbler's Tools", "Cook's Utensils", "Glassblower's Tools", "Jeweler's Tools", "Leatherworker's Tools", "Mason's Tools", "Painter's Supplies", "Potter's Tools", "Smith's Tools", "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools", "Bagpipes", "Drum", "Dulcimer", "Flute", "Horn", "Lute", "Lyre", "Pan Flute", "Shawm", "Viol", "Dice Set", "Dragonchess Set", "Playing Cards", "Three-Dragon Ante Set", "Disguise Kit", "Forgery Kit", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit", "Thieves' Tools"]},
-        "skilled_count": {"type": "number", "label": "Skills or Tools to Choose", "min": 0},
-        "ability_amount": {"type": "number", "label": "Ability Increase Amount", "min": 0},
-        "ability_max": {"type": "number", "label": "Ability Increase Maximum", "min": 0},
-        "fs_class": {"type": "text", "label": "Fighting Style Of One Class Only"},
+        "ability_options": {"type": "multiselect", "label": "Ability Increase Options", "options": [{"value": "strength", "label": "Str"}, {"value": "dexterity", "label": "Dex"}, {"value": "constitution", "label": "Con"}, {"value": "intelligence", "label": "Int"}, {"value": "wisdom", "label": "Wis"}, {"value": "charisma", "label": "Cha"}], "visible_if": "false"},
+        "tool_options": {"type": "multiselect", "label": "Tool Options", "options": ["Alchemist's Supplies", "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools", "Cartographer's Tools", "Cobbler's Tools", "Cook's Utensils", "Glassblower's Tools", "Jeweler's Tools", "Leatherworker's Tools", "Mason's Tools", "Painter's Supplies", "Potter's Tools", "Smith's Tools", "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools", "Bagpipes", "Drum", "Dulcimer", "Flute", "Horn", "Lute", "Lyre", "Pan Flute", "Shawm", "Viol", "Dice Set", "Dragonchess Set", "Playing Cards", "Three-Dragon Ante Set", "Disguise Kit", "Forgery Kit", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit", "Thieves' Tools"], "visible_if": "false"},
+        "tool_count": {"type": "number", "label": "Tools to Choose", "min": 0, "visible_if": "false"},
+        "skilled_options": {"type": "multiselect", "label": "Skill or Tool Options", "options": ["Acrobatics", "Animal Handling", "Arcana", "Athletics", "Deception", "History", "Insight", "Intimidation", "Investigation", "Medicine", "Nature", "Perception", "Performance", "Persuasion", "Religion", "Sleight of Hand", "Stealth", "Survival", "Alchemist's Supplies", "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools", "Cartographer's Tools", "Cobbler's Tools", "Cook's Utensils", "Glassblower's Tools", "Jeweler's Tools", "Leatherworker's Tools", "Mason's Tools", "Painter's Supplies", "Potter's Tools", "Smith's Tools", "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools", "Bagpipes", "Drum", "Dulcimer", "Flute", "Horn", "Lute", "Lyre", "Pan Flute", "Shawm", "Viol", "Dice Set", "Dragonchess Set", "Playing Cards", "Three-Dragon Ante Set", "Disguise Kit", "Forgery Kit", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit", "Thieves' Tools"], "visible_if": "false"},
+        "skilled_count": {"type": "number", "label": "Skills or Tools to Choose", "min": 0, "visible_if": "false"},
+        "ability_amount": {"type": "number", "label": "Ability Increase Amount", "min": 0, "visible_if": "false"},
+        "ability_max": {"type": "number", "label": "Ability Increase Maximum", "min": 0, "visible_if": "false"},
+        "fs_class": {"type": "text", "label": "Fighting Style Of One Class Only", "visible_if": "false"},
         "description": {
           "type": "textarea",
           "label": "Description"
         },
         "weapon_proficiencies": {
+          "visible_if": "false",
           "type": "text",
           "label": "Weapon Proficiencies"
         },
         "armor_proficiencies": {
+          "visible_if": "false",
           "type": "text",
           "label": "Armor Training"
         },
         "tool_proficiencies": {
+          "visible_if": "false",
           "type": "text",
           "label": "Tool Proficiencies"
         },
         "resource": {
+          "visible_if": "false",
           "type": "text",
           "label": "Resource Name"
         },
         "uses": {
+          "visible_if": "false",
           "type": "number",
           "label": "Uses",
           "min": 0
         },
         "uses_pb": {
+          "visible_if": "false",
           "type": "checkbox",
           "label": "Uses = Proficiency Bonus"
         },
         "recovery": {
+          "visible_if": "false",
           "type": "select",
           "label": "Recovery",
           "options": [
@@ -1141,81 +1149,81 @@
             {"value": "other", "label": "Other"}
           ]
         },
-        "auto_spell_ids": {"type": "text", "label": "Auto Spells (ids)"},
-        "auto_spell_use": {"type": "text", "label": "Auto Spells Use"},
-        "auto_spell_uses": {"type": "text", "label": "Auto Spells Uses"},
-        "auto_spell_origin": {"type": "text", "label": "Auto Spells Origin"},
-        "auto_spell_always": {"type": "text", "label": "Auto Spells Always Prepared"},
-        "auto_spell_ability": {"type": "text", "label": "Auto Spells Ability"},
-        "granted_spell_ids": {"type": "text", "label": "Granted Spells (ids)"},
-        "granted_spell_from_levels": {"type": "text", "label": "Granted Spells From Level"},
-        "granted_spell_use": {"type": "text", "label": "Granted Spells Use"},
-        "granted_spell_uses": {"type": "text", "label": "Granted Spells Uses"},
-        "granted_spell_variants": {"type": "text", "label": "Granted Spells Variant"},
-        "spell_variants": {"type": "text", "label": "Spell Variants"},
-        "spell_ability": {"type": "text", "label": "Spell Ability"},
-        "spell_ability_options": {"type": "text", "label": "Spell Ability Options"},
-        "spell_pick_count": {"type": "number", "label": "Spell Choice Groups", "min": 0, "max": 20},
-        "spell_pick_1_count_by_level": {"type": "text", "label": "Spell Choice 1: Count By Level"},
-        "spell_pick_1_level_min": {"type": "number", "label": "Spell Choice 1: Lowest Level", "min": 0, "max": 9},
-        "spell_pick_1_level_max": {"type": "number", "label": "Spell Choice 1: Highest Level", "min": 0, "max": 9},
-        "spell_pick_1_classes": {"type": "text", "label": "Spell Choice 1: Spell Lists"},
-        "spell_pick_1_schools": {"type": "text", "label": "Spell Choice 1: Schools"},
-        "spell_pick_1_ritual": {"type": "checkbox", "label": "Spell Choice 1: Rituals Only"},
-        "spell_pick_1_from": {"type": "text", "label": "Spell Choice 1: From These Spells"},
-        "spell_pick_1_use": {"type": "text", "label": "Spell Choice 1: Use"},
-        "spell_pick_1_uses": {"type": "text", "label": "Spell Choice 1: Uses"},
-        "spell_pick_1_variant": {"type": "text", "label": "Spell Choice 1: Variant"},
-        "spell_pick_2_count_by_level": {"type": "text", "label": "Spell Choice 2: Count By Level"},
-        "spell_pick_2_level_min": {"type": "number", "label": "Spell Choice 2: Lowest Level", "min": 0, "max": 9},
-        "spell_pick_2_level_max": {"type": "number", "label": "Spell Choice 2: Highest Level", "min": 0, "max": 9},
-        "spell_pick_2_classes": {"type": "text", "label": "Spell Choice 2: Spell Lists"},
-        "spell_pick_2_schools": {"type": "text", "label": "Spell Choice 2: Schools"},
-        "spell_pick_2_ritual": {"type": "checkbox", "label": "Spell Choice 2: Rituals Only"},
-        "spell_pick_2_from": {"type": "text", "label": "Spell Choice 2: From These Spells"},
-        "spell_pick_2_use": {"type": "text", "label": "Spell Choice 2: Use"},
-        "spell_pick_2_uses": {"type": "text", "label": "Spell Choice 2: Uses"},
-        "spell_pick_2_variant": {"type": "text", "label": "Spell Choice 2: Variant"},
-        "spell_pick_3_count_by_level": {"type": "text", "label": "Spell Choice 3: Count By Level"},
-        "spell_pick_3_level_min": {"type": "number", "label": "Spell Choice 3: Lowest Level", "min": 0, "max": 9},
-        "spell_pick_3_level_max": {"type": "number", "label": "Spell Choice 3: Highest Level", "min": 0, "max": 9},
-        "spell_pick_3_classes": {"type": "text", "label": "Spell Choice 3: Spell Lists"},
-        "spell_pick_3_schools": {"type": "text", "label": "Spell Choice 3: Schools"},
-        "spell_pick_3_ritual": {"type": "checkbox", "label": "Spell Choice 3: Rituals Only"},
-        "spell_pick_3_from": {"type": "text", "label": "Spell Choice 3: From These Spells"},
-        "spell_pick_3_use": {"type": "text", "label": "Spell Choice 3: Use"},
-        "spell_pick_3_uses": {"type": "text", "label": "Spell Choice 3: Uses"},
-        "spell_pick_3_variant": {"type": "text", "label": "Spell Choice 3: Variant"},
-        "spell_pick_4_count_by_level": {"type": "text", "label": "Spell Choice 4: Count By Level"},
-        "spell_pick_4_level_min": {"type": "number", "label": "Spell Choice 4: Lowest Level", "min": 0, "max": 9},
-        "spell_pick_4_level_max": {"type": "number", "label": "Spell Choice 4: Highest Level", "min": 0, "max": 9},
-        "spell_pick_4_classes": {"type": "text", "label": "Spell Choice 4: Spell Lists"},
-        "spell_pick_4_schools": {"type": "text", "label": "Spell Choice 4: Schools"},
-        "spell_pick_4_ritual": {"type": "checkbox", "label": "Spell Choice 4: Rituals Only"},
-        "spell_pick_4_from": {"type": "text", "label": "Spell Choice 4: From These Spells"},
-        "spell_pick_4_use": {"type": "text", "label": "Spell Choice 4: Use"},
-        "spell_pick_4_uses": {"type": "text", "label": "Spell Choice 4: Uses"},
-        "spell_pick_4_variant": {"type": "text", "label": "Spell Choice 4: Variant"},
-        "spell_pick_5_count_by_level": {"type": "text", "label": "Spell Choice 5: Count By Level"},
-        "spell_pick_5_level_min": {"type": "number", "label": "Spell Choice 5: Lowest Level", "min": 0, "max": 9},
-        "spell_pick_5_level_max": {"type": "number", "label": "Spell Choice 5: Highest Level", "min": 0, "max": 9},
-        "spell_pick_5_classes": {"type": "text", "label": "Spell Choice 5: Spell Lists"},
-        "spell_pick_5_schools": {"type": "text", "label": "Spell Choice 5: Schools"},
-        "spell_pick_5_ritual": {"type": "checkbox", "label": "Spell Choice 5: Rituals Only"},
-        "spell_pick_5_from": {"type": "text", "label": "Spell Choice 5: From These Spells"},
-        "spell_pick_5_use": {"type": "text", "label": "Spell Choice 5: Use"},
-        "spell_pick_5_uses": {"type": "text", "label": "Spell Choice 5: Uses"},
-        "spell_pick_5_variant": {"type": "text", "label": "Spell Choice 5: Variant"},
-        "spell_pick_6_count_by_level": {"type": "text", "label": "Spell Choice 6: Count By Level"},
-        "spell_pick_6_level_min": {"type": "number", "label": "Spell Choice 6: Lowest Level", "min": 0, "max": 9},
-        "spell_pick_6_level_max": {"type": "number", "label": "Spell Choice 6: Highest Level", "min": 0, "max": 9},
-        "spell_pick_6_classes": {"type": "text", "label": "Spell Choice 6: Spell Lists"},
-        "spell_pick_6_schools": {"type": "text", "label": "Spell Choice 6: Schools"},
-        "spell_pick_6_ritual": {"type": "checkbox", "label": "Spell Choice 6: Rituals Only"},
-        "spell_pick_6_from": {"type": "text", "label": "Spell Choice 6: From These Spells"},
-        "spell_pick_6_use": {"type": "text", "label": "Spell Choice 6: Use"},
-        "spell_pick_6_uses": {"type": "text", "label": "Spell Choice 6: Uses"},
-        "spell_pick_6_variant": {"type": "text", "label": "Spell Choice 6: Variant"}
+        "auto_spell_ids": {"type": "text", "label": "Auto Spells (ids)", "visible_if": "false"},
+        "auto_spell_use": {"type": "text", "label": "Auto Spells Use", "visible_if": "false"},
+        "auto_spell_uses": {"type": "text", "label": "Auto Spells Uses", "visible_if": "false"},
+        "auto_spell_origin": {"type": "text", "label": "Auto Spells Origin", "visible_if": "false"},
+        "auto_spell_always": {"type": "text", "label": "Auto Spells Always Prepared", "visible_if": "false"},
+        "auto_spell_ability": {"type": "text", "label": "Auto Spells Ability", "visible_if": "false"},
+        "granted_spell_ids": {"type": "text", "label": "Granted Spells (ids)", "visible_if": "false"},
+        "granted_spell_from_levels": {"type": "text", "label": "Granted Spells From Level", "visible_if": "false"},
+        "granted_spell_use": {"type": "text", "label": "Granted Spells Use", "visible_if": "false"},
+        "granted_spell_uses": {"type": "text", "label": "Granted Spells Uses", "visible_if": "false"},
+        "granted_spell_variants": {"type": "text", "label": "Granted Spells Variant", "visible_if": "false"},
+        "spell_variants": {"type": "text", "label": "Spell Variants", "visible_if": "false"},
+        "spell_ability": {"type": "text", "label": "Spell Ability", "visible_if": "false"},
+        "spell_ability_options": {"type": "text", "label": "Spell Ability Options", "visible_if": "false"},
+        "spell_pick_count": {"type": "number", "label": "Spell Choice Groups", "min": 0, "max": 20, "visible_if": "false"},
+        "spell_pick_1_count_by_level": {"type": "text", "label": "Spell Choice 1: Count By Level", "visible_if": "false"},
+        "spell_pick_1_level_min": {"type": "number", "label": "Spell Choice 1: Lowest Level", "min": 0, "max": 9, "visible_if": "false"},
+        "spell_pick_1_level_max": {"type": "number", "label": "Spell Choice 1: Highest Level", "min": 0, "max": 9, "visible_if": "false"},
+        "spell_pick_1_classes": {"type": "text", "label": "Spell Choice 1: Spell Lists", "visible_if": "false"},
+        "spell_pick_1_schools": {"type": "text", "label": "Spell Choice 1: Schools", "visible_if": "false"},
+        "spell_pick_1_ritual": {"type": "checkbox", "label": "Spell Choice 1: Rituals Only", "visible_if": "false"},
+        "spell_pick_1_from": {"type": "text", "label": "Spell Choice 1: From These Spells", "visible_if": "false"},
+        "spell_pick_1_use": {"type": "text", "label": "Spell Choice 1: Use", "visible_if": "false"},
+        "spell_pick_1_uses": {"type": "text", "label": "Spell Choice 1: Uses", "visible_if": "false"},
+        "spell_pick_1_variant": {"type": "text", "label": "Spell Choice 1: Variant", "visible_if": "false"},
+        "spell_pick_2_count_by_level": {"type": "text", "label": "Spell Choice 2: Count By Level", "visible_if": "false"},
+        "spell_pick_2_level_min": {"type": "number", "label": "Spell Choice 2: Lowest Level", "min": 0, "max": 9, "visible_if": "false"},
+        "spell_pick_2_level_max": {"type": "number", "label": "Spell Choice 2: Highest Level", "min": 0, "max": 9, "visible_if": "false"},
+        "spell_pick_2_classes": {"type": "text", "label": "Spell Choice 2: Spell Lists", "visible_if": "false"},
+        "spell_pick_2_schools": {"type": "text", "label": "Spell Choice 2: Schools", "visible_if": "false"},
+        "spell_pick_2_ritual": {"type": "checkbox", "label": "Spell Choice 2: Rituals Only", "visible_if": "false"},
+        "spell_pick_2_from": {"type": "text", "label": "Spell Choice 2: From These Spells", "visible_if": "false"},
+        "spell_pick_2_use": {"type": "text", "label": "Spell Choice 2: Use", "visible_if": "false"},
+        "spell_pick_2_uses": {"type": "text", "label": "Spell Choice 2: Uses", "visible_if": "false"},
+        "spell_pick_2_variant": {"type": "text", "label": "Spell Choice 2: Variant", "visible_if": "false"},
+        "spell_pick_3_count_by_level": {"type": "text", "label": "Spell Choice 3: Count By Level", "visible_if": "false"},
+        "spell_pick_3_level_min": {"type": "number", "label": "Spell Choice 3: Lowest Level", "min": 0, "max": 9, "visible_if": "false"},
+        "spell_pick_3_level_max": {"type": "number", "label": "Spell Choice 3: Highest Level", "min": 0, "max": 9, "visible_if": "false"},
+        "spell_pick_3_classes": {"type": "text", "label": "Spell Choice 3: Spell Lists", "visible_if": "false"},
+        "spell_pick_3_schools": {"type": "text", "label": "Spell Choice 3: Schools", "visible_if": "false"},
+        "spell_pick_3_ritual": {"type": "checkbox", "label": "Spell Choice 3: Rituals Only", "visible_if": "false"},
+        "spell_pick_3_from": {"type": "text", "label": "Spell Choice 3: From These Spells", "visible_if": "false"},
+        "spell_pick_3_use": {"type": "text", "label": "Spell Choice 3: Use", "visible_if": "false"},
+        "spell_pick_3_uses": {"type": "text", "label": "Spell Choice 3: Uses", "visible_if": "false"},
+        "spell_pick_3_variant": {"type": "text", "label": "Spell Choice 3: Variant", "visible_if": "false"},
+        "spell_pick_4_count_by_level": {"type": "text", "label": "Spell Choice 4: Count By Level", "visible_if": "false"},
+        "spell_pick_4_level_min": {"type": "number", "label": "Spell Choice 4: Lowest Level", "min": 0, "max": 9, "visible_if": "false"},
+        "spell_pick_4_level_max": {"type": "number", "label": "Spell Choice 4: Highest Level", "min": 0, "max": 9, "visible_if": "false"},
+        "spell_pick_4_classes": {"type": "text", "label": "Spell Choice 4: Spell Lists", "visible_if": "false"},
+        "spell_pick_4_schools": {"type": "text", "label": "Spell Choice 4: Schools", "visible_if": "false"},
+        "spell_pick_4_ritual": {"type": "checkbox", "label": "Spell Choice 4: Rituals Only", "visible_if": "false"},
+        "spell_pick_4_from": {"type": "text", "label": "Spell Choice 4: From These Spells", "visible_if": "false"},
+        "spell_pick_4_use": {"type": "text", "label": "Spell Choice 4: Use", "visible_if": "false"},
+        "spell_pick_4_uses": {"type": "text", "label": "Spell Choice 4: Uses", "visible_if": "false"},
+        "spell_pick_4_variant": {"type": "text", "label": "Spell Choice 4: Variant", "visible_if": "false"},
+        "spell_pick_5_count_by_level": {"type": "text", "label": "Spell Choice 5: Count By Level", "visible_if": "false"},
+        "spell_pick_5_level_min": {"type": "number", "label": "Spell Choice 5: Lowest Level", "min": 0, "max": 9, "visible_if": "false"},
+        "spell_pick_5_level_max": {"type": "number", "label": "Spell Choice 5: Highest Level", "min": 0, "max": 9, "visible_if": "false"},
+        "spell_pick_5_classes": {"type": "text", "label": "Spell Choice 5: Spell Lists", "visible_if": "false"},
+        "spell_pick_5_schools": {"type": "text", "label": "Spell Choice 5: Schools", "visible_if": "false"},
+        "spell_pick_5_ritual": {"type": "checkbox", "label": "Spell Choice 5: Rituals Only", "visible_if": "false"},
+        "spell_pick_5_from": {"type": "text", "label": "Spell Choice 5: From These Spells", "visible_if": "false"},
+        "spell_pick_5_use": {"type": "text", "label": "Spell Choice 5: Use", "visible_if": "false"},
+        "spell_pick_5_uses": {"type": "text", "label": "Spell Choice 5: Uses", "visible_if": "false"},
+        "spell_pick_5_variant": {"type": "text", "label": "Spell Choice 5: Variant", "visible_if": "false"},
+        "spell_pick_6_count_by_level": {"type": "text", "label": "Spell Choice 6: Count By Level", "visible_if": "false"},
+        "spell_pick_6_level_min": {"type": "number", "label": "Spell Choice 6: Lowest Level", "min": 0, "max": 9, "visible_if": "false"},
+        "spell_pick_6_level_max": {"type": "number", "label": "Spell Choice 6: Highest Level", "min": 0, "max": 9, "visible_if": "false"},
+        "spell_pick_6_classes": {"type": "text", "label": "Spell Choice 6: Spell Lists", "visible_if": "false"},
+        "spell_pick_6_schools": {"type": "text", "label": "Spell Choice 6: Schools", "visible_if": "false"},
+        "spell_pick_6_ritual": {"type": "checkbox", "label": "Spell Choice 6: Rituals Only", "visible_if": "false"},
+        "spell_pick_6_from": {"type": "text", "label": "Spell Choice 6: From These Spells", "visible_if": "false"},
+        "spell_pick_6_use": {"type": "text", "label": "Spell Choice 6: Use", "visible_if": "false"},
+        "spell_pick_6_uses": {"type": "text", "label": "Spell Choice 6: Uses", "visible_if": "false"},
+        "spell_pick_6_variant": {"type": "text", "label": "Spell Choice 6: Variant", "visible_if": "false"}
       }
     },
     "spell": {
@@ -1313,6 +1321,7 @@
           "label": "Name"
         },
         "species": {
+          "visible_if": "false",
           "type": "text",
           "label": "Species"
         },
@@ -1321,19 +1330,23 @@
           "label": "Description"
         },
         "uses": {
+          "visible_if": "false",
           "type": "number",
           "label": "Uses",
           "min": 0
         },
         "uses_by_level": {
+          "visible_if": "false",
           "type": "text",
           "label": "Uses By Level"
         },
         "uses_pb": {
+          "visible_if": "false",
           "type": "checkbox",
           "label": "Uses = Proficiency Bonus"
         },
         "recovery": {
+          "visible_if": "false",
           "type": "select",
           "label": "Recovery",
           "options": [
@@ -1345,6 +1358,7 @@
           ]
         },
         "save_ability": {
+          "visible_if": "false",
           "type": "select",
           "label": "Saving Throw",
           "options": [
@@ -1358,6 +1372,7 @@
           ]
         },
         "dc_ability": {
+          "visible_if": "false",
           "type": "select",
           "label": "DC Ability",
           "options": [
@@ -1371,22 +1386,27 @@
           ]
         },
         "effect_label": {
+          "visible_if": "false",
           "type": "text",
           "label": "Effect"
         },
         "effect_die": {
+          "visible_if": "false",
           "type": "text",
           "label": "Effect Die (times Proficiency Bonus)"
         },
         "effect_dice_pb": {
+          "visible_if": "false",
           "type": "checkbox",
           "label": "Number Of Dice = Proficiency Bonus"
         },
         "effect_dice_by_level": {
+          "visible_if": "false",
           "type": "text",
           "label": "Effect Dice By Level"
         },
         "effect_flat_pb": {
+          "visible_if": "false",
           "type": "checkbox",
           "label": "Effect = Proficiency Bonus"
         }
