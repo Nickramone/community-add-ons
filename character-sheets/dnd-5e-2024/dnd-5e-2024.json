@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.39.1",
+  "version": "1.40.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -308,6 +308,7 @@
         "expertise_by_level": {"type": "text", "label": "Expertise By Level"},
         "expertise_options": {"type": "text", "label": "Expertise Options"},
         "skill_choice_by_level": {"type": "text", "label": "Skill Choices By Level"},
+        "skill_choice_total_by_level": {"type": "text", "label": "Skill Choices Due By Level (total)"},
         "skill_choice_options": {"type": "text", "label": "Skill Choice Options"},
         "language_choice_by_level": {"type": "text", "label": "Language Choices By Level"},
         "tool_choice_by_level": {"type": "text", "label": "Tool Choices By Level"},
@@ -579,6 +580,7 @@
         "expertise_by_level": {"type": "text", "label": "Expertise By Level"},
         "expertise_options": {"type": "text", "label": "Expertise Options"},
         "skill_choice_by_level": {"type": "text", "label": "Skill Choices By Level"},
+        "skill_choice_total_by_level": {"type": "text", "label": "Skill Choices Due By Level (total)"},
         "skill_choice_options": {"type": "text", "label": "Skill Choice Options"},
         "language_choice_by_level": {"type": "text", "label": "Language Choices By Level"},
         "tool_choice_by_level": {"type": "text", "label": "Tool Choices By Level"},
@@ -2239,12 +2241,7 @@
       "content_type": "class",
       "allow_freeform": true,
       "on_pick": [
-        {
-          "choose": "skill_profs",
-          "count": "skill_choices",
-          "from": "skill_options",
-          "label": "Choose class skill proficiencies"
-        },
+        {"prompt": "class_skills"},
         {
           "grant": "features",
           "from": "feature_ids",
@@ -2671,6 +2668,11 @@
         "Stealth",
         "Survival"
       ]
+    },
+    "class_skills": {
+      "type": "multiselect",
+      "label": "Skills From Class",
+      "options": ["Acrobatics", "Animal Handling", "Arcana", "Athletics", "Deception", "History", "Insight", "Intimidation", "Investigation", "Medicine", "Nature", "Perception", "Performance", "Persuasion", "Religion", "Sleight of Hand", "Stealth", "Survival"]
     },
     "skill_expertise": {
       "type": "multiselect",
@@ -3942,6 +3944,14 @@
           "values": "answer.sub_skills"
         },
         {
+          "add": "class_skills",
+          "values": "answer.skills"
+        },
+        {
+          "add": "class_skills",
+          "values": "answer.sub_skills"
+        },
+        {
           "add": "skill_expertise",
           "values": "ref(subclass, 'skill_choice_expertise') ? answer.sub_skills : ''"
         },
@@ -4417,6 +4427,24 @@
         }
       ]
     },
+    "class_skills": {
+      "label": "Class skill proficiencies",
+      "steps": [
+        {
+          "key": "skills",
+          "type": "choose",
+          "target": "skill_profs",
+          "options": "row.skill_options",
+          "count": "row.skill_choices",
+          "label": "Choose class skill proficiencies",
+          "visible_if": "row.skill_choices > 0 and len(row.skill_options) > 0"
+        }
+      ],
+      "apply": [
+        {"add": "skill_profs", "values": "answer.skills"},
+        {"add": "class_skills", "values": "answer.skills"}
+      ]
+    },
     "species_choices": {
       "label": "Species choices",
       "steps": [
@@ -4761,6 +4789,114 @@
         }
       ]
     },
+    "lineage_catchup": {
+      "label": "Species spells (missing)",
+      "steps": [
+        {
+          "key": "ability",
+          "type": "select",
+          "label": "Spellcasting ability of your species spells",
+          "options": [
+            {
+              "value": "intelligence",
+              "label": "Intelligence"
+            },
+            {
+              "value": "wisdom",
+              "label": "Wisdom"
+            },
+            {
+              "value": "charisma",
+              "label": "Charisma"
+            }
+          ],
+          "visible_if": "ref(lineage, 'spell_ability_options')"
+        },
+        {
+          "key": "g1",
+          "type": "entries",
+          "content_type": "spell",
+          "entry_note": "entry.level == 0 ? 'Cantrip' : concat('Lv. ', entry.level)",
+          "label": "Spells",
+          "label_formula": "concat('Choose ', by_level(ref(lineage, 'spell_pick_1_count_by_level'), max(level, 1)), ref(lineage, 'spell_pick_1_level_max') == 0 ? ' cantrip(s)' : concat(' spell(s) of level ', ref(lineage, 'spell_pick_1_level_min'), ref(lineage, 'spell_pick_1_level_max') != ref(lineage, 'spell_pick_1_level_min') ? concat('-', ref(lineage, 'spell_pick_1_level_max')) : ''), ref(lineage, 'spell_pick_1_ritual') ? ' with the Ritual tag' : '', ref(lineage, 'spell_pick_1_classes') ? concat(' from the ', contains(ref(lineage, 'spell_pick_1_classes'), ',Bard,') ? 'Bard ' : '', contains(ref(lineage, 'spell_pick_1_classes'), ',Cleric,') ? 'Cleric ' : '', contains(ref(lineage, 'spell_pick_1_classes'), ',Druid,') ? 'Druid ' : '', contains(ref(lineage, 'spell_pick_1_classes'), ',Paladin,') ? 'Paladin ' : '', contains(ref(lineage, 'spell_pick_1_classes'), ',Ranger,') ? 'Ranger ' : '', contains(ref(lineage, 'spell_pick_1_classes'), ',Sorcerer,') ? 'Sorcerer ' : '', contains(ref(lineage, 'spell_pick_1_classes'), ',Warlock,') ? 'Warlock ' : '', contains(ref(lineage, 'spell_pick_1_classes'), ',Wizard,') ? 'Wizard ' : '', 'list') : '', ref(lineage, 'spell_pick_1_schools') ? concat(' of ', contains(ref(lineage, 'spell_pick_1_schools'), ',Abjuration,') ? 'Abjuration ' : '', contains(ref(lineage, 'spell_pick_1_schools'), ',Conjuration,') ? 'Conjuration ' : '', contains(ref(lineage, 'spell_pick_1_schools'), ',Divination,') ? 'Divination ' : '', contains(ref(lineage, 'spell_pick_1_schools'), ',Enchantment,') ? 'Enchantment ' : '', contains(ref(lineage, 'spell_pick_1_schools'), ',Evocation,') ? 'Evocation ' : '', contains(ref(lineage, 'spell_pick_1_schools'), ',Illusion,') ? 'Illusion ' : '', contains(ref(lineage, 'spell_pick_1_schools'), ',Necromancy,') ? 'Necromancy ' : '', contains(ref(lineage, 'spell_pick_1_schools'), ',Transmutation,') ? 'Transmutation ' : '', 'schools') : '')",
+          "count": "by_level(ref(lineage, 'spell_pick_1_count_by_level'), max(level, 1))",
+          "filter": "entry.level >= (ref(lineage, 'spell_pick_1_level_min') ? ref(lineage, 'spell_pick_1_level_min') : 0) and entry.level <= (ref(lineage, 'spell_pick_1_level_max') ? ref(lineage, 'spell_pick_1_level_max') : 0) and (not ref(lineage, 'spell_pick_1_classes') or (contains(ref(lineage, 'spell_pick_1_classes'), ',Bard,') and contains(entry.spell_lists, 'Bard')) or (contains(ref(lineage, 'spell_pick_1_classes'), ',Cleric,') and contains(entry.spell_lists, 'Cleric')) or (contains(ref(lineage, 'spell_pick_1_classes'), ',Druid,') and contains(entry.spell_lists, 'Druid')) or (contains(ref(lineage, 'spell_pick_1_classes'), ',Paladin,') and contains(entry.spell_lists, 'Paladin')) or (contains(ref(lineage, 'spell_pick_1_classes'), ',Ranger,') and contains(entry.spell_lists, 'Ranger')) or (contains(ref(lineage, 'spell_pick_1_classes'), ',Sorcerer,') and contains(entry.spell_lists, 'Sorcerer')) or (contains(ref(lineage, 'spell_pick_1_classes'), ',Warlock,') and contains(entry.spell_lists, 'Warlock')) or (contains(ref(lineage, 'spell_pick_1_classes'), ',Wizard,') and contains(entry.spell_lists, 'Wizard'))) and (not ref(lineage, 'spell_pick_1_schools') or contains(ref(lineage, 'spell_pick_1_schools'), concat(',', entry.school, ','))) and (not ref(lineage, 'spell_pick_1_ritual') or entry.ritual) and not has_ref(spells, entry._ref)",
+          "visible_if": "ref(lineage, 'spell_pick_count') >= 1 and (ref(lineage, 'spell_pick_1_variant') == 'all' or ref(lineage, 'spell_pick_1_variant') == answer.variant)"
+        },
+        {
+          "key": "g2",
+          "type": "entries",
+          "content_type": "spell",
+          "entry_note": "entry.level == 0 ? 'Cantrip' : concat('Lv. ', entry.level)",
+          "label": "Spells",
+          "label_formula": "concat('Choose ', by_level(ref(lineage, 'spell_pick_2_count_by_level'), max(level, 1)), ref(lineage, 'spell_pick_2_level_max') == 0 ? ' cantrip(s)' : concat(' spell(s) of level ', ref(lineage, 'spell_pick_2_level_min'), ref(lineage, 'spell_pick_2_level_max') != ref(lineage, 'spell_pick_2_level_min') ? concat('-', ref(lineage, 'spell_pick_2_level_max')) : ''), ref(lineage, 'spell_pick_2_ritual') ? ' with the Ritual tag' : '', ref(lineage, 'spell_pick_2_classes') ? concat(' from the ', contains(ref(lineage, 'spell_pick_2_classes'), ',Bard,') ? 'Bard ' : '', contains(ref(lineage, 'spell_pick_2_classes'), ',Cleric,') ? 'Cleric ' : '', contains(ref(lineage, 'spell_pick_2_classes'), ',Druid,') ? 'Druid ' : '', contains(ref(lineage, 'spell_pick_2_classes'), ',Paladin,') ? 'Paladin ' : '', contains(ref(lineage, 'spell_pick_2_classes'), ',Ranger,') ? 'Ranger ' : '', contains(ref(lineage, 'spell_pick_2_classes'), ',Sorcerer,') ? 'Sorcerer ' : '', contains(ref(lineage, 'spell_pick_2_classes'), ',Warlock,') ? 'Warlock ' : '', contains(ref(lineage, 'spell_pick_2_classes'), ',Wizard,') ? 'Wizard ' : '', 'list') : '', ref(lineage, 'spell_pick_2_schools') ? concat(' of ', contains(ref(lineage, 'spell_pick_2_schools'), ',Abjuration,') ? 'Abjuration ' : '', contains(ref(lineage, 'spell_pick_2_schools'), ',Conjuration,') ? 'Conjuration ' : '', contains(ref(lineage, 'spell_pick_2_schools'), ',Divination,') ? 'Divination ' : '', contains(ref(lineage, 'spell_pick_2_schools'), ',Enchantment,') ? 'Enchantment ' : '', contains(ref(lineage, 'spell_pick_2_schools'), ',Evocation,') ? 'Evocation ' : '', contains(ref(lineage, 'spell_pick_2_schools'), ',Illusion,') ? 'Illusion ' : '', contains(ref(lineage, 'spell_pick_2_schools'), ',Necromancy,') ? 'Necromancy ' : '', contains(ref(lineage, 'spell_pick_2_schools'), ',Transmutation,') ? 'Transmutation ' : '', 'schools') : '')",
+          "count": "by_level(ref(lineage, 'spell_pick_2_count_by_level'), max(level, 1))",
+          "filter": "entry.level >= (ref(lineage, 'spell_pick_2_level_min') ? ref(lineage, 'spell_pick_2_level_min') : 0) and entry.level <= (ref(lineage, 'spell_pick_2_level_max') ? ref(lineage, 'spell_pick_2_level_max') : 0) and (not ref(lineage, 'spell_pick_2_classes') or (contains(ref(lineage, 'spell_pick_2_classes'), ',Bard,') and contains(entry.spell_lists, 'Bard')) or (contains(ref(lineage, 'spell_pick_2_classes'), ',Cleric,') and contains(entry.spell_lists, 'Cleric')) or (contains(ref(lineage, 'spell_pick_2_classes'), ',Druid,') and contains(entry.spell_lists, 'Druid')) or (contains(ref(lineage, 'spell_pick_2_classes'), ',Paladin,') and contains(entry.spell_lists, 'Paladin')) or (contains(ref(lineage, 'spell_pick_2_classes'), ',Ranger,') and contains(entry.spell_lists, 'Ranger')) or (contains(ref(lineage, 'spell_pick_2_classes'), ',Sorcerer,') and contains(entry.spell_lists, 'Sorcerer')) or (contains(ref(lineage, 'spell_pick_2_classes'), ',Warlock,') and contains(entry.spell_lists, 'Warlock')) or (contains(ref(lineage, 'spell_pick_2_classes'), ',Wizard,') and contains(entry.spell_lists, 'Wizard'))) and (not ref(lineage, 'spell_pick_2_schools') or contains(ref(lineage, 'spell_pick_2_schools'), concat(',', entry.school, ','))) and (not ref(lineage, 'spell_pick_2_ritual') or entry.ritual) and not has_ref(spells, entry._ref)",
+          "visible_if": "ref(lineage, 'spell_pick_count') >= 2 and (ref(lineage, 'spell_pick_2_variant') == 'all' or ref(lineage, 'spell_pick_2_variant') == answer.variant)"
+        }
+      ],
+      "apply": [
+        {
+          "set": "species_spell_ability",
+          "to": "answer.ability ? answer.ability : ''"
+        },
+        {
+          "grant": "spells",
+          "from": "count_each(spells, contains(ref(lineage, 'auto_spell_ids'), row._ref)) == 0 and ref(lineage, 'auto_spell_ids') ? ref(lineage, 'auto_spell_ids') : ''",
+          "values": {
+            "origin": "ref(lineage, 'auto_spell_origin')",
+            "always": "ref(lineage, 'auto_spell_always')",
+            "use": "ref(lineage, 'auto_spell_use')",
+            "uses": "ref(lineage, 'auto_spell_uses')",
+            "ability": "concat((answer.ability ? answer.ability : ''), ',', (answer.ability ? answer.ability : ''), ',', (answer.ability ? answer.ability : ''), ',', (answer.ability ? answer.ability : ''))"
+          }
+        },
+        {
+          "grant": "spells",
+          "from": "level >= 3 and count_each(spells, contains(ref(lineage, 'auto_spell_ids_3'), row._ref)) == 0 and ref(lineage, 'auto_spell_ids_3') ? ref(lineage, 'auto_spell_ids_3') : ''",
+          "values": {
+            "origin": "ref(lineage, 'auto_spell_origin')",
+            "always": "ref(lineage, 'auto_spell_always')",
+            "use": "ref(lineage, 'auto_spell_use_3')",
+            "uses": "ref(lineage, 'auto_spell_uses_3')",
+            "ability": "concat((answer.ability ? answer.ability : ''), ',', (answer.ability ? answer.ability : ''), ',', (answer.ability ? answer.ability : ''), ',', (answer.ability ? answer.ability : ''))"
+          }
+        },
+        {
+          "grant": "spells",
+          "from": "level >= 5 and count_each(spells, contains(ref(lineage, 'auto_spell_ids_5'), row._ref)) == 0 and ref(lineage, 'auto_spell_ids_5') ? ref(lineage, 'auto_spell_ids_5') : ''",
+          "values": {
+            "origin": "ref(lineage, 'auto_spell_origin')",
+            "always": "ref(lineage, 'auto_spell_always')",
+            "use": "ref(lineage, 'auto_spell_use_5')",
+            "uses": "ref(lineage, 'auto_spell_uses_5')",
+            "ability": "concat((answer.ability ? answer.ability : ''), ',', (answer.ability ? answer.ability : ''), ',', (answer.ability ? answer.ability : ''), ',', (answer.ability ? answer.ability : ''))"
+          }
+        },
+        {
+          "pick": "spells",
+          "entry": "answer.g1",
+          "values": {
+            "origin": "'species'",
+            "always": "true",
+            "use": "ref(lineage, 'spell_pick_1_use')",
+            "uses": "ref(lineage, 'spell_pick_1_uses')",
+            "ability": "(answer.ability ? answer.ability : '')"
+          }
+        },
+        {
+          "pick": "spells",
+          "entry": "answer.g2",
+          "values": {
+            "origin": "'species'",
+            "always": "true",
+            "use": "ref(lineage, 'spell_pick_2_use')",
+            "uses": "ref(lineage, 'spell_pick_2_uses')",
+            "ability": "(answer.ability ? answer.ability : '')"
+          }
+        }
+      ]
+    },
     "background_spells": {
       "label": "Background feat spells",
       "steps": [
@@ -4839,6 +4975,11 @@
       "name": "prepare_spells",
       "label": "Prepare spells",
       "steps": [{"prompt": "prepare_spells"}]
+    },
+    {
+      "name": "lineage_catchup",
+      "label": "Choose missing species spells",
+      "steps": [{"prompt": "lineage_catchup"}]
     },
     {
       "name": "spell_catchup",
@@ -4955,6 +5096,7 @@
     {"rule": "count_each(features, contains(row.choice_options, ',') and not contains(row.choice_options, concat(',', row.choice, ','))) == 0", "message": "A class feature is missing its choice (Hunter's Prey, type of land, damage type...): set it in the Choice column of Class Features.", "field": "features"},
     {"rule": "count_each(feats, row.category == 'Fighting Style') >= by_level(ref(klass, 'fighting_style_total_by_level'), len(advancements)) + by_level(ref(subclass, 'fighting_style_total_by_level'), len(advancements))", "message": "A Fighting Style feat is missing: your class or subclass gave you one at an earlier level - add it under Feats (or reopen Level up).", "field": "feats"},
     {"rule": "count_each(features, row.variant_of != '') >= by_level(ref(klass, 'variant_total_by_level'), len(advancements))", "message": "A class feature option is missing (Divine Order, Primal Order, Blessed Strikes, Elemental Fury): add the one you chose under Class Features.", "field": "features"},
+    {"rule": "len(class_skills) >= ref(klass, 'skill_choices') + by_level(ref(klass, 'skill_choice_total_by_level'), len(advancements)) + by_level(ref(subclass, 'skill_choice_total_by_level'), len(advancements))", "message": "Fewer skills from your class than it gives by this level: pick the missing ones in Skill Proficiencies and tick them also in Skills From Class (or reopen Level up).", "field": "class_skills"},
     {"rule": "len(skill_expertise) >= by_level(ref(klass, 'expertise_total_by_level'), len(advancements)) + by_level(ref(subclass, 'expertise_total_by_level'), len(advancements))", "message": "Fewer Expertise skills than your class and subclass give by this level: pick the missing ones in Skill Expertise.", "field": "skill_expertise"},
     {"rule": "len(class_options) >= by_level(ref(klass, 'options_total_by_level'), len(advancements)) + by_level(ref(subclass, 'options_total_by_level'), len(advancements))", "message": "Fewer Metamagic options, Eldritch Invocations or Maneuvers than you should know at this level: add the missing ones.", "field": "class_options"},
     {"rule": "(count_each(class_options, row.prereq_option == 'Pact of the Blade') == 0 or count_each(class_options, row.name == 'Pact of the Blade') > 0) and (count_each(class_options, row.prereq_option == 'Pact of the Chain') == 0 or count_each(class_options, row.name == 'Pact of the Chain') > 0) and (count_each(class_options, row.prereq_option == 'Pact of the Tome') == 0 or count_each(class_options, row.name == 'Pact of the Tome') > 0) and (count_each(class_options, row.prereq_option == 'Thirsting Blade') == 0 or count_each(class_options, row.name == 'Thirsting Blade') > 0)", "message": "An option needs another you no longer have (Pact of the Blade, Chain or Tome, Thirsting Blade): add it back or replace the option that needs it.", "field": "class_options"},
