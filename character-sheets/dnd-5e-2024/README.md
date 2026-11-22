@@ -215,7 +215,7 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
 - **Attacks** in one box: Unarmed Strike (with the die of Unarmed Fighting, Tavern Brawler or the Monk's Martial Arts, which also takes the better of Strength and Dexterity; Unarmed Fighting drops to a d6 while a weapon or Shield is held); a row for each equipped weapon and
   magic weapon (with a Versatile two-handed row and a thrown row where they
   apply), with the attack bonus (proficiency where the weapon training
-  covers the weapon, Finesse taking the better of Strength and Dexterity,
+  covers the weapon, Finesse (and a Monk weapon, with no armor or Shield) taking the better of Strength and Dexterity and, for a Monk weapon, the Martial Arts die when larger than the weapon's, a weapon ticked Pact (Pact of the Blade) taking Charisma when higher,
   ranged weapons Dexterity, Archery's +2), damage dice, modifier and type,
   range or reach, and a magic weapon's own bonuses and critical range; magic
   items with attack or damage bonuses and no weapon data keep a Strength and a

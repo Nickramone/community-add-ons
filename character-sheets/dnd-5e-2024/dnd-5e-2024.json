@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.38.1",
+  "version": "1.39.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -2963,6 +2963,11 @@
           "min": 0,
           "default": 1
         },
+        "pact_weapon": {
+          "type": "checkbox",
+          "label": "Pact",
+          "visible_if": "contains('Melee Weapon,Ranged Weapon', row.category) && count_each(class_options, row.name == 'Pact of the Blade') > 0"
+        },
         "equipped": {
           "type": "checkbox",
           "label": "Eq.",
@@ -2984,6 +2989,11 @@
         {"grant": "spells", "from": "granted_spell_ids", "values": {"origin": "auto_spell_origin", "always": "auto_spell_always", "use": "granted_spell_use", "uses": "granted_spell_uses"}}
       ],
       "per_entry_fields": {
+        "pact_weapon": {
+          "type": "checkbox",
+          "label": "Pact",
+          "visible_if": "contains(row.item_type, 'Weapon') && count_each(class_options, row.name == 'Pact of the Blade') > 0"
+        },
         "equipped": {
           "type": "checkbox",
           "label": "Eq."
@@ -3512,8 +3522,12 @@
       "formula": "raging && has_ref(features, 'rage-barbarian-1-xphb') ? (class_level >= 16 ? 4 : (class_level >= 9 ? 3 : 2)) : 0",
       "label": "Rage Damage"
     },
+    "arts_die": {
+      "formula": "unarmed_arts ? (class_level >= 17 ? 12 : (class_level >= 11 ? 10 : (class_level >= 5 ? 8 : 6))) : 0",
+      "label": "Martial Arts Die"
+    },
     "unarmed_die": {
-      "formula": "max(has_ref(feats, 'tavern-brawler-xphb') ? 4 : 0, has_ref(feats, 'unarmed-fighting-xphb') ? (armed_count == 0 && shield_worn == 0 ? 8 : 6) : 0, unarmed_arts ? (class_level >= 17 ? 12 : (class_level >= 11 ? 10 : (class_level >= 5 ? 8 : 6))) : 0)",
+      "formula": "max(has_ref(feats, 'tavern-brawler-xphb') ? 4 : 0, has_ref(feats, 'unarmed-fighting-xphb') ? (armed_count == 0 && shield_worn == 0 ? 8 : 6) : 0, arts_die)",
       "label": "Unarmed Strike Die"
     },
     "melee_attack": {
