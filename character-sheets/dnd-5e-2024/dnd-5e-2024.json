@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.42.0",
+  "version": "1.42.1",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -1946,7 +1946,8 @@
         },
         "base_item_ref": {
           "type": "text",
-          "label": "Base Item Id"
+          "label": "Base Item Id",
+          "visible_if": "false"
         },
         "damage_dice": {
           "type": "text",
@@ -1972,39 +1973,46 @@
         },
         "ranged": {
           "type": "checkbox",
-          "label": "Ranged Weapon"
+          "label": "Ranged Weapon",
+          "visible_if": "false"
         },
         "thrown": {
           "type": "checkbox",
-          "label": "Thrown"
+          "label": "Thrown",
+          "visible_if": "false"
         },
         "finesse": {
           "type": "checkbox",
-          "label": "Finesse"
+          "label": "Finesse",
+          "visible_if": "false"
         },
         "light": {
           "type": "checkbox",
-          "label": "Light"
+          "label": "Light",
+          "visible_if": "false"
         },
         "heavy": {
           "type": "checkbox",
-          "label": "Heavy"
+          "label": "Heavy",
+          "visible_if": "false"
         },
         "two_handed": {
           "type": "checkbox",
-          "label": "Two-Handed"
+          "label": "Two-Handed",
+          "visible_if": "false"
         },
         "reach": {
           "type": "checkbox",
-          "label": "Reach"
+          "label": "Reach",
+          "visible_if": "false"
         },
-        "auto_spell_origin": {"type": "text", "label": "Auto Spells Origin"},
-        "auto_spell_always": {"type": "text", "label": "Auto Spells Always Prepared"},
-        "granted_spell_ids": {"type": "text", "label": "Granted Spells (ids)"},
-        "granted_spell_use": {"type": "text", "label": "Granted Spells Use"},
-        "granted_spell_uses": {"type": "text", "label": "Granted Spells Cost In Charges"},
-        "granted_spell_cast_levels": {"type": "text", "label": "Granted Spells Cast Level"},
-        "granted_spell_source": {"type": "text", "label": "Granted Spells Source"}
+        "auto_spell_origin": {"type": "text", "label": "Auto Spells Origin", "visible_if": "false"},
+        "auto_spell_always": {"type": "text", "label": "Auto Spells Always Prepared", "visible_if": "false"},
+        "granted_spell_ids": {"type": "text", "label": "Granted Spells (ids)", "visible_if": "false"},
+        "granted_spell_use": {"type": "text", "label": "Granted Spells Use", "visible_if": "false"},
+        "granted_spell_uses": {"type": "text", "label": "Granted Spells Cost In Charges", "visible_if": "false"},
+        "granted_spell_cast_levels": {"type": "text", "label": "Granted Spells Cast Level", "visible_if": "false"},
+        "granted_spell_source": {"type": "text", "label": "Granted Spells Source", "visible_if": "false"}
       }
     }
   },
@@ -3013,7 +3021,8 @@
         },
         "equipped": {
           "type": "checkbox",
-          "label": "Eq."
+          "label": "Eq.",
+          "visible_if": "row.item_type != 'Potion'"
         },
         "attuned": {
           "type": "checkbox",

@@ -127,7 +127,8 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   catalogue's `granted_spell_*`, with the charge cost as its free uses) add
   theirs on pick, and removing the row takes them back. An item's spells show
   only while the item is active (equipped, and attuned if it needs attunement;
-  a potion counts while it is on the list): a spell picked before 1.42.0 does
+  a potion, which has no Eq. box, counts while it is on the list; the full list
+  under «Add, remove or edit spells» still shows every row): a spell picked before 1.42.0 does
   not know its item and always shows, until the item is removed and picked
   again. A spell with a free
   use per rest gets a line in Resources (long rest, or short or long rest),
