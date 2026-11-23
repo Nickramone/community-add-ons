@@ -112,7 +112,7 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   spells for others of the class list. **Choose missing spells** appears in Spells while
   cantrips, a Bard's, Sorcerer's or Warlock's spells, a Wizard's spellbook or a
   Mystic Arcanum are missing (a Level up skipped), and asks only for those. A
-  **Choose missing species spells** grants the lineage spells (and asks for the chosen ones) that a skipped lineage prompt left out, skipping the ones already held. Skills picked from the class (at the class pick and at Level up) are also recorded in **Skills From Class**, and a warning shows when there are fewer than the class and subclass give by that level (a character made before 1.40.0 has the field empty: fill it by hand). Languages and tools chosen at Level up (Thieves' Cant, Deft Explorer, Student of War...) are recorded the same way in **Languages From Class** and **Tools From Class**, with the same warning (fields empty before 1.41.0: fill by hand). With Ritual Caster, Level up at 5, 9, 13 and 17 asks for one more level 1 Ritual spell (always prepared) and the feat's casting ability. Bard's, Sorcerer's or Warlock's class spells show a fixed ✓ instead of the box. The spells a class or subclass always
+  **Choose missing species spells** grants the lineage spells (and asks for the chosen ones) that a skipped lineage prompt left out, skipping the ones already held. Skills picked from the class (at the class pick and at Level up) are also recorded in **Skills From Class**, and a warning shows when there are fewer than the class and subclass give by that level (a character made before 1.40.0 has the field empty: fill it by hand). Languages and tools chosen at Level up (Thieves' Cant, Deft Explorer, Student of War...) are recorded the same way in **Languages From Class** and **Tools From Class**, with the same warning (fields empty before 1.41.0: fill by hand). With Ritual Caster, Level up at 5, 9, 13 and 17 asks for one more level 1 Ritual spell (always prepared); the feat's casting ability is asked only while none of its spells has one, then taken from them. Bard's, Sorcerer's or Warlock's class spells show a fixed ✓ instead of the box. The spells a class or subclass always
   has prepared (domain, oath, circle, patron spells; Hunter's Mark, Divine
   Smite) arrive at the level that grants them: those of the level the class or
   subclass is chosen at with the pick, the later ones with Level up, from the
@@ -125,7 +125,11 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   Telekinetic), and so does a background that gives Magic Initiate; a species
   with a fixed spell (Aasimar: Light) and a magic item (Magic Items, from the
   catalogue's `granted_spell_*`, with the charge cost as its free uses) add
-  theirs on pick, and removing the row takes them back. A spell with a free
+  theirs on pick, and removing the row takes them back. An item's spells show
+  only while the item is active (equipped, and attuned if it needs attunement;
+  a potion counts while it is on the list): a spell picked before 1.42.0 does
+  not know its item and always shows, until the item is removed and picked
+  again. A spell with a free
   use per rest gets a line in Resources (long rest, or short or long rest),
   cleared by the rest buttons, and a spell cast with another ability than the
   class's has its own save DC and attack under the spell counts

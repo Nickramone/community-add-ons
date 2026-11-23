@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.41.0",
+  "version": "1.42.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -2003,7 +2003,8 @@
         "granted_spell_ids": {"type": "text", "label": "Granted Spells (ids)"},
         "granted_spell_use": {"type": "text", "label": "Granted Spells Use"},
         "granted_spell_uses": {"type": "text", "label": "Granted Spells Cost In Charges"},
-        "granted_spell_cast_levels": {"type": "text", "label": "Granted Spells Cast Level"}
+        "granted_spell_cast_levels": {"type": "text", "label": "Granted Spells Cast Level"},
+        "granted_spell_source": {"type": "text", "label": "Granted Spells Source"}
       }
     }
   },
@@ -3002,7 +3003,7 @@
       "content_type": "magic_item",
       "allow_freeform": true,
       "on_pick": [
-        {"grant": "spells", "from": "granted_spell_ids", "values": {"origin": "auto_spell_origin", "always": "auto_spell_always", "use": "granted_spell_use", "uses": "granted_spell_uses"}}
+        {"grant": "spells", "from": "granted_spell_ids", "values": {"origin": "auto_spell_origin", "always": "auto_spell_always", "use": "granted_spell_use", "uses": "granted_spell_uses", "source_ref": "granted_spell_source"}}
       ],
       "per_entry_fields": {
         "pact_weapon": {
@@ -4079,7 +4080,7 @@
             {"value": "wisdom", "label": "Wisdom"},
             {"value": "charisma", "label": "Charisma"}
           ],
-          "visible_if": "has_ref(feats, 'ritual-caster-xphb') and count_each(spells, row.origin == 'feat' and row.use == 'slots' and row.level == 1 and row.ritual) < by_level('1:2,5:3,9:4,13:5,17:6', len(advancements))"
+          "visible_if": "has_ref(feats, 'ritual-caster-xphb') and count_each(spells, row.origin == 'feat' and row.use == 'slots' and row.level == 1 and row.ritual) < by_level('1:2,5:3,9:4,13:5,17:6', len(advancements)) and count_each(spells, row.origin == 'feat' and row.use == 'slots' and row.level == 1 and row.ritual and row.ability) == 0"
         },
         {
           "key": "ritual",
@@ -4191,7 +4192,7 @@
             "always": "true",
             "use": "'slots'",
             "uses": "'1'",
-            "ability": "answer.ritual_ability"
+            "ability": "answer.ritual_ability ? answer.ritual_ability : (max_each(spells, row.ability == 'intelligence' ? 1 : (row.ability == 'wisdom' ? 2 : (row.ability == 'charisma' ? 3 : 0)), row.origin == 'feat' and row.use == 'slots' and row.level == 1 and row.ritual) == 1 ? 'intelligence' : (max_each(spells, row.ability == 'intelligence' ? 1 : (row.ability == 'wisdom' ? 2 : (row.ability == 'charisma' ? 3 : 0)), row.origin == 'feat' and row.use == 'slots' and row.level == 1 and row.ritual) == 2 ? 'wisdom' : (max_each(spells, row.ability == 'intelligence' ? 1 : (row.ability == 'wisdom' ? 2 : (row.ability == 'charisma' ? 3 : 0)), row.origin == 'feat' and row.use == 'slots' and row.level == 1 and row.ritual) == 3 ? 'charisma' : '')))"
           }
         },
         {
