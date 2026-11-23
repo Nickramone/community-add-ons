@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.42.1",
+  "version": "1.43.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -2585,6 +2585,10 @@
       "type": "checkbox",
       "label": "Raging"
     },
+    "divine_favor": {
+      "type": "checkbox",
+      "label": "Divine Favor"
+    },
     "effects": {
       "type": "list",
       "label": "Other Effects",
@@ -3548,6 +3552,39 @@
       "formula": "raging && has_ref(features, 'rage-barbarian-1-xphb') ? (class_level >= 16 ? 4 : (class_level >= 9 ? 3 : 2)) : 0",
       "label": "Rage Damage"
     },
+    "xd_sneak": {"formula": "has_ref(features, 'sneak-attack-rogue-1-xphb') ? ceil(class_level / 2) : 0", "label": "Sneak Attack Dice"},
+    "xd_assassin": {"formula": "has_ref(features, 'assassin-assassinate-3-xphb') ? class_level : 0", "label": "Assassinate Damage"},
+    "xd_colossus": {"formula": "count_each(features, row.choice == 'Colossus Slayer') > 0 ? 1 : 0", "label": "Colossus Slayer"},
+    "xd_divine_strike": {"formula": "has_ref(features, 'divine-strike-cleric-7-xphb') ? (has_ref(features, 'improved-blessed-strikes-cleric-14-xphb') ? 2 : 1) : 0", "label": "Divine Strike Dice"},
+    "xd_primal": {"formula": "has_ref(features, 'primal-strike-druid-7-xphb') ? (has_ref(features, 'improved-elemental-fury-druid-15-xphb') ? 2 : 1) : 0", "label": "Primal Strike Dice"},
+    "xd_radiant": {"formula": "has_ref(features, 'radiant-strikes-paladin-11-xphb') ? 1 : 0", "label": "Radiant Strikes"},
+    "xd_fury": {"formula": "has_ref(features, 'path-of-the-zealot-divine-fury-3-xphb') ? 1 : 0", "label": "Divine Fury"},
+    "xd_frenzy": {"formula": "has_ref(features, 'path-of-the-berserker-frenzy-3-xphb') ? (class_level >= 16 ? 4 : (class_level >= 9 ? 3 : 2)) : 0", "label": "Frenzy Dice"},
+    "xd_brutal": {"formula": "has_ref(features, 'brutal-strike-barbarian-9-xphb') ? (has_ref(features, 'improved-brutal-strike-barbarian-17-xphb') ? 2 : 1) : 0", "label": "Brutal Strike Dice"},
+    "xd_fey": {"formula": "has_ref(features, 'fey-wanderer-dreadful-strikes-3-xphb') ? (class_level >= 11 ? 6 : 4) : 0", "label": "Dreadful Strikes Die"},
+    "xd_gloom": {"formula": "has_ref(features, 'gloom-stalker-dread-ambusher-3-xphb') ? 1 : 0", "label": "Dreadful Strike"},
+    "xd_hm_known": {"formula": "has_ref(spells, 'hunters-mark-xphb') ? 1 : 0", "label": "Has Hunter's Mark"},
+    "xd_hm": {"formula": "xd_hm_known and contains(concentration, \"Hunter's Mark\") ? (has_ref(features, 'foe-slayer-ranger-20-xphb') ? 10 : 6) : 0", "label": "Hunter's Mark Die"},
+    "xd_hex_known": {"formula": "has_ref(spells, 'hex-xphb') ? 1 : 0", "label": "Has Hex"},
+    "xd_hex": {"formula": "xd_hex_known and contains(concentration, 'Hex') ? 1 : 0", "label": "Hex Active"},
+    "xd_favor_known": {"formula": "has_ref(spells, 'divine-favor-xphb') ? 1 : 0", "label": "Has Divine Favor"},
+    "xd_favor": {"formula": "xd_favor_known and divine_favor ? 1 : 0", "label": "Divine Favor Active"},
+    "xd_esmite_known": {"formula": "has_ref(class_options, 'option-eldritch-smite-xphb') ? 1 : 0", "label": "Has Eldritch Smite"},
+    "xd_esmite": {"formula": "xd_esmite_known and pact_slots_total - pact_slots_used > 0 ? pact_slot_level + 1 : 0", "label": "Eldritch Smite Dice"},
+    "xd_lifedrinker": {"formula": "has_ref(class_options, 'option-lifedrinker-xphb') ? 1 : 0", "label": "Lifedrinker"},
+    "xs_top": {"formula": "slots_5_total - slots_5_used > 0 ? 5 : (slots_4_total - slots_4_used > 0 ? 4 : (slots_3_total - slots_3_used > 0 ? 3 : (slots_2_total - slots_2_used > 0 ? 2 : (slots_1_total - slots_1_used > 0 ? 1 : 0))))", "label": "Highest Free Slot (1-5)"},
+    "xs_free_cast": {"formula": "count_each(features, row.name == \"Paladin's Smite\" and row.used < row.uses) > 0 ? 1 : 0", "label": "Free Divine Smite"},
+    "xs_divine": {"formula": "count_each(spells, row.name == 'Divine Smite' and (row.prepared or row.always)) > 0 ? 1 : 0", "label": "Divine Smite Ready"},
+    "xs_searing": {"formula": "count_each(spells, row.name == 'Searing Smite' and (row.prepared or row.always)) > 0 ? 1 : 0", "label": "Searing Smite Ready"},
+    "xs_thunderous": {"formula": "count_each(spells, row.name == 'Thunderous Smite' and (row.prepared or row.always)) > 0 ? 1 : 0", "label": "Thunderous Smite Ready"},
+    "xs_wrathful": {"formula": "count_each(spells, row.name == 'Wrathful Smite' and (row.prepared or row.always)) > 0 ? 1 : 0", "label": "Wrathful Smite Ready"},
+    "xs_shining": {"formula": "count_each(spells, row.name == 'Shining Smite' and (row.prepared or row.always)) > 0 ? 1 : 0", "label": "Shining Smite Ready"},
+    "xs_blinding": {"formula": "count_each(spells, row.name == 'Blinding Smite' and (row.prepared or row.always)) > 0 ? 1 : 0", "label": "Blinding Smite Ready"},
+    "xs_staggering": {"formula": "count_each(spells, row.name == 'Staggering Smite' and (row.prepared or row.always)) > 0 ? 1 : 0", "label": "Staggering Smite Ready"},
+    "xs_banishing": {"formula": "count_each(spells, row.name == 'Banishing Smite' and (row.prepared or row.always)) > 0 ? 1 : 0", "label": "Banishing Smite Ready"},
+    "xs_known": {"formula": "xs_divine or xs_searing or xs_thunderous or xs_wrathful or xs_shining or xs_blinding or xs_staggering or xs_banishing ? 1 : 0", "label": "Smite Spells Ready"},
+    "xs_ready": {"formula": "(xs_divine and xs_free_cast) or (xs_divine and xs_top >= 1) or (xs_searing and xs_top >= 1) or (xs_thunderous and xs_top >= 1) or (xs_wrathful and xs_top >= 1) or (xs_shining and xs_top >= 2) or (xs_blinding and xs_top >= 3) or (xs_staggering and xs_top >= 4) or (xs_banishing and xs_top >= 5) ? 1 : 0", "label": "Smite Castable"},
+    "xd_box": {"formula": "xd_sneak > 0 or xd_colossus or xd_divine_strike or xd_primal or xd_radiant or xd_fury or xd_frenzy or xd_brutal or xd_fey or xd_gloom or xd_hm_known or xd_hex_known or xd_favor_known or xd_esmite_known or xd_lifedrinker or xs_known ? 1 : 0", "label": "Extra Damage Box"},
     "arts_die": {
       "formula": "unarmed_arts ? (class_level >= 17 ? 12 : (class_level >= 11 ? 10 : (class_level >= 5 ? 8 : 6))) : 0",
       "label": "Martial Arts Die"
@@ -3578,6 +3615,7 @@
     }
   },
   "prompts": {
+    "concentrate": {"label": "Concentrate", "steps": [{"key": "spell", "type": "entry", "content_type": "spell", "label": "A Concentration spell you have", "filter": "entry.concentration and has_ref(spells, entry._ref)"}], "apply": [{"set": "concentration", "to": "answer.spell.name"}]},
     "level_up": {
       "label": "Level up",
       "steps": [
@@ -5049,11 +5087,17 @@
       "steps": [{"prompt": "spell_catchup"}]
     },
     {
+      "name": "concentrate",
+      "label": "Choose a Concentration spell",
+      "steps": [{"prompt": "concentrate"}]
+    },
+    {
       "name": "short_rest",
       "label": "Short rest",
       "confirm": "Take a short rest? Short-rest resources, class feature uses, short-rest trait uses, short-rest item charges and Pact Magic slots come back (Rage, Channel Divinity, Wild Shape and Second Wind give back one use); spend Hit Dice by hand.",
       "steps": [
         {"set": "raging", "to": "false"},
+        {"set": "divine_favor", "to": "false"},
         {"each": "resources", "where": "row.recovery == 'short'", "set": {"used": "0"}},
         {"each": "features", "where": "(row.recovery_by_level ? by_level(row.recovery_by_level, level) : row.recovery) == 'short'", "set": {"used": "0"}},
         {"each": "features", "where": "(row.recovery_by_level ? by_level(row.recovery_by_level, level) : row.recovery) == 'long' && row.short_regain", "set": {"used": "max(row.used - row.short_regain, 0)"}},
@@ -5070,6 +5114,7 @@
       "steps": [
         {"set": "hp_current", "to": "hp_max"},
         {"set": "raging", "to": "false"},
+        {"set": "divine_favor", "to": "false"},
         {"set": "hp_temp", "to": "0"},
         {"set": "hit_dice_spent", "to": "''"},
         {"each": "resources", "set": {"used": "0"}},

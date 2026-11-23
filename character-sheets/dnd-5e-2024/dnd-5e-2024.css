@@ -848,3 +848,43 @@
 .spell > summary > .sp-name {
   white-space: normal;
 }
+
+/* 1.43.0: extra damage that qualifies on an attack row, and the Extra damage box */
+.atk-xd {
+  display: block;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+.atk-xd > span,
+.atk-xd g-if > span {
+  margin-right: 0.6em;
+}
+.xd-box {
+  margin-top: 6px;
+  padding-top: 4px;
+  border-top: 1px solid var(--border);
+}
+.xd-head {
+  margin: 0 0 2px;
+  font-weight: 700;
+}
+.xd-sub {
+  font-weight: 400;
+}
+.xd-line {
+  margin: 2px 0;
+  font-size: 12px;
+}
+.xd-cost {
+  display: block;
+  font-size: 11px;
+  opacity: 0.8;
+}
+.xd-smites {
+  margin: 4px 0 0;
+}
+.xd-slots span {
+  margin-right: 0.6em;
+  font-weight: 700;
+  white-space: nowrap;
+}

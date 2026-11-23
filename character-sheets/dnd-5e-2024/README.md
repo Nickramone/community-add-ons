@@ -159,7 +159,9 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   lowers saves, skills, initiative, AC, spell save DC and the attack bonuses,
   and Grappled, Restrained, Paralyzed, Petrified, Unconscious or exhaustion
   level 6 bring the current speed to 0. Losing concentration while
-  incapacitated, and exhaustion level 6, raise a warning
+  incapacitated, and exhaustion level 6, raise a warning. A Choose button
+  beside Concentrating On lists the character's own Concentration spells and
+  fills in the one picked (typing stays possible for anything else)
 - **Campaign house rules switch** (on by default): exhaustion as a table
   rule - −1 per level to AC, spell save DC, saving throws, ability checks,
   attack rolls and damage, −10 ft of speed from level 3, a long rest removes
@@ -231,6 +233,22 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   Heavy Armor Master, Defensive Duelist and Defense, with the proficiency
   bonus filled in. The typed list below is for other attacks and damage
   cantrips
+- **Extra damage** (1.43.0): damage a hit can add but the row's number leaves
+  out, because its type differs or it depends on the moment, is listed once in
+  an Extra damage box under the attack rows, with its dice worked out for the
+  character, and each attack row it can apply to shows its name in small type
+  (Sneak Attack*): Sneak Attack (Finesse or Ranged weapons; Assassinate, and
+  the cost of Cunning Strike and Devious Strikes in small type), Colossus
+  Slayer (the Hunter's Prey choice), Divine Strike and Primal Strike (2d8 with
+  the level 14 and 15 improvements), Radiant Strikes, Divine Fury and Frenzy
+  (while raging), Brutal Strike (with its cost), Dreadful Strikes (Fey
+  Wanderer) and Dreadful Strike (Gloom Stalker, with its uses), Hunter's Mark
+  (d10 with Foe Slayer) and Hex while Concentrating On names them, Divine Favor
+  (an Active box, cleared by a rest), Eldritch Smite and Lifedrinker on the
+  pact weapon, and the Smite spells the character has prepared (Divine,
+  Searing, Thunderous, Wrathful, Shining, Blinding, Staggering, Banishing),
+  each with its dice for every free slot level up to 5th and Paladin's Smite's
+  free cast while unused. Critical hits are not worked out
 - **Short feat and trait pages**: the entry shown in a pick or the Compendium keeps only the prerequisites and the description; the fields the sheet's formulas read are marked `visible_if: "false"`, which needs a Grimoire that hides them (the fork's `ContentEntryDetail`)
 - **Feats worked into the numbers**: Alert adds proficiency to initiative,
   Speedy (+10 ft) and Boon of Speed (+30 ft) add to the current speed,
