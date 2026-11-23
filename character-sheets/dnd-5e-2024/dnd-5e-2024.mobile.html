@@ -55,7 +55,7 @@
     <div class="box stat">
       <span class="tiny box-title">Speed</span>
       <span class="big-input"><g-field name="speed" label="" variant="compact" /></span>
-      <g-if test="current_speed != speed"><span class="tiny centre now">Now <g-value name="current_speed" /> ft</span></g-if><g-if test="speed_bonus > 0"><span class="tiny now">Feats +<g-value name="speed_bonus" /> ft</span></g-if><g-repeat over="magic_items" where="row.equipped &amp;&amp; (row.attuned or not row.attunement) &amp;&amp; not row._inline &amp;&amp; row.speeds"><span class="tiny now"><g-value formula="row.speeds" /></span></g-repeat>
+      <g-if test="current_speed != speed"><span class="tiny centre now">Now <g-value name="current_speed" /> ft</span></g-if><g-if test="speed_bonus > 0"><span class="tiny now">Feats +<g-value name="speed_bonus" /> ft</span></g-if><g-repeat over="magic_items" where="row.equipped &amp;&amp; (row.attuned or not row.attunement) &amp;&amp; not row._inline &amp;&amp; row.speeds"><span class="tiny now"><g-value formula="row.speeds" /></span></g-repeat><g-if test="darkvision > 0"><span class="tiny now">Darkvision <g-value name="darkvision" /> ft</span></g-if><g-repeat over="feats" where="row.senses"><span class="tiny now"><g-value formula="row.senses" /></span></g-repeat>
     </div>
     <div class="box stat">
       <span class="tiny box-title">Proficiency</span>
@@ -70,6 +70,9 @@
       <g-if test="campaign_rules"><p class="effect warn"><strong>Exhaustion <g-value name="exhaustion" /></strong> −<g-value name="exhaustion_flat" /> to AC, spell save DC, saving throws, ability checks, attack rolls and damage<g-if test="exhaustion >= 3">; Speed −10 ft</g-if>. Level 6 is death. A long rest removes 2 levels, Lesser Restoration 1, Greater Restoration all.</p></g-if>
       <g-if test="not campaign_rules"><p class="effect warn"><strong>Exhaustion <g-value name="exhaustion" /></strong> −<g-value name="exhaustion_d20" /> to every d20 Test; Speed −<g-value name="exhaustion_speed" /> ft. Level 6 is death. A long rest removes 1 level.</p></g-if>
     </g-if>
+    <g-if test="len(resistances) > 0"><p class="effect"><strong>Resistance</strong> <g-field name="resistances" label="" /></p></g-if>
+    <g-if test="len(immunities) > 0"><p class="effect"><strong>Immunity</strong> <g-field name="immunities" label="" /></p></g-if>
+    <g-if test="len(condition_immunities) > 0"><p class="effect"><strong>Condition immunity</strong> <g-field name="condition_immunities" label="" /></p></g-if>
     <g-if test="raging"><p class="effect"><strong>Raging</strong> Resistance to Bludgeoning, Piercing and Slashing damage; <g-value formula="concat('+', rage_bonus)" /> damage with Strength attacks; Advantage on Strength checks and saves; no spells, and Concentration ends.</p></g-if>
     <g-if test="concentrating"><p class="effect"><strong>Concentrating</strong> <g-value name="concentration" />. Taking damage: Con save, DC 10 or half the damage (up to 30).</p></g-if>
     <g-repeat over="magic_items" where="row.equipped &amp;&amp; (row.attuned or not row.attunement) &amp;&amp; not row._inline &amp;&amp; row.defenses"><p class="effect"><strong><g-value formula="row.name" /></strong> <g-value formula="row.defenses" />.</p></g-repeat>
@@ -554,6 +557,12 @@
     <h3 class="box-heading">Languages</h3>
     <g-field name="language_profs" label="" />
     <span class="tiny">Other</span><g-field name="languages" label="" />
+  </section>
+  <section class="box">
+    <h3 class="box-heading">Defenses</h3>
+    <span class="tiny">Resistances</span><g-field name="resistances" label="" />
+    <span class="tiny">Immunities</span><g-field name="immunities" label="" />
+    <span class="tiny">Condition immunities</span><g-field name="condition_immunities" label="" />
   </section>
 
 </g-tab>

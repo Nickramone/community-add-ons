@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.44.0",
+  "version": "1.45.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -835,7 +835,13 @@
         "spell_pick_2_from": {"type": "text", "label": "Spell Choice 2: From These Spells"},
         "spell_pick_2_use": {"type": "text", "label": "Spell Choice 2: Use"},
         "spell_pick_2_uses": {"type": "text", "label": "Spell Choice 2: Uses"},
-        "spell_pick_2_variant": {"type": "text", "label": "Spell Choice 2: Variant"}
+        "spell_pick_2_variant": {"type": "text", "label": "Spell Choice 2: Variant"},
+        "darkvision": {"type": "number", "label": "Darkvision (ft.)", "min": 0},
+        "resistances": {"type": "multiselect", "label": "Damage Resistances", "options": ["Acid", "Bludgeoning", "Cold", "Fire", "Force", "Lightning", "Necrotic", "Piercing", "Poison", "Psychic", "Radiant", "Slashing", "Thunder"]},
+        "resist_options": {"type": "multiselect", "label": "Resistance Choice Options", "options": ["Acid", "Bludgeoning", "Cold", "Fire", "Force", "Lightning", "Necrotic", "Piercing", "Poison", "Psychic", "Radiant", "Slashing", "Thunder"]},
+        "resist_count": {"type": "number", "label": "Resistances to Choose", "min": 0},
+        "immunities": {"type": "multiselect", "label": "Damage Immunities", "options": ["Acid", "Bludgeoning", "Cold", "Fire", "Force", "Lightning", "Necrotic", "Piercing", "Poison", "Psychic", "Radiant", "Slashing", "Thunder"]},
+        "condition_immunities": {"type": "multiselect", "label": "Condition Immunities", "options": ["Blinded", "Charmed", "Deafened", "Exhaustion", "Frightened", "Grappled", "Incapacitated", "Invisible", "Paralyzed", "Petrified", "Poisoned", "Prone", "Restrained", "Stunned", "Unconscious"]}
       }
     },
     "lineage": {
@@ -1057,7 +1063,9 @@
           "label": "Tool Proficiencies"
         },
         "tool_options": {"type": "multiselect", "label": "Tool Options", "options": ["Alchemist's Supplies", "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools", "Cartographer's Tools", "Cobbler's Tools", "Cook's Utensils", "Glassblower's Tools", "Jeweler's Tools", "Leatherworker's Tools", "Mason's Tools", "Painter's Supplies", "Potter's Tools", "Smith's Tools", "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools", "Bagpipes", "Drum", "Dulcimer", "Flute", "Horn", "Lute", "Lyre", "Pan Flute", "Shawm", "Viol", "Dice Set", "Dragonchess Set", "Playing Cards", "Three-Dragon Ante Set", "Disguise Kit", "Forgery Kit", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit", "Thieves' Tools"]},
-        "tool_count": {"type": "number", "label": "Tools to Choose", "min": 0}
+        "tool_count": {"type": "number", "label": "Tools to Choose", "min": 0},
+        "feat_category": {"type": "text", "label": "Feat Category (a feat of this category instead)"},
+        "feat_options": {"type": "text", "label": "Feat Alternatives (ids)"}
       }
     },
     "feat": {
@@ -1105,6 +1113,19 @@
         "tool_count": {"type": "number", "label": "Tools to Choose", "min": 0, "visible_if": "false"},
         "skilled_options": {"type": "multiselect", "label": "Skill or Tool Options", "options": ["Acrobatics", "Animal Handling", "Arcana", "Athletics", "Deception", "History", "Insight", "Intimidation", "Investigation", "Medicine", "Nature", "Perception", "Performance", "Persuasion", "Religion", "Sleight of Hand", "Stealth", "Survival", "Alchemist's Supplies", "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools", "Cartographer's Tools", "Cobbler's Tools", "Cook's Utensils", "Glassblower's Tools", "Jeweler's Tools", "Leatherworker's Tools", "Mason's Tools", "Painter's Supplies", "Potter's Tools", "Smith's Tools", "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools", "Bagpipes", "Drum", "Dulcimer", "Flute", "Horn", "Lute", "Lyre", "Pan Flute", "Shawm", "Viol", "Dice Set", "Dragonchess Set", "Playing Cards", "Three-Dragon Ante Set", "Disguise Kit", "Forgery Kit", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit", "Thieves' Tools"], "visible_if": "false"},
         "skilled_count": {"type": "number", "label": "Skills or Tools to Choose", "min": 0, "visible_if": "false"},
+        "skill_proficiencies": {"type": "multiselect", "label": "Skill Proficiencies", "options": ["Acrobatics", "Animal Handling", "Arcana", "Athletics", "Deception", "History", "Insight", "Intimidation", "Investigation", "Medicine", "Nature", "Perception", "Performance", "Persuasion", "Religion", "Sleight of Hand", "Stealth", "Survival"], "visible_if": "false"},
+        "skill_options": {"type": "multiselect", "label": "Skill Choice Options", "options": ["Acrobatics", "Animal Handling", "Arcana", "Athletics", "Deception", "History", "Insight", "Intimidation", "Investigation", "Medicine", "Nature", "Perception", "Performance", "Persuasion", "Religion", "Sleight of Hand", "Stealth", "Survival"], "visible_if": "false"},
+        "skill_count": {"type": "number", "label": "Skills to Choose", "min": 0, "visible_if": "false"},
+        "expertise": {"type": "multiselect", "label": "Skill Expertise", "options": ["Acrobatics", "Animal Handling", "Arcana", "Athletics", "Deception", "History", "Insight", "Intimidation", "Investigation", "Medicine", "Nature", "Perception", "Performance", "Persuasion", "Religion", "Sleight of Hand", "Stealth", "Survival"], "visible_if": "false"},
+        "expertise_count": {"type": "number", "label": "Expertise to Choose (skills you have)", "min": 0, "visible_if": "false"},
+        "language_proficiencies": {"type": "multiselect", "label": "Languages", "options": ["Common", "Common Sign Language", "Draconic", "Dwarvish", "Elvish", "Giant", "Gnomish", "Goblin", "Halfling", "Orc", "Abyssal", "Celestial", "Deep Speech", "Druidic", "Infernal", "Primordial", "Sylvan", "Thieves' Cant", "Undercommon"], "visible_if": "false"},
+        "language_count": {"type": "number", "label": "Languages to Choose", "min": 0, "visible_if": "false"},
+        "senses": {"type": "text", "label": "Senses", "visible_if": "false"},
+        "resistances": {"type": "multiselect", "label": "Damage Resistances", "options": ["Acid", "Bludgeoning", "Cold", "Fire", "Force", "Lightning", "Necrotic", "Piercing", "Poison", "Psychic", "Radiant", "Slashing", "Thunder"], "visible_if": "false"},
+        "resist_options": {"type": "multiselect", "label": "Resistance Choice Options", "options": ["Acid", "Bludgeoning", "Cold", "Fire", "Force", "Lightning", "Necrotic", "Piercing", "Poison", "Psychic", "Radiant", "Slashing", "Thunder"], "visible_if": "false"},
+        "resist_count": {"type": "number", "label": "Resistances to Choose", "min": 0, "visible_if": "false"},
+        "immunities": {"type": "multiselect", "label": "Damage Immunities", "options": ["Acid", "Bludgeoning", "Cold", "Fire", "Force", "Lightning", "Necrotic", "Piercing", "Poison", "Psychic", "Radiant", "Slashing", "Thunder"], "visible_if": "false"},
+        "condition_immunities": {"type": "multiselect", "label": "Condition Immunities", "options": ["Blinded", "Charmed", "Deafened", "Exhaustion", "Frightened", "Grappled", "Incapacitated", "Invisible", "Paralyzed", "Petrified", "Poisoned", "Prone", "Restrained", "Stunned", "Unconscious"], "visible_if": "false"},
         "ability_amount": {"type": "number", "label": "Ability Increase Amount", "min": 0, "visible_if": "false"},
         "ability_max": {"type": "number", "label": "Ability Increase Maximum", "min": 0, "visible_if": "false"},
         "fs_class": {"type": "text", "label": "Fighting Style Of One Class Only", "visible_if": "false"},
@@ -2217,6 +2238,7 @@
           }
         },
         {"grant": "spells", "from": "auto_spell_ids", "values": {"origin": "auto_spell_origin", "always": "auto_spell_always", "use": "auto_spell_use", "uses": "auto_spell_uses", "ability": "auto_spell_ability"}},
+        {"grant": "resistances", "from": "resistances"},
         {"prompt": "species_choices"}
       ]
     },
@@ -2226,6 +2248,7 @@
       "content_type": "lineage",
       "visible_if": "ref(species, 'lineages') != ''",
       "on_pick": [
+        {"grant": "resistances", "from": "damage_type"},
         {"prompt": "lineage_spells"}
       ]
     },
@@ -2245,6 +2268,7 @@
           "name": "feat"
         },
         {"prompt": "background_abilities"},
+        {"prompt": "background_feat"},
         {"prompt": "background_spells"}
       ]
     },
@@ -2577,6 +2601,9 @@
         "Unconscious"
       ]
     },
+    "resistances": {"type": "multiselect", "label": "Damage Resistances", "options": ["Acid", "Bludgeoning", "Cold", "Fire", "Force", "Lightning", "Necrotic", "Piercing", "Poison", "Psychic", "Radiant", "Slashing", "Thunder"]},
+    "immunities": {"type": "multiselect", "label": "Damage Immunities", "options": ["Acid", "Bludgeoning", "Cold", "Fire", "Force", "Lightning", "Necrotic", "Piercing", "Poison", "Psychic", "Radiant", "Slashing", "Thunder"]},
+    "condition_immunities": {"type": "multiselect", "label": "Condition Immunities", "options": ["Blinded", "Charmed", "Deafened", "Exhaustion", "Frightened", "Grappled", "Incapacitated", "Invisible", "Paralyzed", "Petrified", "Poisoned", "Prone", "Restrained", "Stunned", "Unconscious"]},
     "concentrating": {
       "type": "checkbox",
       "label": "Concentrating",
@@ -2979,7 +3006,16 @@
       "label": "Feats",
       "content_type": "feat",
       "allow_freeform": true,
-      "on_pick": [{"prompt": "feat_tools"}, {"prompt": "feat_spells"}],
+      "on_pick": [
+        {"grant": "skill_profs", "from": "skill_proficiencies"},
+        {"grant": "skill_expertise", "from": "expertise"},
+        {"grant": "language_profs", "from": "language_proficiencies"},
+        {"grant": "resistances", "from": "resistances"},
+        {"grant": "immunities", "from": "immunities"},
+        {"grant": "condition_immunities", "from": "condition_immunities"},
+        {"prompt": "feat_tools"},
+        {"prompt": "feat_spells"}
+      ],
       "per_entry_fields": {
         "from_level": {"type": "number", "label": "From level", "min": 0, "max": 20, "visible_if": "false"},
         "asi": {"type": "select", "label": "Ability increase", "visible_if": "len(row.ability_options) > 0", "options": [{"value": "", "label": "—"}, {"value": "strength", "label": "Str"}, {"value": "dexterity", "label": "Dex"}, {"value": "constitution", "label": "Con"}, {"value": "intelligence", "label": "Int"}, {"value": "wisdom", "label": "Wis"}, {"value": "charisma", "label": "Cha"}]}
@@ -3518,12 +3554,16 @@
       "formula": "ref(lineage, 'uses_by_level') != '' ? by_level(ref(lineage, 'uses_by_level'), level) : (ref(lineage, 'uses_pb') ? proficiency : (ref(lineage, 'uses') ? ref(lineage, 'uses') : 0))",
       "label": "Lineage Uses"
     },
+    "darkvision": {
+      "formula": "max(ref(species, 'darkvision'), ref(lineage, 'darkvision'))",
+      "label": "Darkvision (ft.)"
+    },
     "current_speed": {
       "formula": "(exhaustion >= 6 or contains(conditions, 'Grappled') or contains(conditions, 'Restrained') or contains(conditions, 'Paralyzed') or contains(conditions, 'Petrified') or contains(conditions, 'Unconscious')) ? 0 : max(0, max(speed + speed_bonus, item_walk_min) - exhaustion_speed)",
       "label": "Current Speed"
     },
     "active_effects": {
-      "formula": "len(conditions) + (exhaustion > 0 ? 1 : 0) + (concentrating ? 1 : 0) + len(effects) + count_each(features, (row.choice != '' and (row.name == 'Elemental Affinity' or row.name == 'Dread Allegiance' or row.name == 'Aspect of the Wilds')) or (contains(row.name, 'Nature') and contains(row.name, 'Ward'))) + count_each(magic_items, row.equipped && (row.attuned or not row.attunement) && not row._inline && row.defenses)",
+      "formula": "(len(resistances) > 0 ? 1 : 0) + (len(immunities) > 0 ? 1 : 0) + (len(condition_immunities) > 0 ? 1 : 0) + len(conditions) + (exhaustion > 0 ? 1 : 0) + (concentrating ? 1 : 0) + len(effects) + count_each(features, (row.choice != '' and (row.name == 'Elemental Affinity' or row.name == 'Dread Allegiance' or row.name == 'Aspect of the Wilds')) or (contains(row.name, 'Nature') and contains(row.name, 'Ward'))) + count_each(magic_items, row.equipped && (row.attuned or not row.attunement) && not row._inline && row.defenses)",
       "label": "Active Effects"
     },
     "attack_str": {
@@ -4421,7 +4461,7 @@
       ]
     },
     "feat_tools": {
-      "label": "Feat tools",
+      "label": "Feat choices",
       "steps": [
         {
           "key": "tools",
@@ -4439,6 +4479,60 @@
           "count": "row.skilled_count",
           "label": "Skills or tools",
           "visible_if": "len(row.skilled_options) > 0"
+        },
+        {
+          "key": "skills",
+          "type": "choose",
+          "target": "skill_profs",
+          "options": "row.skill_options",
+          "count": "row.skill_count",
+          "label": "Skill proficiency",
+          "visible_if": "len(row.skill_options) > 0"
+        },
+        {
+          "key": "expertise",
+          "type": "choose",
+          "target": "skill_expertise",
+          "options": "concat(skill_profs, ',', answer.skills, ',', answer.mix)",
+          "count": "row.expertise_count",
+          "label": "Expertise in a skill you are proficient in",
+          "visible_if": "row.expertise_count > 0"
+        },
+        {
+          "key": "languages",
+          "type": "choose",
+          "target": "language_profs",
+          "options": [
+            "Common",
+            "Common Sign Language",
+            "Draconic",
+            "Dwarvish",
+            "Elvish",
+            "Giant",
+            "Gnomish",
+            "Goblin",
+            "Halfling",
+            "Orc",
+            "Abyssal",
+            "Celestial",
+            "Deep Speech",
+            "Infernal",
+            "Primordial",
+            "Sylvan",
+            "Undercommon"
+          ],
+          "count": "row.language_count",
+          "label": "Language",
+          "visible_if": "row.language_count > 0"
+        },
+        {
+          "key": "resist",
+          "type": "choose",
+          "target": "resistances",
+          "options": "row.resist_options",
+          "count": "row.resist_count",
+          "label": "Damage resistance",
+          "visible_if": "len(row.resist_options) > 0"
         }
       ],
       "apply": [
@@ -4453,6 +4547,22 @@
         {
           "add": "tool_profs",
           "values": "answer.mix"
+        },
+        {
+          "add": "skill_profs",
+          "values": "answer.skills"
+        },
+        {
+          "add": "skill_expertise",
+          "values": "answer.expertise"
+        },
+        {
+          "add": "language_profs",
+          "values": "answer.languages"
+        },
+        {
+          "add": "resistances",
+          "values": "answer.resist"
         }
       ]
     },
@@ -4564,6 +4674,15 @@
           "visible_if": "len(row.skill_options) > 0"
         },
         {
+          "key": "resist",
+          "type": "choose",
+          "target": "resistances",
+          "options": "row.resist_options",
+          "count": "row.resist_count",
+          "label": "Damage resistance",
+          "visible_if": "len(row.resist_options) > 0"
+        },
+        {
           "key": "origin",
           "type": "entry",
           "label": "Origin feat",
@@ -4588,12 +4707,36 @@
           "values": "answer.skills"
         },
         {
+          "add": "resistances",
+          "values": "answer.resist"
+        },
+        {
           "pick": "feats",
           "entry": "answer.origin"
         },
         {
           "pick": "lineage",
           "entry": "answer.lineage"
+        }
+      ]
+    },
+    "background_feat": {
+      "label": "Background feat",
+      "steps": [
+        {
+          "key": "feat",
+          "type": "entry",
+          "content_type": "feat",
+          "label": "Feat",
+          "label_formula": "concat('Feat: ', row.feat)",
+          "filter": "entry.category == row.feat_category or contains(row.feat_options, entry._ref)",
+          "visible_if": "row.feat_category"
+        }
+      ],
+      "apply": [
+        {
+          "pick": "feats",
+          "entry": "answer.feat"
         }
       ]
     },

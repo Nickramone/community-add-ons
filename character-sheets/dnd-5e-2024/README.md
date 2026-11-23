@@ -206,6 +206,23 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   and with Level up (levels 3 and 5), always prepared, after one question for
   the spellcasting ability (Intelligence, Wisdom or Charisma, kept in
   `species_spell_ability`) and, for the High Elf, the Wizard cantrip
+- **A feat of a category instead of the background's** (1.45.0): a background
+  with `feat_category` (Ravenloft's Haunted One and Investigator: Survivor or
+  Sharp Eye, or a Dark Gift feat; Mist Wanderer and Spirit Medium: a Dark Gift
+  feat) grants no feat on its own; a window offers the feats of that category
+  and the ones listed in `feat_options`, and the feat chosen goes away with
+  the background
+- **What feats and species grant** (1.45.0): skill proficiencies, Expertise,
+  languages and damage resistances, immunities and condition immunities, fixed
+  (`skill_proficiencies`, `expertise`, `language_proficiencies`,
+  `resistances`, `immunities`, `condition_immunities`) or chosen in the feat's
+  or species' window (`skill_options`/`skill_count`, `expertise_count` among
+  the skills you have, `language_count`, `resist_options`/`resist_count`); a
+  lineage's damage type is a resistance. What a feat adds goes away with it.
+  **Defenses** box under Languages (Resistances, Immunities, Condition
+  immunities, editable by hand) and a line for each among the active effects;
+  darkvision (the larger of the species' and the lineage's) and the senses of
+  feats (`senses`: Blindsight, Truesight) under Speed
 - **Catalogue data for weapon rows**: weapons (equipment and magic items) carry
   `damage_dice`, `damage_type`, `damage_versatile`, `range_normal`,
   `range_long` and the `ranged`, `thrown`, `finesse`, `light`, `heavy`,
