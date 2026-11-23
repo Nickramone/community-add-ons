@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.45.0",
+  "version": "1.46.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -85,6 +85,10 @@
             {
               "value": "half",
               "label": "Half"
+            },
+            {
+              "value": "third",
+              "label": "Third (subclass)"
             },
             {
               "value": "pact",
@@ -430,6 +434,14 @@
           "min": 1,
           "max": 20
         },
+        "spellcasting": {"type": "text", "label": "Spellcasting Ability"},
+        "caster_type": {"type": "text", "label": "Caster Type"},
+        "caster_from_level": {"type": "number", "label": "Spellcasting From Level", "min": 0, "max": 20},
+        "spell_list": {"type": "text", "label": "Spell List"},
+        "cantrips_by_level": {"type": "text", "label": "Cantrips By Level (total)"},
+        "prepared_by_level": {"type": "text", "label": "Prepared Spells By Level (total)"},
+        "prepare_change": {"type": "text", "label": "Prepared Spells Change"},
+        "slot_max_by_level": {"type": "text", "label": "Highest Slot Level By Level"},
         "description": {
           "type": "textarea",
           "label": "Description"
@@ -2761,7 +2773,7 @@
     "is_caster": {
       "type": "checkbox",
       "label": "Spellcaster",
-      "default_from": "ref(klass, 'spellcasting') != ''"
+      "default_from": "ref(klass, 'spellcasting') != '' or ref(subclass, 'spellcasting') != ''"
     },
     "spell_ability": {
       "type": "select",
@@ -2781,7 +2793,7 @@
           "label": "Charisma"
         }
       ],
-      "default_from": "ref(klass, 'spellcasting')"
+      "default_from": "ref(klass, 'spellcasting') != '' ? ref(klass, 'spellcasting') : ref(subclass, 'spellcasting')"
     },
     "caster_level": {
       "type": "number",
@@ -2789,7 +2801,7 @@
       "min": 0,
       "max": 20,
       "default": 0,
-      "default_from": "ref(klass, 'caster_type') == 'full' ? (len(advancements) > 0 ? len(advancements) : level) : (ref(klass, 'caster_type') == 'half' ? ceil((len(advancements) > 0 ? len(advancements) : level) / 2) : 0)"
+      "default_from": "ref(klass, 'caster_type') == 'full' ? (len(advancements) > 0 ? len(advancements) : level) : (ref(klass, 'caster_type') == 'half' ? ceil((len(advancements) > 0 ? len(advancements) : level) / 2) : (ref(subclass, 'caster_type') == 'third' and (len(advancements) > 0 ? len(advancements) : level) >= ref(subclass, 'caster_from_level') ? ceil((len(advancements) > 0 ? len(advancements) : level) / 3) : 0))"
     },
     "slots_1_total": {
       "type": "number",
@@ -3505,15 +3517,17 @@
       "label": "Spells Prepared"
     },
     "class_level": {"formula": "len(advancements) > 0 ? len(advancements) : level", "label": "Class Level"},
-    "cantrips_max": {"formula": "by_level(ref(klass, 'cantrips_by_level'), class_level)", "label": "Cantrips Known (most)"},
+    "sub_caster": {"formula": "ref(klass, 'spellcasting') == '' and ref(subclass, 'spellcasting') != ''", "label": "Subclass Spellcaster"},
+    "spell_class": {"formula": "sub_caster ? ref(subclass, 'spell_list') : (ref(klass, 'spellcasting') != '' ? ref(klass, 'name') : '')", "label": "Spell List"},
+    "cantrips_max": {"formula": "by_level(sub_caster ? ref(subclass, 'cantrips_by_level') : ref(klass, 'cantrips_by_level'), class_level)", "label": "Cantrips Known (most)"},
     "cantrips_count": {"formula": "count_each(spells, row.level == 0 and not row.always and (not row.origin or row.origin == 'other' or row.origin == 'class'))", "label": "Cantrips Known"},
-    "prepared_max": {"formula": "by_level(ref(klass, 'prepared_by_level'), class_level)", "label": "Prepared Spells (most)"},
-    "prepare_on_level_up": {"formula": "ref(klass, 'prepare_change') == 'level_up'", "label": "Prepared Spells Change on Level Up"},
+    "prepared_max": {"formula": "by_level(sub_caster ? ref(subclass, 'prepared_by_level') : ref(klass, 'prepared_by_level'), class_level)", "label": "Prepared Spells (most)"},
+    "prepare_on_level_up": {"formula": "(sub_caster ? ref(subclass, 'prepare_change') : ref(klass, 'prepare_change')) == 'level_up'", "label": "Prepared Spells Change on Level Up"},
     "spellbook_free": {"formula": "by_level(ref(klass, 'spellbook_by_level'), class_level)", "label": "Spellbook Spells from Levels"},
     "spellbook_count": {"formula": "count_each(spells, row.origin == 'spellbook')", "label": "Spells in the Spellbook"},
     "has_spellbook": {"formula": "ref(klass, 'spellbook_by_level') != '' or spellbook_count > 0", "label": "Keeps a Spellbook"},
-    "spell_level_max": {"formula": "max(by_level(ref(klass, 'slot_max_by_level'), class_level), by_level(ref(klass, 'arcanum_by_level'), class_level))", "label": "Highest Spell Level"},
-    "slot_level_max": {"formula": "by_level(ref(klass, 'slot_max_by_level'), class_level)", "label": "Highest Spell Slot Level"},
+    "spell_level_max": {"formula": "max(by_level(sub_caster ? ref(subclass, 'slot_max_by_level') : ref(klass, 'slot_max_by_level'), class_level), by_level(ref(klass, 'arcanum_by_level'), class_level))", "label": "Highest Spell Level"},
+    "slot_level_max": {"formula": "by_level(sub_caster ? ref(subclass, 'slot_max_by_level') : ref(klass, 'slot_max_by_level'), class_level)", "label": "Highest Spell Slot Level"},
     "carried_weight": {
       "formula": "sum_qty(equipment, 'weight')",
       "label": "Weight Carried"
@@ -3761,7 +3775,7 @@
           "type": "entry",
           "label": "Feat (General, or an Epic Boon from level 19, whose prerequisites you meet)",
           "content_type": "feat",
-          "filter": "(entry.category == 'General' or ((len(advancements) + 1) >= 19 and entry.category == 'Epic Boon')) and entry.name != 'Ability Score Improvement' and not has_ref(feats, entry._ref) and (not entry.prereq_level or entry.prereq_level <= (len(advancements) + 1)) and (not (entry.prereq_str or entry.prereq_dex or entry.prereq_con or entry.prereq_int or entry.prereq_wis or entry.prereq_cha) or (entry.prereq_str and strength_score >= entry.prereq_str) or (entry.prereq_dex and dexterity_score >= entry.prereq_dex) or (entry.prereq_con and constitution_score >= entry.prereq_con) or (entry.prereq_int and intelligence_score >= entry.prereq_int) or (entry.prereq_wis and wisdom_score >= entry.prereq_wis) or (entry.prereq_cha and charisma_score >= entry.prereq_cha)) and (not entry.prereq_spellcasting or ref(klass, 'spellcasting') != '') and (not contains(entry.prereq_proficiencies, 'armor:light') or armor_light) and (not contains(entry.prereq_proficiencies, 'armor:medium') or armor_medium) and (not contains(entry.prereq_proficiencies, 'armor:heavy') or armor_heavy) and (not contains(entry.prereq_proficiencies, 'armor:shield') or armor_shields)",
+          "filter": "(entry.category == 'General' or ((len(advancements) + 1) >= 19 and entry.category == 'Epic Boon')) and entry.name != 'Ability Score Improvement' and not has_ref(feats, entry._ref) and (not entry.prereq_level or entry.prereq_level <= (len(advancements) + 1)) and (not (entry.prereq_str or entry.prereq_dex or entry.prereq_con or entry.prereq_int or entry.prereq_wis or entry.prereq_cha) or (entry.prereq_str and strength_score >= entry.prereq_str) or (entry.prereq_dex and dexterity_score >= entry.prereq_dex) or (entry.prereq_con and constitution_score >= entry.prereq_con) or (entry.prereq_int and intelligence_score >= entry.prereq_int) or (entry.prereq_wis and wisdom_score >= entry.prereq_wis) or (entry.prereq_cha and charisma_score >= entry.prereq_cha)) and (not entry.prereq_spellcasting or ref(klass, 'spellcasting') != '' or ref(subclass, 'spellcasting') != '') and (not contains(entry.prereq_proficiencies, 'armor:light') or armor_light) and (not contains(entry.prereq_proficiencies, 'armor:medium') or armor_medium) and (not contains(entry.prereq_proficiencies, 'armor:heavy') or armor_heavy) and (not contains(entry.prereq_proficiencies, 'armor:shield') or armor_shields)",
           "visible_if": "answer.choice == 'feat'"
         },
         {
@@ -4128,9 +4142,9 @@
           "type": "entries",
           "content_type": "spell",
           "label": "New cantrips",
-          "label_formula": "concat('Cantrips: choose ', cantrips_max - cantrips_count, ' from the ', ref(klass, 'name'), ' list')",
+          "label_formula": "concat('Cantrips: choose ', cantrips_max - cantrips_count, ' from the ', spell_class, ' list')",
           "count": "cantrips_max - cantrips_count",
-          "filter": "entry.level == 0 and contains(entry.spell_lists, ref(klass, 'name')) and not has_ref(spells, entry._ref)",
+          "filter": "entry.level == 0 and contains(entry.spell_lists, spell_class) and not has_ref(spells, entry._ref)",
           "visible_if": "cantrips_max - cantrips_count > 0"
         },
         {
@@ -4141,7 +4155,7 @@
           "label": "New spells",
           "label_formula": "prepare_on_level_up ? concat('Spells you learn: choose ', prepared_max - prepared_count, ' up to level ', slot_level_max, (ref(klass, 'extra_spell_classes') != '' and class_level >= ref(klass, 'extra_spell_from_level')) ? ' from your list or, with Magical Secrets, the Cleric, Druid and Wizard lists' : '') : concat('Spells to prepare: choose ', prepared_max - prepared_count, ' up to level ', slot_level_max, ' (after a long rest change them with Prepare spells in Spells)')",
           "count": "prepared_max - prepared_count",
-          "filter": "entry.level >= 1 and entry.level <= slot_level_max and (contains(entry.spell_lists, ref(klass, 'name')) or (ref(klass, 'extra_spell_classes') != '' and class_level >= ref(klass, 'extra_spell_from_level') and ((contains(ref(klass, 'extra_spell_classes'), ',Bard,') and contains(entry.spell_lists, 'Bard')) or (contains(ref(klass, 'extra_spell_classes'), ',Cleric,') and contains(entry.spell_lists, 'Cleric')) or (contains(ref(klass, 'extra_spell_classes'), ',Druid,') and contains(entry.spell_lists, 'Druid')) or (contains(ref(klass, 'extra_spell_classes'), ',Paladin,') and contains(entry.spell_lists, 'Paladin')) or (contains(ref(klass, 'extra_spell_classes'), ',Ranger,') and contains(entry.spell_lists, 'Ranger')) or (contains(ref(klass, 'extra_spell_classes'), ',Sorcerer,') and contains(entry.spell_lists, 'Sorcerer')) or (contains(ref(klass, 'extra_spell_classes'), ',Warlock,') and contains(entry.spell_lists, 'Warlock')) or (contains(ref(klass, 'extra_spell_classes'), ',Wizard,') and contains(entry.spell_lists, 'Wizard'))))) and not has_ref(spells, entry._ref)",
+          "filter": "entry.level >= 1 and entry.level <= slot_level_max and (contains(entry.spell_lists, spell_class) or (ref(klass, 'extra_spell_classes') != '' and class_level >= ref(klass, 'extra_spell_from_level') and ((contains(ref(klass, 'extra_spell_classes'), ',Bard,') and contains(entry.spell_lists, 'Bard')) or (contains(ref(klass, 'extra_spell_classes'), ',Cleric,') and contains(entry.spell_lists, 'Cleric')) or (contains(ref(klass, 'extra_spell_classes'), ',Druid,') and contains(entry.spell_lists, 'Druid')) or (contains(ref(klass, 'extra_spell_classes'), ',Paladin,') and contains(entry.spell_lists, 'Paladin')) or (contains(ref(klass, 'extra_spell_classes'), ',Ranger,') and contains(entry.spell_lists, 'Ranger')) or (contains(ref(klass, 'extra_spell_classes'), ',Sorcerer,') and contains(entry.spell_lists, 'Sorcerer')) or (contains(ref(klass, 'extra_spell_classes'), ',Warlock,') and contains(entry.spell_lists, 'Warlock')) or (contains(ref(klass, 'extra_spell_classes'), ',Wizard,') and contains(entry.spell_lists, 'Wizard'))))) and not has_ref(spells, entry._ref)",
           "visible_if": "not has_spellbook and slot_level_max > 0 and prepared_max - prepared_count > 0"
         },
         {
@@ -4152,7 +4166,7 @@
           "label": "Spellbook",
           "label_formula": "concat('Spellbook: write in ', spellbook_free - spellbook_count, ' Wizard spells up to level ', slot_level_max, ' (then tick Prepared in the Spellbook on the ones you prepare)')",
           "count": "spellbook_free - spellbook_count",
-          "filter": "entry.level >= 1 and entry.level <= slot_level_max and contains(entry.spell_lists, ref(klass, 'name')) and not has_ref(spells, entry._ref)",
+          "filter": "entry.level >= 1 and entry.level <= slot_level_max and contains(entry.spell_lists, spell_class) and not has_ref(spells, entry._ref)",
           "visible_if": "ref(klass, 'spellbook_by_level') != '' and slot_level_max > 0 and spellbook_free - spellbook_count > 0"
         },
         {
@@ -4161,7 +4175,7 @@
           "content_type": "spell",
           "label": "Mystic Arcanum",
           "label_formula": "concat('Mystic Arcanum: one Warlock spell of level ', by_level(ref(klass, 'arcanum_by_level'), class_level), ', cast once per long rest without a slot')",
-          "filter": "entry.level == by_level(ref(klass, 'arcanum_by_level'), class_level) and contains(entry.spell_lists, ref(klass, 'name')) and not has_ref(spells, entry._ref)",
+          "filter": "entry.level == by_level(ref(klass, 'arcanum_by_level'), class_level) and contains(entry.spell_lists, spell_class) and not has_ref(spells, entry._ref)",
           "visible_if": "by_level(ref(klass, 'arcanum_by_level'), class_level) > 0 and by_level(ref(klass, 'arcanum_by_level'), class_level) > by_level(ref(klass, 'arcanum_by_level'), class_level - 1) and count_each(spells, row.level == by_level(ref(klass, 'arcanum_by_level'), class_level) and row.use == 'long_rest' and row.origin == 'class') == 0"
         },
         {
@@ -4212,7 +4226,7 @@
           "type": "entry",
           "content_type": "spell",
           "label": "Cantrip that replaces it",
-          "filter": "entry.level == 0 and contains(entry.spell_lists, ref(klass, 'name')) and not has_ref(spells, entry._ref) and not has_ref(answer.cantrips, entry._ref) and entry._ref != answer.drop_cantrip._ref",
+          "filter": "entry.level == 0 and contains(entry.spell_lists, spell_class) and not has_ref(spells, entry._ref) and not has_ref(answer.cantrips, entry._ref) and entry._ref != answer.drop_cantrip._ref",
           "visible_if": "answer.swap_cantrip == 'replace' and has_ref(answer.drop_cantrip, answer.drop_cantrip._ref)"
         },
         {
@@ -4247,7 +4261,7 @@
           "entry_note": "entry.level == 0 ? 'Cantrip' : concat('Lv. ', entry.level)",
           "label": "Spell that replaces it",
           "label_formula": "concat('Spell that replaces it (up to level ', slot_level_max, ')')",
-          "filter": "entry.level >= 1 and entry.level <= slot_level_max and (contains(entry.spell_lists, ref(klass, 'name')) or (ref(klass, 'extra_spell_classes') != '' and class_level >= ref(klass, 'extra_spell_from_level') and ((contains(ref(klass, 'extra_spell_classes'), ',Bard,') and contains(entry.spell_lists, 'Bard')) or (contains(ref(klass, 'extra_spell_classes'), ',Cleric,') and contains(entry.spell_lists, 'Cleric')) or (contains(ref(klass, 'extra_spell_classes'), ',Druid,') and contains(entry.spell_lists, 'Druid')) or (contains(ref(klass, 'extra_spell_classes'), ',Paladin,') and contains(entry.spell_lists, 'Paladin')) or (contains(ref(klass, 'extra_spell_classes'), ',Ranger,') and contains(entry.spell_lists, 'Ranger')) or (contains(ref(klass, 'extra_spell_classes'), ',Sorcerer,') and contains(entry.spell_lists, 'Sorcerer')) or (contains(ref(klass, 'extra_spell_classes'), ',Warlock,') and contains(entry.spell_lists, 'Warlock')) or (contains(ref(klass, 'extra_spell_classes'), ',Wizard,') and contains(entry.spell_lists, 'Wizard'))))) and not has_ref(spells, entry._ref) and not has_ref(answer.spells, entry._ref) and entry._ref != answer.drop_spell._ref",
+          "filter": "entry.level >= 1 and entry.level <= slot_level_max and (contains(entry.spell_lists, spell_class) or (ref(klass, 'extra_spell_classes') != '' and class_level >= ref(klass, 'extra_spell_from_level') and ((contains(ref(klass, 'extra_spell_classes'), ',Bard,') and contains(entry.spell_lists, 'Bard')) or (contains(ref(klass, 'extra_spell_classes'), ',Cleric,') and contains(entry.spell_lists, 'Cleric')) or (contains(ref(klass, 'extra_spell_classes'), ',Druid,') and contains(entry.spell_lists, 'Druid')) or (contains(ref(klass, 'extra_spell_classes'), ',Paladin,') and contains(entry.spell_lists, 'Paladin')) or (contains(ref(klass, 'extra_spell_classes'), ',Ranger,') and contains(entry.spell_lists, 'Ranger')) or (contains(ref(klass, 'extra_spell_classes'), ',Sorcerer,') and contains(entry.spell_lists, 'Sorcerer')) or (contains(ref(klass, 'extra_spell_classes'), ',Warlock,') and contains(entry.spell_lists, 'Warlock')) or (contains(ref(klass, 'extra_spell_classes'), ',Wizard,') and contains(entry.spell_lists, 'Wizard'))))) and not has_ref(spells, entry._ref) and not has_ref(answer.spells, entry._ref) and entry._ref != answer.drop_spell._ref",
           "visible_if": "answer.swap_spell == 'replace' and has_ref(answer.drop_spell, answer.drop_spell._ref)"
         }
       ],
@@ -4334,9 +4348,9 @@
           "type": "entries",
           "content_type": "spell",
           "label": "New cantrips",
-          "label_formula": "concat('Cantrips: choose ', cantrips_max - cantrips_count, ' from the ', ref(klass, 'name'), ' list')",
+          "label_formula": "concat('Cantrips: choose ', cantrips_max - cantrips_count, ' from the ', spell_class, ' list')",
           "count": "cantrips_max - cantrips_count",
-          "filter": "entry.level == 0 and contains(entry.spell_lists, ref(klass, 'name')) and not has_ref(spells, entry._ref)",
+          "filter": "entry.level == 0 and contains(entry.spell_lists, spell_class) and not has_ref(spells, entry._ref)",
           "visible_if": "cantrips_max - cantrips_count > 0"
         },
         {
@@ -4347,7 +4361,7 @@
           "label": "New spells",
           "label_formula": "prepare_on_level_up ? concat('Spells you learn: choose ', prepared_max - prepared_count, ' up to level ', slot_level_max, (ref(klass, 'extra_spell_classes') != '' and class_level >= ref(klass, 'extra_spell_from_level')) ? ' from your list or, with Magical Secrets, the Cleric, Druid and Wizard lists' : '') : concat('Spells to prepare: choose ', prepared_max - prepared_count, ' up to level ', slot_level_max, ' (after a long rest change them with Prepare spells in Spells)')",
           "count": "prepared_max - prepared_count",
-          "filter": "entry.level >= 1 and entry.level <= slot_level_max and (contains(entry.spell_lists, ref(klass, 'name')) or (ref(klass, 'extra_spell_classes') != '' and class_level >= ref(klass, 'extra_spell_from_level') and ((contains(ref(klass, 'extra_spell_classes'), ',Bard,') and contains(entry.spell_lists, 'Bard')) or (contains(ref(klass, 'extra_spell_classes'), ',Cleric,') and contains(entry.spell_lists, 'Cleric')) or (contains(ref(klass, 'extra_spell_classes'), ',Druid,') and contains(entry.spell_lists, 'Druid')) or (contains(ref(klass, 'extra_spell_classes'), ',Paladin,') and contains(entry.spell_lists, 'Paladin')) or (contains(ref(klass, 'extra_spell_classes'), ',Ranger,') and contains(entry.spell_lists, 'Ranger')) or (contains(ref(klass, 'extra_spell_classes'), ',Sorcerer,') and contains(entry.spell_lists, 'Sorcerer')) or (contains(ref(klass, 'extra_spell_classes'), ',Warlock,') and contains(entry.spell_lists, 'Warlock')) or (contains(ref(klass, 'extra_spell_classes'), ',Wizard,') and contains(entry.spell_lists, 'Wizard'))))) and not has_ref(spells, entry._ref)",
+          "filter": "entry.level >= 1 and entry.level <= slot_level_max and (contains(entry.spell_lists, spell_class) or (ref(klass, 'extra_spell_classes') != '' and class_level >= ref(klass, 'extra_spell_from_level') and ((contains(ref(klass, 'extra_spell_classes'), ',Bard,') and contains(entry.spell_lists, 'Bard')) or (contains(ref(klass, 'extra_spell_classes'), ',Cleric,') and contains(entry.spell_lists, 'Cleric')) or (contains(ref(klass, 'extra_spell_classes'), ',Druid,') and contains(entry.spell_lists, 'Druid')) or (contains(ref(klass, 'extra_spell_classes'), ',Paladin,') and contains(entry.spell_lists, 'Paladin')) or (contains(ref(klass, 'extra_spell_classes'), ',Ranger,') and contains(entry.spell_lists, 'Ranger')) or (contains(ref(klass, 'extra_spell_classes'), ',Sorcerer,') and contains(entry.spell_lists, 'Sorcerer')) or (contains(ref(klass, 'extra_spell_classes'), ',Warlock,') and contains(entry.spell_lists, 'Warlock')) or (contains(ref(klass, 'extra_spell_classes'), ',Wizard,') and contains(entry.spell_lists, 'Wizard'))))) and not has_ref(spells, entry._ref)",
           "visible_if": "not has_spellbook and prepare_on_level_up and slot_level_max > 0 and prepared_max - prepared_count > 0"
         },
         {
@@ -4358,7 +4372,7 @@
           "label": "Spellbook",
           "label_formula": "concat('Spellbook: write in ', spellbook_free - spellbook_count, ' Wizard spells up to level ', slot_level_max, ' (then tick Prepared in the Spellbook on the ones you prepare)')",
           "count": "spellbook_free - spellbook_count",
-          "filter": "entry.level >= 1 and entry.level <= slot_level_max and contains(entry.spell_lists, ref(klass, 'name')) and not has_ref(spells, entry._ref)",
+          "filter": "entry.level >= 1 and entry.level <= slot_level_max and contains(entry.spell_lists, spell_class) and not has_ref(spells, entry._ref)",
           "visible_if": "ref(klass, 'spellbook_by_level') != '' and slot_level_max > 0 and spellbook_free - spellbook_count > 0"
         },
         {
@@ -4367,7 +4381,7 @@
           "content_type": "spell",
           "label": "Mystic Arcanum",
           "label_formula": "concat('Mystic Arcanum: one Warlock spell of level ', by_level(ref(klass, 'arcanum_by_level'), class_level), ', cast once per long rest without a slot')",
-          "filter": "entry.level == by_level(ref(klass, 'arcanum_by_level'), class_level) and contains(entry.spell_lists, ref(klass, 'name')) and not has_ref(spells, entry._ref)",
+          "filter": "entry.level == by_level(ref(klass, 'arcanum_by_level'), class_level) and contains(entry.spell_lists, spell_class) and not has_ref(spells, entry._ref)",
           "visible_if": "by_level(ref(klass, 'arcanum_by_level'), class_level) > 0 and count_each(spells, row.level == by_level(ref(klass, 'arcanum_by_level'), class_level) and row.use == 'long_rest' and row.origin == 'class') == 0"
         }
       ],
@@ -4440,7 +4454,7 @@
           "label": "Spells to prepare",
           "label_formula": "concat('Spells to prepare: ', prepared_max - prepared_count + (answer.change ? answer.change : 0), ' from the ', ref(klass, 'name'), ' list, up to level ', slot_level_max)",
           "count": "prepared_max - prepared_count + (answer.change ? answer.change : 0)",
-          "filter": "entry.level >= 1 and entry.level <= slot_level_max and (contains(entry.spell_lists, ref(klass, 'name')) or (ref(klass, 'extra_spell_classes') != '' and class_level >= ref(klass, 'extra_spell_from_level') and ((contains(ref(klass, 'extra_spell_classes'), ',Bard,') and contains(entry.spell_lists, 'Bard')) or (contains(ref(klass, 'extra_spell_classes'), ',Cleric,') and contains(entry.spell_lists, 'Cleric')) or (contains(ref(klass, 'extra_spell_classes'), ',Druid,') and contains(entry.spell_lists, 'Druid')) or (contains(ref(klass, 'extra_spell_classes'), ',Paladin,') and contains(entry.spell_lists, 'Paladin')) or (contains(ref(klass, 'extra_spell_classes'), ',Ranger,') and contains(entry.spell_lists, 'Ranger')) or (contains(ref(klass, 'extra_spell_classes'), ',Sorcerer,') and contains(entry.spell_lists, 'Sorcerer')) or (contains(ref(klass, 'extra_spell_classes'), ',Warlock,') and contains(entry.spell_lists, 'Warlock')) or (contains(ref(klass, 'extra_spell_classes'), ',Wizard,') and contains(entry.spell_lists, 'Wizard'))))) and not has_ref(spells, entry._ref) and not has_ref(answer.drop, entry._ref)",
+          "filter": "entry.level >= 1 and entry.level <= slot_level_max and (contains(entry.spell_lists, spell_class) or (ref(klass, 'extra_spell_classes') != '' and class_level >= ref(klass, 'extra_spell_from_level') and ((contains(ref(klass, 'extra_spell_classes'), ',Bard,') and contains(entry.spell_lists, 'Bard')) or (contains(ref(klass, 'extra_spell_classes'), ',Cleric,') and contains(entry.spell_lists, 'Cleric')) or (contains(ref(klass, 'extra_spell_classes'), ',Druid,') and contains(entry.spell_lists, 'Druid')) or (contains(ref(klass, 'extra_spell_classes'), ',Paladin,') and contains(entry.spell_lists, 'Paladin')) or (contains(ref(klass, 'extra_spell_classes'), ',Ranger,') and contains(entry.spell_lists, 'Ranger')) or (contains(ref(klass, 'extra_spell_classes'), ',Sorcerer,') and contains(entry.spell_lists, 'Sorcerer')) or (contains(ref(klass, 'extra_spell_classes'), ',Warlock,') and contains(entry.spell_lists, 'Warlock')) or (contains(ref(klass, 'extra_spell_classes'), ',Wizard,') and contains(entry.spell_lists, 'Wizard'))))) and not has_ref(spells, entry._ref) and not has_ref(answer.drop, entry._ref)",
           "visible_if": "slot_level_max > 0 and (prepared_max - prepared_count + (answer.change ? answer.change : 0)) > 0"
         }
       ],
@@ -5359,7 +5373,7 @@
     {"rule": "(count_each(class_options, row.prereq_option == 'Pact of the Blade') == 0 or count_each(class_options, row.name == 'Pact of the Blade') > 0) and (count_each(class_options, row.prereq_option == 'Pact of the Chain') == 0 or count_each(class_options, row.name == 'Pact of the Chain') > 0) and (count_each(class_options, row.prereq_option == 'Pact of the Tome') == 0 or count_each(class_options, row.name == 'Pact of the Tome') > 0) and (count_each(class_options, row.prereq_option == 'Thirsting Blade') == 0 or count_each(class_options, row.name == 'Thirsting Blade') > 0)", "message": "An option needs another you no longer have (Pact of the Blade, Chain or Tome, Thirsting Blade): add it back or replace the option that needs it.", "field": "class_options"},
     {"rule": "len(advancements) == 0 or count_each(feats, row.prereq_level and row.prereq_level > len(advancements)) == 0", "message": "A feat needs a higher level than the character has now (the levels it was taken at were removed or changed): remove it or add the level back.", "field": "feats"},
     {"rule": "count_each(feats, (row.prereq_str or row.prereq_dex or row.prereq_con or row.prereq_int or row.prereq_wis or row.prereq_cha) and not ((row.prereq_str and strength_score >= row.prereq_str) or (row.prereq_dex and dexterity_score >= row.prereq_dex) or (row.prereq_con and constitution_score >= row.prereq_con) or (row.prereq_int and intelligence_score >= row.prereq_int) or (row.prereq_wis and wisdom_score >= row.prereq_wis) or (row.prereq_cha and charisma_score >= row.prereq_cha))) == 0", "message": "A feat needs an ability score the character no longer has: remove the feat or raise the score.", "field": "feats"},
-    {"rule": "count_each(feats, (row.prereq_spellcasting and ref(klass, 'spellcasting') == '') or (contains(row.prereq_proficiencies, 'armor:light') and not armor_light) or (contains(row.prereq_proficiencies, 'armor:medium') and not armor_medium) or (contains(row.prereq_proficiencies, 'armor:heavy') and not armor_heavy) or (contains(row.prereq_proficiencies, 'armor:shield') and not armor_shields)) == 0", "message": "A feat needs spellcasting or an armor training the character no longer has: remove the feat or change the class.", "field": "feats"},
+    {"rule": "count_each(feats, (row.prereq_spellcasting and ref(klass, 'spellcasting') == '' and ref(subclass, 'spellcasting') == '') or (contains(row.prereq_proficiencies, 'armor:light') and not armor_light) or (contains(row.prereq_proficiencies, 'armor:medium') and not armor_medium) or (contains(row.prereq_proficiencies, 'armor:heavy') and not armor_heavy) or (contains(row.prereq_proficiencies, 'armor:shield') and not armor_shields)) == 0", "message": "A feat needs spellcasting or an armor training the character no longer has: remove the feat or change the class.", "field": "feats"},
     {"rule": "ref(klass, 'name') == '' or count_each(feats, row.from_level > 0 and (row.category == 'General' or row.category == 'Epic Boon') and not contains(ref(klass, 'asi_levels'), concat(',', row.from_level, ','))) == 0", "message": "A feat was taken at a level where the class has no Ability Score Improvement: check the level it came from or the class.", "field": "feats"},
     {"rule": "not cantrips_max or cantrips_count <= cantrips_max", "message": "More cantrips than your class knows at this level: remove one (cantrips from a subclass, feat, species or item do not count).", "field": "spells"},
     {"rule": "not prepared_max or prepared_count <= prepared_max", "message": "More spells prepared than your class allows at this level: unprepare one (always-prepared spells do not count).", "field": "spells"},
@@ -5367,7 +5381,7 @@
     {"rule": "not cantrips_max or cantrips_count >= cantrips_max", "message": "Fewer cantrips than your class knows at this level: add the missing ones from the catalog.", "field": "spells"},
     {"rule": "not spellbook_free or spellbook_count >= spellbook_free", "message": "Fewer spells in the spellbook than a Wizard writes in by this level (6 at level 1, 2 more each level): add them and set their Origin to Spellbook.", "field": "spells"},
     {"rule": "not prepare_on_level_up or not prepared_max or prepared_count >= prepared_max", "message": "Fewer spells than your class knows at this level: add the missing ones and prepare them (a Bard, Sorcerer or Warlock keeps them prepared).", "field": "spells"},
-    {"rule": "ref(klass, 'name') == '' or count_each(spells, (row.origin == 'class' or row.origin == 'spellbook') and not row._inline and not row.always and not contains(row.classes, ref(klass, 'name')) and not (ref(klass, 'extra_spell_classes') != '' and class_level >= ref(klass, 'extra_spell_from_level'))) == 0", "message": "A class or spellbook spell is not on your class's spell list (marked ⚠ in Spells): remove it, or add it again with Origin Other if a feature allows it.", "field": "spells"},
+    {"rule": "spell_class == '' or count_each(spells, (row.origin == 'class' or row.origin == 'spellbook') and not row._inline and not row.always and not contains(row.classes, spell_class) and not (ref(klass, 'extra_spell_classes') != '' and class_level >= ref(klass, 'extra_spell_from_level'))) == 0", "message": "A class or spellbook spell is not on your class's spell list (marked ⚠ in Spells): remove it, or add it again with Origin Other if a feature allows it.", "field": "spells"},
     {"rule": "len(advancements) == 0 or count_each(spells, row.from_level and row.from_level > len(advancements) and not (row.always and (row.origin == 'class' or row.origin == 'subclass'))) == 0", "message": "A spell was taken at a level the character no longer has (marked ⚠ level gone in Spells): remove it or add the level back.", "field": "spells"}
   ]
 }

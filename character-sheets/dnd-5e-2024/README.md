@@ -223,6 +223,16 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   immunities, editable by hand) and a line for each among the active effects;
   darkvision (the larger of the species' and the lineage's) and the senses of
   feats (`senses`: Blindsight, Truesight) under Speed
+- **Subclass spellcasters** (1.46.0): an Eldritch Knight or Arcane Trickster
+  casts from its subclass, which carries the class's spellcasting fields
+  (`spellcasting`, `caster_type` `third`, `caster_from_level`, `spell_list`
+  Wizard, `cantrips_by_level`, `prepared_by_level`, `prepare_change`,
+  `slot_max_by_level`). Caster Level is a third of the class level rounded up
+  from level 3, so the slots follow the subclass table; Level up offers the
+  cantrips and the spells learned from the Wizard list; spells off that list
+  get the ⚠ mark; the subclass counts as Spellcasting for feat prerequisites
+  (War Caster). The formulas `sub_caster` and `spell_class` pick the class or
+  the subclass
 - **Catalogue data for weapon rows**: weapons (equipment and magic items) carry
   `damage_dice`, `damage_type`, `damage_versatile`, `range_normal`,
   `range_long` and the `ranged`, `thrown`, `finesse`, `light`, `heavy`,
