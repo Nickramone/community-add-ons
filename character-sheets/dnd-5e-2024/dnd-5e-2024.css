@@ -888,3 +888,9 @@
   font-weight: 700;
   white-space: nowrap;
 }
+
+/* 1.44.0: the spell beside the Concentrating box */
+.conc-spell {
+  margin-left: 6px;
+  font-weight: 700;
+}

@@ -159,9 +159,11 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   lowers saves, skills, initiative, AC, spell save DC and the attack bonuses,
   and Grappled, Restrained, Paralyzed, Petrified, Unconscious or exhaustion
   level 6 bring the current speed to 0. Losing concentration while
-  incapacitated, and exhaustion level 6, raise a warning. A Choose button
-  beside Concentrating On lists the character's own Concentration spells and
-  fills in the one picked (typing stays possible for anything else)
+  incapacitated, and exhaustion level 6, raise a warning. Concentrating is a box (1.44.0): ticking it
+  opens a window with the character's own Concentration spells, and the one
+  picked shows beside the box until it is unticked; putting the window aside
+  unticks it, and a rest or Current HP at 0 ends Concentration by itself
+  (both need the Grimoire fork's field `on_change` and prompt `on_skip`)
 - **Campaign house rules switch** (on by default): exhaustion as a table
   rule - −1 per level to AC, spell save DC, saving throws, ability checks,
   attack rolls and damage, −10 ft of speed from level 3, a long rest removes
@@ -243,7 +245,7 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   the level 14 and 15 improvements), Radiant Strikes, Divine Fury and Frenzy
   (while raging), Brutal Strike (with its cost), Dreadful Strikes (Fey
   Wanderer) and Dreadful Strike (Gloom Stalker, with its uses), Hunter's Mark
-  (d10 with Foe Slayer) and Hex while Concentrating On names them, Divine Favor
+  (d10 with Foe Slayer) and Hex while you are Concentrating on them, Divine Favor
   (an Active box, cleared by a rest), Eldritch Smite and Lifedrinker on the
   pact weapon, and the Smite spells the character has prepared (Divine,
   Searing, Thunderous, Wrathful, Shining, Blinding, Staggering, Banishing),

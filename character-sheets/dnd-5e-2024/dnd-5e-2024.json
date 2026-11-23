@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.43.0",
+  "version": "1.44.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -2432,7 +2432,8 @@
       "label": "Current HP",
       "min": 0,
       "default": 8,
-      "default_from": "hp_max"
+      "default_from": "hp_max",
+      "on_change": [{"set": "concentrating", "to": "hp_current > 0 and concentrating"}, {"set": "concentration", "to": "hp_current > 0 ? concentration : ''"}]
     },
     "hp_temp": {
       "type": "number",
@@ -2575,6 +2576,11 @@
         "Stunned",
         "Unconscious"
       ]
+    },
+    "concentrating": {
+      "type": "checkbox",
+      "label": "Concentrating",
+      "on_change": [{"set": "concentration", "to": "concentrating ? concentration : ''"}, {"prompt": "concentrate"}]
     },
     "concentration": {
       "type": "text",
@@ -3517,7 +3523,7 @@
       "label": "Current Speed"
     },
     "active_effects": {
-      "formula": "len(conditions) + (exhaustion > 0 ? 1 : 0) + (len(concentration) > 0 ? 1 : 0) + len(effects) + count_each(features, (row.choice != '' and (row.name == 'Elemental Affinity' or row.name == 'Dread Allegiance' or row.name == 'Aspect of the Wilds')) or (contains(row.name, 'Nature') and contains(row.name, 'Ward'))) + count_each(magic_items, row.equipped && (row.attuned or not row.attunement) && not row._inline && row.defenses)",
+      "formula": "len(conditions) + (exhaustion > 0 ? 1 : 0) + (concentrating ? 1 : 0) + len(effects) + count_each(features, (row.choice != '' and (row.name == 'Elemental Affinity' or row.name == 'Dread Allegiance' or row.name == 'Aspect of the Wilds')) or (contains(row.name, 'Nature') and contains(row.name, 'Ward'))) + count_each(magic_items, row.equipped && (row.attuned or not row.attunement) && not row._inline && row.defenses)",
       "label": "Active Effects"
     },
     "attack_str": {
@@ -3564,9 +3570,9 @@
     "xd_fey": {"formula": "has_ref(features, 'fey-wanderer-dreadful-strikes-3-xphb') ? (class_level >= 11 ? 6 : 4) : 0", "label": "Dreadful Strikes Die"},
     "xd_gloom": {"formula": "has_ref(features, 'gloom-stalker-dread-ambusher-3-xphb') ? 1 : 0", "label": "Dreadful Strike"},
     "xd_hm_known": {"formula": "has_ref(spells, 'hunters-mark-xphb') ? 1 : 0", "label": "Has Hunter's Mark"},
-    "xd_hm": {"formula": "xd_hm_known and contains(concentration, \"Hunter's Mark\") ? (has_ref(features, 'foe-slayer-ranger-20-xphb') ? 10 : 6) : 0", "label": "Hunter's Mark Die"},
+    "xd_hm": {"formula": "xd_hm_known and concentrating and contains(concentration, \"Hunter's Mark\") ? (has_ref(features, 'foe-slayer-ranger-20-xphb') ? 10 : 6) : 0", "label": "Hunter's Mark Die"},
     "xd_hex_known": {"formula": "has_ref(spells, 'hex-xphb') ? 1 : 0", "label": "Has Hex"},
-    "xd_hex": {"formula": "xd_hex_known and contains(concentration, 'Hex') ? 1 : 0", "label": "Hex Active"},
+    "xd_hex": {"formula": "xd_hex_known and concentrating and contains(concentration, 'Hex') ? 1 : 0", "label": "Hex Active"},
     "xd_favor_known": {"formula": "has_ref(spells, 'divine-favor-xphb') ? 1 : 0", "label": "Has Divine Favor"},
     "xd_favor": {"formula": "xd_favor_known and divine_favor ? 1 : 0", "label": "Divine Favor Active"},
     "xd_esmite_known": {"formula": "has_ref(class_options, 'option-eldritch-smite-xphb') ? 1 : 0", "label": "Has Eldritch Smite"},
@@ -3615,7 +3621,7 @@
     }
   },
   "prompts": {
-    "concentrate": {"label": "Concentrate", "steps": [{"key": "spell", "type": "entry", "content_type": "spell", "label": "A Concentration spell you have", "filter": "entry.concentration and has_ref(spells, entry._ref)"}], "apply": [{"set": "concentration", "to": "answer.spell.name"}]},
+    "concentrate": {"label": "Concentrating on", "steps": [{"key": "spell", "type": "entry", "content_type": "spell", "label": "A Concentration spell you have", "filter": "entry.concentration and has_ref(spells, entry._ref)", "visible_if": "concentrating"}], "apply": [{"set": "concentration", "to": "answer.spell.name"}, {"set": "concentrating", "to": "true"}], "on_skip": [{"set": "concentrating", "to": "false"}, {"set": "concentration", "to": "''"}]},
     "level_up": {
       "label": "Level up",
       "steps": [
@@ -5087,17 +5093,14 @@
       "steps": [{"prompt": "spell_catchup"}]
     },
     {
-      "name": "concentrate",
-      "label": "Choose a Concentration spell",
-      "steps": [{"prompt": "concentrate"}]
-    },
-    {
       "name": "short_rest",
       "label": "Short rest",
       "confirm": "Take a short rest? Short-rest resources, class feature uses, short-rest trait uses, short-rest item charges and Pact Magic slots come back (Rage, Channel Divinity, Wild Shape and Second Wind give back one use); spend Hit Dice by hand.",
       "steps": [
         {"set": "raging", "to": "false"},
         {"set": "divine_favor", "to": "false"},
+        {"set": "concentrating", "to": "false"},
+        {"set": "concentration", "to": "''"},
         {"each": "resources", "where": "row.recovery == 'short'", "set": {"used": "0"}},
         {"each": "features", "where": "(row.recovery_by_level ? by_level(row.recovery_by_level, level) : row.recovery) == 'short'", "set": {"used": "0"}},
         {"each": "features", "where": "(row.recovery_by_level ? by_level(row.recovery_by_level, level) : row.recovery) == 'long' && row.short_regain", "set": {"used": "max(row.used - row.short_regain, 0)"}},
@@ -5115,6 +5118,8 @@
         {"set": "hp_current", "to": "hp_max"},
         {"set": "raging", "to": "false"},
         {"set": "divine_favor", "to": "false"},
+        {"set": "concentrating", "to": "false"},
+        {"set": "concentration", "to": "''"},
         {"set": "hp_temp", "to": "0"},
         {"set": "hit_dice_spent", "to": "''"},
         {"each": "resources", "set": {"used": "0"}},
@@ -5196,9 +5201,9 @@
       "severity": "error"
     },
     {
-      "rule": "len(concentration) == 0 or not (contains(conditions, 'Incapacitated') or contains(conditions, 'Paralyzed') or contains(conditions, 'Petrified') or contains(conditions, 'Stunned') or contains(conditions, 'Unconscious'))",
+      "rule": "not concentrating or not (contains(conditions, 'Incapacitated') or contains(conditions, 'Paralyzed') or contains(conditions, 'Petrified') or contains(conditions, 'Stunned') or contains(conditions, 'Unconscious'))",
       "message": "An Incapacitated creature loses Concentration.",
-      "field": "concentration"
+      "field": "concentrating"
     },
     {"rule": "count_each(features, contains(row.choice_options, ',') and not contains(row.choice_options, concat(',', row.choice, ','))) == 0", "message": "A class feature is missing its choice (Hunter's Prey, type of land, damage type...): set it in the Choice column of Class Features.", "field": "features"},
     {"rule": "count_each(feats, row.category == 'Fighting Style') >= by_level(ref(klass, 'fighting_style_total_by_level'), len(advancements)) + by_level(ref(subclass, 'fighting_style_total_by_level'), len(advancements))", "message": "A Fighting Style feat is missing: your class or subclass gave you one at an earlier level - add it under Feats (or reopen Level up).", "field": "feats"},
