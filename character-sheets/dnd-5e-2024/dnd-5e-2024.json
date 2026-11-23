@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.40.0",
+  "version": "1.41.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -311,7 +311,9 @@
         "skill_choice_total_by_level": {"type": "text", "label": "Skill Choices Due By Level (total)"},
         "skill_choice_options": {"type": "text", "label": "Skill Choice Options"},
         "language_choice_by_level": {"type": "text", "label": "Language Choices By Level"},
+        "language_choice_total_by_level": {"type": "text", "label": "Language Choices Due By Level (total)"},
         "tool_choice_by_level": {"type": "text", "label": "Tool Choices By Level"},
+        "tool_choice_total_by_level": {"type": "text", "label": "Tool Choices Due By Level (total)"},
         "tool_choice_options": {"type": "text", "label": "Tool Choice Options"},
         "option_type": {"type": "text", "label": "Option Type (Metamagic, Eldritch Invocation, Maneuver)"},
         "options_by_level": {"type": "text", "label": "New Options By Level"},
@@ -583,7 +585,9 @@
         "skill_choice_total_by_level": {"type": "text", "label": "Skill Choices Due By Level (total)"},
         "skill_choice_options": {"type": "text", "label": "Skill Choice Options"},
         "language_choice_by_level": {"type": "text", "label": "Language Choices By Level"},
+        "language_choice_total_by_level": {"type": "text", "label": "Language Choices Due By Level (total)"},
         "tool_choice_by_level": {"type": "text", "label": "Tool Choices By Level"},
+        "tool_choice_total_by_level": {"type": "text", "label": "Tool Choices Due By Level (total)"},
         "tool_choice_options": {"type": "text", "label": "Tool Choice Options"},
         "skill_choice_expertise": {"type": "checkbox", "label": "Skill Choices Gain Expertise"},
         "option_type": {"type": "text", "label": "Option Type (Metamagic, Eldritch Invocation, Maneuver)"},
@@ -2669,6 +2673,16 @@
         "Survival"
       ]
     },
+    "class_languages": {
+      "type": "multiselect",
+      "label": "Languages From Class",
+      "options": ["Common", "Common Sign Language", "Draconic", "Dwarvish", "Elvish", "Giant", "Gnomish", "Goblin", "Halfling", "Orc", "Abyssal", "Celestial", "Deep Speech", "Druidic", "Infernal", "Primordial", "Sylvan", "Thieves' Cant", "Undercommon"]
+    },
+    "class_tools": {
+      "type": "multiselect",
+      "label": "Tools From Class",
+      "options": ["Alchemist's Supplies", "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools", "Cartographer's Tools", "Cobbler's Tools", "Cook's Utensils", "Glassblower's Tools", "Jeweler's Tools", "Leatherworker's Tools", "Mason's Tools", "Painter's Supplies", "Potter's Tools", "Smith's Tools", "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools", "Bagpipes", "Drum", "Dulcimer", "Flute", "Horn", "Lute", "Lyre", "Pan Flute", "Shawm", "Viol", "Dice Set", "Dragonchess Set", "Playing Cards", "Three-Dragon Ante Set", "Disguise Kit", "Forgery Kit", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit", "Thieves' Tools"]
+    },
     "class_skills": {
       "type": "multiselect",
       "label": "Skills From Class",
@@ -3960,7 +3974,15 @@
           "values": "answer.languages"
         },
         {
+          "add": "class_languages",
+          "values": "answer.languages"
+        },
+        {
           "add": "tool_profs",
+          "values": "answer.tools"
+        },
+        {
+          "add": "class_tools",
           "values": "answer.tools"
         },
         {
@@ -4047,6 +4069,25 @@
           "label_formula": "concat('Mystic Arcanum: one Warlock spell of level ', by_level(ref(klass, 'arcanum_by_level'), class_level), ', cast once per long rest without a slot')",
           "filter": "entry.level == by_level(ref(klass, 'arcanum_by_level'), class_level) and contains(entry.spell_lists, ref(klass, 'name')) and not has_ref(spells, entry._ref)",
           "visible_if": "by_level(ref(klass, 'arcanum_by_level'), class_level) > 0 and by_level(ref(klass, 'arcanum_by_level'), class_level) > by_level(ref(klass, 'arcanum_by_level'), class_level - 1) and count_each(spells, row.level == by_level(ref(klass, 'arcanum_by_level'), class_level) and row.use == 'long_rest' and row.origin == 'class') == 0"
+        },
+        {
+          "key": "ritual_ability",
+          "type": "select",
+          "label": "Spellcasting ability of Ritual Caster",
+          "options": [
+            {"value": "intelligence", "label": "Intelligence"},
+            {"value": "wisdom", "label": "Wisdom"},
+            {"value": "charisma", "label": "Charisma"}
+          ],
+          "visible_if": "has_ref(feats, 'ritual-caster-xphb') and count_each(spells, row.origin == 'feat' and row.use == 'slots' and row.level == 1 and row.ritual) < by_level('1:2,5:3,9:4,13:5,17:6', len(advancements))"
+        },
+        {
+          "key": "ritual",
+          "type": "entry",
+          "content_type": "spell",
+          "label": "Ritual Caster: a level 1 spell with the Ritual tag, always prepared",
+          "filter": "entry.level == 1 and entry.ritual and not has_ref(spells, entry._ref)",
+          "visible_if": "has_ref(feats, 'ritual-caster-xphb') and count_each(spells, row.origin == 'feat' and row.use == 'slots' and row.level == 1 and row.ritual) < by_level('1:2,5:3,9:4,13:5,17:6', len(advancements))"
         },
         {
           "key": "swap_cantrip",
@@ -4140,6 +4181,17 @@
           "values": {
             "origin": "'spellbook'",
             "from_level": "class_level"
+          }
+        },
+        {
+          "pick": "spells",
+          "entry": "answer.ritual",
+          "values": {
+            "origin": "'feat'",
+            "always": "true",
+            "use": "'slots'",
+            "uses": "'1'",
+            "ability": "answer.ritual_ability"
           }
         },
         {
@@ -5096,6 +5148,8 @@
     {"rule": "count_each(features, contains(row.choice_options, ',') and not contains(row.choice_options, concat(',', row.choice, ','))) == 0", "message": "A class feature is missing its choice (Hunter's Prey, type of land, damage type...): set it in the Choice column of Class Features.", "field": "features"},
     {"rule": "count_each(feats, row.category == 'Fighting Style') >= by_level(ref(klass, 'fighting_style_total_by_level'), len(advancements)) + by_level(ref(subclass, 'fighting_style_total_by_level'), len(advancements))", "message": "A Fighting Style feat is missing: your class or subclass gave you one at an earlier level - add it under Feats (or reopen Level up).", "field": "feats"},
     {"rule": "count_each(features, row.variant_of != '') >= by_level(ref(klass, 'variant_total_by_level'), len(advancements))", "message": "A class feature option is missing (Divine Order, Primal Order, Blessed Strikes, Elemental Fury): add the one you chose under Class Features.", "field": "features"},
+    {"rule": "len(class_languages) >= by_level(ref(klass, 'language_choice_total_by_level'), len(advancements)) + by_level(ref(subclass, 'language_choice_total_by_level'), len(advancements))", "message": "Fewer languages from your class than it gives by this level (Thieves' Cant, Deft Explorer): pick the missing ones in Languages and tick them also in Languages From Class (or reopen Level up).", "field": "class_languages"},
+    {"rule": "len(class_tools) >= by_level(ref(klass, 'tool_choice_total_by_level'), len(advancements)) + by_level(ref(subclass, 'tool_choice_total_by_level'), len(advancements))", "message": "Fewer tool proficiencies from your class or subclass than it gives by this level: pick the missing ones in Tools and tick them also in Tools From Class (or reopen Level up).", "field": "class_tools"},
     {"rule": "len(class_skills) >= ref(klass, 'skill_choices') + by_level(ref(klass, 'skill_choice_total_by_level'), len(advancements)) + by_level(ref(subclass, 'skill_choice_total_by_level'), len(advancements))", "message": "Fewer skills from your class than it gives by this level: pick the missing ones in Skill Proficiencies and tick them also in Skills From Class (or reopen Level up).", "field": "class_skills"},
     {"rule": "len(skill_expertise) >= by_level(ref(klass, 'expertise_total_by_level'), len(advancements)) + by_level(ref(subclass, 'expertise_total_by_level'), len(advancements))", "message": "Fewer Expertise skills than your class and subclass give by this level: pick the missing ones in Skill Expertise.", "field": "skill_expertise"},
     {"rule": "len(class_options) >= by_level(ref(klass, 'options_total_by_level'), len(advancements)) + by_level(ref(subclass, 'options_total_by_level'), len(advancements))", "message": "Fewer Metamagic options, Eldritch Invocations or Maneuvers than you should know at this level: add the missing ones.", "field": "class_options"},
