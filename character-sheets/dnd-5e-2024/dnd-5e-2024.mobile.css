@@ -110,10 +110,24 @@
   color: var(--gold);
 }
 
+/* A stat's figure reads the same whether it is worked out (.big) or typed
+   (.big-input): Initiative, Speed, Proficiency, Passive Perception. */
 .big-input input {
-  font-size: 22px !important;
+  font-size: 26px !important;
   font-weight: 700;
+  line-height: 1.15;
   text-align: center;
+  color: var(--gold) !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+/* Hit points keep their larger entry boxes. */
+.hp .big-input input {
+  border: 1px solid var(--border) !important;
+  background: var(--bg-deep) !important;
+  color: var(--text) !important;
 }
 
 /* A field on an underline with its caption beneath. */
@@ -201,6 +215,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  min-height: 92px;
 }
 
 .stat input {
@@ -220,9 +235,35 @@
   border-radius: 10px 10px 36px 36px;
 }
 
-.inspiration {
-  justify-content: center;
-  font-weight: 700;
+/* Level up: a full gold button at the head of the page. */
+.level-action .gc-action {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px !important;
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--bg-card, #1b1b1b) !important;
+  background: var(--gold) !important;
+  border: 2px solid var(--gold) !important;
+  border-radius: 8px !important;
+  cursor: pointer;
+}
+
+/* The name, and Heroic Inspiration's checkbox beside it. */
+.name-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+.name-row .line {
+  flex: 1;
+}
+.insp {
+  flex-direction: column;
+  gap: 2px;
+  min-width: 56px;
 }
 
 .death {

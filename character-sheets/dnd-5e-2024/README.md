@@ -233,6 +233,7 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   get the ⚠ mark; the subclass counts as Spellcasting for feat prerequisites
   (War Caster). The formulas `sub_caster` and `spell_class` pick the class or
   the subclass
+- **Layout** (1.46.1): Level up heads the Main page on a phone; Heroic Inspiration is a checkbox beside the character name; the Campaign house rules switch sits under Other details (Story); Other Attacks & Damage Cantrips shows only when it holds text; the Metamagic / Invocations / Maneuvers box shows only for a class or subclass that has such options and takes their name; on a phone Initiative, Speed, Proficiency and Passive Perception share one style
 - **Catalogue data for weapon rows**: weapons (equipment and magic items) carry
   `damage_dice`, `damage_type`, `damage_versatile`, `range_normal`,
   `range_long` and the `ranged`, `thrown`, `finesse`, `light`, `heavy`,

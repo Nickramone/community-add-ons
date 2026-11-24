@@ -96,9 +96,23 @@
   gap: 10px;
 }
 
-.name-row input {
+.name-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+.name-row .name-field {
+  flex: 1;
+  min-width: 0;
+}
+.name-row input[type=text] {
   font-size: 18px;
   font-weight: 700;
+}
+.name-row .insp {
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
 }
 
 /* Two pickers to a row, so a name like "Dragonborn" fits on one line. */
