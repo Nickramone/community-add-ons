@@ -188,17 +188,21 @@
   cursor: pointer;
 }
 
-/* Undo level up: a quiet outlined button under Level up, as long as there
-   is a level to take back. */
-.level .gc-action.undo-level {
-  margin-top: 0 !important;
-  padding: 4px 4px !important;
-  font-size: 0.75rem !important;
+/* Undo Last Level: a quiet outlined button under the Level-ups, as long as
+   there is a level to take back. */
+.undo-level-action {
+  margin-top: 8px;
+}
+
+.undo-level-action .gc-action {
+  padding: 6px 14px !important;
+  font-size: 0.85rem !important;
   font-weight: 600 !important;
   color: var(--gold) !important;
   background: transparent !important;
   border: 1px solid var(--gold) !important;
-  box-shadow: none;
+  border-radius: 8px !important;
+  cursor: pointer;
 }
 
 .armour {

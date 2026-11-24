@@ -255,8 +255,8 @@
   cursor: pointer;
 }
 
-/* Undo level up: a quiet outlined button under Level up, as long as there
-   is a level to take back. */
+/* Undo Last Level: a full-width outlined button under the Level-ups, as
+   long as there is a level to take back. */
 .undo-level-action {
   margin-top: 6px;
 }

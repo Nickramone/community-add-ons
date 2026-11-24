@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.52.1",
+  "version": "1.52.2",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -2075,7 +2075,7 @@
       "type": "list",
       "label": "Level-ups",
       "reorderable": false,
-      "empty_text": "One row per level, written by Level up and taken off by Undo level up. Level, hit points, spell slots and Proficiency Bonus follow the rows; with no rows the Level field counts.",
+      "empty_text": "One row per level, written by Level up and taken off by Undo Last Level. Level, hit points, spell slots and Proficiency Bonus follow the rows; with no rows the Level field counts.",
       "columns": [
         {
           "key": "class",
@@ -5287,7 +5287,7 @@
     },
     {
       "name": "undo_level_up",
-      "label": "Undo level up",
+      "label": "Undo Last Level",
       "confirm": "Undo the last level? Its row comes off, and what it gave is taken back: features, spells, feats, choices, and any class, subclass, species, lineage or background picked at it. Current HP drop to the new maximum. A level from before sheet 1.52.0 only loses its row.",
       "steps": [
         {"set": "hp_current", "to": "len(advancements) > 1 ? min(hp_current, hp_max - ((at(advancements, -1, 'hp') > 0 ? at(advancements, -1, 'hp') : floor((at(advancements, -1, 'hit_die') ? at(advancements, -1, 'hit_die') : ref(klass, 'hit_die')) / 2) + 1) + len(advancements) * floor((constitution + constitution_bonus - 10) / 2) - (len(advancements) - 1) * floor((constitution + constitution_bonus - ((at(advancements, -1, 'plus2') == 'constitution' ? 2 : 0) + (at(advancements, -1, 'plus1a') == 'constitution' ? 1 : 0) + (at(advancements, -1, 'plus1b') == 'constitution' ? 1 : 0) + sum_each(feats, row.ability_amount, row.asi == 'constitution' and row.from_level == len(advancements))) - 10) / 2) + (has_ref(species_traits, 'dwarf-dwarven-toughness-xphb') ? 1 : 0) + (has_ref(feats, 'tough-xphb') ? (count_each(feats, row.name == 'Tough' and row.from_level == len(advancements)) > 0 ? 2 * len(advancements) : 2) : 0) + (count_each(feats, row.name == 'Boon of Fortitude' and row.from_level == len(advancements)) > 0 ? 40 : 0))) : hp_current"},
