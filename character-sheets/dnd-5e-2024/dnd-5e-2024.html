@@ -25,6 +25,7 @@
         <span class="tiny box-title">Level</span><g-field name="level" label="" variant="compact" />
         <details class="xp-fold"><summary class="tiny box-title">XP ▾</summary><g-field name="xp" label="" variant="compact" /></details>
         <g-action name="level_up" label="Level up"></g-action>
+        <g-if test="len(advancements) &gt; 0"><g-action name="undo_level_up" label="Undo level up" class="undo-level"></g-action></g-if>
       </div>
       <div class="armour box">
         <span class="tiny box-title">Armour Class</span>
@@ -470,7 +471,7 @@
       </section>
       <section class="box">
         <h3 class="box-heading">Level-ups</h3>
-        <g-field name="advancements" label="" />
+        <g-field name="advancements" label="" readonly="" />
       </section>
       <section class="box">
       <h3 class="box-heading">Equipment Training &amp; Proficiencies</h3>

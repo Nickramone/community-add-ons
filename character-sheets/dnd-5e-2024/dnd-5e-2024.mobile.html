@@ -27,6 +27,7 @@
 <g-tab title="Main">
 
   <div class="level-action"><g-action name="level_up" label="Level up"></g-action></div>
+  <g-if test="len(advancements) &gt; 0"><div class="undo-level-action"><g-action name="undo_level_up" label="Undo level up" class="undo-level"></g-action></div></g-if>
 
   <section class="box who">
     <div class="name-row">
@@ -544,7 +545,7 @@
 
   <section class="box">
     <h3 class="box-heading">Level-ups</h3>
-    <g-field name="advancements" label="" />
+    <g-field name="advancements" label="" readonly="" />
   </section>
 
   <section class="box">

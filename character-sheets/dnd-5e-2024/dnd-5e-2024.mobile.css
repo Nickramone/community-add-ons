@@ -255,6 +255,27 @@
   cursor: pointer;
 }
 
+/* Undo level up: a quiet outlined button under Level up, as long as there
+   is a level to take back. */
+.undo-level-action {
+  margin-top: 6px;
+}
+
+.undo-level-action .gc-action {
+  display: block;
+  box-sizing: border-box;
+  text-align: center;
+  width: 100%;
+  padding: 6px 14px !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  color: var(--gold) !important;
+  background: transparent !important;
+  border: 1px solid var(--gold) !important;
+  border-radius: 8px !important;
+  cursor: pointer;
+}
+
 /* The name, and Heroic Inspiration's checkbox beside it. */
 .name-row {
   display: flex;

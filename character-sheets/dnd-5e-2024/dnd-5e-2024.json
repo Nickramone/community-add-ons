@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.51.1",
+  "version": "1.52.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -2074,9 +2074,8 @@
     "advancements": {
       "type": "list",
       "label": "Level-ups",
-      "add_label": "Add row by hand",
       "reorderable": false,
-      "empty_text": "One row per level. Level, hit points, spell slots and Proficiency Bonus follow the rows; with no rows the Level field counts.",
+      "empty_text": "One row per level, written by Level up and taken off by Undo level up. Level, hit points, spell slots and Proficiency Bonus follow the rows; with no rows the Level field counts.",
       "columns": [
         {
           "key": "class",
@@ -3703,6 +3702,7 @@
     "concentrate": {"label": "Concentrating on", "steps": [{"key": "spell", "type": "entry", "content_type": "spell", "label": "A Concentration spell you have", "filter": "entry.concentration and has_ref(spells, entry._ref)", "visible_if": "concentrating"}], "apply": [{"set": "concentration", "to": "answer.spell.name"}, {"set": "concentrating", "to": "true"}], "on_skip": [{"set": "concentrating", "to": "false"}, {"set": "concentration", "to": "''"}]},
     "level_up": {
       "label": "Level up",
+      "record": "concat('level:', len(advancements) + 1)",
       "steps": [
         {
           "key": "klass_pick",
@@ -3867,8 +3867,7 @@
           "names": "ref(klass, concat('feature_names_', (len(advancements) + 1)))",
           "carry": {
             "class": "ref(klass, 'name')"
-          },
-          "source": "klass"
+          }
         },
         {
           "grant": "features",
@@ -3877,8 +3876,7 @@
           "carry": {
             "class": "ref(subclass, 'class')",
             "subclass": "ref(subclass, 'name')"
-          },
-          "source": "subclass"
+          }
         },
         {
           "grant": "spells",
@@ -3888,8 +3886,7 @@
             "always": "ref(klass, 'auto_spell_always')",
             "use": "ref(klass, concat('auto_spell_use_', (len(advancements) + 1)))",
             "uses": "ref(klass, concat('auto_spell_uses_', (len(advancements) + 1)))"
-          },
-          "source": "klass"
+          }
         },
         {
           "grant": "spells",
@@ -3899,8 +3896,7 @@
             "always": "ref(subclass, 'auto_spell_always')",
             "use": "ref(subclass, concat('auto_spell_use_', (len(advancements) + 1)))",
             "uses": "ref(subclass, concat('auto_spell_uses_', (len(advancements) + 1)))"
-          },
-          "source": "subclass"
+          }
         },
         {
           "grant": "spells",
@@ -3911,8 +3907,7 @@
             "use": "ref(lineage, concat('auto_spell_use_', (len(advancements) + 1)))",
             "uses": "ref(lineage, concat('auto_spell_uses_', (len(advancements) + 1)))",
             "ability": "concat(species_spell_ability, ',', species_spell_ability, ',', species_spell_ability, ',', species_spell_ability)"
-          },
-          "source": "lineage"
+          }
         },
         {
           "prompt": "class_choices"
@@ -5289,6 +5284,16 @@
       "name": "level_up",
       "label": "Level up",
       "steps": [{"prompt": "level_up"}]
+    },
+    {
+      "name": "undo_level_up",
+      "label": "Undo level up",
+      "confirm": "Undo the last level? Its row comes off, and what it gave is taken back: features, spells, feats, choices, and any class, subclass, species, lineage or background picked at it. Current HP drop to the new maximum. A level from before sheet 1.52.0 only loses its row.",
+      "steps": [
+        {"set": "hp_current", "to": "len(advancements) > 1 ? min(hp_current, hp_max - ((at(advancements, -1, 'hp') > 0 ? at(advancements, -1, 'hp') : floor((at(advancements, -1, 'hit_die') ? at(advancements, -1, 'hit_die') : ref(klass, 'hit_die')) / 2) + 1) + floor((constitution - 10) / 2) + (has_ref(species_traits, 'dwarf-dwarven-toughness-xphb') ? 1 : 0) + (has_ref(feats, 'tough-xphb') ? (count_each(feats, row.name == 'Tough' and row.from_level == len(advancements)) > 0 ? 2 * len(advancements) : 2) : 0) + (count_each(feats, row.name == 'Boon of Fortitude' and row.from_level == len(advancements)) > 0 ? 40 : 0))) : hp_current"},
+        {"revert": "concat('level:', len(advancements))"},
+        {"pop": "advancements"}
+      ]
     },
     {
       "name": "prepare_spells",
