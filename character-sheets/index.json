@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": "2026-11-24T09:30:03Z",
+  "generated": "2026-11-24T09:37:13Z",
   "sheets": [
     {
       "id": "basic-fantasy",
@@ -125,20 +125,20 @@
     {
       "id": "dnd-5e-2024",
       "name": "D&D 5th Edition (2024)",
-      "version": "1.46.4",
+      "version": "1.46.5",
       "path": "character-sheets/dnd-5e-2024/dnd-5e-2024.json",
-      "sha256": "2311d00525bf964434ac33343dfee93129073d135b3472449790af28e9368901",
+      "sha256": "c22aee64e5679e3cf9843b5d3a254ab74a9b1017b052b170c87e1258137aee00",
       "custom_layout": true,
       "custom_mobile_layout": true,
       "field_count": 121,
       "layout_path": "character-sheets/dnd-5e-2024/dnd-5e-2024.html",
       "layout_sha256": "73d545e88310313cad3bc07ff694aeb47d83f60b6b601f430dd3bd2ad27c5a30",
       "styles_path": "character-sheets/dnd-5e-2024/dnd-5e-2024.css",
-      "styles_sha256": "9fbbff28debf8b619f8127db7fab8448ac96038f2bb1c6de34374e4e6e101453",
+      "styles_sha256": "5d46625b3d90e79228c48d8a89430b0a259b72550612a2c79fd8485cb9989681",
       "mobile_layout_path": "character-sheets/dnd-5e-2024/dnd-5e-2024.mobile.html",
       "mobile_layout_sha256": "832e0c6983ee3dbf0fa899d5f1a37277d2043e53cf77c61f20ea5772aa6ef653",
       "mobile_styles_path": "character-sheets/dnd-5e-2024/dnd-5e-2024.mobile.css",
-      "mobile_styles_sha256": "20c13d761d09cf8ce32e6fc1917ede238547c3e652b4767e323bb9af19ba098f",
+      "mobile_styles_sha256": "8d64a32cc3fe8d494d28078e264c5aca615d632e5ff1ca90626a9a2ff125b312",
       "system": "Dungeons & Dragons 5th Edition (2024)",
       "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
       "author": "hunter-read",

@@ -237,6 +237,7 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
 - **Layout** (1.46.2): Short and Long rest sit in the Hit Points box; Exhaustion, Concentrating and Raging share one row and Exhaustion has only its six boxes; resistances, immunities and condition immunities are read-only text; armour training is text of the categories held; darkvision and feat senses are lines among the active effects; the pack item ids, names and quantities of a pack are hidden in the entry detail
 - **Layout** (1.46.3): on the desktop sheet Level up sits under XP; armour training is stacked like weapons and tools; Exhaustion, Concentrating and Raging are rows of one column; read-only effect text shares the 12px of the other effects
 - **Layout** (1.46.4): Equipment Training & Proficiencies moves to the Story page, before Languages; the languages known (`language_profs`) are read-only text
+- **Layout** (1.46.5): Level up is a larger gold button with a glow, on the desktop sheet too; the rest buttons are no longer all capitals
 - **Catalogue data for weapon rows**: weapons (equipment and magic items) carry
   `damage_dice`, `damage_type`, `damage_versatile`, `range_normal`,
   `range_long` and the `ranged`, `thrown`, `finesse`, `light`, `heavy`,

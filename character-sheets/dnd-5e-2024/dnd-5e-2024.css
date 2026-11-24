@@ -137,8 +137,18 @@
   justify-content: center;
 }
 
+/* Level up: the page's one call to action, a full gold button. */
 .level .gc-action {
   margin-top: 6px;
+  padding: 10px 12px !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  color: var(--bg-card, #1b1b1b) !important;
+  background: var(--gold) !important;
+  border: 2px solid var(--gold) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 0 10px color-mix(in srgb, var(--gold) 45%, transparent);
+  cursor: pointer;
 }
 
 .armour {
@@ -607,8 +617,8 @@
   padding: 12px 14px !important;
   font-size: 1rem !important;
   font-weight: 700 !important;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-transform: none;
   color: var(--bg-card, #1b1b1b) !important;
   background: var(--gold) !important;
   border: 2px solid var(--gold) !important;

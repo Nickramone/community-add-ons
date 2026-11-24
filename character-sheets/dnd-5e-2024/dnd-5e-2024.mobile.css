@@ -238,12 +238,13 @@
 /* Level up: a full gold button at the head of the page. */
 .level-action .gc-action {
   width: 100%;
-  min-height: 44px;
-  padding: 10px 14px !important;
-  font-size: 0.95rem !important;
+  min-height: 52px;
+  padding: 12px 14px !important;
+  font-size: 1.15rem !important;
   font-weight: 700 !important;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  box-shadow: 0 0 12px color-mix(in srgb, var(--gold) 45%, transparent);
   color: var(--bg-card, #1b1b1b) !important;
   background: var(--gold) !important;
   border: 2px solid var(--gold) !important;
@@ -647,8 +648,8 @@
   padding: 12px 14px !important;
   font-size: 1rem !important;
   font-weight: 700 !important;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-transform: none;
   color: var(--bg-card, #1b1b1b) !important;
   background: var(--gold) !important;
   border: 2px solid var(--gold) !important;
