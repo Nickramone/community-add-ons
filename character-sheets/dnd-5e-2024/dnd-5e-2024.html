@@ -334,12 +334,6 @@
         <h3 class="box-heading">Species Traits</h3>
         <g-field name="species_traits" label="" />
       </section>
-      <section class="training box">
-      <h3 class="box-heading">Equipment Training &amp; Proficiencies</h3>
-      <div class="armour-training"><span class="tiny">Armour</span><g-if test="armor_light or armor_medium or armor_heavy or armor_shields"><p class="trained"><g-value formula="concat(armor_light ? 'Light' : '', armor_light and (armor_medium or armor_heavy or armor_shields) ? ', ' : '', armor_medium ? 'Medium' : '', armor_medium and (armor_heavy or armor_shields) ? ', ' : '', armor_heavy ? 'Heavy' : '', armor_heavy and armor_shields ? ', ' : '', armor_shields ? 'Shields' : '')" /></p></g-if><g-if test="not (armor_light or armor_medium or armor_heavy or armor_shields)"><p class="trained">None</p></g-if></div>
-      <span class="tiny">Weapons</span><g-field name="weapon_training" label="" />
-      <span class="tiny">Tools</span><g-field name="tool_training" label="" />
-    </section>
     </div>
   </div>
 
@@ -475,8 +469,14 @@
         <g-field name="advancements" label="" />
       </section>
       <section class="box">
+      <h3 class="box-heading">Equipment Training &amp; Proficiencies</h3>
+      <div class="armour-training"><span class="tiny">Armour</span><g-if test="armor_light or armor_medium or armor_heavy or armor_shields"><p class="trained"><g-value formula="concat(armor_light ? 'Light' : '', armor_light and (armor_medium or armor_heavy or armor_shields) ? ', ' : '', armor_medium ? 'Medium' : '', armor_medium and (armor_heavy or armor_shields) ? ', ' : '', armor_heavy ? 'Heavy' : '', armor_heavy and armor_shields ? ', ' : '', armor_shields ? 'Shields' : '')" /></p></g-if><g-if test="not (armor_light or armor_medium or armor_heavy or armor_shields)"><p class="trained">None</p></g-if></div>
+      <span class="tiny">Weapons</span><g-field name="weapon_training" label="" />
+      <span class="tiny">Tools</span><g-field name="tool_training" label="" />
+    </section>
+      <section class="box">
         <h3 class="box-heading">Languages</h3>
-        <g-field name="language_profs" label="" />
+        <g-field name="language_profs" label="" readonly />
         <span class="tiny">Other</span><g-field name="languages" label="" />
       </section>
       <section class="box">
