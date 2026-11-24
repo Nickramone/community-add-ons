@@ -234,6 +234,7 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   (War Caster). The formulas `sub_caster` and `spell_class` pick the class or
   the subclass
 - **Layout** (1.46.1): Level up heads the Main page on a phone; Heroic Inspiration is a checkbox beside the character name; the Campaign house rules switch sits under Other details (Story); Other Attacks & Damage Cantrips shows only when it holds text; the Metamagic / Invocations / Maneuvers box shows only for a class or subclass that has such options and takes their name; on a phone Initiative, Speed, Proficiency and Passive Perception share one style
+- **Layout** (1.46.2): Short and Long rest sit in the Hit Points box; Exhaustion, Concentrating and Raging share one row and Exhaustion has only its six boxes; resistances, immunities and condition immunities are read-only text; armour training is text of the categories held; darkvision and feat senses are lines among the active effects; the pack item ids, names and quantities of a pack are hidden in the entry detail
 - **Catalogue data for weapon rows**: weapons (equipment and magic items) carry
   `damage_dice`, `damage_type`, `damage_versatile`, `range_normal`,
   `range_long` and the `ranged`, `thrown`, `finesse`, `light`, `heavy`,

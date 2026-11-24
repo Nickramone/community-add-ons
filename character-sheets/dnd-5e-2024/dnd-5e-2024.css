@@ -481,9 +481,12 @@
   gap: 8px;
 }
 
-.exh input {
-  width: 44px;
-  text-align: center;
+.exh .tiny {
+  min-width: 96px;
+}
+
+.trained {
+  margin: 0;
 }
 
 .conditions summary {

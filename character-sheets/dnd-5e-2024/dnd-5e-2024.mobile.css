@@ -548,12 +548,15 @@
   flex-wrap: wrap;
 }
 
-.exh-num {
-  width: 64px;
+/* Exhaustion, Concentrating and Raging share one row: caption, then control. */
+.exh .tiny {
+  min-width: 104px;
 }
 
-.exh-num input {
-  text-align: center;
+/* A proficiency that is only read: the armour trained in. */
+.trained {
+  margin: 0;
+  font-size: 14px;
 }
 
 .sub summary {

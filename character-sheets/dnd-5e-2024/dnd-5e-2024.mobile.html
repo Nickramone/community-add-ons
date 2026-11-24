@@ -46,6 +46,7 @@
       <div class="cell"><span class="tiny">Temp</span><g-field name="hp_temp" label="" variant="compact" /></div>
       <div class="cell"><span class="tiny">Max</span><g-field name="hp_max" label="" variant="compact" /></div>
     </div>
+    <div class="rest-buttons"><g-action name="short_rest" label="Short rest"></g-action> <g-action name="long_rest" label="Long rest"></g-action></div>
   </section>
 
   <section class="vitals">
@@ -61,7 +62,7 @@
     <div class="box stat">
       <span class="tiny box-title">Speed</span>
       <span class="big-input"><g-field name="speed" label="" variant="compact" /></span>
-      <g-if test="current_speed != speed"><span class="tiny centre now">Now <g-value name="current_speed" /> ft</span></g-if><g-if test="speed_bonus > 0"><span class="tiny now">Feats +<g-value name="speed_bonus" /> ft</span></g-if><g-repeat over="magic_items" where="row.equipped &amp;&amp; (row.attuned or not row.attunement) &amp;&amp; not row._inline &amp;&amp; row.speeds"><span class="tiny now"><g-value formula="row.speeds" /></span></g-repeat><g-if test="darkvision > 0"><span class="tiny now">Darkvision <g-value name="darkvision" /> ft</span></g-if><g-repeat over="feats" where="row.senses"><span class="tiny now"><g-value formula="row.senses" /></span></g-repeat>
+      <g-if test="current_speed != speed"><span class="tiny centre now">Now <g-value name="current_speed" /> ft</span></g-if><g-if test="speed_bonus > 0"><span class="tiny now">Feats +<g-value name="speed_bonus" /> ft</span></g-if><g-repeat over="magic_items" where="row.equipped &amp;&amp; (row.attuned or not row.attunement) &amp;&amp; not row._inline &amp;&amp; row.speeds"><span class="tiny now"><g-value formula="row.speeds" /></span></g-repeat>
     </div>
     <div class="box stat">
       <span class="tiny box-title">Proficiency</span>
@@ -76,10 +77,10 @@
       <g-if test="campaign_rules"><p class="effect warn"><strong>Exhaustion <g-value name="exhaustion" /></strong> −<g-value name="exhaustion_flat" /> to AC, spell save DC, saving throws, ability checks, attack rolls and damage<g-if test="exhaustion >= 3">; Speed −10 ft</g-if>. Level 6 is death. A long rest removes 2 levels, Lesser Restoration 1, Greater Restoration all.</p></g-if>
       <g-if test="not campaign_rules"><p class="effect warn"><strong>Exhaustion <g-value name="exhaustion" /></strong> −<g-value name="exhaustion_d20" /> to every d20 Test; Speed −<g-value name="exhaustion_speed" /> ft. Level 6 is death. A long rest removes 1 level.</p></g-if>
     </g-if>
-    <g-if test="len(resistances) > 0"><p class="effect"><strong>Resistance</strong> <g-field name="resistances" label="" /></p></g-if>
-    <g-if test="len(immunities) > 0"><p class="effect"><strong>Immunity</strong> <g-field name="immunities" label="" /></p></g-if>
-    <g-if test="len(condition_immunities) > 0"><p class="effect"><strong>Condition immunity</strong> <g-field name="condition_immunities" label="" /></p></g-if>
-    <g-if test="raging"><p class="effect"><strong>Raging</strong> Resistance to Bludgeoning, Piercing and Slashing damage; <g-value formula="concat('+', rage_bonus)" /> damage with Strength attacks; Advantage on Strength checks and saves; no spells, and Concentration ends.</p></g-if>
+    <g-if test="len(resistances) > 0"><p class="effect"><strong>Resistance</strong> <g-field name="resistances" label="" readonly /></p></g-if>
+    <g-if test="len(immunities) > 0"><p class="effect"><strong>Immunity</strong> <g-field name="immunities" label="" readonly /></p></g-if>
+    <g-if test="len(condition_immunities) > 0"><p class="effect"><strong>Condition immunity</strong> <g-field name="condition_immunities" label="" readonly /></p></g-if>
+    <g-if test="darkvision &gt; 0"><p class="effect"><strong>Darkvision</strong> <g-value name="darkvision" /> ft.</p></g-if><g-repeat over="feats" where="row.senses"><p class="effect"><g-value formula="row.senses" /></p></g-repeat><g-if test="raging"><p class="effect"><strong>Raging</strong> Resistance to Bludgeoning, Piercing and Slashing damage; <g-value formula="concat('+', rage_bonus)" /> damage with Strength attacks; Advantage on Strength checks and saves; no spells, and Concentration ends.</p></g-if>
     <g-if test="concentrating"><p class="effect"><strong>Concentrating</strong> <g-value name="concentration" />. Taking damage: Con save, DC 10 or half the damage (up to 30).</p></g-if>
     <g-repeat over="magic_items" where="row.equipped &amp;&amp; (row.attuned or not row.attunement) &amp;&amp; not row._inline &amp;&amp; row.defenses"><p class="effect"><strong><g-value formula="row.name" /></strong> <g-value formula="row.defenses" />.</p></g-repeat>
     <g-repeat over="features" where="row.choice != '' and (row.name == 'Elemental Affinity' or row.name == 'Dread Allegiance' or row.name == 'Aspect of the Wilds')"><p class="effect"><strong><g-value formula="row.name" /> (<g-value formula="row.choice" />)</strong> <g-value formula="row.name == 'Elemental Affinity' ? concat('Resistance to ', row.choice, ' damage.') : (row.name == 'Dread Allegiance' ? concat('Resistance to ', (row.choice == 'Bane' ? 'Psychic' : (row.choice == 'Bhaal' ? 'Poison' : 'Necrotic')), ' damage.') : (row.choice == 'Owl' ? 'Darkvision 60 ft (+60 ft if you already have it).' : (row.choice == 'Panther' ? 'Climb Speed equal to your Speed.' : 'Swim Speed equal to your Speed.')))" /></p></g-repeat>
@@ -98,9 +99,9 @@
     <g-if test="contains(conditions, 'Restrained')"><p class="effect"><strong>Restrained</strong> Speed 0. Disadvantage on Dex saves and on your attacks; attacks against you have Advantage.</p></g-if>
     <g-if test="contains(conditions, 'Stunned')"><p class="effect"><strong>Stunned</strong> Incapacitated. Fail Str and Dex saves. Attacks against you have Advantage.</p></g-if>
     <g-if test="contains(conditions, 'Unconscious')"><p class="effect"><strong>Unconscious</strong> Incapacitated and Prone, drop what you hold, Speed 0. Fail Str and Dex saves. Attacks against you have Advantage; a hit from within 5 ft is a Critical Hit.</p></g-if>
-    <div class="exh"><span class="tiny">Exhaustion</span><g-pips count="6" value="exhaustion" label="Exhaustion level" /><span class="exh-num"><g-field name="exhaustion" label="" variant="compact" /></span></div>
-    <div class="line"><label class="pip-label"><g-field name="concentrating" label="" />Concentrating</label><g-if test="concentrating"><span class="conc-spell"><g-value formula="concentration" /></span></g-if></div>
-    <g-if test="has_ref(features, 'rage-barbarian-1-xphb')"><label class="pip-label"><g-field name="raging" label="" />Raging</label></g-if>
+    <div class="exh"><span class="tiny">Exhaustion</span><g-pips count="6" value="exhaustion" label="Exhaustion level" /></div>
+    <div class="exh"><span class="tiny">Concentrating</span><g-field name="concentrating" label="" /><g-if test="concentrating"><span class="conc-spell"><g-value formula="concentration" /></span></g-if></div>
+    <g-if test="has_ref(features, 'rage-barbarian-1-xphb')"><div class="exh"><span class="tiny">Raging</span><g-field name="raging" label="" /></div></g-if>
     <details class="sub">
       <summary>Conditions</summary>
       <div class="opts conds">
@@ -178,7 +179,6 @@
       <summary>Add, remove or edit resources</summary>
       <g-field name="resources" label="" />
     </details>
-    <div class="rest-buttons"><g-action name="short_rest" label="Short rest"></g-action> <g-action name="long_rest" label="Long rest"></g-action></div>
   </section>
 
   <section class="box">
@@ -390,12 +390,7 @@
   <section class="box">
     <h3 class="box-heading">Equipment Training &amp; Proficiencies</h3>
     <span class="tiny">Armour</span>
-    <div class="opts">
-      <label class="opt"><g-field name="armor_light" label="" />Light</label>
-      <label class="opt"><g-field name="armor_medium" label="" />Medium</label>
-      <label class="opt"><g-field name="armor_heavy" label="" />Heavy</label>
-      <label class="opt"><g-field name="armor_shields" label="" />Shields</label>
-    </div>
+    <g-if test="armor_light or armor_medium or armor_heavy or armor_shields"><p class="trained"><g-value formula="concat(armor_light ? 'Light' : '', armor_light and (armor_medium or armor_heavy or armor_shields) ? ', ' : '', armor_medium ? 'Medium' : '', armor_medium and (armor_heavy or armor_shields) ? ', ' : '', armor_heavy ? 'Heavy' : '', armor_heavy and armor_shields ? ', ' : '', armor_shields ? 'Shields' : '')" /></p></g-if><g-if test="not (armor_light or armor_medium or armor_heavy or armor_shields)"><p class="trained">None</p></g-if>
     <span class="tiny">Weapons</span><g-field name="weapon_training" label="" />
     <span class="tiny">Tools</span><g-field name="tool_training" label="" />
   </section>
@@ -563,9 +558,9 @@
   </section>
   <section class="box">
     <h3 class="box-heading">Defenses</h3>
-    <span class="tiny">Resistances</span><g-field name="resistances" label="" />
-    <span class="tiny">Immunities</span><g-field name="immunities" label="" />
-    <span class="tiny">Condition immunities</span><g-field name="condition_immunities" label="" />
+    <span class="tiny">Resistances</span><g-field name="resistances" label="" readonly />
+    <span class="tiny">Immunities</span><g-field name="immunities" label="" readonly />
+    <span class="tiny">Condition immunities</span><g-field name="condition_immunities" label="" readonly />
   </section>
 
 </g-tab>

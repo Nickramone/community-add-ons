@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.46.1",
+  "version": "1.46.2",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -1642,9 +1642,9 @@
           "type": "textarea",
           "label": "Mastery effect"
         },
-        "pack_ids": {"type": "textarea", "label": "Pack item ids"},
-        "pack_names": {"type": "textarea", "label": "Pack item names"},
-        "pack_qty": {"type": "text", "label": "Pack item quantities"},
+        "pack_ids": {"type": "textarea", "label": "Pack item ids", "visible_if": "false"},
+        "pack_names": {"type": "textarea", "label": "Pack item names", "visible_if": "false"},
+        "pack_qty": {"type": "text", "label": "Pack item quantities", "visible_if": "false"},
         "armor_class": {
           "type": "text",
           "label": "Armor Class"
