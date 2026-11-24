@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.55.1",
+  "version": "1.56.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -3001,7 +3001,7 @@
     "strength_save_prof": {
       "type": "checkbox",
       "label": "STR save proficiency",
-      "default_from": "contains(ref(klass, 'saving_throws'), 'strength')"
+      "default_from": "contains(ref(klass, 'saving_throws'), 'strength') or count_each(features, contains(row.save_profs, ',strength,')) > 0"
     },
     "dexterity": {
       "type": "number",
@@ -3020,7 +3020,7 @@
     "dexterity_save_prof": {
       "type": "checkbox",
       "label": "DEX save proficiency",
-      "default_from": "contains(ref(klass, 'saving_throws'), 'dexterity')"
+      "default_from": "contains(ref(klass, 'saving_throws'), 'dexterity') or count_each(features, contains(row.save_profs, ',dexterity,')) > 0"
     },
     "constitution": {
       "type": "number",
@@ -3039,7 +3039,7 @@
     "constitution_save_prof": {
       "type": "checkbox",
       "label": "CON save proficiency",
-      "default_from": "contains(ref(klass, 'saving_throws'), 'constitution')"
+      "default_from": "contains(ref(klass, 'saving_throws'), 'constitution') or count_each(features, contains(row.save_profs, ',constitution,')) > 0"
     },
     "intelligence": {
       "type": "number",
@@ -3058,7 +3058,7 @@
     "intelligence_save_prof": {
       "type": "checkbox",
       "label": "INT save proficiency",
-      "default_from": "contains(ref(klass, 'saving_throws'), 'intelligence')"
+      "default_from": "contains(ref(klass, 'saving_throws'), 'intelligence') or count_each(features, contains(row.save_profs, ',intelligence,')) > 0"
     },
     "wisdom": {
       "type": "number",
@@ -3096,7 +3096,7 @@
     "charisma_save_prof": {
       "type": "checkbox",
       "label": "CHA save proficiency",
-      "default_from": "contains(ref(klass, 'saving_throws'), 'charisma')"
+      "default_from": "contains(ref(klass, 'saving_throws'), 'charisma') or count_each(features, contains(row.save_profs, ',charisma,')) > 0"
     },
     "hp_max": {
       "type": "number",
@@ -3893,7 +3893,7 @@
     "armor_shields": {
       "type": "checkbox",
       "label": "Shields",
-      "default_from": "contains(ref(klass, 'armor_proficiencies'), 'Shield') or contains(ref(klass2, 'mc_armor'), 'Shield') or contains(ref(klass3, 'mc_armor'), 'Shield') or contains(ref(klass4, 'mc_armor'), 'Shield')"
+      "default_from": "contains(ref(klass, 'armor_proficiencies'), 'Shield') or count_each(features, contains(row.armor_training, 'Shield')) > 0 or contains(ref(klass2, 'mc_armor'), 'Shield') or contains(ref(klass3, 'mc_armor'), 'Shield') or contains(ref(klass4, 'mc_armor'), 'Shield')"
     },
     "weapon_training": {
       "type": "textarea",
@@ -4633,6 +4633,18 @@
         {
           "pick": "subclass4",
           "entry": "(ref(klass4, 'name') != '' and answer.cls == ref(klass4, 'name')) ? answer.subclass_pick : ''"
+        },
+        {
+          "add": "skill_profs",
+          "values": "answer.subclass_pick ? answer.subclass_pick.grant_skills : ''"
+        },
+        {
+          "add": "tool_profs",
+          "values": "answer.subclass_pick ? answer.subclass_pick.grant_tools : ''"
+        },
+        {
+          "add": "language_profs",
+          "values": "answer.subclass_pick ? answer.subclass_pick.grant_languages : ''"
         },
         {
           "pick": "species",
