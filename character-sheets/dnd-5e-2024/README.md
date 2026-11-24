@@ -248,6 +248,7 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
 - **Class tools and species size** (1.48.0): picking a class that lets you choose tools (Bard: three Musical Instruments; Monk: one Artisan's Tools or Musical Instrument) asks for them with the class skills; they go to the chosen tools and Tools From Class, and the Tools text lists them instead of the choice. Picking a species of more than one size (Human, Aasimar, Tiefling...) asks for the size, which Size then shows until the species changes
 - **Armour effects** (1.49.0): wearing armour you lack training with shows, among the active effects, Disadvantage on Strength and Dexterity checks, saves and attacks and no spellcasting; armour with Stealth Disadvantage (also as the base of magic armour, except Mithral) shows it there too
 - **Shield training and armour Strength** (1.50.0): a shield carried without Shield training adds nothing to AC (also a magic shield) and says so among the active effects; armour whose Strength requirement is above your Strength score (also as the base of magic armour, except Mithral) takes 10 ft from the current Speed, shown there too
+- **Speed under heavy armour** (1.50.1): the 10 ft taken by armour above your Strength comes off the Speed figure itself, with no "Now" line beneath
 - **Catalogue data for weapon rows**: weapons (equipment and magic items) carry
   `damage_dice`, `damage_type`, `damage_versatile`, `range_normal`,
   `range_long` and the `ranged`, `thrown`, `finesse`, `light`, `heavy`,
