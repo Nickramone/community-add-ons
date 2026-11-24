@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.50.1",
+  "version": "1.50.2",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -2675,7 +2675,7 @@
       "label": "Speed",
       "min": 0,
       "default": 30,
-      "default_from": "(ref(lineage, 'speed') ? ref(lineage, 'speed') : (ref(species, 'speed') ? ref(species, 'speed') : 30)) - (armor_str_short > 0 ? 10 : 0)"
+      "default_from": "ref(lineage, 'speed') ? ref(lineage, 'speed') : ref(species, 'speed')"
     },
     "size": {
       "type": "text",
@@ -3593,8 +3593,12 @@
       "formula": "max(ref(species, 'darkvision'), ref(lineage, 'darkvision'))",
       "label": "Darkvision (ft.)"
     },
+    "speed_armored": {
+      "formula": "max(0, speed - (armor_str_short > 0 ? 10 : 0))",
+      "label": "Speed in Armour"
+    },
     "current_speed": {
-      "formula": "(exhaustion >= 6 or contains(conditions, 'Grappled') or contains(conditions, 'Restrained') or contains(conditions, 'Paralyzed') or contains(conditions, 'Petrified') or contains(conditions, 'Unconscious')) ? 0 : max(0, max(speed + speed_bonus, item_walk_min) - exhaustion_speed)",
+      "formula": "(exhaustion >= 6 or contains(conditions, 'Grappled') or contains(conditions, 'Restrained') or contains(conditions, 'Paralyzed') or contains(conditions, 'Petrified') or contains(conditions, 'Unconscious')) ? 0 : max(0, max(speed_armored + speed_bonus, item_walk_min) - exhaustion_speed)",
       "label": "Current Speed"
     },
     "active_effects": {
