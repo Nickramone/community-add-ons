@@ -568,8 +568,10 @@
 }
 
 .effect .gc-field-readonly,
-.effect .gc-field-readonly > div {
+.effect .gc-field-readonly * {
   display: inline;
+  font-size: inherit !important;
+  line-height: inherit;
 }
 
 .sub summary {

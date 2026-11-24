@@ -552,10 +552,10 @@
 }
 
 .effect .gc-field-readonly,
-.effect .gc-field-readonly > div {
+.effect .gc-field-readonly * {
   display: inline;
-  font-size: 12px;
-  line-height: 1.4;
+  font-size: inherit !important;
+  line-height: inherit;
 }
 
 .conditions summary {

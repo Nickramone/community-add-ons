@@ -243,6 +243,7 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
 - **Layout** (1.46.8): the stylesheet passes the app's style check again (no `content` property; the arrow beside XP is text in the summary)
 - **Layout** (1.46.9): on the desktop sheet the Level figure sits on the row of the Hit Points figures and Level up has the size and row of the rest buttons
 - **Layout** (1.46.10): saving-throw proficiency boxes are read-only (they follow the class; `*_save_prof` stays a field for the formulas); the "follows your class" mark beside Hit Dice Max is hidden
+- **Layout** (1.46.11): the read-only text of resistances and immunities among the active effects takes the size of the effect line around it
 - **Catalogue data for weapon rows**: weapons (equipment and magic items) carry
   `damage_dice`, `damage_type`, `damage_versatile`, `range_normal`,
   `range_long` and the `ranged`, `thrown`, `finesse`, `light`, `heavy`,
