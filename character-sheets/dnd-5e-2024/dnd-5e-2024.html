@@ -335,8 +335,8 @@
         <g-field name="features" label="" />
       </section>
 
-      <g-if test="concat(ref(klass, 'option_type'), ref(subclass, 'option_type')) != '' or len(class_options) &gt; 0"><section class="box">
-        <h3 class="box-heading"><g-value formula="concat(ref(klass, 'option_type'), ref(subclass, 'option_type')) == '' ? 'Class Options' : (concat(ref(klass, 'option_type'), ref(subclass, 'option_type')) == 'Metamagic' ? 'Metamagic' : concat(ref(klass, 'option_type'), ref(subclass, 'option_type'), 's'))" /></h3>
+      <g-if test="concat(ref(klass, 'option_type'), ref(subclass, 'option_type'), ref(klass2, 'option_type'), ref(subclass2, 'option_type'), ref(klass3, 'option_type'), ref(subclass3, 'option_type'), ref(klass4, 'option_type'), ref(subclass4, 'option_type')) != '' or len(class_options) &gt; 0"><section class="box">
+        <h3 class="box-heading"><g-value formula="concat(ref(klass, 'option_type'), ref(subclass, 'option_type'), ref(klass2, 'option_type'), ref(subclass2, 'option_type'), ref(klass3, 'option_type'), ref(subclass3, 'option_type'), ref(klass4, 'option_type'), ref(subclass4, 'option_type')) == '' ? 'Class Options' : (concat(ref(klass, 'option_type'), ref(subclass, 'option_type'), ref(klass2, 'option_type'), ref(subclass2, 'option_type'), ref(klass3, 'option_type'), ref(subclass3, 'option_type'), ref(klass4, 'option_type'), ref(subclass4, 'option_type')) == 'Metamagic' ? 'Metamagic' : concat(ref(klass, 'option_type'), ref(subclass, 'option_type'), 's'))" /></h3>
         <g-field name="class_options" label="" />
       </section></g-if>
 

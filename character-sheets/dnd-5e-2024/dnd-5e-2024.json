@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.54.0",
+  "version": "1.54.1",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -3793,7 +3793,46 @@
           "default": 0,
           "visible_if": "false"
         },
-        "choice": {"type": "select", "label": "Choice", "options": ["Arid", "Polar", "Temperate", "Tropical", "Colossus Slayer", "Horde Breaker", "Escape the Horde", "Multiattack Defense", "Owl", "Panther", "Salmon", "Acid", "Cold", "Fire", "Lightning", "Poison", "Beast of the Land", "Beast of the Sea", "Beast of the Sky", "Bane", "Bhaal", "Myrkul"], "default": "", "width": 170, "visible_if": "contains(row.choice_options, ',')", "options_filter": "contains(row.choice_options, concat(',', option, ','))"}
+        "choice": {
+          "type": "select",
+          "label": "Choice",
+          "options": [
+            "Arid",
+            "Polar",
+            "Temperate",
+            "Tropical",
+            "Colossus Slayer",
+            "Horde Breaker",
+            "Escape the Horde",
+            "Multiattack Defense",
+            "Owl",
+            "Panther",
+            "Salmon",
+            "Acid",
+            "Cold",
+            "Fire",
+            "Lightning",
+            "Poison",
+            "Beast of the Land",
+            "Beast of the Sea",
+            "Beast of the Sky",
+            "Bane",
+            "Bhaal",
+            "Myrkul"
+          ],
+          "default": "",
+          "width": 170,
+          "visible_if": "contains(row.choice_options, ',')",
+          "options_filter": "contains(row.choice_options, concat(',', option, ','))"
+        },
+        "chosen": {
+          "type": "text",
+          "label": "Chosen",
+          "default": "",
+          "width": 170,
+          "visible_if": "row.chosen != ''",
+          "disabled_if": "true"
+        }
       }
     },
     "class_options": {
@@ -4808,6 +4847,13 @@
           "entry": "answer.style",
           "values": {
             "from_level": "len(advancements)"
+          }
+        },
+        {
+          "each": "features",
+          "where": "answer.style and contains(row.name, 'Fighting Style') and not row.chosen",
+          "set": {
+            "chosen": "answer.style.name"
           }
         },
         {
