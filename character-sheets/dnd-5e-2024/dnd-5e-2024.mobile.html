@@ -34,7 +34,7 @@
       <label class="tap insp" title="Heroic Inspiration"><g-field name="heroic_inspiration" label="" /><span class="tiny">Inspiration</span></label>
     </div>
     <div class="pair class-level">
-      <div class="line"><g-field name="klass" label="" /><span class="tiny">Class</span></div>
+      <div class="line"><g-field name="klass" label="" readonly="" /><span class="tiny">Class</span></div>
       <div class="line"><g-field name="level" label="" variant="compact" /><span class="tiny">Level</span></div>
     </div>
   </section>
@@ -514,10 +514,10 @@
 
   <section class="box">
     <h3 class="box-heading">Character</h3>
-    <div class="line"><g-field name="background" label="" /><span class="tiny">Background</span></div>
-    <div class="line"><g-field name="species" label="" /><span class="tiny">Species</span></div>
-    <g-if test="ref(species, 'lineages') != ''"><div class="line"><g-field name="lineage" label="" /><span class="tiny"><g-value formula="ref(species, 'lineage_label')" /></span></div><g-if test="lineage"><p class="tiny lineage-note"><g-value formula="concat(ref(lineage, 'name'), ref(lineage, 'damage_type') != '' ? concat(' · ', ref(lineage, 'damage_type')) : '', ref(lineage, 'darkvision') ? concat(' · Darkvision ', ref(lineage, 'darkvision'), ' ft') : '', ref(lineage, 'speed') ? concat(' · Speed ', ref(lineage, 'speed'), ' ft') : '')" /></p></g-if></g-if>
-    <g-if test="level >= 3"><div class="line"><g-field name="subclass" label="" /><span class="tiny">Subclass</span></div></g-if>
+    <div class="line"><g-field name="background" label="" readonly="" /><span class="tiny">Background</span></div>
+    <div class="line"><g-field name="species" label="" readonly="" /><span class="tiny">Species</span></div>
+    <g-if test="ref(species, 'lineages') != ''"><div class="line"><g-field name="lineage" label="" readonly="" /><span class="tiny"><g-value formula="ref(species, 'lineage_label')" /></span></div><g-if test="lineage"><p class="tiny lineage-note"><g-value formula="concat(ref(lineage, 'name'), ref(lineage, 'damage_type') != '' ? concat(' · ', ref(lineage, 'damage_type')) : '', ref(lineage, 'darkvision') ? concat(' · Darkvision ', ref(lineage, 'darkvision'), ' ft') : '', ref(lineage, 'speed') ? concat(' · Speed ', ref(lineage, 'speed'), ' ft') : '')" /></p></g-if></g-if>
+    <g-if test="level >= 3"><div class="line"><g-field name="subclass" label="" readonly="" /><span class="tiny">Subclass</span></div></g-if>
     <div class="pair">
       <div class="line"><g-field name="size" label="" /><span class="tiny">Size</span></div>
       <div class="line"><g-field name="xp" label="" variant="compact" /><span class="tiny">XP</span></div>

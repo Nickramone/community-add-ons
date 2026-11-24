@@ -152,6 +152,9 @@ Each column takes `key` (required, an identifier), `label`, `type` (`text`,
 for a select, `min`/`max` for a number, `default` for new rows, `default_from`
 to work the cell out from the sheet (see [below](#a-list-column-worked-out-per-row)),
 and `flex` for its relative width. Up to 20 columns, and 500 rows per character.
+`"reorderable": false` on the list drops the buttons that move a row up or down,
+for rows whose order means something (one per level gained); needs a Grimoire
+with it (the Nickramone fork today).
 
 A list stores an array of row objects keyed by column:
 `[{ "item": "Rope", "qty": 1, "mass": 1, "equipped": false }]`. The list
@@ -170,6 +173,11 @@ A catalog field opens a searchable browser over the entries of one
 so an erratum to the entry reaches every character who picked it. A reference
 to an entry that is not installed still saves and still opens; the sheet shows
 it as missing.
+
+A `content_ref` opens its chosen entry's detail in a window: from the info
+button beside it, or, when the layout marks the field `readonly`, from the box
+itself, so a class or species chosen in a level-up reads in full on the sheet.
+Needs a Grimoire with it (the Nickramone fork today).
 
 | Property | What it does |
 | --- | --- |

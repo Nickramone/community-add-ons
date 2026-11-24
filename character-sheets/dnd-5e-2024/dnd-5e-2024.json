@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.46.11",
+  "version": "1.47.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -2072,6 +2072,7 @@
       "type": "list",
       "label": "Level-ups",
       "add_label": "Add row by hand",
+      "reorderable": false,
       "empty_text": "One row per level. Level, hit points, spell slots and Proficiency Bonus follow the rows; with no rows the Level field counts.",
       "columns": [
         {
@@ -3694,6 +3695,14 @@
           "visible_if": "len(advancements) == 0 and ref(species, 'name') == ''"
         },
         {
+          "key": "lineage_pick",
+          "type": "entry",
+          "label": "Lineage",
+          "content_type": "lineage",
+          "filter": "entry.species == (answer.species_pick ? answer.species_pick.name : ref(species, 'name'))",
+          "visible_if": "ref(lineage, 'name') == '' and (answer.species_pick ? answer.species_pick.lineages : ref(species, 'lineages')) != ''"
+        },
+        {
           "key": "background_pick",
           "type": "entry",
           "label": "Background",
@@ -3819,6 +3828,10 @@
         {
           "pick": "species",
           "entry": "answer.species_pick"
+        },
+        {
+          "pick": "lineage",
+          "entry": "answer.lineage_pick"
         },
         {
           "pick": "background",

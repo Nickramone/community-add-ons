@@ -315,6 +315,10 @@
           "empty_text": {
             "type": "string"
           },
+          "reorderable": {
+            "type": "boolean",
+            "description": "list only. False drops the buttons that move a row up or down."
+          },
           "display_columns": {
             "type": "array",
             "maxItems": 12,
