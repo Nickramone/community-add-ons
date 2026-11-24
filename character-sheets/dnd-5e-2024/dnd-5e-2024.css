@@ -149,6 +149,10 @@
 
 /* Level's box lines up with Hit Points: the figure on the row of the HP
    figures (they sit under a caption), the button on the rest buttons' row. */
+.hitdice [role=img] {
+  display: none !important;
+}
+
 .level > .gc-field {
   margin-top: 18px;
 }

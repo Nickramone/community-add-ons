@@ -985,3 +985,8 @@
   margin-left: 6px;
   font-weight: 700;
 }
+
+/* The "follows your class" mark beside Hit Dice Max is noise. */
+.res [role=img] {
+  display: none !important;
+}
