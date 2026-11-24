@@ -249,6 +249,7 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
 - **Armour effects** (1.49.0): wearing armour you lack training with shows, among the active effects, Disadvantage on Strength and Dexterity checks, saves and attacks and no spellcasting; armour with Stealth Disadvantage (also as the base of magic armour, except Mithral) shows it there too
 - **Shield training and armour Strength** (1.50.0): a shield carried without Shield training adds nothing to AC (also a magic shield) and says so among the active effects; armour whose Strength requirement is above your Strength score (also as the base of magic armour, except Mithral) takes 10 ft from the current Speed, shown there too
 - **Speed under heavy armour** (1.50.2): while armour above your Strength is worn, the Speed box shows the figure 10 ft lower in place of its input, with no "Now" line beneath (1.50.1 tried this in the field's default and was invalid)
+- **Speed read-only** (1.51.0): Speed is a figure like Initiative and AC, not an input: the species' (or lineage's) speed, 10 ft lower under armour above your Strength
 - **Catalogue data for weapon rows**: weapons (equipment and magic items) carry
   `damage_dice`, `damage_type`, `damage_versatile`, `range_normal`,
   `range_long` and the `ranged`, `thrown`, `finesse`, `light`, `heavy`,

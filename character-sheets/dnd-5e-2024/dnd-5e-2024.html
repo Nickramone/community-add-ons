@@ -186,7 +186,7 @@
     <div class="main">
       <div class="stat-row">
         <div class="stat box"><span class="tiny box-title">Initiative</span><span class="big"><g-value name="initiative" /></span></div>
-        <div class="stat box"><span class="tiny box-title">Speed</span><g-if test="armor_str_short > 0"><span class="big"><g-value name="speed_armored" /></span></g-if><g-if test="armor_str_short == 0"><g-field name="speed" label="" variant="compact" /></g-if><g-if test="current_speed != speed_armored"><span class="tiny now">Now <g-value name="current_speed" /> ft</span></g-if><g-if test="speed_bonus > 0"><span class="tiny now">Feats +<g-value name="speed_bonus" /> ft</span></g-if><g-repeat over="magic_items" where="row.equipped &amp;&amp; (row.attuned or not row.attunement) &amp;&amp; not row._inline &amp;&amp; row.speeds"><span class="tiny now"><g-value formula="row.speeds" /></span></g-repeat></div>
+        <div class="stat box"><span class="tiny box-title">Speed</span><span class="big"><g-value name="speed_armored" /></span><g-if test="current_speed != speed_armored"><span class="tiny now">Now <g-value name="current_speed" /> ft</span></g-if><g-if test="speed_bonus > 0"><span class="tiny now">Feats +<g-value name="speed_bonus" /> ft</span></g-if><g-repeat over="magic_items" where="row.equipped &amp;&amp; (row.attuned or not row.attunement) &amp;&amp; not row._inline &amp;&amp; row.speeds"><span class="tiny now"><g-value formula="row.speeds" /></span></g-repeat></div>
         <div class="stat box"><span class="tiny box-title">Size</span><g-field name="size" label="" /></div>
         <div class="stat box"><span class="tiny box-title">Passive Perception</span><span class="big"><g-value name="passive_perception" /></span></div>
       </div>
