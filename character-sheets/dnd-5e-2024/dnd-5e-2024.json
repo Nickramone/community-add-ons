@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.49.0",
+  "version": "1.50.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -3473,6 +3473,14 @@
       "formula": "count_each(equipment, row.equipped && not row._inline && row.stealth == 'Disadvantage') + count_each(magic_items, row.equipped && not row._inline && row.base_armor && ref(row.base_armor, 'stealth') == 'Disadvantage' && not contains(row.name, 'Mithral'))",
       "label": "Armour With Stealth Disadvantage"
     },
+    "armor_str_short": {
+      "formula": "count_each(equipment, row.equipped && not row._inline && row.strength && strength_score < row.strength) + count_each(magic_items, row.equipped && not row._inline && row.base_armor && ref(row.base_armor, 'strength') && strength_score < ref(row.base_armor, 'strength') && not contains(row.name, 'Mithral'))",
+      "label": "Heavy Armour Above Your Strength"
+    },
+    "shield_untrained": {
+      "formula": "armor_shields ? 0 : (count_each(equipment, row.equipped && not row._inline && row.category == 'Shield') + count_each(magic_items, row.equipped && not row._inline && contains(row.item_type, 'Shield')))",
+      "label": "Shield Carried Without Training"
+    },
     "shield_owned": {
       "formula": "count_each(equipment, row.category == 'Shield')",
       "label": "Shields in Inventory"
@@ -3490,7 +3498,7 @@
       "label": "Armour AC"
     },
     "ac_items": {
-      "formula": "sum_each(equipment, row.ac_bonus, row.equipped && not row._inline) + sum_each(magic_items, row.ac_bonus, row.equipped && (row.attuned or not row.attunement) && not row._inline && row.name != 'Bracers of Defense') + sum_each(magic_items, row.ac_bonus, row.name == 'Bracers of Defense' && row.equipped && row.attuned && not row._inline && armor_worn == 0 && shield_worn == 0)",
+      "formula": "sum_each(equipment, row.ac_bonus, row.equipped && not row._inline && (armor_shields or row.category != 'Shield')) + sum_each(magic_items, row.ac_bonus, row.equipped && (row.attuned or not row.attunement) && not row._inline && row.name != 'Bracers of Defense' && (armor_shields or not contains(row.item_type, 'Shield'))) + sum_each(magic_items, row.ac_bonus, row.name == 'Bracers of Defense' && row.equipped && row.attuned && not row._inline && armor_worn == 0 && shield_worn == 0)",
       "label": "AC from Items"
     },
     "ac_defense": {
@@ -3586,11 +3594,11 @@
       "label": "Darkvision (ft.)"
     },
     "current_speed": {
-      "formula": "(exhaustion >= 6 or contains(conditions, 'Grappled') or contains(conditions, 'Restrained') or contains(conditions, 'Paralyzed') or contains(conditions, 'Petrified') or contains(conditions, 'Unconscious')) ? 0 : max(0, max(speed + speed_bonus, item_walk_min) - exhaustion_speed)",
+      "formula": "(exhaustion >= 6 or contains(conditions, 'Grappled') or contains(conditions, 'Restrained') or contains(conditions, 'Paralyzed') or contains(conditions, 'Petrified') or contains(conditions, 'Unconscious')) ? 0 : max(0, max(speed + speed_bonus - (armor_str_short > 0 ? 10 : 0), item_walk_min) - exhaustion_speed)",
       "label": "Current Speed"
     },
     "active_effects": {
-      "formula": "(len(resistances) > 0 ? 1 : 0) + (len(immunities) > 0 ? 1 : 0) + (len(condition_immunities) > 0 ? 1 : 0) + len(conditions) + (exhaustion > 0 ? 1 : 0) + (concentrating ? 1 : 0) + len(effects) + count_each(features, (row.choice != '' and (row.name == 'Elemental Affinity' or row.name == 'Dread Allegiance' or row.name == 'Aspect of the Wilds')) or (contains(row.name, 'Nature') and contains(row.name, 'Ward'))) + count_each(magic_items, row.equipped && (row.attuned or not row.attunement) && not row._inline && row.defenses) + (armor_untrained > 0 ? 1 : 0) + (stealth_disadvantage > 0 ? 1 : 0)",
+      "formula": "(len(resistances) > 0 ? 1 : 0) + (len(immunities) > 0 ? 1 : 0) + (len(condition_immunities) > 0 ? 1 : 0) + len(conditions) + (exhaustion > 0 ? 1 : 0) + (concentrating ? 1 : 0) + len(effects) + count_each(features, (row.choice != '' and (row.name == 'Elemental Affinity' or row.name == 'Dread Allegiance' or row.name == 'Aspect of the Wilds')) or (contains(row.name, 'Nature') and contains(row.name, 'Ward'))) + count_each(magic_items, row.equipped && (row.attuned or not row.attunement) && not row._inline && row.defenses) + (armor_untrained > 0 ? 1 : 0) + (stealth_disadvantage > 0 ? 1 : 0) + (armor_str_short > 0 ? 1 : 0) + (shield_untrained > 0 ? 1 : 0)",
       "label": "Active Effects"
     },
     "attack_str": {
