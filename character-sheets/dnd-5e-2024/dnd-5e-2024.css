@@ -138,11 +138,40 @@
 }
 
 /* Level up: the page's one call to action, a full gold button. */
+/* Level is as wide as the XP box was; the "follows your levels" mark goes. */
+.level [role=img] {
+  display: none !important;
+}
+
+.level {
+  justify-content: flex-start;
+}
+
+.xp-fold summary {
+  cursor: pointer;
+  list-style: none;
+  text-align: center;
+}
+
+.xp-fold summary::-webkit-details-marker {
+  display: none;
+}
+
+.xp-fold summary::after {
+  content: " BE";
+}
+
+.xp-fold[open] summary::after {
+  content: " B4";
+}
+
 .level .gc-action {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto !important;
   box-sizing: border-box;
   width: 100%;
-  margin-top: 6px;
   padding: 10px 4px !important;
   text-align: center;
   white-space: nowrap;

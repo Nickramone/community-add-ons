@@ -239,6 +239,7 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
 - **Layout** (1.46.4): Equipment Training & Proficiencies moves to the Story page, before Languages; the languages known (`language_profs`) are read-only text
 - **Layout** (1.46.5): Level up is a larger gold button with a glow, on the desktop sheet too; the rest buttons are no longer all capitals
 - **Layout** (1.46.6): the text of the rest buttons and of Level up is centred; the Level box is wider so Level up fits
+- **Layout** (1.46.7): on the desktop sheet XP folds under its caption (closed by default), the "follows your levels" mark beside Level is hidden, and Level up sits at the foot of the Level box, its text centred
 - **Catalogue data for weapon rows**: weapons (equipment and magic items) carry
   `damage_dice`, `damage_type`, `damage_versatile`, `range_normal`,
   `range_long` and the `ranged`, `thrown`, `finesse`, `light`, `heavy`,
