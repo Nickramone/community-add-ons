@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.54.1",
+  "version": "1.55.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -2085,6 +2085,16 @@
       "reorderable": false,
       "empty_text": "One row per level, written by Level up and taken off by Undo Last Level. Level, hit points, spell slots and Proficiency Bonus follow the rows; with no rows the Level field counts.",
       "columns": [
+        {
+          "key": "at_level",
+          "label": "Level",
+          "type": "number",
+          "readonly": true,
+          "min": 0,
+          "max": 20,
+          "flex": 1,
+          "default": 0
+        },
         {
           "key": "class",
           "label": "Class",
@@ -4567,6 +4577,7 @@
         {
           "append": "advancements",
           "values": {
+            "at_level": "(len(advancements) + 1)",
             "class": "answer.cls == 'New class' ? answer.new_class.name : (answer.klass_pick ? answer.klass_pick.name : ref(((ref(klass2, 'name') != '' and answer.cls == ref(klass2, 'name')) ? klass2 : ((ref(klass3, 'name') != '' and answer.cls == ref(klass3, 'name')) ? klass3 : ((ref(klass4, 'name') != '' and answer.cls == ref(klass4, 'name')) ? klass4 : klass))), 'name'))",
             "hit_die": "answer.cls == 'New class' ? answer.new_class.hit_die : (answer.klass_pick ? answer.klass_pick.hit_die : ref(((ref(klass2, 'name') != '' and answer.cls == ref(klass2, 'name')) ? klass2 : ((ref(klass3, 'name') != '' and answer.cls == ref(klass3, 'name')) ? klass3 : ((ref(klass4, 'name') != '' and answer.cls == ref(klass4, 'name')) ? klass4 : klass))), 'hit_die'))",
             "hp": "answer.hp ? answer.hp : 0",
@@ -4937,6 +4948,76 @@
           "entry": "answer.swap_new",
           "values": {
             "from_level": "max_each(class_options, row.from_level, row.name == answer.drop.name)"
+          }
+        },
+        {
+          "each": "advancements",
+          "where": "row.at_level == len(advancements) and answer.style",
+          "set": {
+            "choice": "concat(row.choice, row.choice != '' ? '; ' : '', concat('Fighting Style ', answer.style.name))"
+          }
+        },
+        {
+          "each": "advancements",
+          "where": "row.at_level == len(advancements) and answer.variant",
+          "set": {
+            "choice": "concat(row.choice, row.choice != '' ? '; ' : '', concat(answer.variant.variant_of != '' ? concat(answer.variant.variant_of, ' ') : '', answer.variant.name))"
+          }
+        },
+        {
+          "each": "advancements",
+          "where": "row.at_level == len(advancements) and len(answer.expertise) > 0",
+          "set": {
+            "choice": "concat(row.choice, row.choice != '' ? '; ' : '', concat('Expertise ', concat(at(answer.expertise, 0), (at(answer.expertise, 1) != '' ? concat(', ', at(answer.expertise, 1)) : ''), (at(answer.expertise, 2) != '' ? concat(', ', at(answer.expertise, 2)) : ''), (at(answer.expertise, 3) != '' ? concat(', ', at(answer.expertise, 3)) : ''))))"
+          }
+        },
+        {
+          "each": "advancements",
+          "where": "row.at_level == len(advancements) and len(answer.skills) > 0",
+          "set": {
+            "choice": "concat(row.choice, row.choice != '' ? '; ' : '', concat('Skill ', concat(at(answer.skills, 0), (at(answer.skills, 1) != '' ? concat(', ', at(answer.skills, 1)) : ''), (at(answer.skills, 2) != '' ? concat(', ', at(answer.skills, 2)) : ''), (at(answer.skills, 3) != '' ? concat(', ', at(answer.skills, 3)) : ''))))"
+          }
+        },
+        {
+          "each": "advancements",
+          "where": "row.at_level == len(advancements) and len(answer.sub_skills) > 0",
+          "set": {
+            "choice": "concat(row.choice, row.choice != '' ? '; ' : '', concat('Skill ', concat(at(answer.sub_skills, 0), (at(answer.sub_skills, 1) != '' ? concat(', ', at(answer.sub_skills, 1)) : ''), (at(answer.sub_skills, 2) != '' ? concat(', ', at(answer.sub_skills, 2)) : ''), (at(answer.sub_skills, 3) != '' ? concat(', ', at(answer.sub_skills, 3)) : ''))))"
+          }
+        },
+        {
+          "each": "advancements",
+          "where": "row.at_level == len(advancements) and len(answer.languages) > 0",
+          "set": {
+            "choice": "concat(row.choice, row.choice != '' ? '; ' : '', concat('Language ', concat(at(answer.languages, 0), (at(answer.languages, 1) != '' ? concat(', ', at(answer.languages, 1)) : ''), (at(answer.languages, 2) != '' ? concat(', ', at(answer.languages, 2)) : ''), (at(answer.languages, 3) != '' ? concat(', ', at(answer.languages, 3)) : ''))))"
+          }
+        },
+        {
+          "each": "advancements",
+          "where": "row.at_level == len(advancements) and len(answer.tools) > 0",
+          "set": {
+            "choice": "concat(row.choice, row.choice != '' ? '; ' : '', concat('Tool ', concat(at(answer.tools, 0), (at(answer.tools, 1) != '' ? concat(', ', at(answer.tools, 1)) : ''), (at(answer.tools, 2) != '' ? concat(', ', at(answer.tools, 2)) : ''), (at(answer.tools, 3) != '' ? concat(', ', at(answer.tools, 3)) : ''))))"
+          }
+        },
+        {
+          "each": "advancements",
+          "where": "row.at_level == len(advancements) and answer.sub_choice",
+          "set": {
+            "choice": "concat(row.choice, row.choice != '' ? '; ' : '', concat(answer.sub_choice.option_type != '' ? concat(answer.sub_choice.option_type, ' ') : '', answer.sub_choice.name))"
+          }
+        },
+        {
+          "each": "advancements",
+          "where": "row.at_level == len(advancements) and answer.opt1",
+          "set": {
+            "choice": "concat(row.choice, row.choice != '' ? '; ' : '', concat(answer.opt1.option_type != '' ? concat(answer.opt1.option_type, ' ') : '', concat((answer.opt1 ? answer.opt1.name : ''), (answer.opt2 ? concat(', ', answer.opt2.name) : ''), (answer.opt3 ? concat(', ', answer.opt3.name) : ''))))"
+          }
+        },
+        {
+          "each": "advancements",
+          "where": "row.at_level == len(advancements) and answer.swap == 'replace' and answer.drop and answer.swap_new",
+          "set": {
+            "choice": "concat(row.choice, row.choice != '' ? '; ' : '', concat('Replaced ', answer.drop.name, ' with ', answer.swap_new.name))"
           }
         }
       ]
@@ -6100,6 +6181,20 @@
         {
           "add": "class_tools",
           "values": "answer.tools"
+        },
+        {
+          "each": "advancements",
+          "where": "row.at_level == len(advancements) and len(answer.skills) > 0",
+          "set": {
+            "choice": "concat(row.choice, row.choice != '' ? '; ' : '', concat('Skill ', concat(at(answer.skills, 0), (at(answer.skills, 1) != '' ? concat(', ', at(answer.skills, 1)) : ''), (at(answer.skills, 2) != '' ? concat(', ', at(answer.skills, 2)) : ''), (at(answer.skills, 3) != '' ? concat(', ', at(answer.skills, 3)) : ''))))"
+          }
+        },
+        {
+          "each": "advancements",
+          "where": "row.at_level == len(advancements) and len(answer.tools) > 0",
+          "set": {
+            "choice": "concat(row.choice, row.choice != '' ? '; ' : '', concat('Tool ', concat(at(answer.tools, 0), (at(answer.tools, 1) != '' ? concat(', ', at(answer.tools, 1)) : ''), (at(answer.tools, 2) != '' ? concat(', ', at(answer.tools, 2)) : ''), (at(answer.tools, 3) != '' ? concat(', ', at(answer.tools, 3)) : ''))))"
+          }
         }
       ]
     }
