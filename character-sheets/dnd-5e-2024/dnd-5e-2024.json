@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.47.0",
+  "version": "1.48.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -307,6 +307,8 @@
           "type": "text",
           "label": "Tool Proficiencies"
         },
+        "tool_options": {"type": "multiselect", "label": "Tool Options", "options": ["Alchemist's Supplies", "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools", "Cartographer's Tools", "Cobbler's Tools", "Cook's Utensils", "Glassblower's Tools", "Jeweler's Tools", "Leatherworker's Tools", "Mason's Tools", "Painter's Supplies", "Potter's Tools", "Smith's Tools", "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools", "Bagpipes", "Drum", "Dulcimer", "Flute", "Horn", "Lute", "Lyre", "Pan Flute", "Shawm", "Viol", "Dice Set", "Dragonchess Set", "Playing Cards", "Three-Dragon Ante Set", "Disguise Kit", "Forgery Kit", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit", "Thieves' Tools"]},
+        "tool_count": {"type": "number", "label": "Tools to Choose", "min": 0},
         "variant_by_level": {"type": "text", "label": "Feature Options By Level"},
         "fighting_style_by_level": {"type": "text", "label": "Fighting Style Feats By Level"},
         "expertise_by_level": {"type": "text", "label": "Expertise By Level"},
@@ -786,6 +788,7 @@
           "type": "text",
           "label": "Size"
         },
+        "size_options": {"type": "multiselect", "label": "Size Options", "options": ["Tiny", "Small", "Medium", "Large"]},
         "speed": {
           "type": "number",
           "label": "Speed"
@@ -2678,8 +2681,9 @@
       "type": "text",
       "label": "Size",
       "default": "Medium",
-      "default_from": "ref(species, 'size')"
+      "default_from": "size_choice != '' and contains(ref(species, 'size'), size_choice) ? size_choice : ref(species, 'size')"
     },
+    "size_choice": {"type": "text", "label": "Size chosen for the species"},
     "heroic_inspiration": {
       "type": "checkbox",
       "label": "Heroic Inspiration"
@@ -4671,7 +4675,7 @@
       ]
     },
     "class_skills": {
-      "label": "Class skill proficiencies",
+      "label": "Class skill and tool proficiencies",
       "steps": [
         {
           "key": "skills",
@@ -4681,16 +4685,34 @@
           "count": "row.skill_choices",
           "label": "Choose class skill proficiencies",
           "visible_if": "row.skill_choices > 0 and len(row.skill_options) > 0"
+        },
+        {
+          "key": "tools",
+          "type": "choose",
+          "target": "tool_profs",
+          "options": "row.tool_options",
+          "count": "row.tool_count",
+          "label": "Choose class tool proficiencies",
+          "visible_if": "row.tool_count > 0 and len(row.tool_options) > 0"
         }
       ],
       "apply": [
         {"add": "skill_profs", "values": "answer.skills"},
-        {"add": "class_skills", "values": "answer.skills"}
+        {"add": "class_skills", "values": "answer.skills"},
+        {"add": "tool_profs", "values": "answer.tools"},
+        {"add": "class_tools", "values": "answer.tools"}
       ]
     },
     "species_choices": {
       "label": "Species choices",
       "steps": [
+        {
+          "key": "size",
+          "type": "select",
+          "label": "Size",
+          "options": "row.size_options",
+          "visible_if": "len(row.size_options) > 1"
+        },
         {
           "key": "skills",
           "type": "choose",
@@ -4744,7 +4766,8 @@
         {
           "pick": "lineage",
           "entry": "answer.lineage"
-        }
+        },
+        {"set": "size_choice", "to": "answer.size ? answer.size : ''"}
       ]
     },
     "background_feat": {
@@ -5379,7 +5402,7 @@
     {"rule": "count_each(feats, row.category == 'Fighting Style') >= by_level(ref(klass, 'fighting_style_total_by_level'), len(advancements)) + by_level(ref(subclass, 'fighting_style_total_by_level'), len(advancements))", "message": "A Fighting Style feat is missing: your class or subclass gave you one at an earlier level - add it under Feats (or reopen Level up).", "field": "feats"},
     {"rule": "count_each(features, row.variant_of != '') >= by_level(ref(klass, 'variant_total_by_level'), len(advancements))", "message": "A class feature option is missing (Divine Order, Primal Order, Blessed Strikes, Elemental Fury): add the one you chose under Class Features.", "field": "features"},
     {"rule": "len(class_languages) >= by_level(ref(klass, 'language_choice_total_by_level'), len(advancements)) + by_level(ref(subclass, 'language_choice_total_by_level'), len(advancements))", "message": "Fewer languages from your class than it gives by this level (Thieves' Cant, Deft Explorer): pick the missing ones in Languages and tick them also in Languages From Class (or reopen Level up).", "field": "class_languages"},
-    {"rule": "len(class_tools) >= by_level(ref(klass, 'tool_choice_total_by_level'), len(advancements)) + by_level(ref(subclass, 'tool_choice_total_by_level'), len(advancements))", "message": "Fewer tool proficiencies from your class or subclass than it gives by this level: pick the missing ones in Tools and tick them also in Tools From Class (or reopen Level up).", "field": "class_tools"},
+    {"rule": "len(class_tools) >= (ref(klass, 'tool_count') ? ref(klass, 'tool_count') : 0) + by_level(ref(klass, 'tool_choice_total_by_level'), len(advancements)) + by_level(ref(subclass, 'tool_choice_total_by_level'), len(advancements))", "message": "Fewer tool proficiencies from your class or subclass than it gives by this level: pick the missing ones in Tools and tick them also in Tools From Class (or reopen Level up).", "field": "class_tools"},
     {"rule": "len(class_skills) >= ref(klass, 'skill_choices') + by_level(ref(klass, 'skill_choice_total_by_level'), len(advancements)) + by_level(ref(subclass, 'skill_choice_total_by_level'), len(advancements))", "message": "Fewer skills from your class than it gives by this level: pick the missing ones in Skill Proficiencies and tick them also in Skills From Class (or reopen Level up).", "field": "class_skills"},
     {"rule": "len(skill_expertise) >= by_level(ref(klass, 'expertise_total_by_level'), len(advancements)) + by_level(ref(subclass, 'expertise_total_by_level'), len(advancements))", "message": "Fewer Expertise skills than your class and subclass give by this level: pick the missing ones in Skill Expertise.", "field": "skill_expertise"},
     {"rule": "len(class_options) >= by_level(ref(klass, 'options_total_by_level'), len(advancements)) + by_level(ref(subclass, 'options_total_by_level'), len(advancements))", "message": "Fewer Metamagic options, Eldritch Invocations or Maneuvers than you should know at this level: add the missing ones.", "field": "class_options"},

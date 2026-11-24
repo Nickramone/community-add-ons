@@ -245,6 +245,7 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
 - **Layout** (1.46.10): saving-throw proficiency boxes are read-only (they follow the class; `*_save_prof` stays a field for the formulas); the "follows your class" mark beside Hit Dice Max is hidden
 - **Layout** (1.46.11): the read-only text of resistances and immunities among the active effects takes the size of the effect line around it
 - **Origin read-only** (1.47.0): Class, Subclass, Species, Lineage and Background are read-only on the sheet and open their entry's detail in a window (a fork feature); they are chosen in Level up, which now offers the Lineage of a species that has lineages, filtered to that species, and asks for it again while it is missing; the Level-ups rows cannot be reordered
+- **Class tools and species size** (1.48.0): picking a class that lets you choose tools (Bard: three Musical Instruments; Monk: one Artisan's Tools or Musical Instrument) asks for them with the class skills; they go to the chosen tools and Tools From Class, and the Tools text lists them instead of the choice. Picking a species of more than one size (Human, Aasimar, Tiefling...) asks for the size, which Size then shows until the species changes
 - **Catalogue data for weapon rows**: weapons (equipment and magic items) carry
   `damage_dice`, `damage_type`, `damage_versatile`, `range_normal`,
   `range_long` and the `ranged`, `thrown`, `finesse`, `light`, `heavy`,
