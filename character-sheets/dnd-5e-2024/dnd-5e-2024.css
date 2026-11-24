@@ -137,6 +137,10 @@
   justify-content: center;
 }
 
+.level .gc-action {
+  margin-top: 6px;
+}
+
 .armour {
   border-radius: 10px 10px 36px 36px;
   align-items: center;
@@ -345,9 +349,8 @@
 
 .armour-training {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px 14px;
-  align-items: center;
+  flex-direction: column;
+  gap: 4px;
 }
 
 /* --- page two -------------------------------------------------------------- */
@@ -469,24 +472,43 @@
 }
 
 .effects-controls {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  gap: 12px;
-  align-items: end;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .exh {
   display: flex;
   align-items: center;
   gap: 8px;
+  min-height: 28px;
 }
 
 .exh .tiny {
-  min-width: 96px;
+  min-width: 110px;
 }
 
+.exh .gc-field {
+  display: flex;
+  align-items: center;
+}
+
+/* What is only read: the armour trained in, and the text of an effect. */
 .trained {
   margin: 0;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.effect strong {
+  margin-right: 6px;
+}
+
+.effect .gc-field-readonly,
+.effect .gc-field-readonly > div {
+  display: inline;
+  font-size: 12px;
+  line-height: 1.4;
 }
 
 .conditions summary {

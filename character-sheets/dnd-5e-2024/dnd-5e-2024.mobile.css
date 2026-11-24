@@ -553,10 +553,19 @@
   min-width: 104px;
 }
 
-/* A proficiency that is only read: the armour trained in. */
+/* What is only read: the armour trained in, and the text of an effect. */
 .trained {
   margin: 0;
   font-size: 14px;
+}
+
+.effect strong {
+  margin-right: 6px;
+}
+
+.effect .gc-field-readonly,
+.effect .gc-field-readonly > div {
+  display: inline;
 }
 
 .sub summary {

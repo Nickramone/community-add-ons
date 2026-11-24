@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": "2026-11-24T08:42:48Z",
+  "generated": "2026-11-24T08:49:43Z",
   "sheets": [
     {
       "id": "basic-fantasy",
@@ -125,20 +125,20 @@
     {
       "id": "dnd-5e-2024",
       "name": "D&D 5th Edition (2024)",
-      "version": "1.46.2",
+      "version": "1.46.3",
       "path": "character-sheets/dnd-5e-2024/dnd-5e-2024.json",
-      "sha256": "2ee2a27528dd172d2c09b1422069885d4a58617c701bea5950dfa8c472423f0c",
+      "sha256": "8db45bebfe75d1228ade28f3057690f8d8d8dd3ebcd3027fea2ac18485e20086",
       "custom_layout": true,
       "custom_mobile_layout": true,
       "field_count": 121,
       "layout_path": "character-sheets/dnd-5e-2024/dnd-5e-2024.html",
-      "layout_sha256": "a0a2b7a076af06776d1f7fe95f6eda132d64e39f22ad6b0ec59fb25f022f6b52",
+      "layout_sha256": "ff221ff584e995650bf58d982f9ee5d154f4cb8c416f0f0db2a4bca121d81e34",
       "styles_path": "character-sheets/dnd-5e-2024/dnd-5e-2024.css",
-      "styles_sha256": "5646ac025023bae6eed73c685d1db50a58db1246d850b9e1947636d2dd54ade6",
+      "styles_sha256": "9fbbff28debf8b619f8127db7fab8448ac96038f2bb1c6de34374e4e6e101453",
       "mobile_layout_path": "character-sheets/dnd-5e-2024/dnd-5e-2024.mobile.html",
       "mobile_layout_sha256": "9069be51e3ae387cf67cfce0caba22aff4cb2be3ecedb05e882fd97182ae2c80",
       "mobile_styles_path": "character-sheets/dnd-5e-2024/dnd-5e-2024.mobile.css",
-      "mobile_styles_sha256": "3bcd5568d1f03d840a3b5a092a73e175c461cefee72e67614d289cbc57d5f888",
+      "mobile_styles_sha256": "20c13d761d09cf8ce32e6fc1917ede238547c3e652b4767e323bb9af19ba098f",
       "system": "Dungeons & Dragons 5th Edition (2024)",
       "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
       "author": "hunter-read",
