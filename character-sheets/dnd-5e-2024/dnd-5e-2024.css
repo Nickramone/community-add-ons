@@ -157,14 +157,6 @@
   display: none;
 }
 
-.xp-fold summary::after {
-  content: " BE";
-}
-
-.xp-fold[open] summary::after {
-  content: " B4";
-}
-
 .level .gc-action {
   display: flex;
   align-items: center;
