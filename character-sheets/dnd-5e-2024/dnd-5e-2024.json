@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.48.0",
+  "version": "1.49.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -3465,6 +3465,14 @@
       "formula": "count_each(equipment, row.equipped && row.ac_base) + count_each(magic_items, row.equipped && not row._inline && row.base_armor && ref(row.base_armor, 'ac_base'))",
       "label": "Armour Worn"
     },
+    "armor_untrained": {
+      "formula": "count_each(equipment, row.equipped && not row._inline && ((row.category == 'Light Armor' && not armor_light) || (row.category == 'Medium Armor' && not armor_medium) || (row.category == 'Heavy Armor' && not armor_heavy))) + count_each(magic_items, row.equipped && not row._inline && row.base_armor && ((ref(row.base_armor, 'category') == 'Light Armor' && not armor_light) || (ref(row.base_armor, 'category') == 'Medium Armor' && not armor_medium) || (ref(row.base_armor, 'category') == 'Heavy Armor' && not armor_heavy)))",
+      "label": "Armour Worn Without Training"
+    },
+    "stealth_disadvantage": {
+      "formula": "count_each(equipment, row.equipped && not row._inline && row.stealth == 'Disadvantage') + count_each(magic_items, row.equipped && not row._inline && row.base_armor && ref(row.base_armor, 'stealth') == 'Disadvantage' && not contains(row.name, 'Mithral'))",
+      "label": "Armour With Stealth Disadvantage"
+    },
     "shield_owned": {
       "formula": "count_each(equipment, row.category == 'Shield')",
       "label": "Shields in Inventory"
@@ -3582,7 +3590,7 @@
       "label": "Current Speed"
     },
     "active_effects": {
-      "formula": "(len(resistances) > 0 ? 1 : 0) + (len(immunities) > 0 ? 1 : 0) + (len(condition_immunities) > 0 ? 1 : 0) + len(conditions) + (exhaustion > 0 ? 1 : 0) + (concentrating ? 1 : 0) + len(effects) + count_each(features, (row.choice != '' and (row.name == 'Elemental Affinity' or row.name == 'Dread Allegiance' or row.name == 'Aspect of the Wilds')) or (contains(row.name, 'Nature') and contains(row.name, 'Ward'))) + count_each(magic_items, row.equipped && (row.attuned or not row.attunement) && not row._inline && row.defenses)",
+      "formula": "(len(resistances) > 0 ? 1 : 0) + (len(immunities) > 0 ? 1 : 0) + (len(condition_immunities) > 0 ? 1 : 0) + len(conditions) + (exhaustion > 0 ? 1 : 0) + (concentrating ? 1 : 0) + len(effects) + count_each(features, (row.choice != '' and (row.name == 'Elemental Affinity' or row.name == 'Dread Allegiance' or row.name == 'Aspect of the Wilds')) or (contains(row.name, 'Nature') and contains(row.name, 'Ward'))) + count_each(magic_items, row.equipped && (row.attuned or not row.attunement) && not row._inline && row.defenses) + (armor_untrained > 0 ? 1 : 0) + (stealth_disadvantage > 0 ? 1 : 0)",
       "label": "Active Effects"
     },
     "attack_str": {
