@@ -237,6 +237,9 @@
 
 /* Level up: a full gold button at the head of the page. */
 .level-action .gc-action {
+  display: block;
+  box-sizing: border-box;
+  text-align: center;
   width: 100%;
   min-height: 52px;
   padding: 12px 14px !important;
@@ -645,6 +648,10 @@
 }
 .rest-buttons .gc-action {
   flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   padding: 12px 14px !important;
   font-size: 1rem !important;
   font-weight: 700 !important;

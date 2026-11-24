@@ -238,6 +238,7 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
 - **Layout** (1.46.3): on the desktop sheet Level up sits under XP; armour training is stacked like weapons and tools; Exhaustion, Concentrating and Raging are rows of one column; read-only effect text shares the 12px of the other effects
 - **Layout** (1.46.4): Equipment Training & Proficiencies moves to the Story page, before Languages; the languages known (`language_profs`) are read-only text
 - **Layout** (1.46.5): Level up is a larger gold button with a glow, on the desktop sheet too; the rest buttons are no longer all capitals
+- **Layout** (1.46.6): the text of the rest buttons and of Level up is centred; the Level box is wider so Level up fits
 - **Catalogue data for weapon rows**: weapons (equipment and magic items) carry
   `damage_dice`, `damage_type`, `damage_versatile`, `range_normal`,
   `range_long` and the `ranged`, `thrown`, `finesse`, `light`, `heavy`,
