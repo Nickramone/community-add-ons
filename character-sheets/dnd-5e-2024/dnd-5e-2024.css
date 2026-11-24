@@ -147,6 +147,12 @@
   justify-content: flex-start;
 }
 
+/* Level's box lines up with Hit Points: the figure on the row of the HP
+   figures (they sit under a caption), the button on the rest buttons' row. */
+.level > .gc-field {
+  margin-top: 18px;
+}
+
 .xp-fold summary {
   cursor: pointer;
   list-style: none;
@@ -162,12 +168,13 @@
   align-items: center;
   justify-content: center;
   margin-top: auto !important;
+  margin-bottom: 6px !important;
   box-sizing: border-box;
   width: 100%;
-  padding: 10px 4px !important;
+  padding: 12px 4px !important;
   text-align: center;
   white-space: nowrap;
-  font-size: 0.95rem !important;
+  font-size: 1rem !important;
   font-weight: 700 !important;
   color: var(--bg-card, #1b1b1b) !important;
   background: var(--gold) !important;

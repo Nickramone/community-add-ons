@@ -241,6 +241,7 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
 - **Layout** (1.46.6): the text of the rest buttons and of Level up is centred; the Level box is wider so Level up fits
 - **Layout** (1.46.7): on the desktop sheet XP folds under its caption (closed by default), the "follows your levels" mark beside Level is hidden, and Level up sits at the foot of the Level box, its text centred
 - **Layout** (1.46.8): the stylesheet passes the app's style check again (no `content` property; the arrow beside XP is text in the summary)
+- **Layout** (1.46.9): on the desktop sheet the Level figure sits on the row of the Hit Points figures and Level up has the size and row of the rest buttons
 - **Catalogue data for weapon rows**: weapons (equipment and magic items) carry
   `damage_dice`, `damage_type`, `damage_versatile`, `range_normal`,
   `range_long` and the `ranged`, `thrown`, `finesse`, `light`, `heavy`,
