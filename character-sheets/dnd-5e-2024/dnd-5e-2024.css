@@ -1053,11 +1053,10 @@
 .prep-action.mastery-action {
   display: flex;
   justify-content: flex-end;
-  margin: -31px 0 0;
-  pointer-events: none;
+  width: fit-content;
+  margin: -31px 0 0 auto;
 }
 .prep-action.mastery-action .gc-action {
-  pointer-events: auto;
   width: auto;
   padding: 6px 12px !important;
   font-size: 12px !important;
