@@ -28,7 +28,6 @@
     <div class="topstats">
       <div class="level box">
         <span class="tiny box-title">Level</span><span class="level-value"><g-value name="level" /></span>
-        <details class="xp-fold"><summary class="tiny box-title">XP ▾</summary><g-field name="xp" label="" variant="compact" /></details>
         <g-action name="level_up" label="Level up"></g-action>
       </div>
       <div class="armour box">
@@ -39,10 +38,9 @@
       <div class="hp box">
         <span class="tiny box-title">Hit Points</span>
         <div class="hp-grid">
-          <span class="tiny">Current</span><span class="tiny">Temp</span><span class="tiny">Max</span>
-          <span class="hp-max hp-current-adj"><g-action name="hp_current_down" label="−" class="hp-adjust"></g-action><g-value name="hp_current" /><g-action name="hp_current_up" label="+" class="hp-adjust"></g-action></span>
-          <span class="hp-max"><g-action name="hp_temp_down" label="−" class="hp-adjust"></g-action><g-value name="hp_temp" /><g-action name="hp_temp_up" label="+" class="hp-adjust"></g-action></span>
-          <span class="hp-max"><g-action name="hp_max_down" label="−" class="hp-adjust"></g-action><g-value formula="hp_maximum" /><g-action name="hp_max_up" label="+" class="hp-adjust"></g-action></span>
+          <div class="hp-cell"><span class="tiny">Current</span><span class="hp-max hp-current-adj"><g-action name="hp_current_down" label="−" class="hp-adjust"></g-action><g-value name="hp_current" /><g-action name="hp_current_up" label="+" class="hp-adjust"></g-action></span></div>
+          <div class="hp-cell"><span class="tiny">Temp</span><span class="hp-max"><g-action name="hp_temp_down" label="−" class="hp-adjust"></g-action><g-value name="hp_temp" /><g-action name="hp_temp_up" label="+" class="hp-adjust"></g-action></span></div>
+          <div class="hp-cell"><span class="tiny">Max</span><span class="hp-max"><g-action name="hp_max_down" label="−" class="hp-adjust"></g-action><g-value formula="hp_maximum" /><g-action name="hp_max_up" label="+" class="hp-adjust"></g-action></span></div>
         </div>
         <div class="rest-buttons"><g-action name="short_rest" label="Short rest"></g-action> <g-action name="long_rest" label="Long rest"></g-action></div>
       </div>
@@ -442,6 +440,7 @@
         <h3 class="box-heading">Backstory &amp; Personality</h3>
         <g-field name="backstory" label="" />
         <span class="tiny">Alignment</span><g-field name="alignment" label="" />
+        <span class="tiny">XP</span><g-field name="xp" label="" variant="compact" />
       </section>
       <section class="box">
         <h3 class="box-heading">Level-ups</h3>

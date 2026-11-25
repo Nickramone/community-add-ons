@@ -1023,7 +1023,9 @@
   gap: 4px;
   font-size: 18px;
   font-weight: 700;
+  white-space: nowrap;
 }
+.hp-max > * { flex: none; white-space: nowrap; overflow-wrap: normal; word-break: keep-all; }
 .hp-max .gc-action.hp-adjust {
   min-width: 0;
   padding: 0 6px !important;

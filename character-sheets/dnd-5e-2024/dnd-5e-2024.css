@@ -157,16 +157,6 @@
   margin-top: 18px;
 }
 
-.xp-fold summary {
-  cursor: pointer;
-  list-style: none;
-  text-align: center;
-}
-
-.xp-fold summary::-webkit-details-marker {
-  display: none;
-}
-
 .level .gc-action {
   display: flex;
   align-items: center;
@@ -217,11 +207,22 @@
 /* Hit points get the room they need: current large, temp and max beside it.
    Max gets a little extra for the marker that says it follows your class. */
 .hp-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1.3fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
   gap: 4px 8px;
-  align-items: center;
   text-align: center;
+}
+
+/* Each figure keeps its caption and stays on one line: when the box is
+   narrow, the last figure moves to a row below instead of its digits
+   stacking. */
+.hp-cell {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
 .hp-current input {
@@ -995,7 +996,9 @@
   gap: 4px;
   font-size: 18px;
   font-weight: 700;
+  white-space: nowrap;
 }
+.hp-max > * { flex: none; white-space: nowrap; overflow-wrap: normal; word-break: keep-all; }
 .hp-max .gc-action.hp-adjust {
   min-width: 0;
   padding: 0 6px !important;
