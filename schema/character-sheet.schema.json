@@ -298,6 +298,14 @@
             "type": "string",
             "description": "Required for content_ref/content_list: the content type this field picks from. Must be one the schema declares."
           },
+          "filter_from": {
+            "type": "object",
+            "description": "content_ref/content_list: the picker's filters worked out from the character, a formula per filterable property ({\"option_type\": \"concat(ref(klass, 'option_type'), ',', ...)\"}); a list separated by commas lets through any of its values (the Nickramone fork today).",
+            "additionalProperties": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
           "per_entry_fields": {
             "type": "object",
             "description": "The character's own notes on a referenced entry — prepared, equipped, uses remaining. Ordinary field definitions.",
@@ -433,7 +441,9 @@
         "properties": {
           "label": {"type": "string", "minLength": 1},
           "record": {"type": "string", "minLength": 1, "description": "A formula worked out when the prompt opens (concat('level:', len(advancements) + 1)): what it and the prompts it opens add is kept under that key in _records, for an action's revert step (the Nickramone fork today)."},
-          "steps": {"type": "array", "minItems": 1, "maxItems": 20, "items": {"type": "object", "required": ["key", "type"]}},
+          "steps": {"type": "array", "minItems": 1, "maxItems": 20, "items": {"type": "object", "required": ["key", "type"], "properties": {"page": {"type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$", "description": "The page of a paged prompt the step is shown on; steps sharing it are asked together, and a step without one has a page of its own (the Nickramone fork today)."}}}},
+          "paged": {"type": "boolean", "description": "Ask the prompt a page at a time, the steps grouped by their 'page': Back keeps the answers, Next waits for the page's, a page with no step showing is passed over, and Back from the first page asks again the prompt confirmed before it in the same chain (the Nickramone fork today)."},
+          "pages": {"type": "object", "description": "The pages of a paged prompt by name (the Nickramone fork today).", "additionalProperties": {"type": "object", "additionalProperties": false, "properties": {"label": {"type": "string", "minLength": 1}, "later": {"type": "string", "minLength": 1, "description": "A prompt of the sheet kept among the choices to make when the player skips this page, with the record of this prompt (a level's), so Undo takes it back with that level."}}}},
           "apply": {"type": "array", "minItems": 1, "maxItems": 50, "items": {"type": "object"}},
           "on_skip": {"type": "array", "minItems": 1, "maxItems": 50, "items": {"type": "object"}, "description": "Writes made when the player puts the prompt aside, in place of keeping it among the choices to make later (the Nickramone fork today)."}
         }
