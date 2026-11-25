@@ -1050,3 +1050,8 @@
   padding: 3px;
   font-size: 13px;
 }
+
+/* 1.62.0: Story's starting scores read like HP max, - and + beside them; Bonus as text */
+.ability-sources .hp-max.ab-start { font-size: 16px; }
+.ability-sources .ab-bonus { text-align: center; font-weight: 700; }
+.level-value { display: block; text-align: center; font-size: 20px; font-weight: 700; }

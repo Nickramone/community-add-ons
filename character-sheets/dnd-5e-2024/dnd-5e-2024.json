@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.61.0",
+  "version": "1.62.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -4004,7 +4004,8 @@
         "from_level": {"type": "number", "label": "From level", "min": 0, "max": 20, "visible_if": "false"}
       }
     },
-    "weapon_masteries": {"type": "content_list", "label": "Weapon Mastery", "content_type": "item", "allow_freeform": false, "display_columns": ["mastery"]},
+    "weapon_masteries": {"type": "content_list", "label": "Weapon Mastery", "content_type": "item", "allow_freeform": true,
+      "filter_from": {"mastery": "'Cleave,Graze,Nick,Push,Sap,Slow,Topple,Vex'"}, "display_columns": ["mastery"]},
     "species_traits": {
       "type": "content_list",
       "label": "Species Traits",
@@ -6950,6 +6951,18 @@
     {"name": "mastery_choices", "label": "Weapon Mastery", "steps": [{"prompt": "mastery_choices"}]},
     {"name": "hp_max_down", "label": "\u2212", "steps": [{"set": "hp_max_adjust", "to": "hp_max_adjust - 1"}]},
     {"name": "hp_max_up", "label": "+", "steps": [{"set": "hp_max_adjust", "to": "hp_max_adjust + 1"}]},
+    {"name": "strength_down", "label": "\u2212", "steps": [{"set": "strength", "to": "max(1, strength - 1)"}]},
+    {"name": "strength_up", "label": "+", "steps": [{"set": "strength", "to": "min(30, strength + 1)"}]},
+    {"name": "dexterity_down", "label": "\u2212", "steps": [{"set": "dexterity", "to": "max(1, dexterity - 1)"}]},
+    {"name": "dexterity_up", "label": "+", "steps": [{"set": "dexterity", "to": "min(30, dexterity + 1)"}]},
+    {"name": "constitution_down", "label": "\u2212", "steps": [{"set": "constitution", "to": "max(1, constitution - 1)"}]},
+    {"name": "constitution_up", "label": "+", "steps": [{"set": "constitution", "to": "min(30, constitution + 1)"}]},
+    {"name": "intelligence_down", "label": "\u2212", "steps": [{"set": "intelligence", "to": "max(1, intelligence - 1)"}]},
+    {"name": "intelligence_up", "label": "+", "steps": [{"set": "intelligence", "to": "min(30, intelligence + 1)"}]},
+    {"name": "wisdom_down", "label": "\u2212", "steps": [{"set": "wisdom", "to": "max(1, wisdom - 1)"}]},
+    {"name": "wisdom_up", "label": "+", "steps": [{"set": "wisdom", "to": "min(30, wisdom + 1)"}]},
+    {"name": "charisma_down", "label": "\u2212", "steps": [{"set": "charisma", "to": "max(1, charisma - 1)"}]},
+    {"name": "charisma_up", "label": "+", "steps": [{"set": "charisma", "to": "min(30, charisma + 1)"}]},
     {
       "name": "short_rest",
       "label": "Short rest",

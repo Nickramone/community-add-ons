@@ -35,7 +35,7 @@
     </div>
     <div class="pair class-level">
       <div class="line"><g-field name="klass" label="" readonly="" /><span class="tiny">Class<g-if test="ref(klass2, 'name') != ''"> · level <g-value formula="class1_level" /></g-if></span></div>
-      <div class="line"><g-field name="level" label="" variant="compact" /><span class="tiny">Level</span></div>
+      <div class="line"><span class="level-value"><g-value name="level" /></span><span class="tiny">Level</span></div>
     </div>
     <g-if test="ref(klass2, 'name') != ''"><div class="line"><g-field name="klass2" label="" readonly="" /><span class="tiny">Class 2 · level <g-value formula="class2_level" /></span></div></g-if>
     <g-if test="ref(klass3, 'name') != ''"><div class="line"><g-field name="klass3" label="" readonly="" /><span class="tiny">Class 3 · level <g-value formula="class3_level" /></span></div></g-if>
@@ -205,7 +205,7 @@
       <div class="ability">
         <h4 class="ability-name">Strength</h4>
         <div class="ability-core">
-          <div class="ability-mod"><span class="mod-value"><g-value name="strength_mod" /></span><span class="tiny">Mod</span></div>
+          <div class="ability-mod"><span class="mod-value"><g-value formula="signed(strength_mod)" /></span><span class="tiny">Mod</span></div>
           <div class="ability-score"><span class="score-value"><g-value name="strength_score" /></span><span class="tiny">Score</span></div>
         </div>
         <div class="save"><label class="tap save-tap"><g-field name="strength_save_prof" label="" readonly /><span class="tiny">Save</span></label><span class="c-value"><g-value name="strength_save" /></span></div>
@@ -213,7 +213,7 @@
       <div class="ability">
         <h4 class="ability-name">Dexterity</h4>
         <div class="ability-core">
-          <div class="ability-mod"><span class="mod-value"><g-value name="dexterity_mod" /></span><span class="tiny">Mod</span></div>
+          <div class="ability-mod"><span class="mod-value"><g-value formula="signed(dexterity_mod)" /></span><span class="tiny">Mod</span></div>
           <div class="ability-score"><span class="score-value"><g-value name="dexterity_score" /></span><span class="tiny">Score</span></div>
         </div>
         <div class="save"><label class="tap save-tap"><g-field name="dexterity_save_prof" label="" readonly /><span class="tiny">Save</span></label><span class="c-value"><g-value name="dexterity_save" /></span></div>
@@ -221,7 +221,7 @@
       <div class="ability">
         <h4 class="ability-name">Constitution</h4>
         <div class="ability-core">
-          <div class="ability-mod"><span class="mod-value"><g-value name="constitution_mod" /></span><span class="tiny">Mod</span></div>
+          <div class="ability-mod"><span class="mod-value"><g-value formula="signed(constitution_mod)" /></span><span class="tiny">Mod</span></div>
           <div class="ability-score"><span class="score-value"><g-value name="constitution_score" /></span><span class="tiny">Score</span></div>
         </div>
         <div class="save"><label class="tap save-tap"><g-field name="constitution_save_prof" label="" readonly /><span class="tiny">Save</span></label><span class="c-value"><g-value name="constitution_save" /></span></div>
@@ -229,7 +229,7 @@
       <div class="ability">
         <h4 class="ability-name">Intelligence</h4>
         <div class="ability-core">
-          <div class="ability-mod"><span class="mod-value"><g-value name="intelligence_mod" /></span><span class="tiny">Mod</span></div>
+          <div class="ability-mod"><span class="mod-value"><g-value formula="signed(intelligence_mod)" /></span><span class="tiny">Mod</span></div>
           <div class="ability-score"><span class="score-value"><g-value name="intelligence_score" /></span><span class="tiny">Score</span></div>
         </div>
         <div class="save"><label class="tap save-tap"><g-field name="intelligence_save_prof" label="" readonly /><span class="tiny">Save</span></label><span class="c-value"><g-value name="intelligence_save" /></span></div>
@@ -237,7 +237,7 @@
       <div class="ability">
         <h4 class="ability-name">Wisdom</h4>
         <div class="ability-core">
-          <div class="ability-mod"><span class="mod-value"><g-value name="wisdom_mod" /></span><span class="tiny">Mod</span></div>
+          <div class="ability-mod"><span class="mod-value"><g-value formula="signed(wisdom_mod)" /></span><span class="tiny">Mod</span></div>
           <div class="ability-score"><span class="score-value"><g-value name="wisdom_score" /></span><span class="tiny">Score</span></div>
         </div>
         <div class="save"><label class="tap save-tap"><g-field name="wisdom_save_prof" label="" readonly /><span class="tiny">Save</span></label><span class="c-value"><g-value name="wisdom_save" /></span></div>
@@ -245,7 +245,7 @@
       <div class="ability">
         <h4 class="ability-name">Charisma</h4>
         <div class="ability-core">
-          <div class="ability-mod"><span class="mod-value"><g-value name="charisma_mod" /></span><span class="tiny">Mod</span></div>
+          <div class="ability-mod"><span class="mod-value"><g-value formula="signed(charisma_mod)" /></span><span class="tiny">Mod</span></div>
           <div class="ability-score"><span class="score-value"><g-value name="charisma_score" /></span><span class="tiny">Score</span></div>
         </div>
         <div class="save"><label class="tap save-tap"><g-field name="charisma_save_prof" label="" readonly /><span class="tiny">Save</span></label><span class="c-value"><g-value name="charisma_save" /></span></div>
@@ -298,20 +298,6 @@
         <li class="sline"><span class="c-tier"><g-tier value="Performance" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Performance" /></span><span class="c-value"><g-value name="skill_performance" /></span><span class="c-name">Performance</span></li>
         <li class="sline"><span class="c-tier"><g-tier value="Persuasion" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Persuasion" /></span><span class="c-value"><g-value name="skill_persuasion" /></span><span class="c-name">Persuasion</span></li>
     </ul>
-  </section>
-
-  <section class="box">
-    <h3 class="box-heading">Ability Scores</h3>
-    <p class="hint">The starting score you rolled or bought, plus your background's increases (picked under the background on the Details tab); magic items on top. Each ability on the Main tab says where its score comes from.</p>
-    <div class="parts">
-      <span></span><span class="tiny">Starting</span><span class="tiny">Bonus</span><span class="tiny">Score</span>
-      <span class="p-name">STR</span><g-field name="strength" label="" variant="compact" /><g-field name="strength_bonus" label="" variant="compact" /><span class="p-score"><g-value name="strength_score" /></span>
-      <span class="p-name">DEX</span><g-field name="dexterity" label="" variant="compact" /><g-field name="dexterity_bonus" label="" variant="compact" /><span class="p-score"><g-value name="dexterity_score" /></span>
-      <span class="p-name">CON</span><g-field name="constitution" label="" variant="compact" /><g-field name="constitution_bonus" label="" variant="compact" /><span class="p-score"><g-value name="constitution_score" /></span>
-      <span class="p-name">INT</span><g-field name="intelligence" label="" variant="compact" /><g-field name="intelligence_bonus" label="" variant="compact" /><span class="p-score"><g-value name="intelligence_score" /></span>
-      <span class="p-name">WIS</span><g-field name="wisdom" label="" variant="compact" /><g-field name="wisdom_bonus" label="" variant="compact" /><span class="p-score"><g-value name="wisdom_score" /></span>
-      <span class="p-name">CHA</span><g-field name="charisma" label="" variant="compact" /><g-field name="charisma_bonus" label="" variant="compact" /><span class="p-score"><g-value name="charisma_score" /></span>
-    </div>
   </section>
 
 </g-tab>
@@ -373,14 +359,9 @@
     <g-field name="features" label="" />
   </section>
 
-  <g-if test="concat(ref(klass, 'option_type'), ref(subclass, 'option_type'), ref(klass2, 'option_type'), ref(subclass2, 'option_type'), ref(klass3, 'option_type'), ref(subclass3, 'option_type'), ref(klass4, 'option_type'), ref(subclass4, 'option_type')) != '' or len(class_options) &gt; 0"><section class="box">
-    <h3 class="box-heading"><g-value formula="concat(ref(klass, 'option_type'), ref(subclass, 'option_type'), ref(klass2, 'option_type'), ref(subclass2, 'option_type'), ref(klass3, 'option_type'), ref(subclass3, 'option_type'), ref(klass4, 'option_type'), ref(subclass4, 'option_type')) == '' ? 'Class Options' : (concat(ref(klass, 'option_type'), ref(subclass, 'option_type'), ref(klass2, 'option_type'), ref(subclass2, 'option_type'), ref(klass3, 'option_type'), ref(subclass3, 'option_type'), ref(klass4, 'option_type'), ref(subclass4, 'option_type')) == 'Metamagic' ? 'Metamagic' : concat(ref(klass, 'option_type'), ref(subclass, 'option_type'), 's'))" /></h3>
-    <g-field name="class_options" label="" />
-  </section></g-if>
-
   <g-if test="weapon_mastery"><section class="box">
     <h3 class="box-heading">Weapon Mastery</h3>
-    <g-field name="weapon_masteries" label="" readonly="" />
+    <g-field name="weapon_masteries" label="" />
     <div class="prep-action"><g-if test="len(weapon_masteries) &lt; weapon_mastery_max"><g-action name="mastery_choices" label="Choose missing weapons"></g-action></g-if><g-if test="len(weapon_masteries) &gt;= weapon_mastery_max"><g-action name="mastery_choices" label="Change one after a Long Rest"></g-action></g-if></div>
   </section></g-if>
 
@@ -388,6 +369,11 @@
     <h3 class="box-heading">Feats</h3>
     <g-field name="feats" label="" />
   </section>
+
+  <g-if test="concat(ref(klass, 'option_type'), ref(subclass, 'option_type'), ref(klass2, 'option_type'), ref(subclass2, 'option_type'), ref(klass3, 'option_type'), ref(subclass3, 'option_type'), ref(klass4, 'option_type'), ref(subclass4, 'option_type')) != '' or len(class_options) &gt; 0"><section class="box">
+    <h3 class="box-heading"><g-value formula="concat(ref(klass, 'option_type'), ref(subclass, 'option_type'), ref(klass2, 'option_type'), ref(subclass2, 'option_type'), ref(klass3, 'option_type'), ref(subclass3, 'option_type'), ref(klass4, 'option_type'), ref(subclass4, 'option_type')) == '' ? 'Class Options' : (concat(ref(klass, 'option_type'), ref(subclass, 'option_type'), ref(klass2, 'option_type'), ref(subclass2, 'option_type'), ref(klass3, 'option_type'), ref(subclass3, 'option_type'), ref(klass4, 'option_type'), ref(subclass4, 'option_type')) == 'Metamagic' ? 'Metamagic' : concat(ref(klass, 'option_type'), ref(subclass, 'option_type'), 's'))" /></h3>
+    <g-field name="class_options" label="" />
+  </section></g-if>
 
   <section class="box">
     <h3 class="box-heading">Species Traits</h3>
@@ -541,12 +527,12 @@
     <h3 class="box-heading">Ability Scores</h3>
     <div class="ability-sources">
       <span class="tiny"></span><span class="tiny">Starting score</span><span class="tiny">Bonus</span><span class="tiny">Items</span>
-      <span class="ab-name">Strength</span><g-field name="strength" label="" variant="compact" /><g-field name="strength_bonus" label="" variant="compact" readonly /><span class="ab-items"><g-value formula="signed(strength_score - strength - strength_bonus)" /></span>
-      <span class="ab-name">Dexterity</span><g-field name="dexterity" label="" variant="compact" /><g-field name="dexterity_bonus" label="" variant="compact" readonly /><span class="ab-items"><g-value formula="signed(dexterity_score - dexterity - dexterity_bonus)" /></span>
-      <span class="ab-name">Constitution</span><g-field name="constitution" label="" variant="compact" /><g-field name="constitution_bonus" label="" variant="compact" readonly /><span class="ab-items"><g-value formula="signed(constitution_score - constitution - constitution_bonus)" /></span>
-      <span class="ab-name">Intelligence</span><g-field name="intelligence" label="" variant="compact" /><g-field name="intelligence_bonus" label="" variant="compact" readonly /><span class="ab-items"><g-value formula="signed(intelligence_score - intelligence - intelligence_bonus)" /></span>
-      <span class="ab-name">Wisdom</span><g-field name="wisdom" label="" variant="compact" /><g-field name="wisdom_bonus" label="" variant="compact" readonly /><span class="ab-items"><g-value formula="signed(wisdom_score - wisdom - wisdom_bonus)" /></span>
-      <span class="ab-name">Charisma</span><g-field name="charisma" label="" variant="compact" /><g-field name="charisma_bonus" label="" variant="compact" readonly /><span class="ab-items"><g-value formula="signed(charisma_score - charisma - charisma_bonus)" /></span>
+      <span class="ab-name">Strength</span><span class="hp-max ab-start"><g-action name="strength_down" label="−" class="hp-adjust"></g-action><g-value name="strength" /><g-action name="strength_up" label="+" class="hp-adjust"></g-action></span><span class="ab-bonus"><g-value formula="signed(strength_bonus)" /></span><span class="ab-items"><g-value formula="signed(strength_score - strength - strength_bonus)" /></span>
+      <span class="ab-name">Dexterity</span><span class="hp-max ab-start"><g-action name="dexterity_down" label="−" class="hp-adjust"></g-action><g-value name="dexterity" /><g-action name="dexterity_up" label="+" class="hp-adjust"></g-action></span><span class="ab-bonus"><g-value formula="signed(dexterity_bonus)" /></span><span class="ab-items"><g-value formula="signed(dexterity_score - dexterity - dexterity_bonus)" /></span>
+      <span class="ab-name">Constitution</span><span class="hp-max ab-start"><g-action name="constitution_down" label="−" class="hp-adjust"></g-action><g-value name="constitution" /><g-action name="constitution_up" label="+" class="hp-adjust"></g-action></span><span class="ab-bonus"><g-value formula="signed(constitution_bonus)" /></span><span class="ab-items"><g-value formula="signed(constitution_score - constitution - constitution_bonus)" /></span>
+      <span class="ab-name">Intelligence</span><span class="hp-max ab-start"><g-action name="intelligence_down" label="−" class="hp-adjust"></g-action><g-value name="intelligence" /><g-action name="intelligence_up" label="+" class="hp-adjust"></g-action></span><span class="ab-bonus"><g-value formula="signed(intelligence_bonus)" /></span><span class="ab-items"><g-value formula="signed(intelligence_score - intelligence - intelligence_bonus)" /></span>
+      <span class="ab-name">Wisdom</span><span class="hp-max ab-start"><g-action name="wisdom_down" label="−" class="hp-adjust"></g-action><g-value name="wisdom" /><g-action name="wisdom_up" label="+" class="hp-adjust"></g-action></span><span class="ab-bonus"><g-value formula="signed(wisdom_bonus)" /></span><span class="ab-items"><g-value formula="signed(wisdom_score - wisdom - wisdom_bonus)" /></span>
+      <span class="ab-name">Charisma</span><span class="hp-max ab-start"><g-action name="charisma_down" label="−" class="hp-adjust"></g-action><g-value name="charisma" /><g-action name="charisma_up" label="+" class="hp-adjust"></g-action></span><span class="ab-bonus"><g-value formula="signed(charisma_bonus)" /></span><span class="ab-items"><g-value formula="signed(charisma_score - charisma - charisma_bonus)" /></span>
     </div>
     <p class="tiny origin">Bonus comes from your background, Ability Score Improvements and feats. Change it with the Level up prompts and Undo Last Level.</p>
   </section>
