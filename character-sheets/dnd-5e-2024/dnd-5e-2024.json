@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.56.0",
+  "version": "1.57.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -3101,19 +3101,17 @@
       "label": "CHA save proficiency",
       "default_from": "contains(ref(klass, 'saving_throws'), 'charisma') or count_each(features, contains(row.save_profs, ',charisma,')) > 0"
     },
-    "hp_max": {
+    "hp_max_adjust": {
       "type": "number",
-      "label": "HP Maximum",
-      "min": 0,
-      "default": 8,
-      "default_from": "len(advancements) > 0 ? (at(advancements, 0, 'hit_die') ? at(advancements, 0, 'hit_die') : ref(klass, 'hit_die')) - (at(advancements, 0, 'hp') > 0 ? at(advancements, 0, 'hp') : floor((at(advancements, 0, 'hit_die') ? at(advancements, 0, 'hit_die') : ref(klass, 'hit_die')) / 2) + 1) + sum_each(advancements, (row.hp > 0 ? row.hp : floor((row.hit_die ? row.hit_die : ref(klass, 'hit_die')) / 2) + 1)) + len(advancements) * floor((constitution + constitution_bonus - 10) / 2) + (has_ref(species_traits, 'dwarf-dwarven-toughness-xphb') ? (len(advancements) > 0 ? len(advancements) : level) : 0) + (has_ref(feats, 'tough-xphb') ? 2 * (len(advancements) > 0 ? len(advancements) : level) : 0) + (has_ref(feats, 'boon-of-fortitude-xphb') ? 40 : 0) : (ref(klass, 'hit_die') ? ref(klass, 'hit_die') + floor((constitution + constitution_bonus - 10) / 2) + (level - 1) * (floor(ref(klass, 'hit_die') / 2) + 1 + floor((constitution + constitution_bonus - 10) / 2)) + (has_ref(species_traits, 'dwarf-dwarven-toughness-xphb') ? level : 0) + (has_ref(feats, 'tough-xphb') ? 2 * level : 0) + (has_ref(feats, 'boon-of-fortitude-xphb') ? 40 : 0) : '')"
+      "label": "HP maximum adjustment",
+      "default": 0
     },
     "hp_current": {
       "type": "number",
       "label": "Current HP",
       "min": 0,
       "default": 8,
-      "default_from": "hp_max",
+      "default_from": "max(0, (len(advancements) > 0 ? (at(advancements, 0, 'hit_die') ? at(advancements, 0, 'hit_die') : ref(klass, 'hit_die')) - (at(advancements, 0, 'hp') > 0 ? at(advancements, 0, 'hp') : floor((at(advancements, 0, 'hit_die') ? at(advancements, 0, 'hit_die') : ref(klass, 'hit_die')) / 2) + 1) + sum_each(advancements, (row.hp > 0 ? row.hp : floor((row.hit_die ? row.hit_die : ref(klass, 'hit_die')) / 2) + 1)) + len(advancements) * floor((constitution + constitution_bonus - 10) / 2) + (has_ref(species_traits, 'dwarf-dwarven-toughness-xphb') ? (len(advancements) > 0 ? len(advancements) : level) : 0) + (has_ref(feats, 'tough-xphb') ? 2 * (len(advancements) > 0 ? len(advancements) : level) : 0) + (has_ref(feats, 'boon-of-fortitude-xphb') ? 40 : 0) : (ref(klass, 'hit_die') ? ref(klass, 'hit_die') + floor((constitution + constitution_bonus - 10) / 2) + (level - 1) * (floor(ref(klass, 'hit_die') / 2) + 1 + floor((constitution + constitution_bonus - 10) / 2)) + (has_ref(species_traits, 'dwarf-dwarven-toughness-xphb') ? level : 0) + (has_ref(feats, 'tough-xphb') ? 2 * level : 0) + (has_ref(feats, 'boon-of-fortitude-xphb') ? 40 : 0) : 8)) + hp_max_adjust)",
       "on_change": [{"set": "concentrating", "to": "hp_current > 0 and concentrating"}, {"set": "concentration", "to": "hp_current > 0 ? concentration : ''"}]
     },
     "hp_temp": {
@@ -4018,6 +4016,10 @@
     "dexterity_save": {
       "formula": "signed(dexterity_mod - exhaustion_d20 + (dexterity_save_prof ? proficiency : 0) + item_save)",
       "label": "DEX Save"
+    },
+    "hp_maximum": {
+      "label": "HP Maximum",
+      "formula": "max(0, (len(advancements) > 0 ? (at(advancements, 0, 'hit_die') ? at(advancements, 0, 'hit_die') : ref(klass, 'hit_die')) - (at(advancements, 0, 'hp') > 0 ? at(advancements, 0, 'hp') : floor((at(advancements, 0, 'hit_die') ? at(advancements, 0, 'hit_die') : ref(klass, 'hit_die')) / 2) + 1) + sum_each(advancements, (row.hp > 0 ? row.hp : floor((row.hit_die ? row.hit_die : ref(klass, 'hit_die')) / 2) + 1)) + len(advancements) * floor((constitution_score - 10) / 2) + (has_ref(species_traits, 'dwarf-dwarven-toughness-xphb') ? (len(advancements) > 0 ? len(advancements) : level) : 0) + (has_ref(feats, 'tough-xphb') ? 2 * (len(advancements) > 0 ? len(advancements) : level) : 0) + (has_ref(feats, 'boon-of-fortitude-xphb') ? 40 : 0) : (ref(klass, 'hit_die') ? ref(klass, 'hit_die') + floor((constitution_score - 10) / 2) + (level - 1) * (floor(ref(klass, 'hit_die') / 2) + 1 + floor((constitution_score - 10) / 2)) + (has_ref(species_traits, 'dwarf-dwarven-toughness-xphb') ? level : 0) + (has_ref(feats, 'tough-xphb') ? 2 * level : 0) + (has_ref(feats, 'boon-of-fortitude-xphb') ? 40 : 0) : 8)) + hp_max_adjust)"
     },
     "constitution_score": {
       "formula": "max(max(constitution + constitution_bonus, min(constitution + constitution_bonus + sum_each(magic_items, row.ability_increase, row.equipped && (row.attuned or not row.attunement) && not row._inline && row.ability == 'constitution'), max_each(magic_items, row.ability_max, row.equipped && (row.attuned or not row.attunement) && not row._inline && row.ability == 'constitution' && row.ability_increase, 0))), max_each(magic_items, row.ability_score, row.equipped && (row.attuned or not row.attunement) && not row._inline && row.ability == 'constitution' && row.ability_score, 0))",
@@ -6234,7 +6236,7 @@
       "steps": [
         {
           "set": "hp_current",
-          "to": "len(advancements) > 1 ? min(hp_current, hp_max - ((at(advancements, -1, 'hp') > 0 ? at(advancements, -1, 'hp') : floor((at(advancements, -1, 'hit_die') ? at(advancements, -1, 'hit_die') : ref(klass, 'hit_die')) / 2) + 1) + len(advancements) * floor((constitution + constitution_bonus - 10) / 2) - (len(advancements) - 1) * floor((constitution + constitution_bonus - ((at(advancements, -1, 'plus2') == 'constitution' ? 2 : 0) + (at(advancements, -1, 'plus1a') == 'constitution' ? 1 : 0) + (at(advancements, -1, 'plus1b') == 'constitution' ? 1 : 0) + sum_each(feats, row.ability_amount, row.asi == 'constitution' and row.from_level == len(advancements))) - 10) / 2) + (has_ref(species_traits, 'dwarf-dwarven-toughness-xphb') ? 1 : 0) + (has_ref(feats, 'tough-xphb') ? (count_each(feats, row.name == 'Tough' and row.from_level == len(advancements)) > 0 ? 2 * len(advancements) : 2) : 0) + (count_each(feats, row.name == 'Boon of Fortitude' and row.from_level == len(advancements)) > 0 ? 40 : 0))) : hp_current"
+          "to": "len(advancements) > 1 ? min(hp_current, hp_maximum - ((at(advancements, -1, 'hp') > 0 ? at(advancements, -1, 'hp') : floor((at(advancements, -1, 'hit_die') ? at(advancements, -1, 'hit_die') : ref(klass, 'hit_die')) / 2) + 1) + len(advancements) * floor((constitution + constitution_bonus - 10) / 2) - (len(advancements) - 1) * floor((constitution + constitution_bonus - ((at(advancements, -1, 'plus2') == 'constitution' ? 2 : 0) + (at(advancements, -1, 'plus1a') == 'constitution' ? 1 : 0) + (at(advancements, -1, 'plus1b') == 'constitution' ? 1 : 0) + sum_each(feats, row.ability_amount, row.asi == 'constitution' and row.from_level == len(advancements))) - 10) / 2) + (has_ref(species_traits, 'dwarf-dwarven-toughness-xphb') ? 1 : 0) + (has_ref(feats, 'tough-xphb') ? (count_each(feats, row.name == 'Tough' and row.from_level == len(advancements)) > 0 ? 2 * len(advancements) : 2) : 0) + (count_each(feats, row.name == 'Boon of Fortitude' and row.from_level == len(advancements)) > 0 ? 40 : 0))) : hp_current"
         },
         {
           "each": "features",
@@ -6317,6 +6319,8 @@
       "label": "Choose missing spells",
       "steps": [{"prompt": "spell_catchup"}]
     },
+    {"name": "hp_max_down", "label": "\u2212", "steps": [{"set": "hp_max_adjust", "to": "hp_max_adjust - 1"}]},
+    {"name": "hp_max_up", "label": "+", "steps": [{"set": "hp_max_adjust", "to": "hp_max_adjust + 1"}]},
     {
       "name": "short_rest",
       "label": "Short rest",
@@ -6391,7 +6395,7 @@
       "label": "Long rest",
       "confirm": "Take a long rest? HP, spell slots, resources, feature and trait uses, item charges and Hit Dice come back; exhaustion drops.",
       "steps": [
-        {"set": "hp_current", "to": "hp_max"},
+        {"set": "hp_current", "to": "hp_maximum"},
         {"set": "raging", "to": "false"},
         {"set": "divine_favor", "to": "false"},
         {"set": "concentrating", "to": "false"},

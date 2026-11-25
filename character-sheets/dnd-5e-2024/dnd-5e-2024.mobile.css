@@ -1013,3 +1013,22 @@
 .res [role=img] {
   display: none !important;
 }
+
+/* HP maximum: worked out from class, Constitution (items included), feats and
+   species; - and + nudge a hidden adjustment that only the total shows. */
+.hp-max {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 18px;
+  font-weight: 700;
+}
+.hp-max .gc-action.hp-adjust {
+  min-width: 0;
+  padding: 0 6px !important;
+  line-height: 1.4;
+  font-size: 14px;
+  opacity: 0.55;
+}
+.hp-max .gc-action.hp-adjust:hover { opacity: 1; }

@@ -47,7 +47,7 @@
     <div class="trio">
       <div class="cell big-input"><span class="tiny">Current</span><g-field name="hp_current" label="" variant="compact" /></div>
       <div class="cell"><span class="tiny">Temp</span><g-field name="hp_temp" label="" variant="compact" /></div>
-      <div class="cell"><span class="tiny">Max</span><g-field name="hp_max" label="" variant="compact" /></div>
+      <div class="cell"><span class="tiny">Max</span><span class="hp-max"><g-action name="hp_max_down" label="−" class="hp-adjust"></g-action><g-value formula="hp_maximum" /><g-action name="hp_max_up" label="+" class="hp-adjust"></g-action></span></div>
     </div>
     <div class="rest-buttons"><g-action name="short_rest" label="Short rest"></g-action> <g-action name="long_rest" label="Long rest"></g-action></div>
   </section>
