@@ -144,7 +144,7 @@
 }
 
 .level {
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 /* Level's box lines up with Hit Points: the figure on the row of the HP
@@ -161,7 +161,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: auto !important;
+  margin-top: 10px !important;
   margin-bottom: 6px !important;
   box-sizing: border-box;
   width: 100%;
@@ -1072,7 +1072,8 @@
   border-radius: 8px !important;
   box-shadow: none;
 }
-/* Level lines up with Hit Points: the figure on the row of the HP figures, the button on the rest buttons' row */
-.hp { justify-content: flex-start; }
-.hp .rest-buttons { margin-top: auto; }
+/* Level and Hit Points sit centred like Hit Dice and Death Saves; with the
+   same heights, the Level figure stays on the row of the HP figures and the
+   button on the rest buttons' row */
+.hp { justify-content: center; }
 .level-value { margin-top: 18px; }
