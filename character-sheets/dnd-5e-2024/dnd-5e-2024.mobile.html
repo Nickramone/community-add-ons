@@ -45,8 +45,8 @@
   <section class="box hp">
     <h3 class="box-heading">Hit Points</h3>
     <div class="trio">
-      <div class="cell big-input"><span class="tiny">Current</span><g-field name="hp_current" label="" variant="compact" /></div>
-      <div class="cell"><span class="tiny">Temp</span><g-field name="hp_temp" label="" variant="compact" /></div>
+      <div class="cell"><span class="tiny">Current</span><span class="hp-max hp-current-adj"><g-action name="hp_current_down" label="−" class="hp-adjust"></g-action><g-value name="hp_current" /><g-action name="hp_current_up" label="+" class="hp-adjust"></g-action></span></div>
+      <div class="cell"><span class="tiny">Temp</span><span class="hp-max"><g-action name="hp_temp_down" label="−" class="hp-adjust"></g-action><g-value name="hp_temp" /><g-action name="hp_temp_up" label="+" class="hp-adjust"></g-action></span></div>
       <div class="cell"><span class="tiny">Max</span><span class="hp-max"><g-action name="hp_max_down" label="−" class="hp-adjust"></g-action><g-value formula="hp_maximum" /><g-action name="hp_max_up" label="+" class="hp-adjust"></g-action></span></div>
     </div>
     <div class="rest-buttons"><g-action name="short_rest" label="Short rest"></g-action> <g-action name="long_rest" label="Long rest"></g-action></div>
@@ -107,7 +107,7 @@
     <g-if test="contains(conditions, 'Stunned')"><p class="effect"><strong>Stunned</strong> Incapacitated. Fail Str and Dex saves. Attacks against you have Advantage.</p></g-if>
     <g-if test="contains(conditions, 'Unconscious')"><p class="effect"><strong>Unconscious</strong> Incapacitated and Prone, drop what you hold, Speed 0. Fail Str and Dex saves. Attacks against you have Advantage; a hit from within 5 ft is a Critical Hit.</p></g-if>
     <div class="exh"><span class="tiny">Exhaustion</span><g-pips count="6" value="exhaustion" label="Exhaustion level" /></div>
-    <div class="exh"><span class="tiny">Concentrating</span><g-field name="concentrating" label="" /><g-if test="concentrating"><span class="conc-spell"><g-value formula="concentration" /></span></g-if></div>
+    <g-if test="concentrating or count_each(spells, row.concentration and (row.prepared or row.always or row.level == 0)) &gt; 0"><div class="exh"><span class="tiny">Concentrating</span><g-field name="concentrating" label="" /><g-if test="concentrating"><span class="conc-spell"><g-value formula="concentration" /></span></g-if></div></g-if>
     <g-if test="has_ref(features, 'rage-barbarian-1-xphb')"><div class="exh"><span class="tiny">Raging</span><g-field name="raging" label="" /></div></g-if>
     <details class="sub">
       <summary>Conditions</summary>
@@ -362,7 +362,7 @@
   <g-if test="weapon_mastery"><section class="box">
     <h3 class="box-heading">Weapon Mastery</h3>
     <g-field name="weapon_masteries" label="" />
-    <div class="prep-action"><g-if test="len(weapon_masteries) &lt; weapon_mastery_max"><g-action name="mastery_choices" label="Choose missing weapons"></g-action></g-if><g-if test="len(weapon_masteries) &gt;= weapon_mastery_max"><g-action name="mastery_choices" label="Change one after a Long Rest"></g-action></g-if></div>
+    <div class="prep-action mastery-action"><g-if test="len(weapon_masteries) &lt; weapon_mastery_max"><g-action name="mastery_choices" label="Choose missing weapons"></g-action></g-if><g-if test="len(weapon_masteries) &gt;= weapon_mastery_max"><g-action name="mastery_choices" label="Change one after a Long Rest"></g-action></g-if></div>
   </section></g-if>
 
   <section class="box">
@@ -508,8 +508,7 @@
   <section class="box">
     <h3 class="box-heading">Character</h3>
     <div class="line"><g-field name="background" label="" readonly="" /><span class="tiny">Background</span></div>
-    <div class="line"><g-field name="species" label="" readonly="" /><span class="tiny">Species</span></div>
-    <g-if test="ref(species, 'lineages') != ''"><div class="line"><g-field name="lineage" label="" readonly="" /><span class="tiny"><g-value formula="ref(species, 'lineage_label')" /></span></div><g-if test="lineage"><p class="tiny lineage-note"><g-value formula="concat(ref(lineage, 'name'), ref(lineage, 'damage_type') != '' ? concat(' · ', ref(lineage, 'damage_type')) : '', ref(lineage, 'darkvision') ? concat(' · Darkvision ', ref(lineage, 'darkvision'), ' ft') : '', ref(lineage, 'speed') ? concat(' · Speed ', ref(lineage, 'speed'), ' ft') : '')" /></p></g-if></g-if>
+    <div class="line"><div class="species-line"><g-field name="species" label="" readonly="" /><g-if test="ref(lineage, 'name') != ''"><span class="species-dash">-</span><g-field name="lineage" label="" readonly="" /></g-if></div><span class="tiny">Species</span></div>
     <g-if test="class1_level >= 3 or ref(subclass, 'name') != ''"><div class="line"><g-field name="subclass" label="" readonly="" /><span class="tiny">Subclass</span></div></g-if>
     <g-if test="ref(subclass2, 'name') != ''"><div class="line"><g-field name="subclass2" label="" readonly="" /><span class="tiny">Subclass 2</span></div></g-if>
     <g-if test="ref(subclass3, 'name') != ''"><div class="line"><g-field name="subclass3" label="" readonly="" /><span class="tiny">Subclass 3</span></div></g-if>

@@ -1027,3 +1027,50 @@
 .ability-sources .hp-max.ab-start { font-size: 16px; }
 .ability-sources .ab-bonus { text-align: center; font-weight: 700; }
 .level-value { display: block; text-align: center; font-size: 20px; font-weight: 700; }
+
+/* 1.63.0: species and lineage in one box, "Elf - High Elf", each name opening its entry */
+.species-line {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-deep);
+  overflow: hidden;
+}
+.species-line .gc-field { flex: 0 1 auto; min-width: 0; margin: 0; }
+.species-line .gc-field button {
+  flex: 0 1 auto !important;
+  border: none !important;
+  background: transparent !important;
+  padding-right: 2px !important;
+}
+.species-line .gc-field + * button, .species-dash + .gc-field button { padding-left: 2px !important; }
+.species-dash { color: var(--text); padding: 0 2px; }
+/* Current HP reads larger than Temp and Max */
+.hp-current-adj { font-size: 22px; }
+/* Changing a mastery: a quiet button like Browse catalog, on the row of the list's own buttons */
+.prep-action.mastery-action {
+  display: flex;
+  justify-content: flex-end;
+  margin: -31px 0 0;
+  pointer-events: none;
+}
+.prep-action.mastery-action .gc-action {
+  pointer-events: auto;
+  width: auto;
+  padding: 6px 12px !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--text-dim) !important;
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+  box-shadow: none;
+}
+/* Level lines up with Hit Points: the figure on the row of the HP figures, the button on the rest buttons' row */
+.hp { justify-content: flex-start; }
+.hp .rest-buttons { margin-top: auto; }
+.level-value { margin-top: 18px; }

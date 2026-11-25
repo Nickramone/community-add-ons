@@ -298,6 +298,11 @@
             "type": "string",
             "description": "Required for content_ref/content_list: the content type this field picks from. Must be one the schema declares."
           },
+          "entry_note": {
+            "type": "string",
+            "minLength": 1,
+            "description": "content_ref/content_list: a formula reading the candidate as entry beside the character, shown beside each name in the catalog browser (entry.mastery) (the Nickramone fork today)."
+          },
           "filter_from": {
             "type": "object",
             "description": "content_ref/content_list: the picker's filters worked out from the character, a formula per filterable property ({\"option_type\": \"concat(ref(klass, 'option_type'), ',', ...)\"}); a list separated by commas lets through any of its values (the Nickramone fork today).",

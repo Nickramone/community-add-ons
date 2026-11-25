@@ -12,16 +12,15 @@
     <div class="identity box">
       <div class="name-row"><div class="name-field"><span class="tiny">Character Name</span><g-field name="hero_name" label="" /></div><label class="insp pip-label" title="Heroic Inspiration"><g-field name="heroic_inspiration" label="" /><span class="tiny">Inspiration</span></label></div>
       <div class="identity-grid">
-        <div><span class="tiny">Background</span><g-field name="background" label="" readonly="" /></div>
+        <div><span class="tiny">Species</span><div class="species-line"><g-field name="species" label="" readonly="" /><g-if test="ref(lineage, 'name') != ''"><span class="species-dash">-</span><g-field name="lineage" label="" readonly="" /></g-if></div></div>
         <div><span class="tiny">Class<g-if test="ref(klass2, 'name') != ''"> · level <g-value formula="class1_level" /></g-if></span><g-field name="klass" label="" readonly="" /></div>
-        <g-if test="ref(klass2, 'name') != ''"><div><span class="tiny">Class 2 · level <g-value formula="class2_level" /></span><g-field name="klass2" label="" readonly="" /></div></g-if>
-        <g-if test="ref(klass3, 'name') != ''"><div><span class="tiny">Class 3 · level <g-value formula="class3_level" /></span><g-field name="klass3" label="" readonly="" /></div></g-if>
-        <g-if test="ref(klass4, 'name') != ''"><div><span class="tiny">Class 4 · level <g-value formula="class4_level" /></span><g-field name="klass4" label="" readonly="" /></div></g-if>
-        <div><span class="tiny">Species</span><g-field name="species" label="" readonly="" /></div>
-        <g-if test="ref(species, 'lineages') != ''"><div><span class="tiny"><g-value formula="ref(species, 'lineage_label')" /></span><g-field name="lineage" label="" readonly="" /><g-if test="lineage"><p class="tiny lineage-note"><g-value formula="concat(ref(lineage, 'name'), ref(lineage, 'damage_type') != '' ? concat(' · ', ref(lineage, 'damage_type')) : '', ref(lineage, 'darkvision') ? concat(' · Darkvision ', ref(lineage, 'darkvision'), ' ft') : '', ref(lineage, 'speed') ? concat(' · Speed ', ref(lineage, 'speed'), ' ft') : '')" /></p></g-if></div></g-if>
+        <div><span class="tiny">Background</span><g-field name="background" label="" readonly="" /></div>
         <g-if test="class1_level >= 3 or ref(subclass, 'name') != ''"><div><span class="tiny">Subclass</span><g-field name="subclass" label="" readonly="" /></div></g-if>
+        <g-if test="ref(klass2, 'name') != ''"><div><span class="tiny">Class 2 · level <g-value formula="class2_level" /></span><g-field name="klass2" label="" readonly="" /></div></g-if>
         <g-if test="ref(subclass2, 'name') != ''"><div><span class="tiny">Subclass 2</span><g-field name="subclass2" label="" readonly="" /></div></g-if>
+        <g-if test="ref(klass3, 'name') != ''"><div><span class="tiny">Class 3 · level <g-value formula="class3_level" /></span><g-field name="klass3" label="" readonly="" /></div></g-if>
         <g-if test="ref(subclass3, 'name') != ''"><div><span class="tiny">Subclass 3</span><g-field name="subclass3" label="" readonly="" /></div></g-if>
+        <g-if test="ref(klass4, 'name') != ''"><div><span class="tiny">Class 4 · level <g-value formula="class4_level" /></span><g-field name="klass4" label="" readonly="" /></div></g-if>
         <g-if test="ref(subclass4, 'name') != ''"><div><span class="tiny">Subclass 4</span><g-field name="subclass4" label="" readonly="" /></div></g-if>
       </div>
     </div>
@@ -41,8 +40,8 @@
         <span class="tiny box-title">Hit Points</span>
         <div class="hp-grid">
           <span class="tiny">Current</span><span class="tiny">Temp</span><span class="tiny">Max</span>
-          <div class="hp-current"><g-field name="hp_current" label="" variant="compact" /></div>
-          <g-field name="hp_temp" label="" variant="compact" />
+          <span class="hp-max hp-current-adj"><g-action name="hp_current_down" label="−" class="hp-adjust"></g-action><g-value name="hp_current" /><g-action name="hp_current_up" label="+" class="hp-adjust"></g-action></span>
+          <span class="hp-max"><g-action name="hp_temp_down" label="−" class="hp-adjust"></g-action><g-value name="hp_temp" /><g-action name="hp_temp_up" label="+" class="hp-adjust"></g-action></span>
           <span class="hp-max"><g-action name="hp_max_down" label="−" class="hp-adjust"></g-action><g-value formula="hp_maximum" /><g-action name="hp_max_up" label="+" class="hp-adjust"></g-action></span>
         </div>
         <div class="rest-buttons"><g-action name="short_rest" label="Short rest"></g-action> <g-action name="long_rest" label="Long rest"></g-action></div>
@@ -195,7 +194,7 @@
         <g-if test="contains(conditions, 'Unconscious')"><p class="effect"><strong>Unconscious</strong> Incapacitated and Prone, drop what you hold, Speed 0. Fail Str and Dex saves. Attacks against you have Advantage; a hit from within 5 ft is a Critical Hit.</p></g-if>
         <div class="effects-controls">
           <div class="exh"><span class="tiny">Exhaustion</span><g-pips count="6" value="exhaustion" label="Exhaustion level" /></div>
-          <div class="exh"><span class="tiny">Concentrating</span><g-field name="concentrating" label="" /><g-if test="concentrating"><span class="conc-spell"><g-value formula="concentration" /></span></g-if></div>
+          <g-if test="concentrating or count_each(spells, row.concentration and (row.prepared or row.always or row.level == 0)) &gt; 0"><div class="exh"><span class="tiny">Concentrating</span><g-field name="concentrating" label="" /><g-if test="concentrating"><span class="conc-spell"><g-value formula="concentration" /></span></g-if></div></g-if>
           <g-if test="has_ref(features, 'rage-barbarian-1-xphb')"><div class="exh"><span class="tiny">Raging</span><g-field name="raging" label="" /></div></g-if>
         </div>
         <details class="conditions">
@@ -307,7 +306,7 @@
       <g-if test="weapon_mastery"><section class="box">
         <h3 class="box-heading">Weapon Mastery</h3>
         <g-field name="weapon_masteries" label="" />
-        <div class="prep-action"><g-if test="len(weapon_masteries) &lt; weapon_mastery_max"><g-action name="mastery_choices" label="Choose missing weapons"></g-action></g-if><g-if test="len(weapon_masteries) &gt;= weapon_mastery_max"><g-action name="mastery_choices" label="Change one after a Long Rest"></g-action></g-if></div>
+        <div class="prep-action mastery-action"><g-if test="len(weapon_masteries) &lt; weapon_mastery_max"><g-action name="mastery_choices" label="Choose missing weapons"></g-action></g-if><g-if test="len(weapon_masteries) &gt;= weapon_mastery_max"><g-action name="mastery_choices" label="Change one after a Long Rest"></g-action></g-if></div>
       </section></g-if>
 
       <section class="box">
