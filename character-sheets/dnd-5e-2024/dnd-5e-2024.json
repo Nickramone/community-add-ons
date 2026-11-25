@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.57.0",
+  "version": "1.58.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -3674,6 +3674,7 @@
       ],
       "per_entry_fields": {
         "from_level": {"type": "number", "label": "From level", "min": 0, "max": 20, "visible_if": "false"},
+        "chosen": {"type": "text", "label": "Chosen", "default": "", "in_title": true, "visible_if": "false"},
         "asi": {"type": "select", "label": "Ability increase", "visible_if": "len(row.ability_options) > 0", "options": [{"value": "", "label": "—"}, {"value": "strength", "label": "Str"}, {"value": "dexterity", "label": "Dex"}, {"value": "constitution", "label": "Con"}, {"value": "intelligence", "label": "Int"}, {"value": "wisdom", "label": "Wis"}, {"value": "charisma", "label": "Cha"}]}
       }
     },
@@ -3856,6 +3857,7 @@
       "type": "content_list",
       "label": "Metamagic, Invocations and Maneuvers",
       "content_type": "option",
+      "filter_from": {"option_type": "concat(ref(klass, 'option_type'), ',', ref(subclass, 'option_type'), ',', ref(klass2, 'option_type'), ',', ref(subclass2, 'option_type'), ',', ref(klass3, 'option_type'), ',', ref(subclass3, 'option_type'), ',', ref(klass4, 'option_type'), ',', ref(subclass4, 'option_type'))"},
       "allow_freeform": true,
       "per_entry_fields": {
         "from_level": {"type": "number", "label": "From level", "min": 0, "max": 20, "visible_if": "false"}
@@ -5805,6 +5807,7 @@
         }
       ],
       "apply": [
+        {"each": "feats", "where": "answer.variant and row.spell_variants and not row.chosen", "set": {"chosen": "answer.variant"}},
         {
           "grant": "spells",
           "from": "row.auto_spell_ids ? row.auto_spell_ids : ''",
@@ -6143,6 +6146,7 @@
         }
       ],
       "apply": [
+        {"each": "feats", "where": "contains(row.name, 'Magic Initiate') and not row.chosen and contains(ref(background, 'feat'), 'Magic Initiate')", "set": {"chosen": "contains(ref(background, 'feat'), 'Cleric') ? 'Cleric Spells' : (contains(ref(background, 'feat'), 'Druid') ? 'Druid Spells' : (contains(ref(background, 'feat'), 'Wizard') ? 'Wizard Spells' : ''))"}},
         {
           "pick": "spells",
           "entry": "answer.cantrips",

@@ -125,9 +125,9 @@
     {
       "id": "dnd-5e-2024",
       "name": "D&D 5th Edition (2024)",
-      "version": "1.57.0",
+      "version": "1.58.0",
       "path": "character-sheets/dnd-5e-2024/dnd-5e-2024.json",
-      "sha256": "1bfa4dc79c22e6853282ee09ce2f8c5904727c392c5557ea9c9398af4a9458b1",
+      "sha256": "c043d8730f87e8b5e9d34cdf407eddfc98d014766409279aac3769f31da4585b",
       "custom_layout": true,
       "custom_mobile_layout": true,
       "field_count": 128,
