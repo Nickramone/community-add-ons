@@ -333,22 +333,6 @@
   line-height: 1;
 }
 
-/* Capped, so on a wide screen the two small boxes stay small. */
-.ability-parts {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2px 8px;
-  text-align: center;
-  width: 100%;
-  max-width: 180px;
-  margin: 0 auto;
-}
-
-.ability-parts input {
-  padding: 3px;
-  font-size: 13px;
-}
-
 .lines {
   list-style: none;
   padding: 0;
@@ -1020,3 +1004,21 @@
   opacity: 0.55;
 }
 .hp-max .gc-action.hp-adjust:hover { opacity: 1; }
+
+/* 1.60.0: starting score, bonus and item adjustments live in Story */
+.ability-sources {
+  display: grid;
+  grid-template-columns: auto repeat(2, minmax(0, 1fr)) auto;
+  gap: 4px 8px;
+  align-items: center;
+  text-align: center;
+}
+
+.ability-sources .ab-name {
+  text-align: left;
+}
+
+.ability-sources input {
+  padding: 3px;
+  font-size: 13px;
+}

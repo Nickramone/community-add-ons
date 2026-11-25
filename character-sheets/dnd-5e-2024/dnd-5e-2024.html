@@ -76,12 +76,6 @@
             <div class="ability-mod"><span class="mod-value"><g-value name="strength_mod" /></span><span class="tiny">Modifier</span></div>
             <div class="ability-score"><span class="score-value"><g-value name="strength_score" /></span><span class="tiny">Score</span></div>
           </div>
-          <div class="ability-parts">
-            <span class="tiny">Starting score</span><span class="tiny">Bonus</span>
-            <g-field name="strength" label="" variant="compact" />
-            <g-field name="strength_bonus" label="" variant="compact" />
-          </div>
-          <p class="tiny origin"><g-value formula="concat('Starting ', strength, strength_bonus ? concat(' · Bonus +', strength_bonus) : '', (strength_score - strength - strength_bonus) != 0 ? concat(' · Items ', signed(strength_score - strength - strength_bonus)) : '')" /></p>
           <ul class="lines">
           <li class="line save"><span class="c-tier"><g-field name="strength_save_prof" label="" readonly /></span><span class="c-value"><g-value name="strength_save" /></span><span class="c-name">Saving Throw</span></li>
           <li class="line"><span class="c-tier"><g-tier value="Athletics" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Athletics" /></span><span class="c-value"><g-value name="skill_athletics" /></span><span class="c-name">Athletics</span></li>
@@ -93,12 +87,6 @@
             <div class="ability-mod"><span class="mod-value"><g-value name="dexterity_mod" /></span><span class="tiny">Modifier</span></div>
             <div class="ability-score"><span class="score-value"><g-value name="dexterity_score" /></span><span class="tiny">Score</span></div>
           </div>
-          <div class="ability-parts">
-            <span class="tiny">Starting score</span><span class="tiny">Bonus</span>
-            <g-field name="dexterity" label="" variant="compact" />
-            <g-field name="dexterity_bonus" label="" variant="compact" />
-          </div>
-          <p class="tiny origin"><g-value formula="concat('Starting ', dexterity, dexterity_bonus ? concat(' · Bonus +', dexterity_bonus) : '', (dexterity_score - dexterity - dexterity_bonus) != 0 ? concat(' · Items ', signed(dexterity_score - dexterity - dexterity_bonus)) : '')" /></p>
           <ul class="lines">
           <li class="line save"><span class="c-tier"><g-field name="dexterity_save_prof" label="" readonly /></span><span class="c-value"><g-value name="dexterity_save" /></span><span class="c-name">Saving Throw</span></li>
           <li class="line"><span class="c-tier"><g-tier value="Acrobatics" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Acrobatics" /></span><span class="c-value"><g-value name="skill_acrobatics" /></span><span class="c-name">Acrobatics</span></li>
@@ -112,12 +100,6 @@
             <div class="ability-mod"><span class="mod-value"><g-value name="constitution_mod" /></span><span class="tiny">Modifier</span></div>
             <div class="ability-score"><span class="score-value"><g-value name="constitution_score" /></span><span class="tiny">Score</span></div>
           </div>
-          <div class="ability-parts">
-            <span class="tiny">Starting score</span><span class="tiny">Bonus</span>
-            <g-field name="constitution" label="" variant="compact" />
-            <g-field name="constitution_bonus" label="" variant="compact" />
-          </div>
-          <p class="tiny origin"><g-value formula="concat('Starting ', constitution, constitution_bonus ? concat(' · Bonus +', constitution_bonus) : '', (constitution_score - constitution - constitution_bonus) != 0 ? concat(' · Items ', signed(constitution_score - constitution - constitution_bonus)) : '')" /></p>
           <ul class="lines">
           <li class="line save"><span class="c-tier"><g-field name="constitution_save_prof" label="" readonly /></span><span class="c-value"><g-value name="constitution_save" /></span><span class="c-name">Saving Throw</span></li>
           </ul>
@@ -130,12 +112,6 @@
             <div class="ability-mod"><span class="mod-value"><g-value name="intelligence_mod" /></span><span class="tiny">Modifier</span></div>
             <div class="ability-score"><span class="score-value"><g-value name="intelligence_score" /></span><span class="tiny">Score</span></div>
           </div>
-          <div class="ability-parts">
-            <span class="tiny">Starting score</span><span class="tiny">Bonus</span>
-            <g-field name="intelligence" label="" variant="compact" />
-            <g-field name="intelligence_bonus" label="" variant="compact" />
-          </div>
-          <p class="tiny origin"><g-value formula="concat('Starting ', intelligence, intelligence_bonus ? concat(' · Bonus +', intelligence_bonus) : '', (intelligence_score - intelligence - intelligence_bonus) != 0 ? concat(' · Items ', signed(intelligence_score - intelligence - intelligence_bonus)) : '')" /></p>
           <ul class="lines">
           <li class="line save"><span class="c-tier"><g-field name="intelligence_save_prof" label="" readonly /></span><span class="c-value"><g-value name="intelligence_save" /></span><span class="c-name">Saving Throw</span></li>
           <li class="line"><span class="c-tier"><g-tier value="Arcana" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Arcana" /></span><span class="c-value"><g-value name="skill_arcana" /></span><span class="c-name">Arcana</span></li>
@@ -151,12 +127,6 @@
             <div class="ability-mod"><span class="mod-value"><g-value name="wisdom_mod" /></span><span class="tiny">Modifier</span></div>
             <div class="ability-score"><span class="score-value"><g-value name="wisdom_score" /></span><span class="tiny">Score</span></div>
           </div>
-          <div class="ability-parts">
-            <span class="tiny">Starting score</span><span class="tiny">Bonus</span>
-            <g-field name="wisdom" label="" variant="compact" />
-            <g-field name="wisdom_bonus" label="" variant="compact" />
-          </div>
-          <p class="tiny origin"><g-value formula="concat('Starting ', wisdom, wisdom_bonus ? concat(' · Bonus +', wisdom_bonus) : '', (wisdom_score - wisdom - wisdom_bonus) != 0 ? concat(' · Items ', signed(wisdom_score - wisdom - wisdom_bonus)) : '')" /></p>
           <ul class="lines">
           <li class="line save"><span class="c-tier"><g-field name="wisdom_save_prof" label="" readonly /></span><span class="c-value"><g-value name="wisdom_save" /></span><span class="c-name">Saving Throw</span></li>
           <li class="line"><span class="c-tier"><g-tier value="Animal Handling" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Animal Handling" /></span><span class="c-value"><g-value name="skill_animal_handling" /></span><span class="c-name">Animal Handling</span></li>
@@ -172,12 +142,6 @@
             <div class="ability-mod"><span class="mod-value"><g-value name="charisma_mod" /></span><span class="tiny">Modifier</span></div>
             <div class="ability-score"><span class="score-value"><g-value name="charisma_score" /></span><span class="tiny">Score</span></div>
           </div>
-          <div class="ability-parts">
-            <span class="tiny">Starting score</span><span class="tiny">Bonus</span>
-            <g-field name="charisma" label="" variant="compact" />
-            <g-field name="charisma_bonus" label="" variant="compact" />
-          </div>
-          <p class="tiny origin"><g-value formula="concat('Starting ', charisma, charisma_bonus ? concat(' · Bonus +', charisma_bonus) : '', (charisma_score - charisma - charisma_bonus) != 0 ? concat(' · Items ', signed(charisma_score - charisma - charisma_bonus)) : '')" /></p>
           <ul class="lines">
           <li class="line save"><span class="c-tier"><g-field name="charisma_save_prof" label="" readonly /></span><span class="c-value"><g-value name="charisma_save" /></span><span class="c-name">Saving Throw</span></li>
           <li class="line"><span class="c-tier"><g-tier value="Deception" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Deception" /></span><span class="c-value"><g-value name="skill_deception" /></span><span class="c-name">Deception</span></li>
@@ -483,6 +447,19 @@
       <section class="box">
         <h3 class="box-heading">Level-ups</h3>
         <g-field name="advancements" label="" readonly="" /><g-if test="len(advancements) &gt; 0"><div class="undo-level-action"><g-action name="undo_level_up" label="Undo Last Level" class="undo-level"></g-action></div></g-if>
+      </section>
+      <section class="box">
+        <h3 class="box-heading">Ability Scores</h3>
+        <div class="ability-sources">
+          <span class="tiny"></span><span class="tiny">Starting score</span><span class="tiny">Bonus</span><span class="tiny">Items</span>
+          <span class="ab-name">Strength</span><g-field name="strength" label="" variant="compact" /><g-field name="strength_bonus" label="" variant="compact" readonly /><span class="ab-items"><g-value formula="signed(strength_score - strength - strength_bonus)" /></span>
+          <span class="ab-name">Dexterity</span><g-field name="dexterity" label="" variant="compact" /><g-field name="dexterity_bonus" label="" variant="compact" readonly /><span class="ab-items"><g-value formula="signed(dexterity_score - dexterity - dexterity_bonus)" /></span>
+          <span class="ab-name">Constitution</span><g-field name="constitution" label="" variant="compact" /><g-field name="constitution_bonus" label="" variant="compact" readonly /><span class="ab-items"><g-value formula="signed(constitution_score - constitution - constitution_bonus)" /></span>
+          <span class="ab-name">Intelligence</span><g-field name="intelligence" label="" variant="compact" /><g-field name="intelligence_bonus" label="" variant="compact" readonly /><span class="ab-items"><g-value formula="signed(intelligence_score - intelligence - intelligence_bonus)" /></span>
+          <span class="ab-name">Wisdom</span><g-field name="wisdom" label="" variant="compact" /><g-field name="wisdom_bonus" label="" variant="compact" readonly /><span class="ab-items"><g-value formula="signed(wisdom_score - wisdom - wisdom_bonus)" /></span>
+          <span class="ab-name">Charisma</span><g-field name="charisma" label="" variant="compact" /><g-field name="charisma_bonus" label="" variant="compact" readonly /><span class="ab-items"><g-value formula="signed(charisma_score - charisma - charisma_bonus)" /></span>
+        </div>
+        <p class="tiny origin">Bonus comes from your background, Ability Score Improvements and feats. Change it with the Level up prompts and Undo Last Level.</p>
       </section>
       <section class="box">
       <h3 class="box-heading">Equipment Training &amp; Proficiencies</h3>

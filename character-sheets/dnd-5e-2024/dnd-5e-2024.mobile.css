@@ -1032,3 +1032,21 @@
   opacity: 0.55;
 }
 .hp-max .gc-action.hp-adjust:hover { opacity: 1; }
+
+/* 1.60.0: starting score, bonus and item adjustments live in Story */
+.ability-sources {
+  display: grid;
+  grid-template-columns: auto repeat(2, minmax(0, 1fr)) auto;
+  gap: 4px 8px;
+  align-items: center;
+  text-align: center;
+}
+
+.ability-sources .ab-name {
+  text-align: left;
+}
+
+.ability-sources input {
+  padding: 3px;
+  font-size: 13px;
+}
