@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.58.0",
+  "version": "1.59.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -335,6 +335,7 @@
         "fighting_style_total_by_level": {"type": "text", "label": "Fighting Style Feats Due By Level (total)"},
         "expertise_total_by_level": {"type": "text", "label": "Expertise Due By Level (total)"},
         "options_total_by_level": {"type": "text", "label": "Options Due By Level (total)"},
+        "weapon_mastery_total_by_level": {"type": "text", "label": "Weapon Mastery Kinds By Level (total)"},
         "cantrips_by_level": {"type": "text", "label": "Cantrips By Level (total)"},
         "prepared_by_level": {"type": "text", "label": "Prepared Spells By Level (total)"},
         "spellbook_by_level": {"type": "text", "label": "Spellbook Spells By Level (total)"},
@@ -3863,6 +3864,7 @@
         "from_level": {"type": "number", "label": "From level", "min": 0, "max": 20, "visible_if": "false"}
       }
     },
+    "weapon_masteries": {"type": "content_list", "label": "Weapon Mastery", "content_type": "item", "allow_freeform": false, "display_columns": ["mastery"]},
     "species_traits": {
       "type": "content_list",
       "label": "Species Traits",
@@ -3987,8 +3989,12 @@
       "formula": "floor(proficiency / 2)",
       "label": "Half Proficiency Bonus"
     },
+    "weapon_mastery_max": {"formula": "by_level(ref(klass, 'weapon_mastery_total_by_level'), class1_level) + by_level(ref(klass2, 'weapon_mastery_total_by_level'), class2_level) + by_level(ref(klass3, 'weapon_mastery_total_by_level'), class3_level) + by_level(ref(klass4, 'weapon_mastery_total_by_level'), class4_level) + (has_ref(feats, 'weapon-master-xphb') ? 1 : 0)", "label": "Weapon Mastery kinds"},
+    "mastery_any_weapon": {"formula": "contains(concat(',', ref(klass, 'name'), ',', ref(klass2, 'name'), ',', ref(klass3, 'name'), ',', ref(klass4, 'name'), ','), ',Fighter,') or contains(concat(',', ref(klass, 'name'), ',', ref(klass2, 'name'), ',', ref(klass3, 'name'), ',', ref(klass4, 'name'), ','), ',Paladin,') or contains(concat(',', ref(klass, 'name'), ',', ref(klass2, 'name'), ',', ref(klass3, 'name'), ',', ref(klass4, 'name'), ','), ',Ranger,') or has_ref(feats, 'weapon-master-xphb')", "label": "Mastery of any weapon"},
+    "mastery_melee": {"formula": "contains(concat(',', ref(klass, 'name'), ',', ref(klass2, 'name'), ',', ref(klass3, 'name'), ',', ref(klass4, 'name'), ','), ',Barbarian,')", "label": "Mastery of melee weapons"},
+    "mastery_rogue": {"formula": "contains(concat(',', ref(klass, 'name'), ',', ref(klass2, 'name'), ',', ref(klass3, 'name'), ',', ref(klass4, 'name'), ','), ',Rogue,')", "label": "Mastery of Rogue weapons"},
     "weapon_mastery": {
-      "formula": "count_each(features, row.name == 'Weapon Mastery') + (has_ref(feats, 'weapon-master-xphb') ? 1 : 0) > 0",
+      "formula": "weapon_mastery_max > 0 or len(weapon_masteries) > 0",
       "label": "Weapon Mastery"
     },
     "strength_score": {
@@ -4875,6 +4881,17 @@
           "content_type": "option",
           "filter": "entry.option_type == concat(ref((ref(klass2, 'name') != '' and at(advancements, -1, 'class') == ref(klass2, 'name') ? klass2 : (ref(klass3, 'name') != '' and at(advancements, -1, 'class') == ref(klass3, 'name') ? klass3 : (ref(klass4, 'name') != '' and at(advancements, -1, 'class') == ref(klass4, 'name') ? klass4 : klass))), 'option_type'), ref((ref(klass2, 'name') != '' and at(advancements, -1, 'class') == ref(klass2, 'name') ? subclass2 : (ref(klass3, 'name') != '' and at(advancements, -1, 'class') == ref(klass3, 'name') ? subclass3 : (ref(klass4, 'name') != '' and at(advancements, -1, 'class') == ref(klass4, 'name') ? subclass4 : subclass))), 'option_type')) and entry.prereq_level <= (ref(klass2, 'name') != '' and at(advancements, -1, 'class') == ref(klass2, 'name') ? class2_level : (ref(klass3, 'name') != '' and at(advancements, -1, 'class') == ref(klass3, 'name') ? class3_level : (ref(klass4, 'name') != '' and at(advancements, -1, 'class') == ref(klass4, 'name') ? class4_level : class1_level))) and entry._ref != answer.drop._ref and (not entry.prereq_option or (entry.prereq_option != answer.drop.name and (count_each(class_options, row.name == entry.prereq_option) > 0 or answer.opt1.name == entry.prereq_option or answer.opt2.name == entry.prereq_option or answer.opt3.name == entry.prereq_option))) and (entry.repeatable or (not has_ref(class_options, entry._ref) and not has_ref(answer.opt1, entry._ref) and not has_ref(answer.opt2, entry._ref) and not has_ref(answer.opt3, entry._ref)))",
           "visible_if": "answer.swap == 'replace' and has_ref(answer.drop, answer.drop._ref)"
+        },
+        {
+          "key": "masteries",
+          "type": "entries",
+          "content_type": "item",
+          "entry_note": "entry.mastery",
+          "label": "Weapon Mastery",
+          "label_formula": "concat('Weapon Mastery: choose ', weapon_mastery_max - len(weapon_masteries), ' kind(s) of weapon whose mastery property you can use')",
+          "count": "weapon_mastery_max - len(weapon_masteries)",
+          "filter": "entry.mastery != '' and entry.category != 'Spellcasting Focus' and (mastery_any_weapon or (mastery_melee and entry.category == 'Melee Weapon') or (mastery_rogue and (entry.weapon_type == 'Simple' or entry.finesse or entry.light))) and not has_ref(weapon_masteries, entry._ref)",
+          "visible_if": "weapon_mastery_max - len(weapon_masteries) > 0"
         }
       ],
       "apply": [
@@ -5045,6 +5062,74 @@
           "set": {
             "choice": "concat(row.choice, row.choice != '' ? '; ' : '', concat('Replaced ', answer.drop.name, ' with ', answer.swap_new.name))"
           }
+        },
+        {
+          "pick": "weapon_masteries",
+          "entry": "answer.masteries"
+        }
+      ]
+    },
+    "mastery_choices": {
+      "label": "Weapon Mastery",
+      "steps": [
+        {
+          "key": "masteries",
+          "type": "entries",
+          "content_type": "item",
+          "entry_note": "entry.mastery",
+          "label": "Weapon Mastery",
+          "label_formula": "concat('Weapon Mastery: choose ', weapon_mastery_max - len(weapon_masteries), ' kind(s) of weapon whose mastery property you can use')",
+          "count": "weapon_mastery_max - len(weapon_masteries)",
+          "filter": "entry.mastery != '' and entry.category != 'Spellcasting Focus' and (mastery_any_weapon or (mastery_melee and entry.category == 'Melee Weapon') or (mastery_rogue and (entry.weapon_type == 'Simple' or entry.finesse or entry.light))) and not has_ref(weapon_masteries, entry._ref)",
+          "visible_if": "weapon_mastery_max - len(weapon_masteries) > 0"
+        },
+        {
+          "key": "swap",
+          "type": "select",
+          "label": "Whenever you finish a Long Rest you can replace one kind of weapon with another",
+          "options": [
+            {
+              "value": "keep",
+              "label": "Keep them all"
+            },
+            {
+              "value": "replace",
+              "label": "Replace one"
+            }
+          ],
+          "visible_if": "len(weapon_masteries) > 0"
+        },
+        {
+          "key": "drop",
+          "type": "entry",
+          "label": "Weapon to give up",
+          "content_type": "item",
+          "entry_note": "entry.mastery",
+          "filter": "has_ref(weapon_masteries, entry._ref)",
+          "visible_if": "answer.swap == 'replace'"
+        },
+        {
+          "key": "swap_new",
+          "type": "entry",
+          "label": "Weapon that replaces it",
+          "content_type": "item",
+          "entry_note": "entry.mastery",
+          "filter": "entry.mastery != '' and entry.category != 'Spellcasting Focus' and (mastery_any_weapon or (mastery_melee and entry.category == 'Melee Weapon') or (mastery_rogue and (entry.weapon_type == 'Simple' or entry.finesse or entry.light))) and not has_ref(weapon_masteries, entry._ref) and not has_ref(answer.masteries, entry._ref)",
+          "visible_if": "answer.swap == 'replace' and has_ref(answer.drop, answer.drop._ref)"
+        }
+      ],
+      "apply": [
+        {
+          "pick": "weapon_masteries",
+          "entry": "answer.masteries"
+        },
+        {
+          "unpick": "weapon_masteries",
+          "entry": "answer.drop"
+        },
+        {
+          "pick": "weapon_masteries",
+          "entry": "answer.swap_new"
         }
       ]
     },
@@ -6323,6 +6408,7 @@
       "label": "Choose missing spells",
       "steps": [{"prompt": "spell_catchup"}]
     },
+    {"name": "mastery_choices", "label": "Weapon Mastery", "steps": [{"prompt": "mastery_choices"}]},
     {"name": "hp_max_down", "label": "\u2212", "steps": [{"set": "hp_max_adjust", "to": "hp_max_adjust - 1"}]},
     {"name": "hp_max_up", "label": "+", "steps": [{"set": "hp_max_adjust", "to": "hp_max_adjust + 1"}]},
     {
@@ -6628,6 +6714,16 @@
       "rule": "len(advancements) == 0 or count_each(spells, row.from_level and row.from_level > len(advancements) and not (row.always and (row.origin == 'class' or row.origin == 'subclass'))) == 0",
       "message": "A spell was taken at a level the character no longer has (marked ⚠ level gone in Spells): remove it or add the level back.",
       "field": "spells"
+    },
+    {
+      "rule": "len(weapon_masteries) >= weapon_mastery_max",
+      "message": "Fewer weapon masteries than your classes and feats give: choose the missing ones with the button in the Weapon Mastery box.",
+      "field": "weapon_masteries"
+    },
+    {
+      "rule": "len(weapon_masteries) <= weapon_mastery_max",
+      "message": "More weapon masteries than your classes and feats give: use the button in the Weapon Mastery box to replace them, or add the level or feat back.",
+      "field": "weapon_masteries"
     }
   ]
 }
