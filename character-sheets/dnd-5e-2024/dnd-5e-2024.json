@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.66.2",
+  "version": "1.66.3",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -5366,6 +5366,7 @@
           "key": "choice",
           "type": "select",
           "label": "Ability Score Improvement or feat",
+          "visible_if": "pending_asi > 0",
           "options": [
             {
               "value": "asi",
@@ -5438,15 +5439,15 @@
           "append": "late_asi",
           "values": {
             "at_level": "len(advancements)",
-            "choice": "answer.choice == 'asi' ? 'Ability Score Improvement' : concat('Feat ', answer.feat.name)",
-            "plus2": "answer.choice == 'asi' ? (answer.asi.strength == 2 ? 'strength' : (answer.asi.dexterity == 2 ? 'dexterity' : (answer.asi.constitution == 2 ? 'constitution' : (answer.asi.intelligence == 2 ? 'intelligence' : (answer.asi.wisdom == 2 ? 'wisdom' : (answer.asi.charisma == 2 ? 'charisma' : (''))))))) : ''",
-            "plus1a": "answer.choice == 'asi' ? (answer.asi.strength == 1 ? 'strength' : (answer.asi.dexterity == 1 ? 'dexterity' : (answer.asi.constitution == 1 ? 'constitution' : (answer.asi.intelligence == 1 ? 'intelligence' : (answer.asi.wisdom == 1 ? 'wisdom' : (answer.asi.charisma == 1 ? 'charisma' : (''))))))) : ''",
-            "plus1b": "answer.choice == 'asi' ? (answer.asi.charisma == 1 ? 'charisma' : (answer.asi.wisdom == 1 ? 'wisdom' : (answer.asi.intelligence == 1 ? 'intelligence' : (answer.asi.constitution == 1 ? 'constitution' : (answer.asi.dexterity == 1 ? 'dexterity' : (answer.asi.strength == 1 ? 'strength' : (''))))))) : ''"
+            "choice": "pending_asi == 0 ? '' : (answer.choice == 'asi' ? 'Ability Score Improvement' : concat('Feat ', answer.feat.name))",
+            "plus2": "pending_asi == 0 ? '' : (answer.choice == 'asi' ? (answer.asi.strength == 2 ? 'strength' : (answer.asi.dexterity == 2 ? 'dexterity' : (answer.asi.constitution == 2 ? 'constitution' : (answer.asi.intelligence == 2 ? 'intelligence' : (answer.asi.wisdom == 2 ? 'wisdom' : (answer.asi.charisma == 2 ? 'charisma' : (''))))))) : '')",
+            "plus1a": "pending_asi == 0 ? '' : (answer.choice == 'asi' ? (answer.asi.strength == 1 ? 'strength' : (answer.asi.dexterity == 1 ? 'dexterity' : (answer.asi.constitution == 1 ? 'constitution' : (answer.asi.intelligence == 1 ? 'intelligence' : (answer.asi.wisdom == 1 ? 'wisdom' : (answer.asi.charisma == 1 ? 'charisma' : (''))))))) : '')",
+            "plus1b": "pending_asi == 0 ? '' : (answer.choice == 'asi' ? (answer.asi.charisma == 1 ? 'charisma' : (answer.asi.wisdom == 1 ? 'wisdom' : (answer.asi.intelligence == 1 ? 'intelligence' : (answer.asi.constitution == 1 ? 'constitution' : (answer.asi.dexterity == 1 ? 'dexterity' : (answer.asi.strength == 1 ? 'strength' : (''))))))) : '')"
           }
         },
         {
           "pick": "feats",
-          "entry": "answer.feat",
+          "entry": "pending_asi > 0 ? answer.feat : ''",
           "values": {
             "from_level": "len(advancements)",
             "asi": "answer.feat_asi"
