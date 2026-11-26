@@ -28,7 +28,7 @@
     <div class="topstats">
       <div class="level box">
         <span class="tiny box-title">Level</span><span class="level-value"><g-value name="level" /></span>
-        <g-if test="pending_asi == 0"><g-action name="level_up" label="Level up"></g-action></g-if><g-if test="pending_asi &gt; 0"><g-action prompt="asi_later" label="Choose ASI or feat"></g-action></g-if>
+        <g-if test="pending_asi == 0"><g-action name="level_up" label="Level up"></g-action></g-if><g-if test="pending_asi &gt; 0"><g-action prompt="asi_later" label="Choose ASI or feat" class="level-pending"></g-action></g-if>
       </div>
       <div class="armour box">
         <span class="tiny box-title">Armour Class</span>

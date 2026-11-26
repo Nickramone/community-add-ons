@@ -1101,3 +1101,11 @@
 .gc-pending {
   margin-top: 2px;
 }
+
+/* 1.66.2: Level up while an ASI or feat waits: two short lines inside the button */
+.gc-action.level-pending {
+  white-space: normal !important;
+  line-height: 1.15 !important;
+  font-size: 0.85rem !important;
+  padding: 6px 4px !important;
+}
