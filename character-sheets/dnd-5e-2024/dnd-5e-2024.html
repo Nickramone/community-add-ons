@@ -12,9 +12,9 @@
     <div class="identity box">
       <div class="name-row"><div class="name-field"><span class="tiny">Character Name</span><g-field name="hero_name" label="" /></div><label class="insp pip-label" title="Heroic Inspiration"><g-field name="heroic_inspiration" label="" /><span class="tiny">Inspiration</span></label></div>
       <div class="identity-grid">
-        <div><span class="tiny">Species</span><div class="species-line"><g-field name="species" label="" readonly="" /><g-if test="ref(lineage, 'name') != ''"><span class="species-dash">-</span><g-field name="lineage" label="" readonly="" /></g-if></div><g-if test="pending_species"><div class="pending-note"><span class="pending-mark">⚠ Chosen later</span><g-action prompt="species_later" label="Choose species" class="pending-action"></g-action></div></g-if></div>
+        <div><span class="tiny">Species</span><div class="species-line"><g-field name="species" label="" readonly="" /><g-if test="ref(lineage, 'name') != ''"><span class="species-dash">-</span><g-field name="lineage" label="" readonly="" /></g-if></div><g-if test="pending_species"><div class="pending-note"><g-action prompt="species_later" label="⚠ Species chosen later: choose it now" class="pending-action"></g-action></div></g-if></div>
         <div><span class="tiny">Class<g-if test="ref(klass2, 'name') != ''"> · level <g-value formula="class1_level" /></g-if></span><g-field name="klass" label="" readonly="" /></div>
-        <div><span class="tiny">Background</span><g-field name="background" label="" readonly="" /><g-if test="pending_background"><div class="pending-note"><span class="pending-mark">⚠ Chosen later</span><g-action prompt="background_later" label="Choose background" class="pending-action"></g-action></div></g-if></div>
+        <div><span class="tiny">Background</span><g-field name="background" label="" readonly="" /><g-if test="pending_background"><div class="pending-note"><g-action prompt="background_later" label="⚠ Background chosen later: choose it now" class="pending-action"></g-action></div></g-if></div>
         <g-if test="class1_level >= 3 or ref(subclass, 'name') != ''"><div><span class="tiny">Subclass</span><g-field name="subclass" label="" readonly="" /></div></g-if>
         <g-if test="ref(klass2, 'name') != ''"><div><span class="tiny">Class 2 · level <g-value formula="class2_level" /></span><g-field name="klass2" label="" readonly="" /></div></g-if>
         <g-if test="ref(subclass2, 'name') != ''"><div><span class="tiny">Subclass 2</span><g-field name="subclass2" label="" readonly="" /></div></g-if>
@@ -288,7 +288,7 @@
 
       <section class="box">
         <h3 class="box-heading">Feats</h3>
-        <g-if test="pending_asi &gt; 0"><div class="pending-note"><span class="pending-mark">⚠ Ability Score Improvement or feat chosen later: choose it before the next Level up</span><g-action prompt="asi_later" label="Choose ASI or feat" class="pending-action"></g-action></div></g-if>
+        <g-if test="pending_asi &gt; 0"><div class="pending-note"><g-action prompt="asi_later" label="⚠ Ability Score Improvement or feat chosen later: choose it before the next Level up" class="pending-action"></g-action></div></g-if>
         <g-field name="feats" label="" />
       </section>
 
@@ -449,7 +449,7 @@
       </section>
       <section class="box">
         <h3 class="box-heading">Ability Scores</h3>
-        <g-if test="pending_asi &gt; 0"><div class="pending-note"><span class="pending-mark">⚠ Ability Score Improvement or feat chosen later: choose it before the next Level up</span><g-action prompt="asi_later" label="Choose ASI or feat" class="pending-action"></g-action></div></g-if>
+        <g-if test="pending_asi &gt; 0"><div class="pending-note"><g-action prompt="asi_later" label="⚠ Ability Score Improvement or feat chosen later: choose it before the next Level up" class="pending-action"></g-action></div></g-if>
         <div class="ability-sources">
           <span class="tiny"></span><span class="tiny">Starting score</span><span class="tiny">Bonus</span><span class="tiny">Items</span>
           <span class="ab-name">Strength</span><span class="hp-max ab-start"><g-action name="strength_down" label="−" class="hp-adjust"></g-action><g-value name="strength" /><g-action name="strength_up" label="+" class="hp-adjust"></g-action></span><span class="ab-bonus"><g-value formula="signed(strength_bonus)" /></span><span class="ab-items"><g-value formula="signed(strength_score - strength - strength_bonus)" /></span>

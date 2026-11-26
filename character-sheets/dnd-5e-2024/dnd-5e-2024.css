@@ -1078,24 +1078,26 @@
 .hp { justify-content: center; }
 .level-value { margin-top: 18px; }
 
-/* 1.66.0: a choice put off, marked beside what it is about */
+/* 1.66.1: a choice put off, marked beside what it is about: the mark is the button */
 .pending-note {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px;
   margin: 4px 0 6px;
-  padding: 4px 8px;
-  border-left: 3px solid var(--warning, #d4a017);
-  background: color-mix(in srgb, var(--warning, #d4a017) 10%, transparent);
-}
-
-.pending-mark {
-  font-size: 0.8rem;
-  color: var(--text-dim);
 }
 
 .pending-note .gc-action {
-  padding: 2px 10px !important;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  text-align: left;
+  white-space: normal;
+  padding: 4px 8px !important;
   font-size: 0.8rem !important;
+  border: 1px solid var(--warning, #d4a017) !important;
+  border-left: 3px solid var(--warning, #d4a017) !important;
+  background: color-mix(in srgb, var(--warning, #d4a017) 12%, transparent) !important;
+  color: var(--text) !important;
+}
+
+/* The fork's own marks on a feat row or beside a pick */
+.gc-pending {
+  margin-top: 2px;
 }
