@@ -164,7 +164,7 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   picked shows beside the box until it is unticked; putting the window aside
   unticks it, and a rest or Current HP at 0 ends Concentration by itself
   (both need the Grimoire fork's field `on_change` and prompt `on_skip`)
-- **Campaign house rules switch** (on by default): exhaustion as a table
+- **Campaign house rules switch** (set by the campaign, 1.65.0): exhaustion as a table
   rule - −1 per level to AC, spell save DC, saving throws, ability checks,
   attack rolls and damage, −10 ft of speed from level 3, a long rest removes
   two levels. Switched off, the 2024 rule: −2 per level to every d20 Test and
@@ -271,6 +271,7 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
 - **Spells per class in multiclass** (1.64.0): each class keeps its own list, spellcasting ability, cantrips, prepared spells and highest spell level; a class spell belongs to the class that chose it (a hidden `class_slot` on the row; rows added by hand count for the first class). Level up, Choose missing spells and the swaps read the class of the level; Prepare spells asks which class when more than one prepares after a long rest. Save DC and attack of a second class with another ability show under the casting box. Spell slots: with Spellcasting from one class its own table, from two or more the Multiclass Spellcaster count (full casters, half of Paladin and Ranger rounded up, a third of Eldritch Knight and Arcane Trickster rounded down); Pact Magic from the Warlock level apart. Undo Last Level brings expended slots down to the slots of the level before. Spell rows taken now record the character level as From level.
 - **XP in Story, Hit Points on one line each** (1.64.1): XP sits in Story under Alignment, always visible, and leaves the Level box; Current, Temp and Max hit points never break their digits: on a narrow box the last one moves to a row below.
 - **Level and Hit Points centred** (1.64.2): their contents sit in the middle of the box with the same space above and below as Hit Dice and Death Saves.
+- **House rules from the campaign** (1.65.0): the House rules switch is no longer the player's: it reads whether the character's campaign plays its house rules (switched by the GM on the campaign page), shown read-only under Other details with the campaign's name; a character in no campaign plays the 2024 rules. Needs the Nickramone fork with `from_campaign`.
 - **Feat levels checked per class** (1.64.3): the warning for a feat taken at a level without an Ability Score Improvement works in multiclass too, reading the level reached in the class taken at that character level (Fighter 4 / Wizard 2: a feat at level 6 is Wizard 2 and is flagged).
 - **Catalogue data for weapon rows**: weapons (equipment and magic items) carry
   `damage_dice`, `damage_type`, `damage_versatile`, `range_normal`,
