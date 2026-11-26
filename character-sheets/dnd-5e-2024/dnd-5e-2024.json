@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.65.0",
+  "version": "1.66.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -4216,6 +4216,18 @@
       "formula": "2 + floor((level - 1) / 4) + sum_each(magic_items, row.proficiency_bonus, row.equipped && (row.attuned or not row.attunement) && not row._inline)",
       "label": "Proficiency Bonus"
     },
+    "pending_asi": {
+      "formula": "max(0, count_each(advancements, row.choice == 'Chosen later') - count_each(late_asi, row.choice != ''))",
+      "label": "Ability Score Improvements or feats still to choose"
+    },
+    "pending_background": {
+      "formula": "len(advancements) > 0 and ref(background, 'name') == ''",
+      "label": "Background still to choose"
+    },
+    "pending_species": {
+      "formula": "len(advancements) > 0 and (ref(species, 'name') == '' or (ref(lineage, 'name') == '' and ref(species, 'lineages') != ''))",
+      "label": "Species or lineage still to choose"
+    },
     "half_proficiency": {
       "formula": "floor(proficiency / 2)",
       "label": "Half Proficiency Bonus"
@@ -5076,6 +5088,7 @@
     },
     "background_later": {
       "label": "Background (chosen later)",
+      "record": "'level:1'",
       "steps": [
         {
           "key": "background_pick",
@@ -5094,6 +5107,7 @@
     },
     "species_later": {
       "label": "Species (chosen later)",
+      "record": "'level:1'",
       "paged": true,
       "steps": [
         {
@@ -5345,6 +5359,7 @@
     },
     "asi_later": {
       "label": "Ability Score Improvement or Feat (chosen later)",
+      "record": "concat('level:', len(advancements))",
       "paged": true,
       "steps": [
         {
@@ -7232,6 +7247,16 @@
         {
           "set": "pact_slots_used",
           "to": "len(advancements) > 1 ? min(pact_slots_used, warlock_level_prev > 0 ? (warlock_level_prev >= 17 ? 4 : (warlock_level_prev >= 11 ? 3 : (warlock_level_prev >= 2 ? 2 : 1))) : 0) : pact_slots_used"
+        },
+        {
+          "each": "late_asi",
+          "where": "row.at_level == len(advancements)",
+          "set": {
+            "choice": "''",
+            "plus2": "''",
+            "plus1a": "''",
+            "plus1b": "''"
+          }
         },
         {
           "revert": "concat('level:', len(advancements))"
