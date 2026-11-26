@@ -368,6 +368,8 @@
   <section class="box">
     <h3 class="box-heading">Feats</h3>
     <g-if test="pending_asi &gt; 0"><div class="pending-note"><g-action prompt="asi_later" label="⚠ Ability Score Improvement or feat chosen later: choose it before the next Level up" class="pending-action"></g-action></div></g-if>
+    <g-if test="hr_asi_level &gt; 0"><div class="pending-note"><g-action prompt="hr_asi_to_feat" label="⚠ House rules: no Ability Score Improvement - take a feat in its place" class="pending-action"></g-action></div></g-if>
+    <g-if test="hr_off_feat_asi"><div class="pending-note"><g-action prompt="hr_fix_feat_asi" label="⚠ A feat's increase allowed only by the house rules: bring it back to the feat's own abilities" class="pending-action"></g-action></div></g-if>
     <g-field name="feats" label="" />
   </section>
 
@@ -508,7 +510,7 @@
 
   <section class="box">
     <h3 class="box-heading">Character</h3>
-    <div class="line"><g-field name="background" label="" readonly="" /><span class="tiny">Background</span></div><g-if test="pending_background"><div class="pending-note"><g-action prompt="background_later" label="⚠ Background chosen later: choose it now" class="pending-action"></g-action></div></g-if>
+    <div class="line"><g-field name="background" label="" readonly="" /><span class="tiny">Background</span></div><g-if test="pending_background"><div class="pending-note"><g-action prompt="background_later" label="⚠ Background chosen later: choose it now" class="pending-action"></g-action></div></g-if><g-if test="hr_off_bg_abilities or hr_off_bg_feat"><div class="pending-note"><g-action prompt="hr_fix_background" label="⚠ Background choices allowed only by the house rules: bring them back to the 2024 rules" class="pending-action"></g-action></div></g-if>
     <div class="line"><div class="species-line"><g-field name="species" label="" readonly="" /><g-if test="ref(lineage, 'name') != ''"><span class="species-dash">-</span><g-field name="lineage" label="" readonly="" /></g-if></div><span class="tiny">Species</span></div><g-if test="pending_species"><div class="pending-note"><g-action prompt="species_later" label="⚠ Species chosen later: choose it now" class="pending-action"></g-action></div></g-if>
     <g-if test="class1_level >= 3 or ref(subclass, 'name') != ''"><div class="line"><g-field name="subclass" label="" readonly="" /><span class="tiny">Subclass</span></div></g-if>
     <g-if test="ref(subclass2, 'name') != ''"><div class="line"><g-field name="subclass2" label="" readonly="" /><span class="tiny">Subclass 2</span></div></g-if>

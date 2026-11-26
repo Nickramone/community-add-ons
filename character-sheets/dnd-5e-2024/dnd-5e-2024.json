@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.66.3",
+  "version": "1.67.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -3227,7 +3227,7 @@
       "label": "Strength bonus",
       "min": 0,
       "max": 10,
-      "default_from": "bg_strength + sum_each(feats, row.ability_amount, row.asi == 'strength') + 2 * count_each(advancements, row.plus2 == 'strength') + count_each(advancements, row.plus1a == 'strength') + count_each(advancements, row.plus1b == 'strength') + 2 * count_each(late_asi, row.plus2 == 'strength') + count_each(late_asi, row.plus1a == 'strength') + count_each(late_asi, row.plus1b == 'strength')"
+      "default_from": "bg_strength + sum_each(feats, row.ability_amount, row.asi == 'strength') + (campaign_rules ? count_each(feats, row.hr_asi == 'strength') : 0) + 2 * count_each(advancements, row.plus2 == 'strength') + count_each(advancements, row.plus1a == 'strength') + count_each(advancements, row.plus1b == 'strength') + 2 * count_each(late_asi, row.plus2 == 'strength') + count_each(late_asi, row.plus1a == 'strength') + count_each(late_asi, row.plus1b == 'strength')"
     },
     "strength_save_prof": {
       "type": "checkbox",
@@ -3246,7 +3246,7 @@
       "label": "Dexterity bonus",
       "min": 0,
       "max": 10,
-      "default_from": "bg_dexterity + sum_each(feats, row.ability_amount, row.asi == 'dexterity') + 2 * count_each(advancements, row.plus2 == 'dexterity') + count_each(advancements, row.plus1a == 'dexterity') + count_each(advancements, row.plus1b == 'dexterity') + 2 * count_each(late_asi, row.plus2 == 'dexterity') + count_each(late_asi, row.plus1a == 'dexterity') + count_each(late_asi, row.plus1b == 'dexterity')"
+      "default_from": "bg_dexterity + sum_each(feats, row.ability_amount, row.asi == 'dexterity') + (campaign_rules ? count_each(feats, row.hr_asi == 'dexterity') : 0) + 2 * count_each(advancements, row.plus2 == 'dexterity') + count_each(advancements, row.plus1a == 'dexterity') + count_each(advancements, row.plus1b == 'dexterity') + 2 * count_each(late_asi, row.plus2 == 'dexterity') + count_each(late_asi, row.plus1a == 'dexterity') + count_each(late_asi, row.plus1b == 'dexterity')"
     },
     "dexterity_save_prof": {
       "type": "checkbox",
@@ -3265,7 +3265,7 @@
       "label": "Constitution bonus",
       "min": 0,
       "max": 10,
-      "default_from": "bg_constitution + sum_each(feats, row.ability_amount, row.asi == 'constitution') + 2 * count_each(advancements, row.plus2 == 'constitution') + count_each(advancements, row.plus1a == 'constitution') + count_each(advancements, row.plus1b == 'constitution') + 2 * count_each(late_asi, row.plus2 == 'constitution') + count_each(late_asi, row.plus1a == 'constitution') + count_each(late_asi, row.plus1b == 'constitution')"
+      "default_from": "bg_constitution + sum_each(feats, row.ability_amount, row.asi == 'constitution') + (campaign_rules ? count_each(feats, row.hr_asi == 'constitution') : 0) + 2 * count_each(advancements, row.plus2 == 'constitution') + count_each(advancements, row.plus1a == 'constitution') + count_each(advancements, row.plus1b == 'constitution') + 2 * count_each(late_asi, row.plus2 == 'constitution') + count_each(late_asi, row.plus1a == 'constitution') + count_each(late_asi, row.plus1b == 'constitution')"
     },
     "constitution_save_prof": {
       "type": "checkbox",
@@ -3284,7 +3284,7 @@
       "label": "Intelligence bonus",
       "min": 0,
       "max": 10,
-      "default_from": "bg_intelligence + sum_each(feats, row.ability_amount, row.asi == 'intelligence') + 2 * count_each(advancements, row.plus2 == 'intelligence') + count_each(advancements, row.plus1a == 'intelligence') + count_each(advancements, row.plus1b == 'intelligence') + 2 * count_each(late_asi, row.plus2 == 'intelligence') + count_each(late_asi, row.plus1a == 'intelligence') + count_each(late_asi, row.plus1b == 'intelligence')"
+      "default_from": "bg_intelligence + sum_each(feats, row.ability_amount, row.asi == 'intelligence') + (campaign_rules ? count_each(feats, row.hr_asi == 'intelligence') : 0) + 2 * count_each(advancements, row.plus2 == 'intelligence') + count_each(advancements, row.plus1a == 'intelligence') + count_each(advancements, row.plus1b == 'intelligence') + 2 * count_each(late_asi, row.plus2 == 'intelligence') + count_each(late_asi, row.plus1a == 'intelligence') + count_each(late_asi, row.plus1b == 'intelligence')"
     },
     "intelligence_save_prof": {
       "type": "checkbox",
@@ -3303,7 +3303,7 @@
       "label": "Wisdom bonus",
       "min": 0,
       "max": 10,
-      "default_from": "bg_wisdom + sum_each(feats, row.ability_amount, row.asi == 'wisdom') + 2 * count_each(advancements, row.plus2 == 'wisdom') + count_each(advancements, row.plus1a == 'wisdom') + count_each(advancements, row.plus1b == 'wisdom') + 2 * count_each(late_asi, row.plus2 == 'wisdom') + count_each(late_asi, row.plus1a == 'wisdom') + count_each(late_asi, row.plus1b == 'wisdom')"
+      "default_from": "bg_wisdom + sum_each(feats, row.ability_amount, row.asi == 'wisdom') + (campaign_rules ? count_each(feats, row.hr_asi == 'wisdom') : 0) + 2 * count_each(advancements, row.plus2 == 'wisdom') + count_each(advancements, row.plus1a == 'wisdom') + count_each(advancements, row.plus1b == 'wisdom') + 2 * count_each(late_asi, row.plus2 == 'wisdom') + count_each(late_asi, row.plus1a == 'wisdom') + count_each(late_asi, row.plus1b == 'wisdom')"
     },
     "wisdom_save_prof": {
       "type": "checkbox",
@@ -3322,7 +3322,7 @@
       "label": "Charisma bonus",
       "min": 0,
       "max": 10,
-      "default_from": "bg_charisma + sum_each(feats, row.ability_amount, row.asi == 'charisma') + 2 * count_each(advancements, row.plus2 == 'charisma') + count_each(advancements, row.plus1a == 'charisma') + count_each(advancements, row.plus1b == 'charisma') + 2 * count_each(late_asi, row.plus2 == 'charisma') + count_each(late_asi, row.plus1a == 'charisma') + count_each(late_asi, row.plus1b == 'charisma')"
+      "default_from": "bg_charisma + sum_each(feats, row.ability_amount, row.asi == 'charisma') + (campaign_rules ? count_each(feats, row.hr_asi == 'charisma') : 0) + 2 * count_each(advancements, row.plus2 == 'charisma') + count_each(advancements, row.plus1a == 'charisma') + count_each(advancements, row.plus1b == 'charisma') + 2 * count_each(late_asi, row.plus2 == 'charisma') + count_each(late_asi, row.plus1a == 'charisma') + count_each(late_asi, row.plus1b == 'charisma')"
     },
     "charisma_save_prof": {
       "type": "checkbox",
@@ -3451,6 +3451,12 @@
     "death_failure_3": {
       "type": "checkbox",
       "label": "Death save failure 3"
+    },
+    "hr_origin_feat": {
+      "type": "text",
+      "label": "Origin feat chosen by the house rules",
+      "default": "",
+      "visible_if": "false"
     },
     "campaign_rules": {
       "type": "checkbox",
@@ -3905,7 +3911,7 @@
       "per_entry_fields": {
         "from_level": {"type": "number", "label": "From level", "min": 0, "max": 20, "visible_if": "false"},
         "chosen": {"type": "text", "label": "Chosen", "default": "", "in_title": true, "visible_if": "false"},
-        "asi": {"type": "select", "label": "Ability increase", "visible_if": "len(row.ability_options) > 0", "disabled_if": "true", "width": 110, "options": [{"value": "", "label": "—"}, {"value": "strength", "label": "Str"}, {"value": "dexterity", "label": "Dex"}, {"value": "constitution", "label": "Con"}, {"value": "intelligence", "label": "Int"}, {"value": "wisdom", "label": "Wis"}, {"value": "charisma", "label": "Cha"}]}
+        "asi": {"type": "select", "label": "Ability increase", "visible_if": "len(row.ability_options) > 0", "disabled_if": "true", "width": 110, "options": [{"value": "", "label": "—"}, {"value": "strength", "label": "Str"}, {"value": "dexterity", "label": "Dex"}, {"value": "constitution", "label": "Con"}, {"value": "intelligence", "label": "Int"}, {"value": "wisdom", "label": "Wis"}, {"value": "charisma", "label": "Cha"}]}, "hr_asi": {"type": "select", "label": "House rule +1", "visible_if": "campaign_rules and row.hr_asi != ''", "disabled_if": "true", "width": 110, "options": [{"value": "", "label": "—"}, {"value": "strength", "label": "Str"}, {"value": "dexterity", "label": "Dex"}, {"value": "constitution", "label": "Con"}, {"value": "intelligence", "label": "Int"}, {"value": "wisdom", "label": "Wis"}, {"value": "charisma", "label": "Cha"}]}
       }
     },
     "equipment": {
@@ -4220,6 +4226,13 @@
       "formula": "max(0, count_each(advancements, row.choice == 'Chosen later') - count_each(late_asi, row.choice != ''))",
       "label": "Ability Score Improvements or feats still to choose"
     },
+    "hr_best_mental": {"formula": "intelligence_score >= wisdom_score and intelligence_score >= charisma_score ? 'intelligence' : (wisdom_score >= charisma_score ? 'wisdom' : 'charisma')", "label": "Highest of Intelligence, Wisdom and Charisma"},
+    "hr_asi_adv": {"formula": "campaign_rules ? min_each(advancements, row.at_level, row.plus2 or row.plus1a, 0) : 0", "label": "House rules: first Level-ups row with an Ability Score Improvement"},
+    "hr_asi_late": {"formula": "campaign_rules ? min_each(late_asi, row.at_level, row.plus2 or row.plus1a, 0) : 0", "label": "House rules: first later choice with an Ability Score Improvement"},
+    "hr_asi_level": {"formula": "hr_asi_adv > 0 ? hr_asi_adv : hr_asi_late", "label": "House rules: level of an Ability Score Improvement to replace with a feat"},
+    "hr_off_bg_abilities": {"formula": "not campaign_rules and ref(background, 'name') != '' and ((bg_strength > 0 and not contains(ref(background, 'ability_options'), 'strength')) or (bg_dexterity > 0 and not contains(ref(background, 'ability_options'), 'dexterity')) or (bg_constitution > 0 and not contains(ref(background, 'ability_options'), 'constitution')) or (bg_intelligence > 0 and not contains(ref(background, 'ability_options'), 'intelligence')) or (bg_wisdom > 0 and not contains(ref(background, 'ability_options'), 'wisdom')) or (bg_charisma > 0 and not contains(ref(background, 'ability_options'), 'charisma')))", "label": "House rules off: background increases outside its three abilities"},
+    "hr_off_bg_feat": {"formula": "not campaign_rules and hr_origin_feat != '' and has_ref(feats, hr_origin_feat)", "label": "House rules off: Origin feat chosen in place of the background's"},
+    "hr_off_feat_asi": {"formula": "not campaign_rules and count_each(feats, row.asi != '' and len(row.ability_options) > 0 and not contains(row.ability_options, row.asi)) > 0", "label": "House rules off: a feat's increase outside its own abilities"},
     "pending_background": {
       "formula": "len(advancements) > 0 and ref(background, 'name') == ''",
       "label": "Background still to choose"
@@ -4892,8 +4905,9 @@
               "label": "Feat"
             }
           ],
-          "visible_if": "not (answer.cls == 'New class') and contains(ref(((ref(klass2, 'name') != '' and answer.cls == ref(klass2, 'name')) ? klass2 : ((ref(klass3, 'name') != '' and answer.cls == ref(klass3, 'name')) ? klass3 : ((ref(klass4, 'name') != '' and answer.cls == ref(klass4, 'name')) ? klass4 : klass))), 'asi_levels'), concat(',', (answer.cls == 'New class' ? 1 : ((ref(klass2, 'name') != '' and answer.cls == ref(klass2, 'name')) ? class2_level : ((ref(klass3, 'name') != '' and answer.cls == ref(klass3, 'name')) ? class3_level : ((ref(klass4, 'name') != '' and answer.cls == ref(klass4, 'name')) ? class4_level : class1_rows))) + 1), ','))"
+          "visible_if": "not campaign_rules and not (answer.cls == 'New class') and contains(ref(((ref(klass2, 'name') != '' and answer.cls == ref(klass2, 'name')) ? klass2 : ((ref(klass3, 'name') != '' and answer.cls == ref(klass3, 'name')) ? klass3 : ((ref(klass4, 'name') != '' and answer.cls == ref(klass4, 'name')) ? klass4 : klass))), 'asi_levels'), concat(',', (answer.cls == 'New class' ? 1 : ((ref(klass2, 'name') != '' and answer.cls == ref(klass2, 'name')) ? class2_level : ((ref(klass3, 'name') != '' and answer.cls == ref(klass3, 'name')) ? class3_level : ((ref(klass4, 'name') != '' and answer.cls == ref(klass4, 'name')) ? class4_level : class1_rows))) + 1), ','))"
         },
+        {"key": "choice_hr", "page": "asi", "type": "select", "label": "Feat (house rules: no Ability Score Improvement)", "options": [{"value": "feat", "label": "Feat"}], "visible_if": "campaign_rules and not (answer.cls == 'New class') and contains(ref(((ref(klass2, 'name') != '' and answer.cls == ref(klass2, 'name')) ? klass2 : ((ref(klass3, 'name') != '' and answer.cls == ref(klass3, 'name')) ? klass3 : ((ref(klass4, 'name') != '' and answer.cls == ref(klass4, 'name')) ? klass4 : klass))), 'asi_levels'), concat(',', (answer.cls == 'New class' ? 1 : ((ref(klass2, 'name') != '' and answer.cls == ref(klass2, 'name')) ? class2_level : ((ref(klass3, 'name') != '' and answer.cls == ref(klass3, 'name')) ? class3_level : ((ref(klass4, 'name') != '' and answer.cls == ref(klass4, 'name')) ? class4_level : class1_rows))) + 1), ','))"},
         {
           "key": "asi",
           "page": "asi",
@@ -4938,16 +4952,17 @@
           "label": "Feat (General, or an Epic Boon from level 19, whose prerequisites you meet)",
           "content_type": "feat",
           "filter": "(entry.category == 'General' or ((len(advancements) + 1) >= 19 and entry.category == 'Epic Boon')) and entry.name != 'Ability Score Improvement' and not has_ref(feats, entry._ref) and (not entry.prereq_level or entry.prereq_level <= (len(advancements) + 1)) and (not (entry.prereq_str or entry.prereq_dex or entry.prereq_con or entry.prereq_int or entry.prereq_wis or entry.prereq_cha) or (entry.prereq_str and strength_score >= entry.prereq_str) or (entry.prereq_dex and dexterity_score >= entry.prereq_dex) or (entry.prereq_con and constitution_score >= entry.prereq_con) or (entry.prereq_int and intelligence_score >= entry.prereq_int) or (entry.prereq_wis and wisdom_score >= entry.prereq_wis) or (entry.prereq_cha and charisma_score >= entry.prereq_cha)) and (not entry.prereq_spellcasting or (ref(klass, 'spellcasting') != '' or ref(subclass, 'spellcasting') != '' or ref(klass2, 'spellcasting') != '' or ref(subclass2, 'spellcasting') != '' or ref(klass3, 'spellcasting') != '' or ref(subclass3, 'spellcasting') != '' or ref(klass4, 'spellcasting') != '' or ref(subclass4, 'spellcasting') != '')) and (not contains(entry.prereq_proficiencies, 'armor:light') or armor_light) and (not contains(entry.prereq_proficiencies, 'armor:medium') or armor_medium) and (not contains(entry.prereq_proficiencies, 'armor:heavy') or armor_heavy) and (not contains(entry.prereq_proficiencies, 'armor:shield') or armor_shields)",
-          "visible_if": "answer.choice == 'feat'"
+          "visible_if": "(answer.choice == 'feat' or answer.choice_hr == 'feat')"
         },
         {
           "key": "feat_asi",
           "page": "asi",
           "type": "select",
           "label": "Ability increase from the feat",
-          "options": "answer.feat.ability_options",
-          "visible_if": "answer.choice == 'feat' and len(answer.feat.ability_options) > 0"
-        }
+          "options": "campaign_rules ? 'strength,dexterity,constitution,intelligence,wisdom,charisma' : answer.feat.ability_options",
+          "visible_if": "(answer.choice == 'feat' or answer.choice_hr == 'feat') and len(answer.feat.ability_options) > 0"
+        },
+        {"key": "feat_hr", "page": "asi", "type": "select", "label": "House rule: +1 to any ability score (up to 20)", "options": [{"value": "strength", "label": "Str"}, {"value": "dexterity", "label": "Dex"}, {"value": "constitution", "label": "Con"}, {"value": "intelligence", "label": "Int"}, {"value": "wisdom", "label": "Wis"}, {"value": "charisma", "label": "Cha"}], "visible_if": "campaign_rules and (answer.choice == 'feat' or answer.choice_hr == 'feat')"}
       ],
       "apply": [
         {
@@ -4957,7 +4972,7 @@
             "class": "answer.cls == 'New class' ? answer.new_class.name : (answer.klass_pick ? answer.klass_pick.name : ref(((ref(klass2, 'name') != '' and answer.cls == ref(klass2, 'name')) ? klass2 : ((ref(klass3, 'name') != '' and answer.cls == ref(klass3, 'name')) ? klass3 : ((ref(klass4, 'name') != '' and answer.cls == ref(klass4, 'name')) ? klass4 : klass))), 'name'))",
             "hit_die": "answer.cls == 'New class' ? answer.new_class.hit_die : (answer.klass_pick ? answer.klass_pick.hit_die : ref(((ref(klass2, 'name') != '' and answer.cls == ref(klass2, 'name')) ? klass2 : ((ref(klass3, 'name') != '' and answer.cls == ref(klass3, 'name')) ? klass3 : ((ref(klass4, 'name') != '' and answer.cls == ref(klass4, 'name')) ? klass4 : klass))), 'hit_die'))",
             "hp": "answer.hp ? answer.hp : 0",
-            "choice": "answer.cls == 'New class' ? concat('Class ', answer.new_class.name) : (len(advancements) == 0 ? concat('Class ', (answer.klass_pick ? answer.klass_pick.name : ref(((ref(klass2, 'name') != '' and answer.cls == ref(klass2, 'name')) ? klass2 : ((ref(klass3, 'name') != '' and answer.cls == ref(klass3, 'name')) ? klass3 : ((ref(klass4, 'name') != '' and answer.cls == ref(klass4, 'name')) ? klass4 : klass))), 'name')), (answer.background_pick ? concat(', Background ', answer.background_pick.name) : (ref(background, 'name') != '' ? concat(', Background ', ref(background, 'name')) : '')), (answer.species_pick ? concat(', Species ', answer.species_pick.name) : (ref(species, 'name') != '' ? concat(', Species ', ref(species, 'name')) : ''))) : (answer.choice == 'asi' ? 'Ability Score Improvement' : (answer.choice == 'feat' ? concat('Feat ', answer.feat.name) : (answer.subclass_pick ? concat('Subclass ', answer.subclass_pick.name) : ((not (answer.cls == 'New class') and contains(ref(((ref(klass2, 'name') != '' and answer.cls == ref(klass2, 'name')) ? klass2 : ((ref(klass3, 'name') != '' and answer.cls == ref(klass3, 'name')) ? klass3 : ((ref(klass4, 'name') != '' and answer.cls == ref(klass4, 'name')) ? klass4 : klass))), 'asi_levels'), concat(',', (answer.cls == 'New class' ? 1 : ((ref(klass2, 'name') != '' and answer.cls == ref(klass2, 'name')) ? class2_level : ((ref(klass3, 'name') != '' and answer.cls == ref(klass3, 'name')) ? class3_level : ((ref(klass4, 'name') != '' and answer.cls == ref(klass4, 'name')) ? class4_level : class1_rows))) + 1), ','))) ? 'Chosen later' : '')))))",
+            "choice": "answer.cls == 'New class' ? concat('Class ', answer.new_class.name) : (len(advancements) == 0 ? concat('Class ', (answer.klass_pick ? answer.klass_pick.name : ref(((ref(klass2, 'name') != '' and answer.cls == ref(klass2, 'name')) ? klass2 : ((ref(klass3, 'name') != '' and answer.cls == ref(klass3, 'name')) ? klass3 : ((ref(klass4, 'name') != '' and answer.cls == ref(klass4, 'name')) ? klass4 : klass))), 'name')), (answer.background_pick ? concat(', Background ', answer.background_pick.name) : (ref(background, 'name') != '' ? concat(', Background ', ref(background, 'name')) : '')), (answer.species_pick ? concat(', Species ', answer.species_pick.name) : (ref(species, 'name') != '' ? concat(', Species ', ref(species, 'name')) : ''))) : (answer.choice == 'asi' ? 'Ability Score Improvement' : ((answer.choice == 'feat' or answer.choice_hr == 'feat') ? concat('Feat ', answer.feat.name) : (answer.subclass_pick ? concat('Subclass ', answer.subclass_pick.name) : ((not (answer.cls == 'New class') and contains(ref(((ref(klass2, 'name') != '' and answer.cls == ref(klass2, 'name')) ? klass2 : ((ref(klass3, 'name') != '' and answer.cls == ref(klass3, 'name')) ? klass3 : ((ref(klass4, 'name') != '' and answer.cls == ref(klass4, 'name')) ? klass4 : klass))), 'asi_levels'), concat(',', (answer.cls == 'New class' ? 1 : ((ref(klass2, 'name') != '' and answer.cls == ref(klass2, 'name')) ? class2_level : ((ref(klass3, 'name') != '' and answer.cls == ref(klass3, 'name')) ? class3_level : ((ref(klass4, 'name') != '' and answer.cls == ref(klass4, 'name')) ? class4_level : class1_rows))) + 1), ','))) ? 'Chosen later' : '')))))",
             "plus2": "answer.choice == 'asi' ? (answer.asi.strength == 2 ? 'strength' : (answer.asi.dexterity == 2 ? 'dexterity' : (answer.asi.constitution == 2 ? 'constitution' : (answer.asi.intelligence == 2 ? 'intelligence' : (answer.asi.wisdom == 2 ? 'wisdom' : (answer.asi.charisma == 2 ? 'charisma' : (''))))))) : ''",
             "plus1a": "answer.choice == 'asi' ? (answer.asi.strength == 1 ? 'strength' : (answer.asi.dexterity == 1 ? 'dexterity' : (answer.asi.constitution == 1 ? 'constitution' : (answer.asi.intelligence == 1 ? 'intelligence' : (answer.asi.wisdom == 1 ? 'wisdom' : (answer.asi.charisma == 1 ? 'charisma' : (''))))))) : ''",
             "plus1b": "answer.choice == 'asi' ? (answer.asi.charisma == 1 ? 'charisma' : (answer.asi.wisdom == 1 ? 'wisdom' : (answer.asi.intelligence == 1 ? 'intelligence' : (answer.asi.constitution == 1 ? 'constitution' : (answer.asi.dexterity == 1 ? 'dexterity' : (answer.asi.strength == 1 ? 'strength' : (''))))))) : ''",
@@ -4969,7 +4984,8 @@
           "entry": "answer.feat",
           "values": {
             "from_level": "(len(advancements) + 1)",
-            "asi": "answer.feat_asi"
+            "asi": "answer.feat_asi",
+            "hr_asi": "campaign_rules ? answer.feat_hr : ''"
           }
         },
         {
@@ -5366,7 +5382,7 @@
           "key": "choice",
           "type": "select",
           "label": "Ability Score Improvement or feat",
-          "visible_if": "pending_asi > 0",
+          "visible_if": "not campaign_rules and pending_asi > 0",
           "options": [
             {
               "value": "asi",
@@ -5379,6 +5395,7 @@
           ],
           "page": "asi"
         },
+        {"key": "choice_hr", "page": "asi", "type": "select", "label": "Feat (house rules: no Ability Score Improvement)", "options": [{"value": "feat", "label": "Feat"}], "visible_if": "campaign_rules and pending_asi > 0"},
         {
           "key": "asi",
           "type": "distribute",
@@ -5422,17 +5439,18 @@
           "label": "Feat (General, or an Epic Boon from level 19, whose prerequisites you meet)",
           "content_type": "feat",
           "filter": "(entry.category == 'General' or (len(advancements) >= 19 and entry.category == 'Epic Boon')) and entry.name != 'Ability Score Improvement' and not has_ref(feats, entry._ref) and (not entry.prereq_level or entry.prereq_level <= len(advancements)) and (not (entry.prereq_str or entry.prereq_dex or entry.prereq_con or entry.prereq_int or entry.prereq_wis or entry.prereq_cha) or (entry.prereq_str and strength_score >= entry.prereq_str) or (entry.prereq_dex and dexterity_score >= entry.prereq_dex) or (entry.prereq_con and constitution_score >= entry.prereq_con) or (entry.prereq_int and intelligence_score >= entry.prereq_int) or (entry.prereq_wis and wisdom_score >= entry.prereq_wis) or (entry.prereq_cha and charisma_score >= entry.prereq_cha)) and (not entry.prereq_spellcasting or (ref(klass, 'spellcasting') != '' or ref(subclass, 'spellcasting') != '' or ref(klass2, 'spellcasting') != '' or ref(subclass2, 'spellcasting') != '' or ref(klass3, 'spellcasting') != '' or ref(subclass3, 'spellcasting') != '' or ref(klass4, 'spellcasting') != '' or ref(subclass4, 'spellcasting') != '')) and (not contains(entry.prereq_proficiencies, 'armor:light') or armor_light) and (not contains(entry.prereq_proficiencies, 'armor:medium') or armor_medium) and (not contains(entry.prereq_proficiencies, 'armor:heavy') or armor_heavy) and (not contains(entry.prereq_proficiencies, 'armor:shield') or armor_shields)",
-          "visible_if": "answer.choice == 'feat'",
+          "visible_if": "(answer.choice == 'feat' or answer.choice_hr == 'feat')",
           "page": "asi"
         },
         {
           "key": "feat_asi",
           "type": "select",
           "label": "Ability increase from the feat",
-          "options": "answer.feat.ability_options",
-          "visible_if": "answer.choice == 'feat' and len(answer.feat.ability_options) > 0",
+          "options": "campaign_rules ? 'strength,dexterity,constitution,intelligence,wisdom,charisma' : answer.feat.ability_options",
+          "visible_if": "(answer.choice == 'feat' or answer.choice_hr == 'feat') and len(answer.feat.ability_options) > 0",
           "page": "asi"
-        }
+        },
+        {"key": "feat_hr", "page": "asi", "type": "select", "label": "House rule: +1 to any ability score (up to 20)", "options": [{"value": "strength", "label": "Str"}, {"value": "dexterity", "label": "Dex"}, {"value": "constitution", "label": "Con"}, {"value": "intelligence", "label": "Int"}, {"value": "wisdom", "label": "Wis"}, {"value": "charisma", "label": "Cha"}], "visible_if": "campaign_rules and (answer.choice == 'feat' or answer.choice_hr == 'feat')"}
       ],
       "apply": [
         {
@@ -5450,7 +5468,8 @@
           "entry": "pending_asi > 0 ? answer.feat : ''",
           "values": {
             "from_level": "len(advancements)",
-            "asi": "answer.feat_asi"
+            "asi": "answer.feat_asi",
+            "hr_asi": "campaign_rules ? answer.feat_hr : ''"
           }
         }
       ]
@@ -6452,7 +6471,8 @@
           "key": "abilities",
           "type": "distribute",
           "label": "Ability Score Increase: +2 and +1, or +1 to each of the three",
-          "options": "row.ability_options",
+          "label_formula": "campaign_rules ? 'Ability Score Increase (house rules): +2 and +1, or +1 to three, any abilities, none past 20' : ''",
+          "options": "campaign_rules ? 'strength,dexterity,constitution,intelligence,wisdom,charisma' : row.ability_options",
           "patterns": [
             "2,1",
             "1,1,1"
@@ -6628,15 +6648,242 @@
           "type": "entry",
           "content_type": "feat",
           "label": "Feat",
-          "label_formula": "concat('Feat: ', row.feat)",
-          "filter": "entry.category == row.feat_category or contains(row.feat_options, entry._ref)",
-          "visible_if": "row.feat_category"
+          "label_formula": "campaign_rules ? 'Origin feat (house rules: any Origin feat, the background one ready to keep)' : concat('Feat: ', row.feat)",
+          "filter": "campaign_rules ? (entry.category == 'Origin' and (entry._ref == row.feat_id or not has_ref(feats, entry._ref))) : (entry.category == row.feat_category or contains(row.feat_options, entry._ref))",
+          "default": "campaign_rules ? row.feat_id : ''",
+          "visible_if": "row.feat_category or campaign_rules"
+        },
+        {
+          "key": "feat_hr",
+          "type": "select",
+          "label": "House rule: +1 to any ability score (up to 20)",
+          "options": [
+            {
+              "value": "strength",
+              "label": "Str"
+            },
+            {
+              "value": "dexterity",
+              "label": "Dex"
+            },
+            {
+              "value": "constitution",
+              "label": "Con"
+            },
+            {
+              "value": "intelligence",
+              "label": "Int"
+            },
+            {
+              "value": "wisdom",
+              "label": "Wis"
+            },
+            {
+              "value": "charisma",
+              "label": "Cha"
+            }
+          ],
+          "visible_if": "campaign_rules and answer.feat"
         }
       ],
       "apply": [
         {
+          "each": "feats",
+          "where": "campaign_rules and row._ref == answer.feat._ref and answer.feat._ref == ref(background, 'feat_id')",
+          "set": {
+            "hr_asi": "answer.feat_hr"
+          }
+        },
+        {
+          "set": "hr_origin_feat",
+          "to": "campaign_rules and answer.feat._ref != row.feat_id and row.feat_id ? answer.feat._ref : hr_origin_feat"
+        },
+        {
+          "unpick": "feats",
+          "entry": "campaign_rules and row.feat_id and answer.feat._ref != row.feat_id ? row.feat_id : ''"
+        },
+        {
+          "pick": "feats",
+          "entry": "answer.feat._ref != row.feat_id ? answer.feat : ''",
+          "values": {
+            "hr_asi": "campaign_rules ? answer.feat_hr : ''"
+          }
+        }
+      ]
+    },
+    "hr_asi_to_feat": {
+      "label": "Feat in place of an Ability Score Improvement (house rules)",
+      "steps": [
+        {
+          "key": "feat",
+          "type": "entry",
+          "content_type": "feat",
+          "label": "Feat",
+          "label_formula": "concat('Feat in place of the Ability Score Improvement of level ', hr_asi_level)",
+          "filter": "(entry.category == 'General' or (hr_asi_level >= 19 and entry.category == 'Epic Boon')) and entry.name != 'Ability Score Improvement' and not has_ref(feats, entry._ref) and (not entry.prereq_level or entry.prereq_level <= hr_asi_level) and (not (entry.prereq_str or entry.prereq_dex or entry.prereq_con or entry.prereq_int or entry.prereq_wis or entry.prereq_cha) or (entry.prereq_str and strength_score >= entry.prereq_str) or (entry.prereq_dex and dexterity_score >= entry.prereq_dex) or (entry.prereq_con and constitution_score >= entry.prereq_con) or (entry.prereq_int and intelligence_score >= entry.prereq_int) or (entry.prereq_wis and wisdom_score >= entry.prereq_wis) or (entry.prereq_cha and charisma_score >= entry.prereq_cha)) and (not entry.prereq_spellcasting or (ref(klass, 'spellcasting') != '' or ref(subclass, 'spellcasting') != '' or ref(klass2, 'spellcasting') != '' or ref(subclass2, 'spellcasting') != '' or ref(klass3, 'spellcasting') != '' or ref(subclass3, 'spellcasting') != '' or ref(klass4, 'spellcasting') != '' or ref(subclass4, 'spellcasting') != '')) and (not contains(entry.prereq_proficiencies, 'armor:light') or armor_light) and (not contains(entry.prereq_proficiencies, 'armor:medium') or armor_medium) and (not contains(entry.prereq_proficiencies, 'armor:heavy') or armor_heavy) and (not contains(entry.prereq_proficiencies, 'armor:shield') or armor_shields)",
+          "visible_if": "hr_asi_level > 0"
+        },
+        {
+          "key": "feat_asi",
+          "type": "select",
+          "label": "Ability increase from the feat",
+          "options": "'strength,dexterity,constitution,intelligence,wisdom,charisma'",
+          "visible_if": "len(answer.feat.ability_options) > 0"
+        },
+        {
+          "key": "feat_hr",
+          "type": "select",
+          "label": "House rule: +1 to any ability score (up to 20)",
+          "options": [
+            {
+              "value": "strength",
+              "label": "Str"
+            },
+            {
+              "value": "dexterity",
+              "label": "Dex"
+            },
+            {
+              "value": "constitution",
+              "label": "Con"
+            },
+            {
+              "value": "intelligence",
+              "label": "Int"
+            },
+            {
+              "value": "wisdom",
+              "label": "Wis"
+            },
+            {
+              "value": "charisma",
+              "label": "Cha"
+            }
+          ],
+          "visible_if": "answer.feat"
+        }
+      ],
+      "apply": [
+        {
+          "each": "advancements",
+          "where": "hr_asi_adv > 0 and row.at_level == hr_asi_adv and answer.feat",
+          "set": {
+            "plus2": "''",
+            "plus1a": "''",
+            "plus1b": "''",
+            "choice": "concat('Feat ', answer.feat.name)"
+          }
+        },
+        {
+          "each": "late_asi",
+          "where": "hr_asi_adv == 0 and row.at_level == hr_asi_late and (row.plus2 or row.plus1a) and answer.feat",
+          "set": {
+            "plus2": "''",
+            "plus1a": "''",
+            "plus1b": "''",
+            "choice": "concat('Feat ', answer.feat.name)"
+          }
+        },
+        {
+          "pick": "feats",
+          "entry": "answer.feat",
+          "values": {
+            "from_level": "hr_asi_level",
+            "asi": "answer.feat_asi",
+            "hr_asi": "answer.feat_hr"
+          }
+        }
+      ]
+    },
+    "hr_fix_background": {
+      "label": "Background with the 2024 rules (house rules off)",
+      "steps": [
+        {
+          "key": "abilities",
+          "type": "distribute",
+          "label": "Ability Score Increase: +2 and +1, or +1 to each of the three",
+          "options": "ref(background, 'ability_options')",
+          "patterns": [
+            "2,1",
+            "1,1,1"
+          ],
+          "visible_if": "hr_off_bg_abilities"
+        },
+        {
+          "key": "feat",
+          "type": "entry",
+          "content_type": "feat",
+          "label": "Origin feat",
+          "label_formula": "concat('Origin feat: ', ref(background, 'feat'))",
+          "filter": "entry._ref == ref(background, 'feat_id')",
+          "default": "ref(background, 'feat_id')",
+          "visible_if": "hr_off_bg_feat"
+        }
+      ],
+      "apply": [
+        {
+          "set": "bg_strength",
+          "to": "answer.abilities ? (answer.abilities.strength ? answer.abilities.strength : 0) : bg_strength"
+        },
+        {
+          "set": "bg_dexterity",
+          "to": "answer.abilities ? (answer.abilities.dexterity ? answer.abilities.dexterity : 0) : bg_dexterity"
+        },
+        {
+          "set": "bg_constitution",
+          "to": "answer.abilities ? (answer.abilities.constitution ? answer.abilities.constitution : 0) : bg_constitution"
+        },
+        {
+          "set": "bg_intelligence",
+          "to": "answer.abilities ? (answer.abilities.intelligence ? answer.abilities.intelligence : 0) : bg_intelligence"
+        },
+        {
+          "set": "bg_wisdom",
+          "to": "answer.abilities ? (answer.abilities.wisdom ? answer.abilities.wisdom : 0) : bg_wisdom"
+        },
+        {
+          "set": "bg_charisma",
+          "to": "answer.abilities ? (answer.abilities.charisma ? answer.abilities.charisma : 0) : bg_charisma"
+        },
+        {
+          "unpick": "feats",
+          "entry": "answer.feat ? hr_origin_feat : ''"
+        },
+        {
+          "set": "hr_origin_feat",
+          "to": "answer.feat ? '' : hr_origin_feat"
+        },
+        {
           "pick": "feats",
           "entry": "answer.feat"
+        }
+      ]
+    },
+    "hr_fix_feat_asi": {
+      "label": "Feat increase with the 2024 rules (house rules off)",
+      "steps": [
+        {
+          "key": "feat",
+          "type": "entry",
+          "content_type": "feat",
+          "label": "Feat whose increase is outside its own abilities",
+          "filter": "has_ref(feats, entry._ref) and len(entry.ability_options) > 0 and count_each(feats, row._ref == entry._ref and row.asi != '' and not contains(entry.ability_options, row.asi)) > 0"
+        },
+        {
+          "key": "asi",
+          "type": "select",
+          "label": "Ability increase from the feat",
+          "options": "answer.feat.ability_options",
+          "visible_if": "answer.feat"
+        }
+      ],
+      "apply": [
+        {
+          "each": "feats",
+          "where": "row._ref == answer.feat._ref",
+          "set": {
+            "asi": "answer.asi"
+          }
         }
       ]
     },
@@ -6682,7 +6929,7 @@
               "label": "Charisma"
             }
           ],
-          "visible_if": "row.spell_ability == 'inherit' or row.spell_ability_options or (row.spell_pick_count and not row.spell_ability)"
+          "visible_if": "not (campaign_rules and row.spell_ability == 'inherit') and (row.spell_ability == 'inherit' or row.spell_ability_options or (row.spell_pick_count and not row.spell_ability))"
         },
         {
           "key": "g1",
@@ -6761,7 +7008,7 @@
             "always": "row.auto_spell_always",
             "use": "row.auto_spell_use",
             "uses": "row.auto_spell_uses",
-            "ability": "concat((answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : '')), ',', (answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : '')), ',', (answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : '')), ',', (answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : '')))"
+            "ability": "concat((campaign_rules and row.spell_ability == 'inherit' ? hr_best_mental : (answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : ''))), ',', (campaign_rules and row.spell_ability == 'inherit' ? hr_best_mental : (answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : ''))), ',', (campaign_rules and row.spell_ability == 'inherit' ? hr_best_mental : (answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : ''))), ',', (campaign_rules and row.spell_ability == 'inherit' ? hr_best_mental : (answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : ''))))"
           }
         },
         {
@@ -6772,7 +7019,7 @@
             "always": "true",
             "use": "row.spell_pick_1_use",
             "uses": "row.spell_pick_1_uses",
-            "ability": "(answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : ''))"
+            "ability": "(campaign_rules and row.spell_ability == 'inherit' ? hr_best_mental : (answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : '')))"
           }
         },
         {
@@ -6783,7 +7030,7 @@
             "always": "true",
             "use": "row.spell_pick_2_use",
             "uses": "row.spell_pick_2_uses",
-            "ability": "(answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : ''))"
+            "ability": "(campaign_rules and row.spell_ability == 'inherit' ? hr_best_mental : (answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : '')))"
           }
         },
         {
@@ -6794,7 +7041,7 @@
             "always": "true",
             "use": "row.spell_pick_3_use",
             "uses": "row.spell_pick_3_uses",
-            "ability": "(answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : ''))"
+            "ability": "(campaign_rules and row.spell_ability == 'inherit' ? hr_best_mental : (answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : '')))"
           }
         },
         {
@@ -6805,7 +7052,7 @@
             "always": "true",
             "use": "row.spell_pick_4_use",
             "uses": "row.spell_pick_4_uses",
-            "ability": "(answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : ''))"
+            "ability": "(campaign_rules and row.spell_ability == 'inherit' ? hr_best_mental : (answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : '')))"
           }
         },
         {
@@ -6816,7 +7063,7 @@
             "always": "true",
             "use": "row.spell_pick_5_use",
             "uses": "row.spell_pick_5_uses",
-            "ability": "(answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : ''))"
+            "ability": "(campaign_rules and row.spell_ability == 'inherit' ? hr_best_mental : (answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : '')))"
           }
         },
         {
@@ -6827,7 +7074,7 @@
             "always": "true",
             "use": "row.spell_pick_6_use",
             "uses": "row.spell_pick_6_uses",
-            "ability": "(answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : ''))"
+            "ability": "(campaign_rules and row.spell_ability == 'inherit' ? hr_best_mental : (answer.ability ? answer.ability : (row.spell_ability and row.spell_ability != 'inherit' ? row.spell_ability : '')))"
           }
         }
       ]
@@ -7413,6 +7660,7 @@
   "styles_file": "dnd-5e-2024.css",
   "name_field": "hero_name",
   "validators": [
+    {"rule": "not campaign_rules or ((strength_score <= 20 or count_each(feats, row.category == 'Epic Boon') > 0) and (dexterity_score <= 20 or count_each(feats, row.category == 'Epic Boon') > 0) and (constitution_score <= 20 or count_each(feats, row.category == 'Epic Boon') > 0) and (intelligence_score <= 20 or count_each(feats, row.category == 'Epic Boon') > 0) and (wisdom_score <= 20 or count_each(feats, row.category == 'Epic Boon') > 0) and (charisma_score <= 20 or count_each(feats, row.category == 'Epic Boon') > 0))", "message": "With the house rules no ability score goes past 20 (an Epic Boon's own +1 goes up to 30).", "field": "feats"},
     {
       "rule": "len(advancements) == 0 or ref(klass, 'name') != ''",
       "message": "Pick a class.",

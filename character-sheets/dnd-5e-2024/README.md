@@ -164,11 +164,17 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
   picked shows beside the box until it is unticked; putting the window aside
   unticks it, and a rest or Current HP at 0 ends Concentration by itself
   (both need the Grimoire fork's field `on_change` and prompt `on_skip`)
-- **Campaign house rules switch** (set by the campaign, 1.65.0): exhaustion as a table
+- **Campaign house rules switch** (set by the campaign, 1.65.0; 1.67.0): exhaustion as a table
   rule - −1 per level to AC, spell save DC, saving throws, ability checks,
   attack rolls and damage, −10 ft of speed from level 3, a long rest removes
   two levels. Switched off, the 2024 rule: −2 per level to every d20 Test and
-  −5 ft of speed per level
+  −5 ft of speed per level. Switched on (1.67.0), also: the background's
+  increases go to any abilities and its Origin feat is any Origin feat (the
+  background's own already chosen, to keep or change); every feat taken from a
+  Level up or a background gives +1 to any ability (up to 20), on top of its own
+  +1, which goes to any ability too; no Ability Score Improvement, a feat in its
+  place; the spellcasting ability of a feat whose spells use the ability it
+  raised is the highest of Intelligence, Wisdom and Charisma when it is taken
 - **Resources**: one list of what the character spends - uses, maximum, how it
   comes back (short rest, long rest, dawn) and where it comes from - shown
   under the hit dice
@@ -275,6 +281,7 @@ species, the other details, portrait, appearance and backstory) and **Notes**.
 - **Choices put off, marked where they belong** (1.66.0): a Background, Species or lineage left for later shows ⚠ Chosen later beside the field with a button that opens its choice; an Ability Score Improvement or feat left for later shows the same in Ability Scores and Feats, and the Level up button becomes Choose ASI or feat until it is chosen: it must be chosen before the next level. Chosen later, it belongs to the level it was put off at, so Undo Last Level takes it back (the late Ability Score Improvement too, which it used to leave). The fork's Choices to make bar stays.
 - **Choices put off open from their mark** (1.66.1): the ⚠ mark is itself the button that opens the choice; with the Grimoire fork from `5ab21f23`, a choice a pick put off (a feat's tools or spells, a background's ability increases, a species' or class's choices) is marked on its feat row or beside the field and opens from there too, and Undo Last Level drops the choices its level had put off.
 - **No late choice without one to make** (1.66.3): the ASI or feat chosen later writes nothing when no level has one waiting - opened from a stale entry of Choices to make after an Undo, it used to add an Ability Score Improvement to a level without one.
+- **House rules that read the campaign** (1.67.0): with the campaign's house rules, the choices above; switched off, what they alone allowed stays and counts, marked ⚠ to bring back to the 2024 rules (background increases outside its three abilities, an Origin feat other than the background's, a feat's own +1 outside its abilities), and the house rules' +1 of feats stops counting but stays saved; switched on, an Ability Score Improvement already taken stays and counts, marked ⚠ to take a feat in its place. Needs the Nickramone fork 9e1fd2c6 (an entry step's `default`, `unpick` by id).
 - **Feat levels checked per class** (1.64.3): the warning for a feat taken at a level without an Ability Score Improvement works in multiclass too, reading the level reached in the class taken at that character level (Fighter 4 / Wizard 2: a feat at level 6 is Wizard 2 and is flagged).
 - **Catalogue data for weapon rows**: weapons (equipment and magic items) carry
   `damage_dice`, `damage_type`, `damage_versatile`, `range_normal`,
