@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.67.1",
+  "version": "1.68.0",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -3452,6 +3452,12 @@
       "type": "checkbox",
       "label": "Death save failure 3"
     },
+    "scores_method": {
+      "type": "text",
+      "label": "How the ability scores were set",
+      "default": "",
+      "visible_if": "false"
+    },
     "hr_origin_feat": {
       "type": "text",
       "label": "Origin feat chosen by the house rules",
@@ -4233,6 +4239,12 @@
     "hr_off_bg_abilities": {"formula": "not campaign_rules and ref(background, 'name') != '' and ((bg_strength > 0 and not contains(ref(background, 'ability_options'), 'strength')) or (bg_dexterity > 0 and not contains(ref(background, 'ability_options'), 'dexterity')) or (bg_constitution > 0 and not contains(ref(background, 'ability_options'), 'constitution')) or (bg_intelligence > 0 and not contains(ref(background, 'ability_options'), 'intelligence')) or (bg_wisdom > 0 and not contains(ref(background, 'ability_options'), 'wisdom')) or (bg_charisma > 0 and not contains(ref(background, 'ability_options'), 'charisma')))", "label": "House rules off: background increases outside its three abilities"},
     "hr_off_bg_feat": {"formula": "not campaign_rules and hr_origin_feat != '' and has_ref(feats, hr_origin_feat)", "label": "House rules off: Origin feat chosen in place of the background's"},
     "hr_off_feat_asi": {"formula": "not campaign_rules and count_each(feats, row.asi != '' and len(row.ability_options) > 0 and not contains(row.ability_options, row.asi)) > 0", "label": "House rules off: a feat's increase outside its own abilities"},
+    "std_strength": {"formula": "(ref(klass, 'name') == 'Barbarian' ? 15 : (ref(klass, 'name') == 'Bard' ? 8 : (ref(klass, 'name') == 'Cleric' ? 14 : (ref(klass, 'name') == 'Druid' ? 8 : (ref(klass, 'name') == 'Fighter' ? 15 : (ref(klass, 'name') == 'Monk' ? 12 : (ref(klass, 'name') == 'Paladin' ? 15 : (ref(klass, 'name') == 'Ranger' ? 12 : (ref(klass, 'name') == 'Rogue' ? 12 : (ref(klass, 'name') == 'Sorcerer' ? 10 : (ref(klass, 'name') == 'Warlock' ? 8 : (ref(klass, 'name') == 'Wizard' ? 8 : 0))))))))))))", "label": "Standard array: Strength for the class"},
+    "std_dexterity": {"formula": "(ref(klass, 'name') == 'Barbarian' ? 13 : (ref(klass, 'name') == 'Bard' ? 14 : (ref(klass, 'name') == 'Cleric' ? 8 : (ref(klass, 'name') == 'Druid' ? 12 : (ref(klass, 'name') == 'Fighter' ? 14 : (ref(klass, 'name') == 'Monk' ? 15 : (ref(klass, 'name') == 'Paladin' ? 10 : (ref(klass, 'name') == 'Ranger' ? 15 : (ref(klass, 'name') == 'Rogue' ? 15 : (ref(klass, 'name') == 'Sorcerer' ? 13 : (ref(klass, 'name') == 'Warlock' ? 14 : (ref(klass, 'name') == 'Wizard' ? 12 : 0))))))))))))", "label": "Standard array: Dexterity for the class"},
+    "std_constitution": {"formula": "(ref(klass, 'name') == 'Barbarian' ? 14 : (ref(klass, 'name') == 'Bard' ? 12 : (ref(klass, 'name') == 'Cleric' ? 13 : (ref(klass, 'name') == 'Druid' ? 14 : (ref(klass, 'name') == 'Fighter' ? 13 : (ref(klass, 'name') == 'Monk' ? 13 : (ref(klass, 'name') == 'Paladin' ? 13 : (ref(klass, 'name') == 'Ranger' ? 13 : (ref(klass, 'name') == 'Rogue' ? 13 : (ref(klass, 'name') == 'Sorcerer' ? 14 : (ref(klass, 'name') == 'Warlock' ? 13 : (ref(klass, 'name') == 'Wizard' ? 13 : 0))))))))))))", "label": "Standard array: Constitution for the class"},
+    "std_intelligence": {"formula": "(ref(klass, 'name') == 'Barbarian' ? 10 : (ref(klass, 'name') == 'Bard' ? 13 : (ref(klass, 'name') == 'Cleric' ? 10 : (ref(klass, 'name') == 'Druid' ? 13 : (ref(klass, 'name') == 'Fighter' ? 8 : (ref(klass, 'name') == 'Monk' ? 10 : (ref(klass, 'name') == 'Paladin' ? 8 : (ref(klass, 'name') == 'Ranger' ? 8 : (ref(klass, 'name') == 'Rogue' ? 14 : (ref(klass, 'name') == 'Sorcerer' ? 8 : (ref(klass, 'name') == 'Warlock' ? 12 : (ref(klass, 'name') == 'Wizard' ? 15 : 0))))))))))))", "label": "Standard array: Intelligence for the class"},
+    "std_wisdom": {"formula": "(ref(klass, 'name') == 'Barbarian' ? 12 : (ref(klass, 'name') == 'Bard' ? 10 : (ref(klass, 'name') == 'Cleric' ? 15 : (ref(klass, 'name') == 'Druid' ? 15 : (ref(klass, 'name') == 'Fighter' ? 10 : (ref(klass, 'name') == 'Monk' ? 14 : (ref(klass, 'name') == 'Paladin' ? 12 : (ref(klass, 'name') == 'Ranger' ? 14 : (ref(klass, 'name') == 'Rogue' ? 10 : (ref(klass, 'name') == 'Sorcerer' ? 12 : (ref(klass, 'name') == 'Warlock' ? 10 : (ref(klass, 'name') == 'Wizard' ? 14 : 0))))))))))))", "label": "Standard array: Wisdom for the class"},
+    "std_charisma": {"formula": "(ref(klass, 'name') == 'Barbarian' ? 8 : (ref(klass, 'name') == 'Bard' ? 15 : (ref(klass, 'name') == 'Cleric' ? 12 : (ref(klass, 'name') == 'Druid' ? 10 : (ref(klass, 'name') == 'Fighter' ? 12 : (ref(klass, 'name') == 'Monk' ? 8 : (ref(klass, 'name') == 'Paladin' ? 14 : (ref(klass, 'name') == 'Ranger' ? 10 : (ref(klass, 'name') == 'Rogue' ? 8 : (ref(klass, 'name') == 'Sorcerer' ? 15 : (ref(klass, 'name') == 'Warlock' ? 15 : (ref(klass, 'name') == 'Wizard' ? 10 : 0))))))))))))", "label": "Standard array: Charisma for the class"},
     "pending_background": {
       "formula": "len(advancements) > 0 and ref(background, 'name') == ''",
       "label": "Background still to choose"
@@ -4959,9 +4971,9 @@
           "key": "feat",
           "page": "asi",
           "type": "entry",
-          "label": "Feat (General, or an Epic Boon from level 19, whose prerequisites you meet)",
+          "label": "Feat (General or Origin, or an Epic Boon from level 19, whose prerequisites you meet)",
           "content_type": "feat",
-          "filter": "(entry.category == 'General' or ((len(advancements) + 1) >= 19 and entry.category == 'Epic Boon')) and entry.name != 'Ability Score Improvement' and not has_ref(feats, entry._ref) and (not entry.prereq_level or entry.prereq_level <= (len(advancements) + 1)) and (not (entry.prereq_str or entry.prereq_dex or entry.prereq_con or entry.prereq_int or entry.prereq_wis or entry.prereq_cha) or (entry.prereq_str and strength_score >= entry.prereq_str) or (entry.prereq_dex and dexterity_score >= entry.prereq_dex) or (entry.prereq_con and constitution_score >= entry.prereq_con) or (entry.prereq_int and intelligence_score >= entry.prereq_int) or (entry.prereq_wis and wisdom_score >= entry.prereq_wis) or (entry.prereq_cha and charisma_score >= entry.prereq_cha)) and (not entry.prereq_spellcasting or (ref(klass, 'spellcasting') != '' or ref(subclass, 'spellcasting') != '' or ref(klass2, 'spellcasting') != '' or ref(subclass2, 'spellcasting') != '' or ref(klass3, 'spellcasting') != '' or ref(subclass3, 'spellcasting') != '' or ref(klass4, 'spellcasting') != '' or ref(subclass4, 'spellcasting') != '')) and (not contains(entry.prereq_proficiencies, 'armor:light') or armor_light) and (not contains(entry.prereq_proficiencies, 'armor:medium') or armor_medium) and (not contains(entry.prereq_proficiencies, 'armor:heavy') or armor_heavy) and (not contains(entry.prereq_proficiencies, 'armor:shield') or armor_shields)",
+          "filter": "(entry.category == 'General' or entry.category == 'Origin' or ((len(advancements) + 1) >= 19 and entry.category == 'Epic Boon')) and entry.name != 'Ability Score Improvement' and not has_ref(feats, entry._ref) and (not entry.prereq_level or entry.prereq_level <= (len(advancements) + 1)) and (not (entry.prereq_str or entry.prereq_dex or entry.prereq_con or entry.prereq_int or entry.prereq_wis or entry.prereq_cha) or (entry.prereq_str and strength_score >= entry.prereq_str) or (entry.prereq_dex and dexterity_score >= entry.prereq_dex) or (entry.prereq_con and constitution_score >= entry.prereq_con) or (entry.prereq_int and intelligence_score >= entry.prereq_int) or (entry.prereq_wis and wisdom_score >= entry.prereq_wis) or (entry.prereq_cha and charisma_score >= entry.prereq_cha)) and (not entry.prereq_spellcasting or (ref(klass, 'spellcasting') != '' or ref(subclass, 'spellcasting') != '' or ref(klass2, 'spellcasting') != '' or ref(subclass2, 'spellcasting') != '' or ref(klass3, 'spellcasting') != '' or ref(subclass3, 'spellcasting') != '' or ref(klass4, 'spellcasting') != '' or ref(subclass4, 'spellcasting') != '')) and (not contains(entry.prereq_proficiencies, 'armor:light') or armor_light) and (not contains(entry.prereq_proficiencies, 'armor:medium') or armor_medium) and (not contains(entry.prereq_proficiencies, 'armor:heavy') or armor_heavy) and (not contains(entry.prereq_proficiencies, 'armor:shield') or armor_shields)",
           "visible_if": "(answer.choice == 'feat' or answer.choice_hr == 'feat')"
         },
         {
@@ -5446,9 +5458,9 @@
         {
           "key": "feat",
           "type": "entry",
-          "label": "Feat (General, or an Epic Boon from level 19, whose prerequisites you meet)",
+          "label": "Feat (General or Origin, or an Epic Boon from level 19, whose prerequisites you meet)",
           "content_type": "feat",
-          "filter": "(entry.category == 'General' or (len(advancements) >= 19 and entry.category == 'Epic Boon')) and entry.name != 'Ability Score Improvement' and not has_ref(feats, entry._ref) and (not entry.prereq_level or entry.prereq_level <= len(advancements)) and (not (entry.prereq_str or entry.prereq_dex or entry.prereq_con or entry.prereq_int or entry.prereq_wis or entry.prereq_cha) or (entry.prereq_str and strength_score >= entry.prereq_str) or (entry.prereq_dex and dexterity_score >= entry.prereq_dex) or (entry.prereq_con and constitution_score >= entry.prereq_con) or (entry.prereq_int and intelligence_score >= entry.prereq_int) or (entry.prereq_wis and wisdom_score >= entry.prereq_wis) or (entry.prereq_cha and charisma_score >= entry.prereq_cha)) and (not entry.prereq_spellcasting or (ref(klass, 'spellcasting') != '' or ref(subclass, 'spellcasting') != '' or ref(klass2, 'spellcasting') != '' or ref(subclass2, 'spellcasting') != '' or ref(klass3, 'spellcasting') != '' or ref(subclass3, 'spellcasting') != '' or ref(klass4, 'spellcasting') != '' or ref(subclass4, 'spellcasting') != '')) and (not contains(entry.prereq_proficiencies, 'armor:light') or armor_light) and (not contains(entry.prereq_proficiencies, 'armor:medium') or armor_medium) and (not contains(entry.prereq_proficiencies, 'armor:heavy') or armor_heavy) and (not contains(entry.prereq_proficiencies, 'armor:shield') or armor_shields)",
+          "filter": "(entry.category == 'General' or entry.category == 'Origin' or (len(advancements) >= 19 and entry.category == 'Epic Boon')) and entry.name != 'Ability Score Improvement' and not has_ref(feats, entry._ref) and (not entry.prereq_level or entry.prereq_level <= len(advancements)) and (not (entry.prereq_str or entry.prereq_dex or entry.prereq_con or entry.prereq_int or entry.prereq_wis or entry.prereq_cha) or (entry.prereq_str and strength_score >= entry.prereq_str) or (entry.prereq_dex and dexterity_score >= entry.prereq_dex) or (entry.prereq_con and constitution_score >= entry.prereq_con) or (entry.prereq_int and intelligence_score >= entry.prereq_int) or (entry.prereq_wis and wisdom_score >= entry.prereq_wis) or (entry.prereq_cha and charisma_score >= entry.prereq_cha)) and (not entry.prereq_spellcasting or (ref(klass, 'spellcasting') != '' or ref(subclass, 'spellcasting') != '' or ref(klass2, 'spellcasting') != '' or ref(subclass2, 'spellcasting') != '' or ref(klass3, 'spellcasting') != '' or ref(subclass3, 'spellcasting') != '' or ref(klass4, 'spellcasting') != '' or ref(subclass4, 'spellcasting') != '')) and (not contains(entry.prereq_proficiencies, 'armor:light') or armor_light) and (not contains(entry.prereq_proficiencies, 'armor:medium') or armor_medium) and (not contains(entry.prereq_proficiencies, 'armor:heavy') or armor_heavy) and (not contains(entry.prereq_proficiencies, 'armor:shield') or armor_shields)",
           "visible_if": "(answer.choice == 'feat' or answer.choice_hr == 'feat')",
           "page": "asi"
         },
@@ -6549,6 +6561,9 @@
         {
           "add": "language_profs",
           "values": "answer.languages"
+        },
+        {
+          "prompt": "ability_scores"
         }
       ]
     },
@@ -6662,48 +6677,9 @@
           "filter": "campaign_rules ? (entry.category == 'Origin' and (entry._ref == row.feat_id or not has_ref(feats, entry._ref))) : (entry.category == row.feat_category or contains(row.feat_options, entry._ref))",
           "default": "campaign_rules ? row.feat_id : ''",
           "visible_if": "row.feat_category or campaign_rules"
-        },
-        {
-          "key": "feat_hr",
-          "type": "select",
-          "label": "House rule: +1 to any ability score (up to 20)",
-          "options": [
-            {
-              "value": "strength",
-              "label": "Str"
-            },
-            {
-              "value": "dexterity",
-              "label": "Dex"
-            },
-            {
-              "value": "constitution",
-              "label": "Con"
-            },
-            {
-              "value": "intelligence",
-              "label": "Int"
-            },
-            {
-              "value": "wisdom",
-              "label": "Wis"
-            },
-            {
-              "value": "charisma",
-              "label": "Cha"
-            }
-          ],
-          "visible_if": "campaign_rules and answer.feat"
         }
       ],
       "apply": [
-        {
-          "each": "feats",
-          "where": "campaign_rules and row._ref == answer.feat._ref and answer.feat._ref == ref(background, 'feat_id')",
-          "set": {
-            "hr_asi": "answer.feat_hr"
-          }
-        },
         {
           "set": "hr_origin_feat",
           "to": "campaign_rules and answer.feat._ref != row.feat_id and row.feat_id ? answer.feat._ref : hr_origin_feat"
@@ -6714,10 +6690,208 @@
         },
         {
           "pick": "feats",
-          "entry": "answer.feat._ref != row.feat_id ? answer.feat : ''",
-          "values": {
-            "hr_asi": "campaign_rules ? answer.feat_hr : ''"
-          }
+          "entry": "answer.feat._ref != row.feat_id ? answer.feat : ''"
+        }
+      ]
+    },
+    "ability_scores": {
+      "label": "Ability scores",
+      "paged": true,
+      "pages": {
+        "method": {
+          "label": "Method"
+        },
+        "scores": {
+          "label": "Scores"
+        }
+      },
+      "steps": [
+        {
+          "key": "method",
+          "page": "method",
+          "type": "select",
+          "label": "How to set the ability scores",
+          "options": [
+            {
+              "value": "dice",
+              "label": "Dice Generation"
+            },
+            {
+              "value": "points",
+              "label": "Point Cost"
+            },
+            {
+              "value": "standard",
+              "label": "Standard array"
+            }
+          ],
+          "visible_if": "len(advancements) <= 1 and scores_method == ''"
+        },
+        {
+          "key": "d_strength",
+          "page": "scores",
+          "type": "number",
+          "label": "Strength (rolled)",
+          "default": "strength",
+          "min": 1,
+          "max": 30,
+          "visible_if": "len(advancements) <= 1 and scores_method == '' and (answer.method == 'dice' or (answer.method == 'standard' and not (std_strength > 0)))"
+        },
+        {
+          "key": "d_dexterity",
+          "page": "scores",
+          "type": "number",
+          "label": "Dexterity (rolled)",
+          "default": "dexterity",
+          "min": 1,
+          "max": 30,
+          "visible_if": "len(advancements) <= 1 and scores_method == '' and (answer.method == 'dice' or (answer.method == 'standard' and not (std_strength > 0)))"
+        },
+        {
+          "key": "d_constitution",
+          "page": "scores",
+          "type": "number",
+          "label": "Constitution (rolled)",
+          "default": "constitution",
+          "min": 1,
+          "max": 30,
+          "visible_if": "len(advancements) <= 1 and scores_method == '' and (answer.method == 'dice' or (answer.method == 'standard' and not (std_strength > 0)))"
+        },
+        {
+          "key": "d_intelligence",
+          "page": "scores",
+          "type": "number",
+          "label": "Intelligence (rolled)",
+          "default": "intelligence",
+          "min": 1,
+          "max": 30,
+          "visible_if": "len(advancements) <= 1 and scores_method == '' and (answer.method == 'dice' or (answer.method == 'standard' and not (std_strength > 0)))"
+        },
+        {
+          "key": "d_wisdom",
+          "page": "scores",
+          "type": "number",
+          "label": "Wisdom (rolled)",
+          "default": "wisdom",
+          "min": 1,
+          "max": 30,
+          "visible_if": "len(advancements) <= 1 and scores_method == '' and (answer.method == 'dice' or (answer.method == 'standard' and not (std_strength > 0)))"
+        },
+        {
+          "key": "d_charisma",
+          "page": "scores",
+          "type": "number",
+          "label": "Charisma (rolled)",
+          "default": "charisma",
+          "min": 1,
+          "max": 30,
+          "visible_if": "len(advancements) <= 1 and scores_method == '' and (answer.method == 'dice' or (answer.method == 'standard' and not (std_strength > 0)))"
+        },
+        {
+          "key": "p_strength",
+          "page": "scores",
+          "type": "number",
+          "label": "Strength (8-15)",
+          "default": "8",
+          "min": 8,
+          "max": 15,
+          "visible_if": "len(advancements) <= 1 and scores_method == '' and (answer.method == 'points')"
+        },
+        {
+          "key": "p_dexterity",
+          "page": "scores",
+          "type": "number",
+          "label": "Dexterity (8-15)",
+          "default": "8",
+          "min": 8,
+          "max": 15,
+          "visible_if": "len(advancements) <= 1 and scores_method == '' and (answer.method == 'points')"
+        },
+        {
+          "key": "p_constitution",
+          "page": "scores",
+          "type": "number",
+          "label": "Constitution (8-15)",
+          "default": "8",
+          "min": 8,
+          "max": 15,
+          "visible_if": "len(advancements) <= 1 and scores_method == '' and (answer.method == 'points')"
+        },
+        {
+          "key": "p_intelligence",
+          "page": "scores",
+          "type": "number",
+          "label": "Intelligence (8-15)",
+          "default": "8",
+          "min": 8,
+          "max": 15,
+          "visible_if": "len(advancements) <= 1 and scores_method == '' and (answer.method == 'points')"
+        },
+        {
+          "key": "p_wisdom",
+          "page": "scores",
+          "type": "number",
+          "label": "Wisdom (8-15)",
+          "default": "8",
+          "min": 8,
+          "max": 15,
+          "visible_if": "len(advancements) <= 1 and scores_method == '' and (answer.method == 'points')"
+        },
+        {
+          "key": "p_charisma",
+          "page": "scores",
+          "type": "number",
+          "label": "Charisma (8-15)",
+          "default": "8",
+          "min": 8,
+          "max": 15,
+          "visible_if": "len(advancements) <= 1 and scores_method == '' and (answer.method == 'points')",
+          "label_formula": "concat('Charisma (8-15) - points left: ', 27 - ((answer.p_strength <= 13 ? answer.p_strength - 8 : (answer.p_strength == 14 ? 7 : 9)) + (answer.p_dexterity <= 13 ? answer.p_dexterity - 8 : (answer.p_dexterity == 14 ? 7 : 9)) + (answer.p_constitution <= 13 ? answer.p_constitution - 8 : (answer.p_constitution == 14 ? 7 : 9)) + (answer.p_intelligence <= 13 ? answer.p_intelligence - 8 : (answer.p_intelligence == 14 ? 7 : 9)) + (answer.p_wisdom <= 13 ? answer.p_wisdom - 8 : (answer.p_wisdom == 14 ? 7 : 9)) + (answer.p_charisma <= 13 ? answer.p_charisma - 8 : (answer.p_charisma == 14 ? 7 : 9))), ' of 27')",
+          "valid_if": "((answer.p_strength <= 13 ? answer.p_strength - 8 : (answer.p_strength == 14 ? 7 : 9)) + (answer.p_dexterity <= 13 ? answer.p_dexterity - 8 : (answer.p_dexterity == 14 ? 7 : 9)) + (answer.p_constitution <= 13 ? answer.p_constitution - 8 : (answer.p_constitution == 14 ? 7 : 9)) + (answer.p_intelligence <= 13 ? answer.p_intelligence - 8 : (answer.p_intelligence == 14 ? 7 : 9)) + (answer.p_wisdom <= 13 ? answer.p_wisdom - 8 : (answer.p_wisdom == 14 ? 7 : 9)) + (answer.p_charisma <= 13 ? answer.p_charisma - 8 : (answer.p_charisma == 14 ? 7 : 9))) <= 27"
+        },
+        {
+          "key": "standard",
+          "page": "scores",
+          "type": "select",
+          "label": "Standard array",
+          "label_formula": "concat('Standard array of the ', ref(klass, 'name'), ': Str ', std_strength, ', Dex ', std_dexterity, ', Con ', std_constitution, ', Int ', std_intelligence, ', Wis ', std_wisdom, ', Cha ', std_charisma, '')",
+          "options": [
+            {
+              "value": "use",
+              "label": "Use it"
+            }
+          ],
+          "visible_if": "len(advancements) <= 1 and scores_method == '' and (answer.method == 'standard' and std_strength > 0)"
+        }
+      ],
+      "apply": [
+        {
+          "set": "strength",
+          "to": "answer.method == 'points' ? answer.p_strength : ((answer.method == 'standard' and std_strength > 0) ? std_strength : answer.d_strength)"
+        },
+        {
+          "set": "dexterity",
+          "to": "answer.method == 'points' ? answer.p_dexterity : ((answer.method == 'standard' and std_strength > 0) ? std_dexterity : answer.d_dexterity)"
+        },
+        {
+          "set": "constitution",
+          "to": "answer.method == 'points' ? answer.p_constitution : ((answer.method == 'standard' and std_strength > 0) ? std_constitution : answer.d_constitution)"
+        },
+        {
+          "set": "intelligence",
+          "to": "answer.method == 'points' ? answer.p_intelligence : ((answer.method == 'standard' and std_strength > 0) ? std_intelligence : answer.d_intelligence)"
+        },
+        {
+          "set": "wisdom",
+          "to": "answer.method == 'points' ? answer.p_wisdom : ((answer.method == 'standard' and std_strength > 0) ? std_wisdom : answer.d_wisdom)"
+        },
+        {
+          "set": "charisma",
+          "to": "answer.method == 'points' ? answer.p_charisma : ((answer.method == 'standard' and std_strength > 0) ? std_charisma : answer.d_charisma)"
+        },
+        {
+          "set": "scores_method",
+          "to": "answer.method"
         }
       ]
     },
@@ -6730,7 +6904,7 @@
           "content_type": "feat",
           "label": "Feat",
           "label_formula": "concat('Feat in place of the Ability Score Improvement of level ', hr_asi_level)",
-          "filter": "(entry.category == 'General' or (hr_asi_level >= 19 and entry.category == 'Epic Boon')) and entry.name != 'Ability Score Improvement' and not has_ref(feats, entry._ref) and (not entry.prereq_level or entry.prereq_level <= hr_asi_level) and (not (entry.prereq_str or entry.prereq_dex or entry.prereq_con or entry.prereq_int or entry.prereq_wis or entry.prereq_cha) or (entry.prereq_str and strength_score >= entry.prereq_str) or (entry.prereq_dex and dexterity_score >= entry.prereq_dex) or (entry.prereq_con and constitution_score >= entry.prereq_con) or (entry.prereq_int and intelligence_score >= entry.prereq_int) or (entry.prereq_wis and wisdom_score >= entry.prereq_wis) or (entry.prereq_cha and charisma_score >= entry.prereq_cha)) and (not entry.prereq_spellcasting or (ref(klass, 'spellcasting') != '' or ref(subclass, 'spellcasting') != '' or ref(klass2, 'spellcasting') != '' or ref(subclass2, 'spellcasting') != '' or ref(klass3, 'spellcasting') != '' or ref(subclass3, 'spellcasting') != '' or ref(klass4, 'spellcasting') != '' or ref(subclass4, 'spellcasting') != '')) and (not contains(entry.prereq_proficiencies, 'armor:light') or armor_light) and (not contains(entry.prereq_proficiencies, 'armor:medium') or armor_medium) and (not contains(entry.prereq_proficiencies, 'armor:heavy') or armor_heavy) and (not contains(entry.prereq_proficiencies, 'armor:shield') or armor_shields)",
+          "filter": "(entry.category == 'General' or entry.category == 'Origin' or (hr_asi_level >= 19 and entry.category == 'Epic Boon')) and entry.name != 'Ability Score Improvement' and not has_ref(feats, entry._ref) and (not entry.prereq_level or entry.prereq_level <= hr_asi_level) and (not (entry.prereq_str or entry.prereq_dex or entry.prereq_con or entry.prereq_int or entry.prereq_wis or entry.prereq_cha) or (entry.prereq_str and strength_score >= entry.prereq_str) or (entry.prereq_dex and dexterity_score >= entry.prereq_dex) or (entry.prereq_con and constitution_score >= entry.prereq_con) or (entry.prereq_int and intelligence_score >= entry.prereq_int) or (entry.prereq_wis and wisdom_score >= entry.prereq_wis) or (entry.prereq_cha and charisma_score >= entry.prereq_cha)) and (not entry.prereq_spellcasting or (ref(klass, 'spellcasting') != '' or ref(subclass, 'spellcasting') != '' or ref(klass2, 'spellcasting') != '' or ref(subclass2, 'spellcasting') != '' or ref(klass3, 'spellcasting') != '' or ref(subclass3, 'spellcasting') != '' or ref(klass4, 'spellcasting') != '' or ref(subclass4, 'spellcasting') != '')) and (not contains(entry.prereq_proficiencies, 'armor:light') or armor_light) and (not contains(entry.prereq_proficiencies, 'armor:medium') or armor_medium) and (not contains(entry.prereq_proficiencies, 'armor:heavy') or armor_heavy) and (not contains(entry.prereq_proficiencies, 'armor:shield') or armor_shields)",
           "visible_if": "hr_asi_level > 0"
         },
         {
