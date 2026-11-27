@@ -2,7 +2,7 @@
   "$schema": "../../schema/character-sheet.schema.json",
   "id": "dnd-5e-2024",
   "name": "D&D 5th Edition (2024)",
-  "version": "1.67.0",
+  "version": "1.67.1",
   "grimoire_min_version": "1.10.0",
   "system": "Dungeons & Dragons 5th Edition (2024)",
   "description": "A character sheet for the 2024 revision of D&D 5th Edition, with the SRD 5.2 catalogue of classes, subclasses and their features, species, backgrounds, feats, spells, equipment and magic items, plus active effects (conditions, exhaustion, concentration), a resource tracker and a switch for campaign house rules.",
@@ -4792,6 +4792,9 @@
       "label": "Level up",
       "paged": true,
       "pages": {
+        "campaign": {
+          "label": "Campaign"
+        },
         "klass": {
           "label": "Class"
         },
@@ -4820,6 +4823,13 @@
       },
       "record": "concat('level:', len(advancements) + 1)",
       "steps": [
+        {
+          "key": "campaign",
+          "page": "campaign",
+          "type": "campaign",
+          "label": "The campaign this character is played in: its house rules apply to the choices that follow",
+          "visible_if": "len(advancements) == 0"
+        },
         {
           "key": "klass_pick",
           "page": "klass",
