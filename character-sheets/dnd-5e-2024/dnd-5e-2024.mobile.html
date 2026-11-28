@@ -60,7 +60,7 @@
     </div>
     <div class="box stat">
       <span class="tiny box-title">Initiative</span>
-      <span class="big"><g-value name="initiative" /></span>
+      <span class="big"><g-value name="initiative" /><g-if test="rx_initiative &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_initiative &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if></span>
     </div>
     <div class="box stat">
       <span class="tiny box-title">Speed</span>
@@ -109,6 +109,10 @@
     <div class="exh"><span class="tiny">Exhaustion</span><g-pips count="6" value="exhaustion" label="Exhaustion level" /></div>
     <g-if test="concentrating or count_each(spells, row.concentration and (row.prepared or row.always or row.level == 0)) &gt; 0 or count_each(magic_items, len(row.concentration_spell_ids) &gt; 0 and row.equipped and (row.attuned or not row.attunement)) &gt; 0"><div class="exh"><span class="tiny">Concentrating</span><g-field name="concentrating" label="" /><g-if test="concentrating"><span class="conc-spell"><g-value formula="concentration" /><g-if test="campaign_rules"> (DC ≥ <g-value formula="10 + concentration_level" />)</g-if></span></g-if></div></g-if>
     <g-if test="has_ref(features, 'rage-barbarian-1-xphb')"><div class="exh"><span class="tiny">Raging</span><g-field name="raging" label="" /></div></g-if>
+    <g-if test="has_ref(features, 'bladesinger-bladesong-3-frhof')"><div class="exh"><span class="tiny">Bladesong</span><g-field name="bladesong" label="" /></div></g-if>
+    <g-if test="has_ref(features, 'oath-of-glory-peerless-athlete-3-xphb')"><div class="exh"><span class="tiny">Peerless Athlete</span><g-field name="peerless_athlete" label="" /></div></g-if>
+    <g-if test="has_ref(features, 'oath-of-glory-living-legend-20-xphb')"><div class="exh"><span class="tiny">Living Legend</span><g-field name="living_legend" label="" /></div></g-if>
+    <g-if test="has_ref(species_traits, 'goliath-large-form-xphb')"><div class="exh"><span class="tiny">Large Form</span><g-field name="large_form" label="" /></div></g-if>
     <details class="sub">
       <summary>Conditions</summary>
       <div class="opts conds">
@@ -250,50 +254,50 @@
       <div class="ability">
         <h4 class="ability-name">Strength</h4>
         <div class="ability-core">
-          <div class="ability-mod"><span class="mod-value"><g-value formula="signed(strength_mod)" /></span><span class="tiny">Mod</span></div>
+          <div class="ability-mod"><span class="mod-value"><g-value formula="signed(strength_mod)" /><g-if test="rx_strength &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_strength &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if></span><span class="tiny">Mod</span></div>
           <div class="ability-score"><span class="score-value"><g-value name="strength_score" /></span><span class="tiny">Score</span></div>
         </div>
-        <div class="save"><label class="tap save-tap"><g-field name="strength_save_prof" label="" readonly /><span class="tiny">Save</span></label><span class="c-value"><g-value name="strength_save" /></span></div>
+        <div class="save"><label class="tap save-tap"><g-field name="strength_save_prof" label="" readonly /><span class="tiny">Save</span></label><span class="c-value"><g-if test="rx_strength_save &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_strength_save &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if><g-value name="strength_save" /></span></div>
       </div>
       <div class="ability">
         <h4 class="ability-name">Dexterity</h4>
         <div class="ability-core">
-          <div class="ability-mod"><span class="mod-value"><g-value formula="signed(dexterity_mod)" /></span><span class="tiny">Mod</span></div>
+          <div class="ability-mod"><span class="mod-value"><g-value formula="signed(dexterity_mod)" /><g-if test="rx_dexterity &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_dexterity &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if></span><span class="tiny">Mod</span></div>
           <div class="ability-score"><span class="score-value"><g-value name="dexterity_score" /></span><span class="tiny">Score</span></div>
         </div>
-        <div class="save"><label class="tap save-tap"><g-field name="dexterity_save_prof" label="" readonly /><span class="tiny">Save</span></label><span class="c-value"><g-value name="dexterity_save" /></span></div>
+        <div class="save"><label class="tap save-tap"><g-field name="dexterity_save_prof" label="" readonly /><span class="tiny">Save</span></label><span class="c-value"><g-if test="rx_dexterity_save &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_dexterity_save &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if><g-value name="dexterity_save" /></span></div>
       </div>
       <div class="ability">
         <h4 class="ability-name">Constitution</h4>
         <div class="ability-core">
-          <div class="ability-mod"><span class="mod-value"><g-value formula="signed(constitution_mod)" /></span><span class="tiny">Mod</span></div>
+          <div class="ability-mod"><span class="mod-value"><g-value formula="signed(constitution_mod)" /><g-if test="rx_constitution &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_constitution &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if></span><span class="tiny">Mod</span></div>
           <div class="ability-score"><span class="score-value"><g-value name="constitution_score" /></span><span class="tiny">Score</span></div>
         </div>
-        <div class="save"><label class="tap save-tap"><g-field name="constitution_save_prof" label="" readonly /><span class="tiny">Save</span></label><span class="c-value"><g-value name="constitution_save" /></span></div>
+        <div class="save"><label class="tap save-tap"><g-field name="constitution_save_prof" label="" readonly /><span class="tiny">Save</span></label><span class="c-value"><g-if test="rx_constitution_save &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_constitution_save &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if><g-value name="constitution_save" /></span></div>
       </div>
       <div class="ability">
         <h4 class="ability-name">Intelligence</h4>
         <div class="ability-core">
-          <div class="ability-mod"><span class="mod-value"><g-value formula="signed(intelligence_mod)" /></span><span class="tiny">Mod</span></div>
+          <div class="ability-mod"><span class="mod-value"><g-value formula="signed(intelligence_mod)" /><g-if test="rx_intelligence &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_intelligence &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if></span><span class="tiny">Mod</span></div>
           <div class="ability-score"><span class="score-value"><g-value name="intelligence_score" /></span><span class="tiny">Score</span></div>
         </div>
-        <div class="save"><label class="tap save-tap"><g-field name="intelligence_save_prof" label="" readonly /><span class="tiny">Save</span></label><span class="c-value"><g-value name="intelligence_save" /></span></div>
+        <div class="save"><label class="tap save-tap"><g-field name="intelligence_save_prof" label="" readonly /><span class="tiny">Save</span></label><span class="c-value"><g-if test="rx_intelligence_save &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_intelligence_save &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if><g-value name="intelligence_save" /></span></div>
       </div>
       <div class="ability">
         <h4 class="ability-name">Wisdom</h4>
         <div class="ability-core">
-          <div class="ability-mod"><span class="mod-value"><g-value formula="signed(wisdom_mod)" /></span><span class="tiny">Mod</span></div>
+          <div class="ability-mod"><span class="mod-value"><g-value formula="signed(wisdom_mod)" /><g-if test="rx_wisdom &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_wisdom &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if></span><span class="tiny">Mod</span></div>
           <div class="ability-score"><span class="score-value"><g-value name="wisdom_score" /></span><span class="tiny">Score</span></div>
         </div>
-        <div class="save"><label class="tap save-tap"><g-field name="wisdom_save_prof" label="" readonly /><span class="tiny">Save</span></label><span class="c-value"><g-value name="wisdom_save" /></span></div>
+        <div class="save"><label class="tap save-tap"><g-field name="wisdom_save_prof" label="" readonly /><span class="tiny">Save</span></label><span class="c-value"><g-if test="rx_wisdom_save &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_wisdom_save &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if><g-value name="wisdom_save" /></span></div>
       </div>
       <div class="ability">
         <h4 class="ability-name">Charisma</h4>
         <div class="ability-core">
-          <div class="ability-mod"><span class="mod-value"><g-value formula="signed(charisma_mod)" /></span><span class="tiny">Mod</span></div>
+          <div class="ability-mod"><span class="mod-value"><g-value formula="signed(charisma_mod)" /><g-if test="rx_charisma &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_charisma &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if></span><span class="tiny">Mod</span></div>
           <div class="ability-score"><span class="score-value"><g-value name="charisma_score" /></span><span class="tiny">Score</span></div>
         </div>
-        <div class="save"><label class="tap save-tap"><g-field name="charisma_save_prof" label="" readonly /><span class="tiny">Save</span></label><span class="c-value"><g-value name="charisma_save" /></span></div>
+        <div class="save"><label class="tap save-tap"><g-field name="charisma_save_prof" label="" readonly /><span class="tiny">Save</span></label><span class="c-value"><g-if test="rx_charisma_save &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_charisma_save &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if><g-value name="charisma_save" /></span></div>
         <g-if test="unfettered_extra"><p class="hint">Unfettered Mind: you already have Intelligence saves, pick another <g-field name="unfettered_save" label="" /></p></g-if>
       </div>
     </div>
@@ -313,36 +317,36 @@
     <p class="hint">Pick none, half (½), proficient or expertise beside each skill.</p>
     <h4 class="group-name">Strength</h4>
     <ul class="lines">
-        <li class="sline"><span class="c-tier"><g-tier value="Athletics" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Athletics" /></span><span class="c-value"><g-value name="skill_athletics" /></span><span class="c-name">Athletics</span></li>
+        <li class="sline"><span class="c-tier"><g-tier value="Athletics" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Athletics" /></span><span class="c-value"><g-value name="skill_athletics" /></span><span class="c-name"><g-if test="rx_athletics &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_athletics &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if>Athletics</span></li>
     </ul>
     <h4 class="group-name">Dexterity</h4>
     <ul class="lines">
-        <li class="sline"><span class="c-tier"><g-tier value="Acrobatics" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Acrobatics" /></span><span class="c-value"><g-value name="skill_acrobatics" /></span><span class="c-name">Acrobatics</span></li>
-        <li class="sline"><span class="c-tier"><g-tier value="Sleight of Hand" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Sleight of Hand" /></span><span class="c-value"><g-value name="skill_sleight_of_hand" /></span><span class="c-name">Sleight of Hand</span></li>
-        <li class="sline"><span class="c-tier"><g-tier value="Stealth" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Stealth" /></span><span class="c-value"><g-value name="skill_stealth" /></span><span class="c-name">Stealth</span></li>
+        <li class="sline"><span class="c-tier"><g-tier value="Acrobatics" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Acrobatics" /></span><span class="c-value"><g-value name="skill_acrobatics" /></span><span class="c-name"><g-if test="rx_acrobatics &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_acrobatics &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if>Acrobatics</span></li>
+        <li class="sline"><span class="c-tier"><g-tier value="Sleight of Hand" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Sleight of Hand" /></span><span class="c-value"><g-value name="skill_sleight_of_hand" /></span><span class="c-name"><g-if test="rx_sleight_of_hand &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_sleight_of_hand &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if>Sleight of Hand</span></li>
+        <li class="sline"><span class="c-tier"><g-tier value="Stealth" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Stealth" /></span><span class="c-value"><g-value name="skill_stealth" /></span><span class="c-name"><g-if test="rx_stealth &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_stealth &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if>Stealth</span></li>
     </ul>
     <h4 class="group-name">Intelligence</h4>
     <ul class="lines">
-        <li class="sline"><span class="c-tier"><g-tier value="Arcana" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Arcana" /></span><span class="c-value"><g-value name="skill_arcana" /></span><span class="c-name">Arcana</span></li>
-        <li class="sline"><span class="c-tier"><g-tier value="History" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="History" /></span><span class="c-value"><g-value name="skill_history" /></span><span class="c-name">History</span></li>
-        <li class="sline"><span class="c-tier"><g-tier value="Investigation" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Investigation" /></span><span class="c-value"><g-value name="skill_investigation" /></span><span class="c-name">Investigation</span></li>
-        <li class="sline"><span class="c-tier"><g-tier value="Nature" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Nature" /></span><span class="c-value"><g-value name="skill_nature" /></span><span class="c-name">Nature</span></li>
-        <li class="sline"><span class="c-tier"><g-tier value="Religion" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Religion" /></span><span class="c-value"><g-value name="skill_religion" /></span><span class="c-name">Religion</span></li>
+        <li class="sline"><span class="c-tier"><g-tier value="Arcana" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Arcana" /></span><span class="c-value"><g-value name="skill_arcana" /></span><span class="c-name"><g-if test="rx_arcana &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_arcana &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if>Arcana</span></li>
+        <li class="sline"><span class="c-tier"><g-tier value="History" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="History" /></span><span class="c-value"><g-value name="skill_history" /></span><span class="c-name"><g-if test="rx_history &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_history &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if>History</span></li>
+        <li class="sline"><span class="c-tier"><g-tier value="Investigation" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Investigation" /></span><span class="c-value"><g-value name="skill_investigation" /></span><span class="c-name"><g-if test="rx_investigation &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_investigation &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if>Investigation</span></li>
+        <li class="sline"><span class="c-tier"><g-tier value="Nature" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Nature" /></span><span class="c-value"><g-value name="skill_nature" /></span><span class="c-name"><g-if test="rx_nature &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_nature &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if>Nature</span></li>
+        <li class="sline"><span class="c-tier"><g-tier value="Religion" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Religion" /></span><span class="c-value"><g-value name="skill_religion" /></span><span class="c-name"><g-if test="rx_religion &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_religion &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if>Religion</span></li>
     </ul>
     <h4 class="group-name">Wisdom</h4>
     <ul class="lines">
-        <li class="sline"><span class="c-tier"><g-tier value="Animal Handling" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Animal Handling" /></span><span class="c-value"><g-value name="skill_animal_handling" /></span><span class="c-name">Animal Handling</span></li>
-        <li class="sline"><span class="c-tier"><g-tier value="Insight" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Insight" /></span><span class="c-value"><g-value name="skill_insight" /></span><span class="c-name">Insight</span></li>
-        <li class="sline"><span class="c-tier"><g-tier value="Medicine" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Medicine" /></span><span class="c-value"><g-value name="skill_medicine" /></span><span class="c-name">Medicine</span></li>
-        <li class="sline"><span class="c-tier"><g-tier value="Perception" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Perception" /></span><span class="c-value"><g-value name="skill_perception" /></span><span class="c-name">Perception</span></li>
-        <li class="sline"><span class="c-tier"><g-tier value="Survival" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Survival" /></span><span class="c-value"><g-value name="skill_survival" /></span><span class="c-name">Survival</span></li>
+        <li class="sline"><span class="c-tier"><g-tier value="Animal Handling" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Animal Handling" /></span><span class="c-value"><g-value name="skill_animal_handling" /></span><span class="c-name"><g-if test="rx_animal_handling &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_animal_handling &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if>Animal Handling</span></li>
+        <li class="sline"><span class="c-tier"><g-tier value="Insight" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Insight" /></span><span class="c-value"><g-value name="skill_insight" /></span><span class="c-name"><g-if test="rx_insight &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_insight &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if>Insight</span></li>
+        <li class="sline"><span class="c-tier"><g-tier value="Medicine" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Medicine" /></span><span class="c-value"><g-value name="skill_medicine" /></span><span class="c-name"><g-if test="rx_medicine &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_medicine &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if>Medicine</span></li>
+        <li class="sline"><span class="c-tier"><g-tier value="Perception" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Perception" /></span><span class="c-value"><g-value name="skill_perception" /></span><span class="c-name"><g-if test="rx_perception &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_perception &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if>Perception</span></li>
+        <li class="sline"><span class="c-tier"><g-tier value="Survival" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Survival" /></span><span class="c-value"><g-value name="skill_survival" /></span><span class="c-name"><g-if test="rx_survival &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_survival &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if>Survival</span></li>
     </ul>
     <h4 class="group-name">Charisma</h4>
     <ul class="lines">
-        <li class="sline"><span class="c-tier"><g-tier value="Deception" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Deception" /></span><span class="c-value"><g-value name="skill_deception" /></span><span class="c-name">Deception</span></li>
-        <li class="sline"><span class="c-tier"><g-tier value="Intimidation" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Intimidation" /></span><span class="c-value"><g-value name="skill_intimidation" /></span><span class="c-name">Intimidation</span></li>
-        <li class="sline"><span class="c-tier"><g-tier value="Performance" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Performance" /></span><span class="c-value"><g-value name="skill_performance" /></span><span class="c-name">Performance</span></li>
-        <li class="sline"><span class="c-tier"><g-tier value="Persuasion" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Persuasion" /></span><span class="c-value"><g-value name="skill_persuasion" /></span><span class="c-name">Persuasion</span></li>
+        <li class="sline"><span class="c-tier"><g-tier value="Deception" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Deception" /></span><span class="c-value"><g-value name="skill_deception" /></span><span class="c-name"><g-if test="rx_deception &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_deception &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if>Deception</span></li>
+        <li class="sline"><span class="c-tier"><g-tier value="Intimidation" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Intimidation" /></span><span class="c-value"><g-value name="skill_intimidation" /></span><span class="c-name"><g-if test="rx_intimidation &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_intimidation &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if>Intimidation</span></li>
+        <li class="sline"><span class="c-tier"><g-tier value="Performance" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Performance" /></span><span class="c-value"><g-value name="skill_performance" /></span><span class="c-name"><g-if test="rx_performance &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_performance &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if>Performance</span></li>
+        <li class="sline"><span class="c-tier"><g-tier value="Persuasion" fields="skill_half_profs skill_profs skill_expertise" labels="—|½|Prof|Exp" titles="Not proficient|Half proficiency|Proficient|Expertise" label="Persuasion" /></span><span class="c-value"><g-value name="skill_persuasion" /></span><span class="c-name"><g-if test="rx_persuasion &gt; 0"><span class="rx rx-adv" title="Advantage">A</span></g-if><g-if test="rx_persuasion &lt; 0"><span class="rx rx-dis" title="Disadvantage">D</span></g-if>Persuasion</span></li>
     </ul>
   </section>
 

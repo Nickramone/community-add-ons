@@ -1137,3 +1137,25 @@
   font-size: 0.85rem !important;
   padding: 6px 4px !important;
 }
+
+/* Advantage (A) and Disadvantage (D) from features, items, conditions and armour (1.78.0). */
+.rx {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 1px 3px;
+  margin: 0 3px;
+  border-radius: 3px;
+  vertical-align: middle;
+}
+
+.rx-adv {
+  color: var(--bg-card, #1b1b1b);
+  background: var(--success, #3c8d5a);
+}
+
+.rx-dis {
+  color: var(--bg-card, #1b1b1b);
+  background: var(--danger, #c0392b);
+}
