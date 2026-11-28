@@ -937,6 +937,13 @@
   font-weight: 700;
   color: var(--gold, #b8860b);
 }
+/* 1.82.0: a spell from a book the campaign does not admit */
+.sp-oos {
+  margin-left: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--warning, #d4a017);
+}
 .sp-warn {
   margin-left: 6px;
   font-size: 10px;
